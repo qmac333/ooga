@@ -1,5 +1,18 @@
 # Initial Design Plan
 
+##
+
+* The model will depict the state of the game, represented by a GameState class, at each iteration 
+of the step function.
+* The GameState will include as members Players and Cards, each of their own classes, which will we organized
+so that the order of play is preserved and so that cards will
+be categorized according to whether they are playable and which players hold them.
+* At every iteration of the step function, the player whose turn it is 
+will act and change some feature of the GameState.  Therefore, the GameState class acts like
+a data structure which has functions applied to it.
+* After every iteration of step function, the new state of the game is passed up to the controller
+via getters in a way that does not compromise any private data structures.
+
 We are going to have classes such as Player and Card that will be abstracted using interfaces. The Card will be open
 to extension and will have subclasses detailing the different types of cards in the game, such as number cards and 
 action cards. 
