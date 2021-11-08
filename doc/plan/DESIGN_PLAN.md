@@ -17,6 +17,23 @@ We are going to have classes such as Player and Card that will be abstracted usi
 to extension and will have subclasses detailing the different types of cards in the game, such as number cards and 
 action cards. 
 
+## Display
+
+* The Display will be used to create a visual representation of all of the logic going on in the background.
+* The Display will have a separate class to display the specific cards that are in the current player's hand.
+* In the API for the current player's hand display, there is a method that takes an update to the player's hand
+when they play or draw a card, and then redraws the hand on the display. 
+* The Display retrieves a consumer that is sent straight from the model/logic classes containing the information
+for what is supposed to be shown on the display for the current hand. 
+* The display will communicate with a controller which should tell the display a lot of information such as 
+whose turn it is, what direction the game is being played in, each player's score, whether or not someone won the 
+game, etc. 
+* The display's job is just to display whatever the controller and model tells it to.
+* The display's API also includes a method to show an error in the form of a pop-up when the user does something that
+they are not supposed to. This method will be sent to the controller for it to handle errors. 
+* Whenever a card is clicked in the display, it sends the information of which card was clicked back down to the controller
+so that the controller can process and tell the model to remove that card from the player's hand. 
+
 ##Controller
 
 * The controller takes in a file and there will be a class that parses the file. The controller will call the method
