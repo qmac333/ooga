@@ -1,0 +1,10 @@
+{
+  "Version" : "Basic",
+  "Mod" : "harrypotter.json",
+  "Cards" : "cardlist.json",
+  "Players" : [{"Andrew" : "Human"}, {"Drew" : "CPU"},
+    {"Quentin" :  "Human"}],
+  "Points" : 500,
+  "HandCount" : 7,
+  "Stackable" : true
+}
