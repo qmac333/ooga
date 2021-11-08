@@ -16,6 +16,7 @@ public interface PlayersInfo {
 
   /**
    * @return a list of all player names
+   * list can be modified by the calling class, is not an alias of any object in the model
    */
   List<String> getPlayerNames();
 
