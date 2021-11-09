@@ -10,6 +10,16 @@ and without causing events
 * Action Card: performs some action on its player and the game state
 * Number Card: designates which cards a player can play
 
+## Paul
+* Card Play Rule: Takes in the top card on the pile and says whether you can play the other card.
+This will allow for us to add more rules if we'd like
+* ColorMatch Play Rule: Lets card be played if color matches that of the top card in discard
+* NumberMatch Play Rule: Lets card be played if number matches card at the top of discard.
+* Even/OddPlayRule (possible): Just an additional rule user could choose whether or not to include.
+* Draw Rule: This will specify what happens when the user is forced to draw
+* Normal Draw: Just puts the card in the player's hand
+* Blaster Draw: puts card in blaster and checks if it goes off
+
 ## Quentin
 
 * Basic UI: creating buttons for loading and saving files, calling the appropriate methods on the event
