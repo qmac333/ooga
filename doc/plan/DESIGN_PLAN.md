@@ -1,6 +1,6 @@
 # Initial Design Plan
 
-##
+## Model
 
 * The model will depict the state of the game, represented by a GameState class, at each iteration 
 of the step function.
@@ -34,27 +34,32 @@ they are not supposed to. This method will be sent to the controller for it to h
 * Whenever a card is clicked in the display, it sends the information of which card was clicked back down to the controller
 so that the controller can process and tell the model to remove that card from the player's hand. 
 
-##Controller
+## Controller
 
-* The controller takes in a file and there will be a class that parses the file. The controller will call the method
-in the file parser class. 
+* Overview: The controller's purpose is to serve as a middle-man between the view and the model. Specifically, it will
+receive information from the view, parse it, and pass relevant parameters/updates to the model. As part of this, the controller
+must be able to save/load configuration files and it will utilize a separate parser class to accomplish this. If loading,
+once the parser returns the parameters, the controller must create a new model object using those parameters. It should also
+be able to set up the direction interaction between the model and view by passing the view's consumer/interface to the model,
+enabling the model to call methods of that interface in order to notify the view of changes in its state. The controller also must be
+able to properly enact a step of the game depending on whether it is the user's turn (and the game must wait for user input)
+or whether it is the computer's turn. As for extendability, the main controller class should be extendable in order to make
+it easy to add new features, but the core functionalities should be present and uneditable. Furthermore, the parser should
+be easily extendable to accommodate new parameter types in case the base format of the configuration file changes (although
+the file type should stay constant as agreed upon by the group)
 
-* There should be a step method in controller, which affects model, causing model to do its logic and then sends 
-data back to controller which sends it to the view for the view to display. 
+* Details: The controller has clear interactions with the model and the view. It provides public methods for the view to
+call depending on the user's input, and it calls methods from the model's API. Again, the main services it provides to the
+view are loading configuration files/setting up the model, saving configuration files, and enacting a single step of the
+game (by telling the model to run one step of its AI if it is the computer's turn or by passing it the index of the card
+the user selected to play if it is the user's turn). On the other hand, when interacting with the model, the controller 
+should only ever need to interact with the main GameState class (as opposed to also initializing the Cards and Players). 
+The controller will pass the model relevant information on the game cards, players, etc., but the model will be in charge 
+of handling these initializations.
 
-* When the user clicks on something in the view, need a method in the controller to update something in the view.
-
-* The controller only interacts with a specified "Game" class from the model side of things. There is no reason for the 
-controller to interact with certain "Player" or "Card" classes. 
-
-when a player plays a card, the view controller has to pass down the index of the card that was played
-down to the model so that the model can remove it from the current player's hand
-
-model needs a public setConsumer method so controller can set consumer and model can keep track of consumer
-and view implements consumer interface
-
-abstract class implements player interface: collection of cards
-
-interface to be implemented by game/model class
-
-abstract game class, blaster would extend it to have its own unique implementations
+* Considerations: a big consideration for the controller/view interaction is how the controller should handle running a step
+of the game when it is the user's turn vs. the computer's turn. If the view has no knowledge of the game state, then the
+controller will have to know whose turn it is and potentially pause the JavaFX TimeLine that continually calls the game
+step function until the user has selected a card. Another solution would be for the controller to always call the same method
+from the model regardless of whose turn it is and leave it up to the model to call a method from the view's consumer interface
+in order to retrieve the index of the user's chosen card when needed.

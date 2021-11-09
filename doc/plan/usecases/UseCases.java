@@ -5,6 +5,7 @@ import ooga.model.GameStateInterface;
 import ooga.model.PlayersInfo;
 import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
+import ooga.view.UnoDisplay;
 
 public class UseCases {
 
@@ -26,6 +27,20 @@ public class UseCases {
     // new hand is passed from the back end to the front end
     display.accept(state.getCurrentPlayerCards());
 
+  }
+
+  // UnoDisplay starts the game by creating a new controller, passing it the selected filepath, setting up the view-model
+  // consumers, and continuously calling the controller's its step function
+  private statis void ControllerUseCase(){
+    UnoController controller = new UnoController("filepath");
+    controller.setupProgram();
+    HandListDisplay display = new HandListDisplay(controller);
+    TurnInfoDisplay display = new TurnInfoDisplay(controller);
+
+    boolean gameIsNotOver = true;
+    while(gameIsNotOver){
+      controller.step();
+    }
   }
 
 
