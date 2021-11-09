@@ -32,7 +32,7 @@ public class UseCases {
 
   // UnoDisplay starts the game by creating a new controller, passing it the selected filepath, setting up the view-model
   // consumers, and continuously calling the controller's its step function
-  private statis void ControllerUseCase(){
+  private static void ControllerUseCase(){
     UnoController controller = new UnoController("filepath");
     controller.setupProgram();
     HandListDisplay display = new HandListDisplay(controller);
