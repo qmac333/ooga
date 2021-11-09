@@ -28,6 +28,25 @@ public class UseCases {
 
   }
 
+  // A player draws a card, adding it to their hand
+  private static void UseCase3() {
+    Player player = new Player();
+    Card c = new Card();
+
+    player.addCard(c);
+  }
+
+  // A player plays a card, causing changes in the player's hand and/or the game itself
+  private static void UseCase4() {
+    GameState game = new GameState();
+    Player player = new Player();
+    Card card = new Card(game);
+
+    game.addPlayer(player);
+    player.addCard(card);
+    player.playCard(0);
+  }
+
 
   public static void main(String[] args) {
     UseCase1();

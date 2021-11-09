@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ooga.model.GameStateInterface;
+import ooga.model.Player;
 
 /**
  * Class for mocking out the game state.
@@ -28,6 +29,11 @@ public class DummyGameState implements GameStateInterface {
 
   @Override
   public void playTurn() {
+
+  }
+
+  @Override
+  public void addPlayer(Player p) {
 
   }
 
