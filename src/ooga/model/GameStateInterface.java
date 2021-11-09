@@ -15,6 +15,11 @@ public interface GameStateInterface {
     public void playTurn();
 
     /**
+     * adds a player to the game
+     */
+    public void addPlayer(Player p);
+
+    /**
      * returns the player index whose turn it is to play
      * @return index of the current player
      */

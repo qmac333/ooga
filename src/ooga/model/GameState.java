@@ -10,6 +10,11 @@ public class GameState implements GameStateInterface{
     }
 
     @Override
+    public void addPlayer(Player p) {
+
+    }
+
+    @Override
     public int getCurrentPlayer() {
         return 0;
     }

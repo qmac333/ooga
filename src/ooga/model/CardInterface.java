@@ -14,4 +14,11 @@ public interface CardInterface {
      * place of an Action Card.
      */
     public void executeAction();
+
+
+    /**
+     * Set's a card's owner to a certain player, i.e. places this card in a player's hand.
+     * @param p
+     */
+    public void setPlayer(Player p);
 }

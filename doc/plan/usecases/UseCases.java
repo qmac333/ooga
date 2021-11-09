@@ -29,6 +29,7 @@ public class UseCases {
 
   }
 
+
   // UnoDisplay starts the game by creating a new controller, passing it the selected filepath, setting up the view-model
   // consumers, and continuously calling the controller's its step function
   private statis void ControllerUseCase(){
@@ -41,13 +42,33 @@ public class UseCases {
     while(gameIsNotOver){
       controller.step();
     }
+
+  // A player draws a card, adding it to their hand
+  private static void UseCase3() {
+    Player player = new Player();
+    Card c = new Card();
+
+    player.addCard(c);
+  }
+
+  // A player plays a card, causing changes in the player's hand and/or the game itself
+  private static void UseCase4() {
+    GameState game = new GameState();
+    Player player = new Player();
+    Card card = new Card(game);
+
+    game.addPlayer(player);
+    player.addCard(card);
+    player.playCard(0);
   }
 
 
   public static void main(String[] args) {
     UseCase1();
     UseCase2();
-
+    ControllerUseCase();
+    UseCase3();
+    UseCase4();
 
   }
 
