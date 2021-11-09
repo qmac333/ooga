@@ -35,7 +35,7 @@ example, if a current player's hand consists of two yellow 7's, check to see tha
 HandListDisplay and that their fill is yellow and they have a number 7 on them
 * Example of a test for TurnInfoDisplay: start a game by loading a config file, then allow the model to go through one 
 tick of the program, making the user play a card or draw a card. After the tick is over, check to see that the next player
-in the TurnInfoDisplay is highlighted. 
+in the TurnInfoDisplay is highlighted.
 
 ### Main controller
 The controller's purpose is to handle file loading/saving and act as the middle-man between the view and the model

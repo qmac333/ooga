@@ -22,12 +22,14 @@ action cards.
 * The Display will be used to create a visual representation of all of the logic going on in the background.
 * The Display will have a separate class to display the specific cards that are in the current player's hand.
 * In the API for the current player's hand display, there is a method that takes an update to the player's hand
-when they play or draw a card, and then redraws the hand on the display. 
+when they play or draw a card, and then redraws the hand on the display. That method takes in a new hand as a map of
+from card numbers (-1 for no-numbered cards) to a list of card tuples, where each tuple has the color and label of the card.
 * The Display retrieves a consumer that is sent straight from the model/logic classes containing the information
 for what is supposed to be shown on the display for the current hand. 
-* The display will communicate with a controller which should tell the display a lot of information such as 
+* The display will communicate with the model by passing a Consumer to the model that takes in a PlayersInfo object, which should tell the display a lot of information such as 
 whose turn it is, what direction the game is being played in, each player's score, whether or not someone won the 
-game, etc. 
+game, etc. All of that information is encapsulated in the PlayersInfo object that is passed via the accept() method from the model to the view
+when the number of players changes, the direction of play changes, or it becomes a new player's turn.
 * The display's job is just to display whatever the controller and model tells it to.
 * The display's API also includes a method to show an error in the form of a pop-up when the user does something that
 they are not supposed to. This method will be sent to the controller for it to handle errors. 
