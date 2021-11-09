@@ -5,6 +5,7 @@ import ooga.model.GameStateInterface;
 import ooga.model.PlayersInfo;
 import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
+import ooga.view.UnoDisplay;
 
 public class UseCases {
 
@@ -27,6 +28,20 @@ public class UseCases {
     display.accept(state.getCurrentPlayerCards());
 
   }
+
+
+  // UnoDisplay starts the game by creating a new controller, passing it the selected filepath, setting up the view-model
+  // consumers, and continuously calling the controller's its step function
+  private statis void ControllerUseCase(){
+    UnoController controller = new UnoController("filepath");
+    controller.setupProgram();
+    HandListDisplay display = new HandListDisplay(controller);
+    TurnInfoDisplay display = new TurnInfoDisplay(controller);
+
+    boolean gameIsNotOver = true;
+    while(gameIsNotOver){
+      controller.step();
+    }
 
   // A player draws a card, adding it to their hand
   private static void UseCase3() {
@@ -51,7 +66,9 @@ public class UseCases {
   public static void main(String[] args) {
     UseCase1();
     UseCase2();
-
+    ControllerUseCase();
+    UseCase3();
+    UseCase4();
 
   }
 

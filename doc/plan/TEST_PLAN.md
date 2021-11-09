@@ -37,3 +37,9 @@ HandListDisplay and that their fill is yellow and they have a number 7 on them
 tick of the program, making the user play a card or draw a card. After the tick is over, check to see that the next player
 in the TurnInfoDisplay is highlighted. 
 
+### Main controller
+The controller's purpose is to handle file loading/saving and act as the middle-man between the view and the model
+* Test that a new file is actually created each time the saveFile() function is called
+* Test that the controller is able to properly read parameters from a given configuration file (does the value that
+the controller reads in match the expected value)
+* Test that the controller is able to create a new model (GameState) object with the correct parameters
