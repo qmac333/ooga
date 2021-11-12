@@ -75,6 +75,21 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
         start();
     }
 
+    @Override
+    public void loadExistingHandler() {
+        System.out.println("Loaded a File");
+    }
+
+    @Override
+    public void loadNewHandler() {
+        System.out.println("Loading a new game");
+    }
+
+    @Override
+    public void languageHandler() {
+        System.out.println("Chose a language");
+    }
+
     private void showScreen(GameScreen screen) {
         stage.setScene(screen.setScene());
         stage.show();
