@@ -4,6 +4,8 @@ public class Card implements CardInterface{
 
     private Player owner;
     private GameState game;
+    private int num;
+    private String color;
 
     public Card(GameState g){
         game = g;
