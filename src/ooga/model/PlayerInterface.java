@@ -7,11 +7,6 @@ import java.util.Collection;
  */
 public interface PlayerInterface {
 
-  /**
-   * player draws a card from the available cards in the model and places it in its hand
-   */
-  public void drawCard();
-
 
   /**
    * player plays a card in its hand and calls the card's action implementation will depend on
