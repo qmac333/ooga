@@ -33,6 +33,16 @@ public class DummyGameState implements GameStateInterface {
   }
 
   @Override
+  public void reverseGamePlay() {
+
+  }
+
+  @Override
+  public void skipNextPlayer() {
+
+  }
+
+  @Override
   public void addPlayer(Player p) {
 
   }

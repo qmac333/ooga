@@ -1,6 +1,6 @@
 package ooga.model;
 
-public class Card implements CardInterface{
+public abstract class Card implements CardInterface{
 
     private Player owner;
     private GameState game;
@@ -20,4 +20,6 @@ public class Card implements CardInterface{
         owner = p;
         p.addCard(this);
     }
+
+    protected GameState getGame(){return game;}
 }

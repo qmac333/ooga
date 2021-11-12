@@ -15,6 +15,16 @@ public interface GameStateInterface {
     public void playTurn();
 
     /**
+     * reverses the order of play
+     */
+    public void reverseGamePlay();
+
+    /**
+     * called by the Skip Action card to skip the next player
+     */
+    public void skipNextPlayer();
+
+    /**
      * adds a player to the game
      */
     public void addPlayer(Player p);

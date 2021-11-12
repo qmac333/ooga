@@ -8,7 +8,7 @@ public class Player implements PlayerInterface{
     private List<Card> myHand;
 
     public Player(){}
-    
+
 
     @Override
     public void playCard(int index) {
