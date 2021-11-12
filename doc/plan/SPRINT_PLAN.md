@@ -13,7 +13,9 @@ View: Show cards for current player. Discard pile, draw pile. Selecting card. Ot
 Home Screen. General configuration (type of game, rule selections, Card info, Number of players, Order
 of players, Types of players (Maybe sprint 2))
 
-Controller: Parsing files.
+Controller: Parsing files with separate parser class. Initializing controller based on parameters retrieved from configuration 
+file. Setting up interaction between model and view through consumer interfaces. Running one step of the game by calling 
+on the model.
 
 ## Sprint 2 (Basic)
 
@@ -25,7 +27,8 @@ Model: Everything we couldn't get in sprint 1. Draw card logic.
 View: Supporting MOD. Changing of rules (Blocking #/Color, stacking, playing multiple cards).
 Passing screen.
 
-Controller:
+Controller: Saving files. More complicated step function that determines whether the model needs to wait for user input
+before running the game. Additional services needed by the view. Refactor design.
 
 ## Sprint 3 (Complete)
 
@@ -35,4 +38,5 @@ Model: Logic in for the other versions. All tested. Advanced AI player
 
 View: Blast animation. Card flipping.
 
-Controller: 
+Controller: Use reflection to create the correct model-type depending on the game-type (Traditional, Blast, or Duo) indicated
+in the configuration file. Any additional services needed by the view. Final refactoring and complete testing.

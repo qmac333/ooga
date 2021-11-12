@@ -14,6 +14,17 @@ public class UnoDisplay {
     }
 
     /**
+     * creates the Scene for the display, can be used to set the scene for a splash screen
+     * which pops up upon loading the game and it can set the scene for the regular game display.
+     * this will be called by the controller the switch between scenes
+     *
+     * @return the current scene that we are displaying
+     */
+    public Scene setScene() {
+        return null;
+    }
+
+    /**
      * provides a user-friendly way for errors to be displayed controller needs to call this method
      * when errors are encountered
      *
