@@ -17,12 +17,12 @@ public interface GameStateInterface {
     /**
      * sets the lastCardThown member in the GameState
      */
-    public void setLastCardThrown();
+    public void setLastCardThrown(Card c);
 
     /**
-     *
+     * gets the tpye of the lastCardThrown
      */
-    public
+    public String getLastCardThrownType();
 
     /**
      * reverses the order of play

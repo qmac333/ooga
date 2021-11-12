@@ -7,6 +7,7 @@ public abstract class Card implements CardInterface{
     private int num;
     private String color;
 
+
     public Card(GameState g){
         game = g;
     }
@@ -22,4 +23,5 @@ public abstract class Card implements CardInterface{
     }
 
     protected GameState getGame(){return game;}
+
 }

@@ -22,6 +22,17 @@ public class GameState implements GameStateInterface{
 
     }
 
+    @Override
+    public void setLastCardThrown(Card c) {
+        lastCardThrown = c;
+    }
+
+
+    @Override
+    public String getLastCardThrownType() {
+        return lastCardThrown.getType();
+    }
+
 
     @Override
     public void reverseGamePlay() {

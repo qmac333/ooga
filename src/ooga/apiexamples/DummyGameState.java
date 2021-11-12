@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ooga.model.Card;
 import ooga.model.GameStateInterface;
 import ooga.model.Player;
 
@@ -30,6 +32,16 @@ public class DummyGameState implements GameStateInterface {
   @Override
   public void playTurn() {
 
+  }
+
+  @Override
+  public void setLastCardThrown(Card c) {
+
+  }
+
+  @Override
+  public String getLastCardThrownType() {
+    return null;
   }
 
   @Override
