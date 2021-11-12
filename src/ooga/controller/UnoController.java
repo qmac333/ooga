@@ -9,6 +9,8 @@ import ooga.view.UnoDisplay;
 public class UnoController implements SplashScreenController, UnoDisplayController {
 
     private Stage stage;
+    private SplashScreen splashScreen;
+    private UnoDisplay unoScreen;
 
     /**
      * initializes data structures for the UnoController
@@ -59,15 +61,21 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     }
 
     /**
-     * Starts up the application, creates a splash screen.
+     * Shows the splash screen of the application.
      */
     public void start() {
-        showScreen(new SplashScreen(this));
+        if (splashScreen == null) {
+            splashScreen = new SplashScreen(this);
+        }
+        showScreen(splashScreen);
     }
 
     @Override
     public void playButtonHandler() {
-        showScreen(new UnoDisplay(this));
+        if (unoScreen == null) {
+            unoScreen = new UnoDisplay(this);
+        }
+        showScreen(unoScreen);
     }
 
     @Override
