@@ -15,6 +15,16 @@ public interface GameStateInterface {
     public void playTurn();
 
     /**
+     * sets the lastCardThown member in the GameState
+     */
+    public void setLastCardThrown();
+
+    /**
+     *
+     */
+    public
+
+    /**
      * reverses the order of play
      */
     public void reverseGamePlay();

@@ -8,6 +8,7 @@ public class GameState implements GameStateInterface{
     private int order;
     private int currentPlayer;
     private List<Player> players;
+    private Card lastCardThrown;
 
     private boolean skipNext;
 
@@ -20,6 +21,7 @@ public class GameState implements GameStateInterface{
     public void playTurn() {
 
     }
+
 
     @Override
     public void reverseGamePlay() {
@@ -47,15 +49,14 @@ public class GameState implements GameStateInterface{
     }
 
     private void loadNextPlayer(){
-
+        int boostedCurrentPlayer = currentPlayer + players.size();
         if(!skipNext){
-            if((currentPlayer == 0 && order == -1){
-            }
-
+            currentPlayer = (boostedCurrentPlayer + order) % players.size();
+        }
+        else{
+            currentPlayer = (boostedCurrentPlayer + 2 * order) % players.size();
+            skipNext = false;
         }
     }
 
-    private void incrementPlayer(){
-        currentPlayer = currentPlayer += order;
-    }
 }
