@@ -2,9 +2,11 @@ package ooga.controller;
 
 import java.util.function.Consumer;
 import javafx.stage.Stage;
+import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
+import ooga.view.UnoDisplay;
 
-public class UnoController implements SplashScreenController {
+public class UnoController implements SplashScreenController, UnoDisplayController {
 
     private Stage stage;
 
@@ -22,11 +24,6 @@ public class UnoController implements SplashScreenController {
      */
     public void setupProgram(String filepath) {
 
-    }
-
-    @Override
-    public void playButtonHandler() {
-        System.out.println("Reflection is awesome");
     }
 
     /**
@@ -65,8 +62,21 @@ public class UnoController implements SplashScreenController {
      * Starts up the application, creates a splash screen.
      */
     public void start() {
-        SplashScreen splashScreen = new SplashScreen(this);
-        stage.setScene(splashScreen.setScene());
+        showScreen(new SplashScreen(this));
+    }
+
+    @Override
+    public void playButtonHandler() {
+        showScreen(new UnoDisplay(this));
+    }
+
+    @Override
+    public void backButtonHandler() {
+        start();
+    }
+
+    private void showScreen(GameScreen screen) {
+        stage.setScene(screen.setScene());
         stage.show();
     }
 }
