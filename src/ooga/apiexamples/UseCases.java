@@ -11,7 +11,7 @@ public class UseCases {
   // A player plays a reverse card, altering the direction of gameplay.
   private static void UseCase1() {
     // create a turn info display object
-    TurnInfoDisplay display = new TurnInfoDisplay(new UnoController("foo"));
+    TurnInfoDisplay display = new TurnInfoDisplay(new UnoController(null));
     // create mock data to pass to the front end
     PlayersInfo newPlayers = new DummyPlayerInfo();
 
@@ -20,7 +20,7 @@ public class UseCases {
 
   // A player draws a card, causing their hand to update both in the model and the view.
   private static void UseCase2() {
-    HandListDisplay display = new HandListDisplay(new UnoController("foo"));
+    HandListDisplay display = new HandListDisplay(new UnoController(null));
     GameStateInterface state = new DummyGameState();
 
     // new hand is passed from the back end to the front end

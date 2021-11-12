@@ -1,22 +1,32 @@
 package ooga.controller;
 
 import java.util.function.Consumer;
+import javafx.stage.Stage;
+import ooga.view.SplashScreen;
 
-public class UnoController {
+public class UnoController implements SplashScreenController {
+
+    private Stage stage;
 
     /**
-     * initializes data structures and saves the input configuration filepath to a global variable
-     * @param filepath of the configuration file used to define the Uno game parameters
+     * initializes data structures for the UnoController
+     * @param stage the initial window for the application
      */
-    public UnoController(String filepath){
-
+    public UnoController(Stage stage){
+        this.stage = stage;
     }
 
     /**
      * parses the configuration file and initializes the model
+     * @param filepath of the configuration file used to define the Uno game parameters
      */
-    public void setupProgram(){
+    public void setupProgram(String filepath) {
 
+    }
+
+    @Override
+    public void playButtonHandler() {
+        System.out.println("Reflection is awesome");
     }
 
     /**
@@ -51,4 +61,12 @@ public class UnoController {
 
     }
 
+    /**
+     * Starts up the application, creates a splash screen.
+     */
+    public void start() {
+        SplashScreen splashScreen = new SplashScreen(this);
+        stage.setScene(splashScreen.setScene());
+        stage.show();
+    }
 }
