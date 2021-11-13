@@ -65,6 +65,11 @@ public class DummyGameState implements GameStateInterface {
   }
 
   @Override
+  public void setNextPlayerDrawTwo(boolean t) {
+
+  }
+
+  @Override
   public Map<Integer, List<List<String>>> getCurrentPlayerCards() {
     return hand;
   }
