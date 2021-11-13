@@ -2,6 +2,7 @@ package ooga.controller;
 
 import java.util.function.Consumer;
 import javafx.stage.Stage;
+import ooga.model.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
@@ -81,6 +82,11 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     @Override
     public void backButtonHandler() {
         start();
+    }
+
+    @Override
+    public GameStateViewInterface getGameState() {
+        return null;
     }
 
     private void showScreen(GameScreen screen) {

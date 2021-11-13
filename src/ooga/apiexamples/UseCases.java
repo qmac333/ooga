@@ -2,7 +2,7 @@ package ooga.apiexamples;
 
 import ooga.controller.UnoController;
 import ooga.model.GameStateInterface;
-import ooga.model.PlayersInfo;
+import ooga.util.TurnInfoChanges;
 import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
 
@@ -12,10 +12,9 @@ public class UseCases {
   private static void UseCase1() {
     // create a turn info display object
     TurnInfoDisplay display = new TurnInfoDisplay(new UnoController(null));
-    // create mock data to pass to the front end
-    PlayersInfo newPlayers = new DummyPlayerInfo();
 
-    display.accept(newPlayers); // data is passed from back end to the front end
+    display.accept(TurnInfoChanges.DIRECTION); // data is passed from back end to the front end
+    display.accept(TurnInfoChanges.NUM_CARDS);
   }
 
   // A player draws a card, causing their hand to update both in the model and the view.
