@@ -3,8 +3,7 @@ package ooga.model;
 import java.util.List;
 
 /**
- * An interface that allows the view to interact with the game state,
- * but in a read-only way.
+ * An interface that allows the view to interact with the game state, but in a read-only way.
  */
 public interface GameStateViewInterface {
 
@@ -28,6 +27,7 @@ public interface GameStateViewInterface {
 
   /**
    * returns the player index whose turn it is to play
+   *
    * @return index of the current player
    */
   public int getCurrentPlayer();

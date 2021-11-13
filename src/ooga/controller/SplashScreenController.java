@@ -10,5 +10,4 @@ public interface SplashScreenController {
   void playButtonHandler();
 
 
-
 }

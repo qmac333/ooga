@@ -21,6 +21,7 @@ public interface GameStateInterface {
 
     /**
      * returns the player index whose turn it is to play
+     *
      * @return index of the current player
      */
     public int getCurrentPlayer();

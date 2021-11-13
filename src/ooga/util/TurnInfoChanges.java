@@ -1,8 +1,7 @@
 package ooga.util;
 
 /**
- * A type used as a view parameter to signal what aspects
- * of the model have changed.
+ * A type used as a view parameter to signal what aspects of the model have changed.
  */
 
 public enum TurnInfoChanges {
