@@ -1,28 +1,40 @@
 package ooga.view;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import ooga.controller.UnoDisplayController;
+import ooga.util.Config;
 
-public class UnoDisplay {
+public class UnoDisplay implements GameScreen {
+
+  private UnoDisplayController controller;
 
   /**
-   * initializes data structures and saves the given stage to a global variable
+   * initializes data structures and saves the given controller
    *
-   * @param stage the current stage that the display will be representing
+   * @param controller a variable that provides access to controller methods
    */
-  public UnoDisplay(Stage stage) {
-
+  public UnoDisplay(UnoDisplayController controller) {
+    this.controller = controller;
   }
 
   /**
-   * creates the Scene for the display, can be used to set the scene for a splash screen
-   * which pops up upon loading the game and it can set the scene for the regular game display.
-   * this will be called by the controller the switch between scenes
+   * creates the Scene for the display
    *
    * @return the current scene that we are displaying
    */
   public Scene setScene() {
-    return null;
+    VBox root = new VBox();
+    root.setAlignment(Pos.CENTER);
+    Text text = new Text("This is the game!");
+    Button button = new Button("Back");
+    button.setOnAction(e -> controller.backButtonHandler());
+    root.getChildren().addAll(text, button);
+    Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    return scene;
   }
 
   /**
