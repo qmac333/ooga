@@ -10,11 +10,14 @@ public class GameState implements GameStateInterface{
     private List<Player> players;
     private Card lastCardThrown;
 
+    private boolean setNextPlayerDrawTwo;
+
     private boolean skipNext;
 
     public GameState(){
         order = 1;
         skipNext = false;
+        setNextPlayerDrawTwo = false;
     }
 
     @Override
@@ -52,6 +55,11 @@ public class GameState implements GameStateInterface{
     @Override
     public int getCurrentPlayer() {
         return 0;
+    }
+
+    @Override
+    public void setNextPlayerDrawTwo(boolean truthVal) {
+        setNextPlayerDrawTwo = truthVal;
     }
 
     @Override
