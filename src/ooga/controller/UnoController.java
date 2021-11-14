@@ -74,12 +74,12 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   @Override
-  public void loadExistingHandler(String filepath) {
+  public void loadExistingHandler() {
       System.out.println("Loaded a File");
   }
 
   @Override
-  public void loadNewHandler() {
+  public void loadNewHandler(String filepath) {
       System.out.println("Loading a new game");
   }
 

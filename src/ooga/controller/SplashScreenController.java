@@ -7,9 +7,9 @@ public interface SplashScreenController {
 
   void playButtonHandler();
 
-  void loadExistingHandler(String filepath);
+  void loadExistingHandler();
 
-  void loadNewHandler();
+  void loadNewHandler(String filepath);
 
   void languageHandler();
 

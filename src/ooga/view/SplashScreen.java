@@ -12,8 +12,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import ooga.controller.SplashScreenController;
 import ooga.util.Config;
+
+import java.io.File;
+import java.nio.file.Paths;
 
 public class SplashScreen implements GameScreen {
 
@@ -68,7 +72,13 @@ public class SplashScreen implements GameScreen {
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
     Button loadNew = new Button("Load New Game");
     loadNew.setPrefSize(130, 20);
-    loadNew.setOnAction(e -> controller.loadNewHandler());
+    loadNew.setOnAction(e -> {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setInitialDirectory(
+              new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
+      File selectedFile = fileChooser.showOpenDialog(null);
+      controller.loadNewHandler(selectedFile.getAbsolutePath());
+    });
     root.getChildren().addAll(loadExisting, loadNew);
 
     return root;
