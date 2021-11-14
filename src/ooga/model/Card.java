@@ -1,11 +1,12 @@
 package ooga.model;
 
-public class Card implements CardInterface{
+public abstract class Card implements CardInterface{
 
     private Player owner;
     private GameState game;
     private int num;
     private String color;
+
 
     public Card(GameState g){
         game = g;
@@ -20,4 +21,7 @@ public class Card implements CardInterface{
         owner = p;
         p.addCard(this);
     }
+
+    protected GameState getGame(){return game;}
+
 }

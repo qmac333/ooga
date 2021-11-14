@@ -26,4 +26,11 @@ public interface PlayerInterface {
    * @return Collection of a players cards
    */
   public Collection<Card> getHand();
+
+  /**
+   * returns the name of the player
+   *
+   * @return a String that is the player's name
+   */
+  public String getName();
 }
