@@ -72,16 +72,18 @@ public class SplashScreen implements GameScreen {
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
     Button loadNew = new Button("Load New Game");
     loadNew.setPrefSize(130, 20);
-    loadNew.setOnAction(e -> {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setInitialDirectory(
-              new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
-      File selectedFile = fileChooser.showOpenDialog(null);
-      controller.loadNewHandler(selectedFile.getAbsolutePath());
-    });
+    loadNew.setOnAction(e -> chooseFile());
     root.getChildren().addAll(loadExisting, loadNew);
 
     return root;
+  }
+
+  private void chooseFile() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialDirectory(
+            new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
+    File selectedFile = fileChooser.showOpenDialog(null);
+    controller.loadNewHandler(selectedFile.getAbsolutePath());
   }
 
   private HBox addHBox() {
