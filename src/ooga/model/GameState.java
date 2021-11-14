@@ -1,5 +1,6 @@
 package ooga.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     order = 1;
     skipNext = false;
     setNextPlayerDrawTwo = false;
+    players = new ArrayList<>();
   }
 
   @Override
@@ -54,22 +56,23 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-
+    // Basically tell the current player to play their turn
+    loadNextPlayer();
   }
 
   @Override
   public int getGameplayDirection() {
-    return 0;
+    return order;
   }
 
   @Override
   public void addPlayer(Player p) {
-
+    players.add(p);
   }
 
   @Override
   public int getCurrentPlayer() {
-    return 0;
+    return currentPlayer;
   }
 
   @Override

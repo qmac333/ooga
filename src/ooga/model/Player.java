@@ -6,9 +6,11 @@ import java.util.List;
 public class Player implements PlayerInterface{
 
     private List<Card> myHand;
+    private String myName;
 
-    public Player(){}
-
+    public Player(String name){
+        myName = name;
+    }
 
     @Override
     public void playCard(int index) {
@@ -23,5 +25,10 @@ public class Player implements PlayerInterface{
     @Override
     public Collection<Card> getHand() {
         return null;
+    }
+
+    @Override
+    public String getName(){
+        return myName;
     }
 }
