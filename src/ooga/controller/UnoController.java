@@ -2,7 +2,7 @@ package ooga.controller;
 
 import java.util.function.Consumer;
 import javafx.stage.Stage;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;

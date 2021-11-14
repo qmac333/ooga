@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.gameState;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package ooga.model;
 
 import java.util.Collection;
+import ooga.model.cards.Card;
 
 /**
  * Interface implemented by Players in a game.  Interacts with the GameState and Cards.

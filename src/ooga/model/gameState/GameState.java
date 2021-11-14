@@ -1,15 +1,21 @@
-package ooga.model;
+package ooga.model.gameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import ooga.model.Player;
+import ooga.model.cards.Card;
 
 public class GameState implements GameStateInterface, GameStateViewInterface {
 
   private int order;
   private int currentPlayer;
   private List<Player> players;
-  private Card lastCardThrown;
+  private Stack<Card> discardPile;
+
+  private int cardNumConstraint;
+  private String cardColorConstraint;
 
   private int impendingDraw;
 
@@ -20,6 +26,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     skipNext = false;
     impendingDraw = 0;
     players = new ArrayList<>();
+    discardPile = new Stack<>();
   }
 
   @Override
@@ -33,14 +40,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
-  public void setLastCardThrown(Card c) {
-    lastCardThrown = c;
+  public void discardCard(Card c) {
+    discardPile.push(c);
+    cardColorConstraint = discardPile.peek().getColor();
+    cardNumConstraint = discardPile.peek().getNum();
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return lastCardThrown.getType();
+    return discardPile.peek().getType();
   }
 
 
@@ -56,7 +65,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-    if (impendingDraw == 0){
+    if (impendingDraw == 0) {
       // Basically tell the current player to play their turn
     } else {
       // Enforce Draw
