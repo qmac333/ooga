@@ -21,4 +21,11 @@ public interface CardInterface {
      * @param p
      */
     public void setPlayer(Player p);
+
+
+    /**
+     * returns a card's type member
+     * @return
+     */
+    public String getType();
 }

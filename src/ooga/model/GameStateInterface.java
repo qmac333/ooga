@@ -15,6 +15,26 @@ public interface GameStateInterface {
     public void playTurn();
 
     /**
+     * sets the lastCardThown member in the GameState
+     */
+    public void setLastCardThrown(Card c);
+
+    /**
+     * gets the tpye of the lastCardThrown
+     */
+    public String getLastCardThrownType();
+
+    /**
+     * reverses the order of play
+     */
+    public void reverseGamePlay();
+
+    /**
+     * called by the Skip Action card to skip the next player
+     */
+    public void skipNextPlayer();
+
+    /**
      * adds a player to the game
      */
     public void addPlayer(Player p);
@@ -25,6 +45,13 @@ public interface GameStateInterface {
      * @return index of the current player
      */
     public int getCurrentPlayer();
+
+
+    /**
+     * allows class calling this method to set the nextPlayerDrawTwo
+     * member to true
+     */
+    public void setNextPlayerDrawTwo(boolean t);
 
 
     /**
