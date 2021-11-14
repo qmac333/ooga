@@ -27,6 +27,7 @@ public class SplashScreen implements GameScreen {
     BorderPane borderPane = new BorderPane();
     borderPane.setTop(addGridPane());
     borderPane.setLeft(addVBox());
+    borderPane.setBottom(addHBox());
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     return scene;
@@ -70,6 +71,20 @@ public class SplashScreen implements GameScreen {
     loadNew.setOnAction(e -> controller.loadNewHandler());
     root.getChildren().addAll(loadExisting, loadNew);
 
+    return root;
+  }
+
+  private HBox addHBox() {
+    HBox root = new HBox();
+    root.setAlignment(Pos.CENTER);
+    root.setPadding(new Insets(15, 12, 15, 12));
+    root.setSpacing(10);
+
+    Button playButton = new Button("Play");
+    playButton.setPrefSize(130, 20);
+    playButton.setOnAction(e -> controller.playButtonHandler());
+
+    root.getChildren().addAll(playButton);
     return root;
   }
 
