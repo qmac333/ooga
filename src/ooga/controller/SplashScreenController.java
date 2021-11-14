@@ -5,11 +5,9 @@ package ooga.controller;
  */
 public interface SplashScreenController {
 
-  void setupProgram(String filepath);
-
   void playButtonHandler();
 
-  void loadExistingHandler();
+  void loadExistingHandler(String filepath);
 
   void loadNewHandler();
 

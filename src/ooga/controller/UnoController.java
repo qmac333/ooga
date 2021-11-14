@@ -23,15 +23,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   /**
-   * parses the configuration file and initializes the model
-   *
-   * @param filepath of the configuration file used to define the Uno game parameters
-   */
-  public void setupProgram(String filepath) {
-
-  }
-
-  /**
    * passes the view's consumer to the model so the model can call .accept() whenever it needs to
    * notify the view of a change in its state
    */
@@ -83,7 +74,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   @Override
-  public void loadExistingHandler() {
+  public void loadExistingHandler(String filepath) {
       System.out.println("Loaded a File");
   }
 
