@@ -9,5 +9,10 @@ public interface SplashScreenController {
 
   void playButtonHandler();
 
+  void loadExistingHandler();
+
+  void loadNewHandler();
+
+  void languageHandler();
 
 }
