@@ -51,7 +51,7 @@ public interface GameStateInterface {
      * allows class calling this method to set the nextPlayerDrawTwo
      * member to true
      */
-    public void setNextPlayerDrawTwo(boolean t);
+    public void addDraw(int drawAmount);
 
 
     /**

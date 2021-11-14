@@ -11,14 +11,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   private List<Player> players;
   private Card lastCardThrown;
 
-  private boolean setNextPlayerDrawTwo;
+  private int impendingDraw;
 
   private boolean skipNext;
 
   public GameState() {
     order = 1;
     skipNext = false;
-    setNextPlayerDrawTwo = false;
+    impendingDraw = 0;
     players = new ArrayList<>();
   }
 
@@ -56,7 +56,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-    // Basically tell the current player to play their turn
+    if (impendingDraw == 0){
+      // Basically tell the current player to play their turn
+    } else {
+      // Enforce Draw
+    }
     loadNextPlayer();
   }
 
@@ -81,8 +85,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
-  public void setNextPlayerDrawTwo(boolean truthVal) {
-    setNextPlayerDrawTwo = truthVal;
+  public void addDraw(int drawAmount) {
+    impendingDraw += drawAmount;
   }
 
   private void loadNextPlayer() {

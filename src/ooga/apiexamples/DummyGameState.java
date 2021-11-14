@@ -65,7 +65,7 @@ public class DummyGameState implements GameStateInterface {
   }
 
   @Override
-  public void setNextPlayerDrawTwo(boolean t) {
+  public void addDraw(int drawAmount) {
 
   }
 
