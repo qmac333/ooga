@@ -35,6 +35,7 @@ public class Table {
     this.cellWidth = cellWidth;
 
     tableCells = new ArrayList<>();
+    visualRows = new ArrayList<>();
     visualDisplay = new VBox();
     for (int i = 0; i < rows; i++) {
       addRow();
@@ -77,7 +78,6 @@ public class Table {
    */
   public void setCell(int x, int y, Node contents) throws IndexOutOfBoundsException {
       tableCells.get(y).get(x).setContents(contents);
-      visualRows.get(y).getChildren().set(x, contents);
   }
 
   /**

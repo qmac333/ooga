@@ -20,7 +20,8 @@ public class TableCell {
   public TableCell(double cellWidth, double cellHeight) {
     cell = new StackPane();
     cellBody = new Rectangle(cellWidth, cellHeight, DEFAULT_COLOR);
-    cell.getChildren().add(cell);
+    cellBody.setStroke(Color.BLACK);
+    cell.getChildren().add(cellBody);
   }
 
   /**
@@ -29,7 +30,7 @@ public class TableCell {
    */
   public void setContents(Node newContents) {
     cell.getChildren().clear();
-    cell.getChildren().add(cell);
+    cell.getChildren().add(cellBody);
     cell.getChildren().add(newContents);
   }
 

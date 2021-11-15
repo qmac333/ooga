@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoController;
+import ooga.controller.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.TurnInfoChanges;
 
@@ -25,12 +26,12 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public TurnInfoDisplay(UnoController controller) {
+  public TurnInfoDisplay(UnoDisplayController controller) {
     gameState = controller.getGameState();
     changeHandlers = new HashMap<TurnInfoChanges, Consumer>();
     displayableItem = new VBox();
 
-    playerTable = new Table(2, 2, 100, 50);
+    playerTable = new Table(2, 5, 70, 20);
     playerTable.setCell(0, 0, new Text("Andrew"));
     playerTable.setCell(0, 1, new Text("Quentin"));
 
