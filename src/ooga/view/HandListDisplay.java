@@ -17,6 +17,8 @@ import ooga.controller.UnoController;
 public class HandListDisplay implements Consumer<List<List<String>>> {
 
   private List<List<String>> currentCards;
+  private List<StackPane> cards;
+  private UnoController controller;
 
   /**
    * Initialize a class that creates the display for an UNO hand.
@@ -25,25 +27,27 @@ public class HandListDisplay implements Consumer<List<List<String>>> {
    *                   model
    */
   public HandListDisplay(UnoController controller) {
-
+    this.controller = controller;
   }
 
   public Node createHand() {
     HBox handList = new HBox();
     handList.setSpacing(20);
-    StackPane stack = new StackPane();
-    for (List<String> cardProps : currentCards) {
-      try {
+    try {
+      for (List<String> cardProps : currentCards) {
+        StackPane stack = new StackPane();
         Rectangle card = new Rectangle(30, 25);
-        Image image = new Image(new FileInputStream(String.format("./data/%s", cardProps.get(0))));
+        Image image = new Image(new FileInputStream(String.format("./data/%s.png", cardProps.get(0))));
         ImageView imageView = new ImageView(image);
         stack.getChildren().addAll(card, imageView);
+        cards.add(stack);
+        stack.setOnMouseClicked(e -> controller.playUserCard(cards.indexOf(stack)));
         handList.getChildren().add(stack);
-      } catch(Exception e) {
-
       }
+    } catch(Exception e) {
 
     }
+
     return handList;
   }
 
