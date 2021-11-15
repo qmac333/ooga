@@ -1,5 +1,7 @@
-package ooga.model;
+package ooga.model.cards;
 
+
+import ooga.model.Player;
 
 /**
  * interface implemented by all Cards in a game. changes the GameState
@@ -28,4 +30,18 @@ public interface CardInterface {
      * @return
      */
     public String getType();
+
+
+    /**
+     * returns a cards number
+     * @return
+     */
+    public int getNum();
+
+
+    /**
+     * returns a card's color
+     * @return
+     */
+    public String getColor();
 }
