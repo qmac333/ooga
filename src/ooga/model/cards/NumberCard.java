@@ -10,7 +10,6 @@ public class NumberCard extends Card{
 
   @Override
   public void executeAction(){
-    getGame().specifyPlayingConstraints(this.getNum(), this.getColor());
     super.getGame().discardCard(this);
   }
   @Override

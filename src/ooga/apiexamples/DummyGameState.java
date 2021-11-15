@@ -72,4 +72,9 @@ public class DummyGameState implements GameStateInterface {
   public Map<Integer, List<List<String>>> getCurrentPlayerCards() {
     return hand;
   }
+
+  @Override
+  public Card getNextCard() {
+    return null;
+  }
 }

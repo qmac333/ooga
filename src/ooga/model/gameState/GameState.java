@@ -71,7 +71,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     if (impendingDraw > 0) {
       enforceDrawRule(player);
     } else {
-      player.playTurn();
+      player.playCard();
     }
     loadNextPlayer();
   }
