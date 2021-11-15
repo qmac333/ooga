@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.table;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;

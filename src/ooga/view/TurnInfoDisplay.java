@@ -7,10 +7,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import ooga.controller.UnoController;
 import ooga.controller.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.TurnInfoChanges;
+import ooga.view.table.Table;
 
 public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
 
