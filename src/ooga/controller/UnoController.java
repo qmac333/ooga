@@ -1,8 +1,11 @@
 package ooga.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import javafx.stage.Stage;
+import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
@@ -121,7 +124,38 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   @Override
   public GameStateViewInterface getGameState() {
-    return null;
+    return new GameStateViewInterface() {
+      @Override
+      public List<String> getPlayerNames() {
+        List<String> ret = new ArrayList<>();
+        ret.add("Andrew");
+        ret.add("Quentin");
+        return ret;
+      }
+
+      @Override
+      public List<Integer> getCardCounts() {
+        List<Integer> ret = new ArrayList<>();
+        ret.add(5);
+        ret.add(4);
+        return ret;
+      }
+
+      @Override
+      public int getGameplayDirection() {
+        return 0;
+      }
+
+      @Override
+      public int getCurrentPlayer() {
+        return 0;
+      }
+
+      @Override
+      public List<List<String>> getCurrentPlayerCards() {
+        return null;
+      }
+    };
   }
 
   private void showScreen(GameScreen screen) {

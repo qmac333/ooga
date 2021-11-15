@@ -80,11 +80,12 @@ public class TurnInfoDisplay implements DisplayableItem {
   // ASSUME that players can be added, and not deleted
   private void playersChangeHandler() {
     List<String> players = gameState.getPlayerNames();
-    if (playerTable.getNumRows() < players.size()) {
-      for (int i = playerTable.getNumRows(); i < players.size(); i++) {
+
+    for (int i = 0; i < players.size(); i++) {
+      if (i >= playerTable.getNumRows()) {
         playerTable.addRow();
-        playerTable.setCell(0, i, new Text(players.get(i)));
       }
+      playerTable.setCell(0, i, new Text(players.get(i)));
     }
   }
 
