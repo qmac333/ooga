@@ -62,4 +62,11 @@ public interface GameStateInterface {
    * @return a Map of Integers to Lists of Strings
    */
   public Map<Integer, List<List<String>>> getCurrentPlayerCards();
+
+  /**
+   * Gets the next card from the deck
+   *
+   * @return card at the top of the deck
+   */
+  public Card getNextCard();
 }

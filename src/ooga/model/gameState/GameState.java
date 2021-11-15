@@ -13,6 +13,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   private int currentPlayer;
   private List<Player> players;
   private Stack<Card> discardPile;
+  private boolean currentPlayerPlayCard;
 
   private int cardNumConstraint;
   private String cardColorConstraint;
@@ -27,6 +28,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     impendingDraw = 0;
     players = new ArrayList<>();
     discardPile = new Stack<>();
+    currentPlayerPlayCard = false;
   }
 
   @Override
@@ -65,10 +67,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-    if (impendingDraw == 0) {
-      // Basically tell the current player to play their turn
+    Player player = players.get(currentPlayer);
+    if (impendingDraw > 0) {
+      enforceDrawRule(player);
     } else {
-      // Enforce Draw
+      player.playTurn();
     }
     loadNextPlayer();
   }
@@ -98,6 +101,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     impendingDraw += drawAmount;
   }
 
+  @Override
+  public Card getNextCard() {
+    return null;
+  }
+
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + players.size();
     if (!skipNext) {
@@ -105,6 +113,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     } else {
       currentPlayer = (boostedCurrentPlayer + 2 * order) % players.size();
       skipNext = false;
+    }
+  }
+
+  private void enforceDrawRule(Player player){
+    while (impendingDraw > 0) {
+      player.addCard(getNextCard());
+      impendingDraw--;
     }
   }
 }

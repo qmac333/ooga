@@ -14,8 +14,9 @@ public class Player implements PlayerInterface {
   }
 
   @Override
-  public void playCard(int index) {
-    myHand.get(index).executeAction();
+  public void playCard() {
+//    int index = consumer.getIndextoPlay();
+//    myHand.get(index).executeAction();
   }
 
   @Override

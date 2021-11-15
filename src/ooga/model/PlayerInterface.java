@@ -13,7 +13,7 @@ public interface PlayerInterface {
    * player plays a card in its hand and calls the card's action implementation will depend on
    * whether the player is automated or not
    */
-  public void playCard(int i);
+  public void playCard();
 
   /**
    * adds a card to a player's hand, specifically at the end
