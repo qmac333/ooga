@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
@@ -22,13 +23,17 @@ public class TurnInfoDisplay implements DisplayableItem {
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 70;
 
+
+  private static Color HIGHLIGHT_COLOR = Color.YELLOW;
+
   private GameStateViewInterface gameState;
   //private Map<TurnInfoChanges, Consumer> changeHandlers;
   private Table playerTable;
-
   private VBox displayableItem;
+  private Text displayText;
 
   private Timeline timeline;
+  private int prevCurrentPlayer;
 
 
   /**
@@ -40,11 +45,15 @@ public class TurnInfoDisplay implements DisplayableItem {
    */
   public TurnInfoDisplay(UnoDisplayController controller) {
     gameState = controller.getGameState();
+    prevCurrentPlayer = 0;
 
     displayableItem = new VBox();
     displayableItem.setAlignment(Pos.CENTER);
 
     initializeTable();
+    displayText = new Text("Down");
+    displayableItem.getChildren().add(displayText);
+
     timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
@@ -88,12 +97,21 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   private void currentPlayerChangeHandler() {
 
-
+    int currentPlayer = gameState.getCurrentPlayer();
+    for (int i = 0; i < playerTable.getNumCols(); i++) {
+      playerTable.setColor(i, prevCurrentPlayer, Table.DEFAULT_COLOR);
+      playerTable.setColor(i, currentPlayer, HIGHLIGHT_COLOR);
+    }
+    prevCurrentPlayer = currentPlayer;
   }
 
   private void newDirectionChangeHandler() {
-
+    int direction = gameState.getGameplayDirection();
+    if (direction == 1) {
+      displayText.setText("Down");
+    }
+    else {
+      displayText.setText("Up");
+    }
   }
-
-
 }

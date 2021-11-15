@@ -12,15 +12,13 @@ import javafx.scene.shape.Rectangle;
 
 public class TableCell {
 
-  public static final Color DEFAULT_COLOR = Color.WHITE;
-
   private Pane cell;
   private Rectangle cellBody;
   private Node contents;
 
   public TableCell(double cellWidth, double cellHeight) {
     cell = new StackPane();
-    cellBody = new Rectangle(cellWidth, cellHeight, DEFAULT_COLOR);
+    cellBody = new Rectangle(cellWidth, cellHeight, Table.DEFAULT_COLOR);
     cellBody.setStroke(Color.BLACK);
     contents = null;
     cell.getChildren().add(cellBody);
@@ -42,6 +40,15 @@ public class TableCell {
    */
   public Node getCell() {
     return cell;
+  }
+
+  /**
+   * Change the background color of this cell.
+   * @param color is the new color of the cell
+   */
+  public void changeColor(Color color) {
+    cellBody.setFill(color);
+
   }
 
   /**

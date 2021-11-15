@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import ooga.view.DisplayableItem;
 
 /**
@@ -13,6 +14,7 @@ import ooga.view.DisplayableItem;
  */
 public class Table implements DisplayableItem {
 
+  public static final Color DEFAULT_COLOR = Color.WHITE;
   private int numRows;
   private int numCols;
   private double cellWidth;
@@ -90,6 +92,14 @@ public class Table implements DisplayableItem {
       visualRows.remove(row);
       visualDisplay.getChildren().remove(row);
       numRows--;
+  }
+
+  /**
+   * Change the color of a cell in the table to have a certain color.
+   * @param color is the new color of the cell
+   */
+  public void setColor(int x, int y, Color color) {
+    tableCells.get(y).get(x).changeColor(color);
   }
 
   /**
