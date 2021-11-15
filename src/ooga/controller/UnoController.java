@@ -2,7 +2,7 @@ package ooga.controller;
 
 import java.util.function.Consumer;
 import javafx.stage.Stage;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
@@ -20,15 +20,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   public UnoController(Stage stage) {
     this.stage = stage;
-  }
-
-  /**
-   * parses the configuration file and initializes the model
-   *
-   * @param filepath of the configuration file used to define the Uno game parameters
-   */
-  public void setupProgram(String filepath) {
-
   }
 
   /**
@@ -81,6 +72,22 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     }
     showScreen(unoScreen);
   }
+
+  @Override
+  public void loadExistingHandler() {
+      System.out.println("Loaded a File");
+  }
+
+  @Override
+  public void loadNewHandler(String filepath) {
+      System.out.println("Loading a new game");
+  }
+
+  @Override
+  public void languageHandler() {
+      System.out.println("Chose a language");
+  }
+
 
   @Override
   public void backButtonHandler() {

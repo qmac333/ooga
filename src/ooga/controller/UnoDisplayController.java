@@ -1,7 +1,6 @@
 package ooga.controller;
 
-import ooga.model.GameState;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 
 /**
  * Interface used to serve as controller for UnoDisplay class.

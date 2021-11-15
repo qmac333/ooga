@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoController;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.TurnInfoChanges;
 
 public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
