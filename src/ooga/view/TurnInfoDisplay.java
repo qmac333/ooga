@@ -24,6 +24,7 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
     changeHandlers = new HashMap<TurnInfoChanges, Consumer>();
     createHandlerMap();
 
+
   }
 
   /**
