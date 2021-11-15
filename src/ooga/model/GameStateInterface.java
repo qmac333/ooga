@@ -54,10 +54,5 @@ public interface GameStateInterface {
     public void setNextPlayerDrawTwo(boolean t);
 
 
-    /**
-     * returns a map of card types to the different Colors and Types of cards
-     * that exist in a players hand with that number
-     * @return a Map of Integers to Lists of Strings
-     */
-    public Map<Integer, List<List<String>>> getCurrentPlayerCards();
+
 }

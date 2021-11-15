@@ -76,7 +76,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
-  public Map<Integer, List<List<String>>> getCurrentPlayerCards() {
+  public List<List<String>> getCurrentPlayerCards() {
     return null;
   }
 
