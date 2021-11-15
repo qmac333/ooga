@@ -29,6 +29,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     players = new ArrayList<>();
     discardPile = new Stack<>();
     currentPlayerPlayCard = false;
+    currentPlayer = 0;
   }
 
   @Override
@@ -105,6 +106,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   public Card getNextCard() {
     return null;
   }
+
+  @Override
+  public int getOrder(){return order;}
 
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + players.size();

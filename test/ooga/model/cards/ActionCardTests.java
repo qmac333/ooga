@@ -30,5 +30,20 @@ public class ActionCardTests extends DukeApplicationTest {
         assertEquals("dtc", game.getLastCardThrownType());
     }
 
-    
+    @Test
+    public void reverseCardTest(){
+
+        ActionCard rc = new ReverseCard(game, "red", "rc");
+        rc.executeAction();
+        assertEquals(-1, game.getOrder());
+    }
+
+    @Test
+    public void skipCardTest(){
+        ActionCard sc = new SkipCard(game, "red", "sc");
+        sc.executeAction();
+        assertEquals("sc", game.getLastCardThrownType());
+    }
+
+
 }
