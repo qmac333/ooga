@@ -69,4 +69,10 @@ public interface GameStateInterface {
    * @return card at the top of the deck
    */
   public Card getNextCard();
+
+  /**
+   * returns the order of play as an integer
+   * @return order member
+   */
+  public int getOrder();
 }
