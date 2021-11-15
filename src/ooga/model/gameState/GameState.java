@@ -1,25 +1,34 @@
-package ooga.model;
+package ooga.model.gameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import ooga.model.Player;
+import ooga.model.cards.Card;
 
 public class GameState implements GameStateInterface, GameStateViewInterface {
 
   private int order;
   private int currentPlayer;
   private List<Player> players;
-  private Card lastCardThrown;
+  private Stack<Card> discardPile;
+  private boolean currentPlayerPlayCard;
 
-  private boolean setNextPlayerDrawTwo;
+  private int cardNumConstraint;
+  private String cardColorConstraint;
+
+  private int impendingDraw;
 
   private boolean skipNext;
 
   public GameState() {
     order = 1;
     skipNext = false;
-    setNextPlayerDrawTwo = false;
+    impendingDraw = 0;
     players = new ArrayList<>();
+    discardPile = new Stack<>();
+    currentPlayerPlayCard = false;
   }
 
   @Override
@@ -33,14 +42,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
-  public void setLastCardThrown(Card c) {
-    lastCardThrown = c;
+  public void discardCard(Card c) {
+    discardPile.push(c);
+    cardColorConstraint = discardPile.peek().getColor();
+    cardNumConstraint = discardPile.peek().getNum();
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return lastCardThrown.getType();
+    return discardPile.peek().getType();
   }
 
 
@@ -56,7 +67,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-    // Basically tell the current player to play their turn
+    Player player = players.get(currentPlayer);
+    if (impendingDraw > 0) {
+      enforceDrawRule(player);
+    } else {
+      player.playCard();
+    }
     loadNextPlayer();
   }
 
@@ -81,8 +97,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
-  public void setNextPlayerDrawTwo(boolean truthVal) {
-    setNextPlayerDrawTwo = truthVal;
+  public void addDraw(int drawAmount) {
+    impendingDraw += drawAmount;
+  }
+
+  @Override
+  public Card getNextCard() {
+    return null;
   }
 
   private void loadNextPlayer() {
@@ -92,6 +113,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     } else {
       currentPlayer = (boostedCurrentPlayer + 2 * order) % players.size();
       skipNext = false;
+    }
+  }
+
+  private void enforceDrawRule(Player player){
+    while (impendingDraw > 0) {
+      player.addCard(getNextCard());
+      impendingDraw--;
     }
   }
 }

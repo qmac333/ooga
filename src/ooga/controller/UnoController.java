@@ -1,17 +1,25 @@
 package ooga.controller;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 import javafx.stage.Stage;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.ToJson;
 
 public class UnoController implements SplashScreenController, UnoDisplayController {
 
   private Stage stage;
   private SplashScreen splashScreen;
   private UnoDisplay unoScreen;
+
+  private String filepath;
+  private Moshi moshi;
 
   /**
    * initializes data structures for the UnoController
@@ -20,6 +28,8 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   public UnoController(Stage stage) {
     this.stage = stage;
+    moshi = new Moshi.Builder().build();
+    // TODO: add custom JSON adapter
   }
 
   /**
@@ -75,12 +85,27 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   @Override
   public void loadExistingHandler() {
-      System.out.println("Loaded a File");
+    System.out.println("Loading a File");
   }
 
   @Override
   public void loadNewHandler(String filepath) {
-      System.out.println("Loading a new game");
+    String json = getFileContent(filepath);
+    System.out.println("Loading a File");
+    JsonAdapter<GameStateJSON> jsonAdapter = moshi.adapter(GameStateJSON.class);
+    try{
+      GameStateJSON myGameStateJSON = jsonAdapter.fromJson(json);
+    }
+    catch (IOException e) {
+      //TODO: better error handling
+      System.out.println(e.getMessage());
+    }
+  }
+
+  // TODO: get JSON file content from filepath
+  private String getFileContent(String filepath){
+    String json = "";
+    return json;
   }
 
   @Override

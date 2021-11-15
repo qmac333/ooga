@@ -2,6 +2,7 @@ package ooga.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

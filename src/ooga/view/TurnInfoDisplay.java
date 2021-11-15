@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 import ooga.controller.UnoController;
-import ooga.model.GameStateViewInterface;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.TurnInfoChanges;
 
 public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
