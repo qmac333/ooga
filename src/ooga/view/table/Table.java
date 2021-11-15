@@ -6,11 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ooga.view.DisplayableItem;
 
 /**
  * A table class for organizing nodes.
  */
-public class Table {
+public class Table implements DisplayableItem {
 
   private int numRows;
   private int numCols;
@@ -108,10 +109,8 @@ public class Table {
     return tableCells.get(y).get(x).getContents();
   }
 
-  /**
-   * Gets a visual representation of the table.
-   */
-  public Node getTable() {
+  @Override
+  public Node getDisplayableItem() {
     return visualDisplay;
   }
 
