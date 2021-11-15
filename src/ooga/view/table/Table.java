@@ -30,7 +30,7 @@ public class Table {
    * @param cellHeight is the height of an individual cell
    */
   public Table(int rows, int cols, double cellWidth, double cellHeight) {
-    numRows = rows;
+    numRows = 0; // will be incremented by the addRow() method when adding rows
     numCols = cols;
     this.cellHeight = cellHeight;
     this.cellWidth = cellWidth;
@@ -42,6 +42,20 @@ public class Table {
     for (int i = 0; i < rows; i++) {
       addRow();
     }
+  }
+
+  /**
+   * @return the number of rows in the table
+   */
+  public int getNumRows() {
+    return numRows;
+  }
+
+  /**
+   * @return the number of columns in the table
+   */
+  public int getNumCols() {
+    return numCols;
   }
 
   /**
@@ -61,6 +75,8 @@ public class Table {
     tableCells.add(newRow);
     visualRows.add(newRowVisual);
     visualDisplay.getChildren().add(newRowVisual);
+
+    numRows++;
   }
 
   /**
@@ -72,6 +88,7 @@ public class Table {
       tableCells.remove(row);
       visualRows.remove(row);
       visualDisplay.getChildren().remove(row);
+      numRows--;
   }
 
   /**
@@ -84,11 +101,11 @@ public class Table {
   }
 
   /**
-   * Gets a visual representation of a cell at (x, y).
+   * Gets the contents of a cell at (x, y).
    * @throw IndexOutofBoundsException for invalid cell coordinates.
    */
   public Node getCell(int x, int y) throws IndexOutOfBoundsException {
-    return tableCells.get(y).get(x).getCell();
+    return tableCells.get(y).get(x).getContents();
   }
 
   /**

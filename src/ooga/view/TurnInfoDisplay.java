@@ -36,10 +36,6 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
     displayableItem.setAlignment(Pos.CENTER);
 
     playerTable = new Table(2, 2, 70, 20);
-    playerTable.setCell(0, 0, new Text("Andrew"));
-    playerTable.setCell(1, 0, new Text("Quentin"));
-    playerTable.setCell(0, 1, new Text("1"));
-    playerTable.setCell(1, 1, new Text("2"));
 
     displayableItem.getChildren().add(playerTable.getTable());
   }

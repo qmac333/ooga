@@ -16,11 +16,13 @@ public class TableCell {
 
   private Pane cell;
   private Rectangle cellBody;
+  private Node contents;
 
   public TableCell(double cellWidth, double cellHeight) {
     cell = new StackPane();
     cellBody = new Rectangle(cellWidth, cellHeight, DEFAULT_COLOR);
     cellBody.setStroke(Color.BLACK);
+    contents = null;
     cell.getChildren().add(cellBody);
   }
 
@@ -32,6 +34,7 @@ public class TableCell {
     cell.getChildren().clear();
     cell.getChildren().add(cellBody);
     cell.getChildren().add(newContents);
+    contents = newContents;
   }
 
   /**
@@ -39,6 +42,13 @@ public class TableCell {
    */
   public Node getCell() {
     return cell;
+  }
+
+  /**
+   * @return the contents of the cell (null if the cell does not contain anything)
+   */
+  public Node getContents() {
+    return contents;
   }
 
 }
