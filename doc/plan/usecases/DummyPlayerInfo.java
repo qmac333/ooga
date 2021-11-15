@@ -3,7 +3,6 @@ package ooga.apiexamples;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import ooga.model.PlayersInfo;
 
 /**
  * Dummy class that returns static player info.

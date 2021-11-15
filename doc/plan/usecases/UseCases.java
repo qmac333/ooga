@@ -2,6 +2,7 @@ package ooga.apiexamples;
 
 import ooga.controller.UnoController;
 import ooga.model.PlayersInfo;
+import ooga.model.GameStateInterface;
 import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
 import ooga.view.UnoDisplay;

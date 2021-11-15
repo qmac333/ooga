@@ -11,6 +11,7 @@ import ooga.util.Config;
 public class UnoDisplay implements GameScreen {
 
   private UnoDisplayController controller;
+  private TurnInfoDisplay turnDisplay;
 
   /**
    * initializes data structures and saves the given controller
@@ -19,6 +20,7 @@ public class UnoDisplay implements GameScreen {
    */
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
+    this.turnDisplay = new TurnInfoDisplay(controller);
   }
 
   /**
@@ -32,7 +34,7 @@ public class UnoDisplay implements GameScreen {
     Text text = new Text("This is the game!");
     Button button = new Button("Back");
     button.setOnAction(e -> controller.backButtonHandler());
-    root.getChildren().addAll(text, button);
+    root.getChildren().addAll(text, button, turnDisplay.getDisplayableItem());
     Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     return scene;
   }
