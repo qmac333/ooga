@@ -45,5 +45,12 @@ public class ActionCardTests extends DukeApplicationTest {
         assertEquals("sc", game.getLastCardThrownType());
     }
 
+    @Test
+    public void wildCardTest(){
+        ActionCard wc = new WildCard(game, "wild", "wc");
+        wc.setCardColor("red"); // will need to change this line of code with advent of consumerInterface
+        assertEquals("red", wc.getColor());
+    }
+
 
 }
