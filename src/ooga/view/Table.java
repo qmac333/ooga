@@ -2,6 +2,7 @@ package ooga.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,6 +38,7 @@ public class Table {
     tableCells = new ArrayList<>();
     visualRows = new ArrayList<>();
     visualDisplay = new VBox();
+    visualDisplay.setAlignment(Pos.CENTER);
     for (int i = 0; i < rows; i++) {
       addRow();
     }
@@ -48,6 +50,7 @@ public class Table {
   public void addRow() {
     List<TableCell> newRow = new ArrayList<>();
     HBox newRowVisual = new HBox();
+    newRowVisual.setAlignment(Pos.CENTER);
 
     for (int j = 0; j < numCols; j++) {
       TableCell cell = new TableCell(cellWidth, cellHeight);

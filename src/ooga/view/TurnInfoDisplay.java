@@ -3,6 +3,7 @@ package ooga.view;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -29,15 +30,18 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
   public TurnInfoDisplay(UnoDisplayController controller) {
     gameState = controller.getGameState();
     changeHandlers = new HashMap<TurnInfoChanges, Consumer>();
-    displayableItem = new VBox();
+    createHandlerMap();
 
-    playerTable = new Table(2, 5, 70, 20);
+    displayableItem = new VBox();
+    displayableItem.setAlignment(Pos.CENTER);
+
+    playerTable = new Table(2, 2, 70, 20);
     playerTable.setCell(0, 0, new Text("Andrew"));
-    playerTable.setCell(0, 1, new Text("Quentin"));
+    playerTable.setCell(1, 0, new Text("Quentin"));
+    playerTable.setCell(0, 1, new Text("1"));
+    playerTable.setCell(1, 1, new Text("2"));
 
     displayableItem.getChildren().add(playerTable.getTable());
-
-    createHandlerMap();
   }
 
   public Node getDisplayableItem() {
