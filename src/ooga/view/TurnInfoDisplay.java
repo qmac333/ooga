@@ -3,6 +3,9 @@ package ooga.view;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ooga.controller.UnoController;
 import ooga.model.GameStateViewInterface;
 import ooga.util.TurnInfoChanges;
@@ -11,6 +14,9 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
 
   private GameStateViewInterface gameState;
   private Map<TurnInfoChanges, Consumer> changeHandlers;
+  private Table playerTable;
+
+  private VBox displayableItem;
 
   /**
    * Initialize a class that creates the display for the info on the current players and whose turn
@@ -22,9 +28,19 @@ public class TurnInfoDisplay implements Consumer<TurnInfoChanges> {
   public TurnInfoDisplay(UnoController controller) {
     gameState = controller.getGameState();
     changeHandlers = new HashMap<TurnInfoChanges, Consumer>();
+    displayableItem = new VBox();
+
+    playerTable = new Table(2, 2, 100, 50);
+    playerTable.setCell(0, 0, new Text("Andrew"));
+    playerTable.setCell(0, 1, new Text("Quentin"));
+
+    displayableItem.getChildren().add(playerTable.getTable());
+
     createHandlerMap();
+  }
 
-
+  public Node getDisplayableItem() {
+    return displayableItem;
   }
 
   /**
