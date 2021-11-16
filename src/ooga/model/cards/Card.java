@@ -7,20 +7,20 @@ public abstract class Card implements CardInterface {
 
   private Player owner;
   private GameState game;
-  private int num;
-  private String color;
-  private boolean canPlay;
+  private int myNum;
+  private String myColor;
+  private String myType;
 
 
-  public Card(GameState g, String color, String type) {
+  public Card(GameState g, String color, String type, int num) {
     game = g;
-    this.color = color;
-    canPlay = true;
+    myColor = color;
+    myType = type;
+    myNum = num;
   }
 
   @Override
-  public void executeAction() {
-  }
+  public abstract void executeAction();
 
   @Override
   public void setPlayer(Player p) {
@@ -29,13 +29,18 @@ public abstract class Card implements CardInterface {
   }
 
   @Override
-  public int getNum(){
-    return num;
+  public int getNum() {
+    return myNum;
   }
 
   @Override
-  public String getColor(){
-    return color;
+  public String getMyColor() {
+    return myColor;
+  }
+
+  @Override
+  public String getType() {
+    return myType;
   }
 
   protected GameState getGame() {
@@ -43,6 +48,6 @@ public abstract class Card implements CardInterface {
   }
 
   protected void setCardColor(String color) {
-    this.color = color;
+    myColor = color;
   }
 }

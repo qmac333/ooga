@@ -2,10 +2,10 @@ package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
 
-public class WildCard extends ActionCard {
+public class WildCard extends Card {
 
-  public WildCard(GameState g, String color, String type) {
-    super(g, color, type);
+  public WildCard(GameState g, String color) {
+    super(g, "Black", "Wild", -1);
   }
 
   @Override

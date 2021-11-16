@@ -2,17 +2,18 @@ package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
 
-public class DrawTwoCard extends ActionCard {
-    private final int DRAW_AMOUNT = 2;
+public class DrawTwoCard extends Card {
 
-    public DrawTwoCard(GameState g, String color, String type) {
-        super(g, color, type);
-    }
+  private final int DRAW_AMOUNT = 2;
 
-    @Override
-    public void executeAction(){
-        GameState game = super.getGame();
-        game.addDraw(DRAW_AMOUNT);
-        game.discardCard(this);
-    }
+  public DrawTwoCard(GameState g, String color) {
+    super(g, color, "DrawTwo", -1);
+  }
+
+  @Override
+  public void executeAction() {
+    GameState game = super.getGame();
+    game.addDraw(DRAW_AMOUNT);
+    game.discardCard(this);
+  }
 }

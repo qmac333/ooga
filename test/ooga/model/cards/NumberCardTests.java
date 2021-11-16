@@ -16,8 +16,8 @@ public class NumberCardTests extends DukeApplicationTest {
 
     @Test
     public void numberCardTest(){
-        Card nc = new NumberCard(game, "red", null);
+        Card nc = new NumberCard(game, "red", 1);
         nc.executeAction();
-        assertEquals(null, game.getLastCardThrownType());
+        assertEquals("Number", game.getLastCardThrownType());
     }
 }

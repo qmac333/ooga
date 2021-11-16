@@ -7,13 +7,16 @@ import java.util.Stack;
 import ooga.model.player.Player;
 
 import ooga.model.cards.Card;
+import ooga.model.rules.RuleInterface;
 
-public class GameState implements GameStateInterface, GameStateViewInterface, GameStatePlayerInterface {
+public class GameState implements GameStateInterface, GameStateViewInterface,
+    GameStatePlayerInterface {
 
   private int order;
   private int currentPlayer;
   private List<Player> players;
   private Stack<Card> discardPile;
+  private List<RuleInterface> myRules;
   private boolean currentPlayerPlayCard;
   private final int pointsToWin;
 
@@ -38,6 +41,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface, Ga
     discardPile = new Stack<>();
     currentPlayerPlayCard = false;
     currentPlayer = 0;
+    myRules = new ArrayList<>();
 
     this.version = version;
     this.playerMap = playerMap;
@@ -47,7 +51,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface, Ga
   /**
    * Default constructor for mocking purposes
    */
-  public GameState(){
+  public GameState() {
     order = 1;
     skipNext = false;
     impendingDraw = 0;
@@ -79,7 +83,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface, Ga
   @Override
   public void discardCard(Card c) {
     discardPile.push(c);
-    cardColorConstraint = discardPile.peek().getColor();
+    cardColorConstraint = discardPile.peek().getMyColor();
     cardNumConstraint = discardPile.peek().getNum();
   }
 
@@ -143,7 +147,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface, Ga
 
   @Override
   public boolean canPlayCard(Card cardToPlay) {
-    return true;
+    return myRules.stream().anyMatch(rule -> rule.canPlay(discardPile.peek(), cardToPlay));
   }
 
   @Override
@@ -192,16 +196,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface, Ga
   /**
    * @return boolean indicating stackable
    */
-  public boolean getStackable(){
+  public boolean getStackable() {
     return stackable;
   }
 
   /**
    * Tests whether two GameState objects have the same initial parameters
+   *
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal
    */
-  public boolean compareInitialParameters(GameState other){
+  public boolean compareInitialParameters(GameState other) {
     boolean condition1 = version.equals(other.getVersion());
     boolean condition2 = playerMap.equals(other.getPlayerMap());
     boolean condition3 = (pointsToWin == other.getPointsToWin());
