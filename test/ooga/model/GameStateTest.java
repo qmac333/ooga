@@ -11,7 +11,7 @@ public class GameStateTest {
 
   @BeforeEach
   void start(){
-    game = new GameState();
+    game = new GameState(null, null, 100, false);
   }
 
   @Test
