@@ -1,25 +1,29 @@
 package ooga.controller;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.Consumer;
 import javafx.stage.Stage;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
-import com.squareup.moshi.FromJson;
+import ooga.model.gameState.GameState;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.ToJson;
+
+import java.nio.file.Files;
 
 public class UnoController implements SplashScreenController, UnoDisplayController {
 
-  private Stage stage;
-  private SplashScreen splashScreen;
-  private UnoDisplay unoScreen;
+  private Stage myStage;
+  private SplashScreen mySplashScreen;
+  private UnoDisplay myUnoDisplay;
 
   private String filepath;
   private Moshi moshi;
+  private GameState myModel;
 
   /**
    * initializes data structures for the UnoController
@@ -27,9 +31,8 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @param stage the initial window for the application
    */
   public UnoController(Stage stage) {
-    this.stage = stage;
-    moshi = new Moshi.Builder().build();
-    // TODO: add custom JSON adapter
+    myStage = stage;
+    moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
   }
 
   /**
@@ -50,37 +53,26 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   /**
-   * passes the user's selected card to play to the model
-   *
-   * @param index of the user's selected card from their hand
-   */
-  public void playUserCard(int index) {
-
-  }
-
-  /**
-   * saves the current simulation/configuration to a JSON file
-   */
-  public void saveFile() {
-
-  }
-
-  /**
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (splashScreen == null) {
-      splashScreen = new SplashScreen(this);
+    if (mySplashScreen == null) {
+      mySplashScreen = new SplashScreen(this);
     }
-    showScreen(splashScreen);
+    showScreen(mySplashScreen);
   }
 
+  /**
+   * Creates new Uno game display
+   */
+  // TODO: start only if file has been loaded, create GameState object and pass to the view
   @Override
   public void playButtonHandler() {
-    if (unoScreen == null) {
-      unoScreen = new UnoDisplay(this);
+    // if(myUnoDisplay == null && myModel != null){
+    if (myUnoDisplay == null) {
+      myUnoDisplay = new UnoDisplay(this);
     }
-    showScreen(unoScreen);
+    showScreen(myUnoDisplay);
   }
 
   @Override
@@ -88,13 +80,17 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     System.out.println("Loading a File");
   }
 
+  /**
+   * Retrieves model parameters from the specified JSON file using Moshi before initializing a new model (GameState) object
+   * @param filepath of the chosen JSON
+   */
   @Override
   public void loadNewHandler(String filepath) {
-    String json = getFileContent(filepath);
     System.out.println("Loading a File");
-    JsonAdapter<GameStateJSON> jsonAdapter = moshi.adapter(GameStateJSON.class);
     try{
-      GameStateJSON myGameStateJSON = jsonAdapter.fromJson(json);
+      String json = getFileContent(filepath);
+      JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
+      myModel = jsonAdapter.fromJson(json);
     }
     catch (IOException e) {
       //TODO: better error handling
@@ -102,15 +98,30 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     }
   }
 
-  // TODO: get JSON file content from filepath
-  private String getFileContent(String filepath){
-    String json = "";
-    return json;
+  /**
+   * Retrieves the content in the JSON file specified by the input
+   * @param filepath of the JSON file
+   * @return content of the JSON file specified by the filepath
+   * @throws IOException
+   */
+  // TODO: maybe have view directly pass in a Path or File object so this method isn't needed?
+  private String getFileContent(String filepath) throws IOException{
+    Path path = Paths.get(filepath);
+    String jsonContent = Files.readString(path);
+    return jsonContent;
+  }
+
+  /**
+   * Saves the current simulation/configuration to a JSON file
+   */
+  @Override
+  public void saveCurrentHandler() {
+
   }
 
   @Override
   public void languageHandler() {
-      System.out.println("Chose a language");
+      System.out.println("Choose a language");
   }
 
 
@@ -125,7 +136,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   private void showScreen(GameScreen screen) {
-    stage.setScene(screen.setScene());
-    stage.show();
+    myStage.setScene(screen.setScene());
+    myStage.show();
   }
 }
