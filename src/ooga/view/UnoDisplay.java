@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
@@ -10,7 +11,14 @@ import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {
 
+  public static final String BACK_BUTTON_CSS = "BackButton";
+
   private UnoDisplayController controller;
+  private TurnInfoDisplay turnDisplay;
+  private HandListDisplay handListDisplay;
+  private Scene myScene;
+
+  private BorderPane unoDisplay;
 
   /**
    * initializes data structures and saves the given controller
@@ -19,6 +27,11 @@ public class UnoDisplay implements GameScreen {
    */
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
+    this.turnDisplay = new TurnInfoDisplay(controller);
+    this.handListDisplay = new HandListDisplay(controller);
+    unoDisplay = new BorderPane();
+
+    createScene();
   }
 
   /**
@@ -27,14 +40,7 @@ public class UnoDisplay implements GameScreen {
    * @return the current scene that we are displaying
    */
   public Scene setScene() {
-    VBox root = new VBox();
-    root.setAlignment(Pos.CENTER);
-    Text text = new Text("This is the game!");
-    Button button = new Button("Back");
-    button.setOnAction(e -> controller.backButtonHandler());
-    root.getChildren().addAll(text, button);
-    Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-    return scene;
+    return myScene;
   }
 
   /**
@@ -45,6 +51,32 @@ public class UnoDisplay implements GameScreen {
    */
   public void showError(Exception e) {
 
+  }
+
+  private void createScene() {
+    // center panel
+    VBox center = new VBox();
+    center.setAlignment(Pos.BOTTOM_CENTER);
+    center.getChildren().addAll(handListDisplay.getDisplayableItem());
+    unoDisplay.setCenter(center);
+
+    // left panel
+    VBox left = new VBox();
+    left.setAlignment(Pos.CENTER);
+    Button button = new Button("Back");
+    button.setId(BACK_BUTTON_CSS);
+    button.setOnAction(e -> controller.backButtonHandler());
+    left.getChildren().add(button);
+    unoDisplay.setLeft(left);
+
+    // right panel
+    VBox right = new VBox();
+    right.setAlignment(Pos.CENTER_LEFT);
+    right.getChildren().add(turnDisplay.getDisplayableItem());
+    unoDisplay.setRight(right);
+
+    Scene scene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    myScene = scene;
   }
 
 

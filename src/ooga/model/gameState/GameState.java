@@ -43,12 +43,20 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public List<String> getPlayerNames() {
-    return null;
+    List<String> result = new ArrayList<>();
+    for (Player p : players) {
+      result.add(p.getName());
+    }
+    return result;
   }
 
   @Override
   public List<Integer> getCardCounts() {
-    return null;
+    List<Integer> result = new ArrayList<>();
+    for (Player p : players) {
+      result.add(p.getHand().size());
+    }
+    return result;
   }
 
   @Override

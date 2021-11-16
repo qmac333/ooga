@@ -2,7 +2,6 @@ package ooga.view;
 
 import java.util.function.Consumer;
 import ooga.controller.UnoController;
-import ooga.model.PlayersInfo;
 
 public class TurnInfoDisplay implements Consumer<PlayersInfo> {
 

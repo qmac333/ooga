@@ -3,10 +3,13 @@ package ooga.controller;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
@@ -51,6 +54,22 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * playUserCard method got called...
    */
   public void step() {
+
+  }
+
+  /**
+   * passes the user's selected card to play to the model
+   *
+   * @param index of the user's selected card from their hand
+   */
+  public void playUserCard(int index) {
+    System.out.println("Played card "+index);
+  }
+
+  /**
+   * saves the current simulation/configuration to a JSON file
+   */
+  public void saveFile() {
 
   }
 
@@ -133,7 +152,56 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   @Override
   public GameStateViewInterface getGameState() {
-    return model;
+    return new GameStateViewInterface() {
+      @Override
+      public List<String> getPlayerNames() {
+        List<String> ret = new ArrayList<>();
+        ret.add("Andrew");
+        ret.add("Quentin");
+        return ret;
+      }
+
+      @Override
+      public List<Integer> getCardCounts() {
+        List<Integer> ret = new ArrayList<>();
+        ret.add(5);
+        ret.add(4);
+        return ret;
+      }
+
+      @Override
+      public int getGameplayDirection() {
+        return 1;
+      }
+
+      @Override
+      public int getCurrentPlayer() {
+        return 1;
+      }
+
+      @Override
+      public List<List<String>> getCurrentPlayerCards() {
+        List<List<String>> ret = new ArrayList<>();
+        List<String> firstCard = new ArrayList<>();
+        firstCard.add("0");
+        firstCard.add("blue");
+
+        List<String> secondCard = new ArrayList<>();
+        secondCard.add("1");
+        secondCard.add("red");
+
+        List<String> thirdCard = new ArrayList<>();
+        thirdCard.add("9");
+        thirdCard.add("yellow");
+
+        ret.add(firstCard);
+        ret.add(secondCard);
+        ret.add(thirdCard);
+        return ret;
+      }
+    };
+
+    //return model;
   }
 
   public GameState getModel(){
