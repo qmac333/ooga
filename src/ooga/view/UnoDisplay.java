@@ -12,6 +12,7 @@ public class UnoDisplay implements GameScreen {
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
+  private HandListDisplay handListDisplay;
 
   /**
    * initializes data structures and saves the given controller
@@ -21,6 +22,7 @@ public class UnoDisplay implements GameScreen {
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
+    this.handListDisplay = new HandListDisplay(controller);
   }
 
   /**
@@ -34,7 +36,7 @@ public class UnoDisplay implements GameScreen {
     Text text = new Text("This is the game!");
     Button button = new Button("Back");
     button.setOnAction(e -> controller.backButtonHandler());
-    root.getChildren().addAll(text, button, turnDisplay.getDisplayableItem());
+    root.getChildren().addAll(text, button, turnDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
     Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     return scene;
   }

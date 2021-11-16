@@ -1,6 +1,7 @@
 package ooga.model.gameState;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.
@@ -31,5 +32,12 @@ public interface GameStateViewInterface {
    * @return index of the current player
    */
   public int getCurrentPlayer();
+
+  /**
+   * returns a map of card types to the different Colors and Types of cards
+   * that exist in a players hand with that number
+   * @return a Map of Integers to Lists of Strings
+   */
+  public List<List<String>> getCurrentPlayerCards();
 
 }

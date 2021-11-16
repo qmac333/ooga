@@ -23,6 +23,11 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
+  public void playUserCard(int index) {
+
+  }
+
+  @Override
   public GameStateViewInterface getGameState() {
     return mock;
   }

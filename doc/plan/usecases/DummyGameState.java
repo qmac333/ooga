@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import ooga.model.GameStateInterface;
 
 /**
  * Class for mocking out the game state.
