@@ -1,0 +1,46 @@
+.button {
+    -fx-text-fill: ghostwhite;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-background-color: mediumslateblue;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+}
+
+.vbox {
+    -fx-padding: 15px;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.hbox {
+    -fx-background-color: goldenrod;
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+.choice-box {
+    -fx-background-color: mediumslateblue;
+    -fx-mark-color: orange;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-background-radius: 10;
+}
+
+.choice-box > .label {
+    -fx-text-fill: ghostwhite;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-alignment: center;
+}
+
+.text-title {
+    -fx-font-smoothing-type: lcd;
+    -fx-fill: ghostwhite;
+    -fx-font-size: 15pt;
+    -fx-font-family: "Arial Black";
+    -fx-alignment: center;
+}
