@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
@@ -15,6 +16,8 @@ public class UnoDisplay implements GameScreen {
   private HandListDisplay handListDisplay;
   private Scene myScene;
 
+  private BorderPane unoDisplay;
+
   /**
    * initializes data structures and saves the given controller
    *
@@ -24,6 +27,7 @@ public class UnoDisplay implements GameScreen {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller);
+    unoDisplay = new BorderPane();
 
     createScene();
   }
@@ -48,12 +52,27 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void createScene() {
-    VBox root = new VBox();
-    root.setAlignment(Pos.CENTER);
+    // center panel
+    VBox center = new VBox();
+    center.setAlignment(Pos.BOTTOM_CENTER);
+    center.getChildren().addAll(handListDisplay.getDisplayableItem());
+    unoDisplay.setCenter(center);
+
+    // left panel
+    VBox left = new VBox();
+    left.setAlignment(Pos.CENTER);
     Button button = new Button("Back");
     button.setOnAction(e -> controller.backButtonHandler());
-    root.getChildren().addAll(button, turnDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
-    Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    left.getChildren().add(button);
+    unoDisplay.setLeft(left);
+
+    // right panel
+    VBox right = new VBox();
+    right.setAlignment(Pos.CENTER_LEFT);
+    right.getChildren().add(turnDisplay.getDisplayableItem());
+    unoDisplay.setRight(right);
+
+    Scene scene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     myScene = scene;
   }
 
