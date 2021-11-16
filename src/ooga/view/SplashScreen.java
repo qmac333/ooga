@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -21,6 +20,9 @@ import java.nio.file.Paths;
 
 public class SplashScreen implements GameScreen {
 
+  private static final String TITLE = "WELCOME TO UNO";
+  private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
+
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller) {
@@ -29,52 +31,55 @@ public class SplashScreen implements GameScreen {
 
   public Scene setScene() {
     BorderPane borderPane = new BorderPane();
-    borderPane.setTop(addGridPane());
-    borderPane.setLeft(addVBox());
-    borderPane.setBottom(addHBox());
+    borderPane.setTop(addTopNode());
+    borderPane.setLeft(addLeftNode());
+    borderPane.setBottom(addBottomNode());
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    scene.getStylesheets()
+            .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
     return scene;
   }
 
-  private GridPane addGridPane() {
-    GridPane gridPane = new GridPane();
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
-    gridPane.setPadding(new Insets(15, 10, 15, 10));
-    gridPane.setStyle("-fx-background-color: #336699;");
+  private HBox addTopNode() {
+    HBox hbox = new HBox();
+    hbox.getStyleClass().add("hbox");
 
-    Text checkForUpdates = new Text();
-    checkForUpdates.setFont(Font.font("Arial Black", FontWeight.BLACK, 15));
-    checkForUpdates.setFill(Color.WHITE);
-    checkForUpdates.setTextAlignment(TextAlignment.CENTER);
-    checkForUpdates.setText("Welcome to UNO".toUpperCase());
-    gridPane.add(checkForUpdates, 20,0);
+    Text checkForUpdates = new Text(TITLE);
+    checkForUpdates.getStyleClass().add("text-title");
+    hbox.getChildren().add(checkForUpdates);
+
+    return hbox;
+  }
+
+  private VBox addLeftNode() {
+    VBox root = new VBox();
+    root.getStyleClass().add("vbox");
+
+    Button loadExisting = new Button("Load Existing Game");
+    loadExisting.setOnAction(e -> controller.loadExistingHandler());
+    Button loadNew = new Button("Load New Game");
+    loadNew.setOnAction(e -> chooseFile());
 
     ChoiceBox<String> choiceBox = new ChoiceBox<>();
     choiceBox.setValue("Language");
     choiceBox.getItems().add("English");
     choiceBox.getItems().add("Spanish");
     choiceBox.setOnAction(e -> controller.languageHandler());
-    gridPane.add(choiceBox, 33, 0);
-    
-    return gridPane;
+
+    root.getChildren().addAll(loadExisting, loadNew, choiceBox);
+
+    return root;
   }
 
-  private VBox addVBox() {
-    VBox root = new VBox();
-    root.setAlignment(Pos.CENTER);
-    root.setPadding(new Insets(15, 12, 15, 12));
-    root.setSpacing(10);
+  private HBox addBottomNode() {
+    HBox root = new HBox();
+    root.getStyleClass().add("hbox");
 
-    Button loadExisting = new Button("Load Existing Game");
-    loadExisting.setPrefSize(130, 20);
-    loadExisting.setOnAction(e -> controller.loadExistingHandler());
-    Button loadNew = new Button("Load New Game");
-    loadNew.setPrefSize(130, 20);
-    loadNew.setOnAction(e -> chooseFile());
-    root.getChildren().addAll(loadExisting, loadNew);
+    Button playButton = new Button("Play");
+    playButton.setOnAction(e -> controller.playButtonHandler());
 
+    root.getChildren().addAll(playButton);
     return root;
   }
 
@@ -84,20 +89,6 @@ public class SplashScreen implements GameScreen {
             new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
     File selectedFile = fileChooser.showOpenDialog(null);
     controller.loadNewHandler(selectedFile.getAbsolutePath());
-  }
-
-  private HBox addHBox() {
-    HBox root = new HBox();
-    root.setAlignment(Pos.CENTER);
-    root.setPadding(new Insets(15, 12, 15, 12));
-    root.setSpacing(10);
-
-    Button playButton = new Button("Play");
-    playButton.setPrefSize(130, 20);
-    playButton.setOnAction(e -> controller.playButtonHandler());
-
-    root.getChildren().addAll(playButton);
-    return root;
   }
 
   private void initDynamicView() {

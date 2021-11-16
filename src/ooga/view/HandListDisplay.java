@@ -23,17 +23,23 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoController;
 import ooga.controller.UnoDisplayController;
+import ooga.model.cards.Card;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
 
 public class HandListDisplay implements DisplayableItem {
 
-  private static final Map<String, Color> colors = Map.of(
+  private static final Map<String, Color> COLORS = Map.of(
           "blue", Color.BLUE,
           "red", Color.RED,
           "green", Color.GREEN,
           "yellow", Color.YELLOW
   );
+
+  private static Color DEFAULT_COLOR = Color.BLACK;
+  private static double CARD_WIDTH = 60;
+  private static double CARD_HEIGHT = 100;
+  private static double CARD_OFFSET = 10;
 
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
@@ -73,15 +79,16 @@ public class HandListDisplay implements DisplayableItem {
       handList.setSpacing(20);
       for (List<String> cardProps : currentCards) {
         StackPane stack = new StackPane();
-        Rectangle base = new Rectangle(70, 110);
-        base.setFill(Color.BLACK);
-        Rectangle card = new Rectangle(60, 100);
-        card.setFill(colors.get(cardProps.get(1)));
+        Rectangle base = new Rectangle(CARD_WIDTH+CARD_OFFSET, CARD_HEIGHT+CARD_OFFSET);
+        base.setFill(DEFAULT_COLOR);
+        Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
+        card.setFill(COLORS.get(cardProps.get(1)));
 
         Image image = new Image(new FileInputStream(String.format("./data/%s.png", cardProps.get(0))));
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(60);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(CARD_WIDTH);
+        imageView.setFitWidth(CARD_HEIGHT/2);
+
         stack.getChildren().addAll(base, card, imageView);
         StackPane.setMargin(stack, new Insets(0, 10, 0, 0));
         cardDisplay.add(stack);
