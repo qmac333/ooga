@@ -15,7 +15,7 @@ public class GameStateJsonAdapter {
         boolean stackable = myGameStateJson.getStackable();
 
         //TODO: pass above parameters to GameState's constructor once Will/Paul implement them
-        GameState myGameState = new GameState(null, null, 100, false);
+        GameState myGameState = new GameState(version, players, points, stackable);
         return myGameState;
     }
 

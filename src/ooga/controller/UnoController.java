@@ -17,13 +17,12 @@ import java.nio.file.Files;
 
 public class UnoController implements SplashScreenController, UnoDisplayController {
 
-  private Stage myStage;
-  private SplashScreen mySplashScreen;
-  private UnoDisplay myUnoDisplay;
+  private Stage stage;
+  private SplashScreen splashScreen;
+  private UnoDisplay unoDisplay;
 
-  private String filepath;
   private Moshi moshi;
-  private GameState myModel;
+  private GameState model;
 
   /**
    * initializes data structures for the UnoController
@@ -31,7 +30,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @param stage the initial window for the application
    */
   public UnoController(Stage stage) {
-    myStage = stage;
+    this.stage = stage;
     moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
   }
 
@@ -56,10 +55,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (mySplashScreen == null) {
-      mySplashScreen = new SplashScreen(this);
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this);
     }
-    showScreen(mySplashScreen);
+    showScreen(splashScreen);
   }
 
   /**
@@ -69,10 +68,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   @Override
   public void playButtonHandler() {
     // if(myUnoDisplay == null && myModel != null){
-    if (myUnoDisplay == null) {
-      myUnoDisplay = new UnoDisplay(this);
+    if (unoDisplay == null) {
+      unoDisplay = new UnoDisplay(this);
     }
-    showScreen(myUnoDisplay);
+    showScreen(unoDisplay);
   }
 
   @Override
@@ -86,11 +85,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   @Override
   public void loadNewHandler(String filepath) {
-    System.out.println("Loading a File");
     try{
       String json = getFileContent(filepath);
       JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
-      myModel = jsonAdapter.fromJson(json);
+      model = jsonAdapter.fromJson(json);
     }
     catch (IOException e) {
       //TODO: better error handling
@@ -104,8 +102,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @return content of the JSON file specified by the filepath
    * @throws IOException
    */
-  // TODO: maybe have view directly pass in a Path or File object so this method isn't needed?
-  private String getFileContent(String filepath) throws IOException{
+  public String getFileContent(String filepath) throws IOException{
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
@@ -132,11 +129,15 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   @Override
   public GameStateViewInterface getGameState() {
-    return null;
+    return model;
+  }
+
+  public GameState getModel(){
+    return model;
   }
 
   private void showScreen(GameScreen screen) {
-    myStage.setScene(screen.setScene());
-    myStage.show();
+    stage.setScene(screen.setScene());
+    stage.show();
   }
 }

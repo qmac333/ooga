@@ -1,9 +1,7 @@
 package ooga.model.gameState;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
+
 import ooga.model.Player;
 import ooga.model.cards.Card;
 
@@ -23,6 +21,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   private boolean skipNext;
 
+  private String version;
+  private Map<String, String> playerMap;
+  private boolean stackable;
+
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
     order = 1;
@@ -33,6 +35,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     discardPile = new Stack<>();
     currentPlayerPlayCard = false;
     currentPlayer = 0;
+
+    this.version = version;
+    this.playerMap = playerMap;
+    this.stackable = stackable;
   }
 
   @Override
@@ -130,5 +136,30 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
       player.addCard(getNextCard());
       impendingDraw--;
     }
+  }
+
+  public String getVersion() {
+    return version;
+  }
+
+  public Map<String, String> getPlayerMap() {
+    return playerMap;
+  }
+
+  public int getPointsToWin() {
+    return pointsToWin;
+  }
+
+  public boolean getStackable(){
+    return stackable;
+  }
+
+  public boolean equals(GameState other){
+    boolean condition1 = version.equals(other.getVersion());
+    boolean condition2 = playerMap.equals(other.getPlayerMap());
+    boolean condition3 = (pointsToWin == other.getPointsToWin());
+    boolean condition4 = (stackable == other.getStackable());
+
+    return condition1 && condition2 && condition3 && condition4;
   }
 }
