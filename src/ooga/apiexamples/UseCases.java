@@ -13,8 +13,8 @@ public class UseCases {
     // create a turn info display object
     TurnInfoDisplay display = new TurnInfoDisplay(new UnoController(null));
 
-    display.accept(TurnInfoChanges.DIRECTION); // data is passed from back end to the front end
-    display.accept(TurnInfoChanges.NUM_CARDS);
+    //display.accept(TurnInfoChanges.DIRECTION); // data is passed from back end to the front end
+    //display.accept(TurnInfoChanges.NUM_CARDS);
   }
 
   // A player draws a card, causing their hand to update both in the model and the view.

@@ -2,11 +2,9 @@ package ooga.view;
 
 import javafx.scene.text.Text;
 import ooga.view.table.Table;
-import org.assertj.core.data.Index;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Class used to test the functionality of the table API.

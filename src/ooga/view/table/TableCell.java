@@ -52,6 +52,13 @@ public class TableCell {
   }
 
   /**
+   * Get the current cell color
+   */
+  public Color getColor() {
+    return (Color) cellBody.getFill();
+  }
+
+  /**
    * @return the contents of the cell (null if the cell does not contain anything)
    */
   public Node getContents() {

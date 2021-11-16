@@ -20,10 +20,15 @@ public class Table implements DisplayableItem {
   private double cellWidth;
   private double cellHeight;
 
+  private String tableName;
+
   private List<List<TableCell>> tableCells;
   private List<HBox> visualRows;
   private VBox visualDisplay;
 
+  public Table(int rows, int cols, double cellWidth, double cellHeight) {
+    this(rows, cols, cellWidth, cellHeight, "Table");
+  }
 
   /**
    * Initializes the table.
@@ -31,12 +36,14 @@ public class Table implements DisplayableItem {
    * @param cols is the initial number of cols in the table.
    * @param cellWidth is the width of an individual cell
    * @param cellHeight is the height of an individual cell
+   * @param name is the name of this table
    */
-  public Table(int rows, int cols, double cellWidth, double cellHeight) {
+  public Table(int rows, int cols, double cellWidth, double cellHeight, String name) {
     numRows = 0; // will be incremented by the addRow() method when adding rows
     numCols = cols;
     this.cellHeight = cellHeight;
     this.cellWidth = cellWidth;
+    tableName = name;
 
     tableCells = new ArrayList<>();
     visualRows = new ArrayList<>();
@@ -62,6 +69,13 @@ public class Table implements DisplayableItem {
   }
 
   /**
+   * @return the name of the table
+   */
+  public String getName() {
+    return tableName;
+  }
+
+  /**
    * Adds a new row to the end of the table.
    */
   public void addRow() {
@@ -73,6 +87,7 @@ public class Table implements DisplayableItem {
       TableCell cell = new TableCell(cellWidth, cellHeight);
       newRow.add(cell);
       newRowVisual.getChildren().add(cell.getCell());
+
     }
 
     tableCells.add(newRow);
@@ -109,6 +124,7 @@ public class Table implements DisplayableItem {
    */
   public void setCell(int x, int y, Node contents) throws IndexOutOfBoundsException {
       tableCells.get(y).get(x).setContents(contents);
+      contents.setId(String.format("%s_%d_%d", tableName, x, y));
   }
 
   /**
