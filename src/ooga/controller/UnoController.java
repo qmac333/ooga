@@ -58,7 +58,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @param index of the user's selected card from their hand
    */
   public void playUserCard(int index) {
-
+    System.out.println("Played card "+index);
   }
 
   /**
@@ -153,7 +153,23 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
       @Override
       public List<List<String>> getCurrentPlayerCards() {
-        return null;
+        List<List<String>> ret = new ArrayList<>();
+        List<String> firstCard = new ArrayList<>();
+        firstCard.add("0");
+        firstCard.add("blue");
+
+        List<String> secondCard = new ArrayList<>();
+        secondCard.add("1");
+        secondCard.add("red");
+
+        List<String> thirdCard = new ArrayList<>();
+        thirdCard.add("9");
+        thirdCard.add("yellow");
+        
+        ret.add(firstCard);
+        ret.add(secondCard);
+        ret.add(thirdCard);
+        return ret;
       }
     };
   }
