@@ -12,7 +12,7 @@ public class NumberCardTests extends DukeApplicationTest {
     GameState game;
 
     @BeforeEach
-    public void start(){game = new GameState();}
+    public void start(){game = new GameState(null, null, 100, false);}
 
     @Test
     public void numberCardTest(){
