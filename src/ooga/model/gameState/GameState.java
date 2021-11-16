@@ -14,6 +14,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   private List<Player> players;
   private Stack<Card> discardPile;
   private boolean currentPlayerPlayCard;
+  private final int pointsToWin;
 
   private int cardNumConstraint;
   private String cardColorConstraint;
@@ -22,13 +23,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   private boolean skipNext;
 
-  public GameState() {
+  public GameState(String version, Map<String, String> playerMap, int pointsToWin,
+      boolean stackable) {
     order = 1;
     skipNext = false;
     impendingDraw = 0;
+    this.pointsToWin = pointsToWin;
     players = new ArrayList<>();
     discardPile = new Stack<>();
     currentPlayerPlayCard = false;
+    currentPlayer = 0;
   }
 
   @Override
@@ -106,6 +110,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     return null;
   }
 
+  @Override
+  public int getOrder() {
+    return order;
+  }
+
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + players.size();
     if (!skipNext) {
@@ -116,7 +125,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     }
   }
 
-  private void enforceDrawRule(Player player){
+  private void enforceDrawRule(Player player) {
     while (impendingDraw > 0) {
       player.addCard(getNextCard());
       impendingDraw--;

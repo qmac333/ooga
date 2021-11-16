@@ -77,4 +77,9 @@ public class DummyGameState implements GameStateInterface {
   public Card getNextCard() {
     return null;
   }
+
+  @Override
+  public int getOrder() {
+    return 0;
+  }
 }
