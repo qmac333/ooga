@@ -13,6 +13,7 @@ public class UnoDisplay implements GameScreen {
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
   private HandListDisplay handListDisplay;
+  private Scene myScene;
 
   /**
    * initializes data structures and saves the given controller
@@ -23,6 +24,8 @@ public class UnoDisplay implements GameScreen {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller);
+
+    createScene();
   }
 
   /**
@@ -31,14 +34,7 @@ public class UnoDisplay implements GameScreen {
    * @return the current scene that we are displaying
    */
   public Scene setScene() {
-    VBox root = new VBox();
-    root.setAlignment(Pos.CENTER);
-    Text text = new Text("This is the game!");
-    Button button = new Button("Back");
-    button.setOnAction(e -> controller.backButtonHandler());
-    root.getChildren().addAll(text, button, turnDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
-    Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-    return scene;
+    return myScene;
   }
 
   /**
@@ -49,6 +45,16 @@ public class UnoDisplay implements GameScreen {
    */
   public void showError(Exception e) {
 
+  }
+
+  private void createScene() {
+    VBox root = new VBox();
+    root.setAlignment(Pos.CENTER);
+    Button button = new Button("Back");
+    button.setOnAction(e -> controller.backButtonHandler());
+    root.getChildren().addAll(button, turnDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
+    Scene scene = new Scene(root, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    myScene = scene;
   }
 
 
