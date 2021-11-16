@@ -40,6 +40,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * passes the view's consumer to the model so the model can call .accept() whenever it needs to
    * notify the view of a change in its state
    */
+  // TODO: does the view do this directly through the GameStateViewInterface?
   public void setupConsumer(Consumer viewConsumer) {
 
   }
@@ -69,7 +70,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   @Override
   public void playButtonHandler() {
     if(model != null){
-      // TODO: pass the model object to the view
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
     }
