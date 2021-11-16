@@ -8,8 +8,6 @@ import util.DukeApplicationTest;
 
 public class SplashScreenTest extends DukeApplicationTest {
 
-    private SplashScreen splashScreen;
-
     @Override
     public void start(Stage stage) {
         UnoController controller = new UnoController(stage);
@@ -19,6 +17,12 @@ public class SplashScreenTest extends DukeApplicationTest {
     @Test
     public void playBeforeLoad() {
         Button button = lookup("Play").query();
+        clickOn(button);
+    }
+
+    @Test
+    public void loadFile() {
+        Button button = lookup("Load New Game").query();
         clickOn(button);
     }
 }
