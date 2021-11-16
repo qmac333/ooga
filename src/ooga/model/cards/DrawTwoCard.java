@@ -13,6 +13,6 @@ public class DrawTwoCard extends ActionCard {
     public void executeAction(){
         GameState game = super.getGame();
         game.addDraw(DRAW_AMOUNT);
-        super.getGame().discardCard(this);
+        game.discardCard(this);
     }
 }

@@ -2,7 +2,7 @@ package ooga.model.gameState;
 
 import java.util.List;
 import java.util.Map;
-import ooga.model.Player;
+import ooga.model.player.Player;
 import ooga.model.cards.Card;
 
 /**

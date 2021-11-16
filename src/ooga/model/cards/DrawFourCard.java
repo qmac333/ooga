@@ -14,6 +14,6 @@ public class DrawFourCard extends ActionCard {
     GameState game = super.getGame();
     game.addDraw(DRAW_AMOUNT);
     // super.setCardColor(consumerInterface.getColorInput())
-    super.getGame().discardCard(this);
+    game.discardCard(this);
   }
 }

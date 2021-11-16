@@ -12,6 +12,6 @@ public class SkipCard extends ActionCard {
   public void executeAction() {
     GameState myGame = super.getGame();
     myGame.skipNextPlayer();
-    super.getGame().discardCard(this);
+    myGame.discardCard(this);
   }
 }

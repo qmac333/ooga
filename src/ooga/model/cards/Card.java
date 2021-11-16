@@ -1,7 +1,7 @@
 package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
-import ooga.model.Player;
+import ooga.model.player.Player;
 
 public abstract class Card implements CardInterface {
 

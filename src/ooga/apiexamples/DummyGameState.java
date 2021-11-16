@@ -8,7 +8,7 @@ import java.util.Map;
 
 import ooga.model.cards.Card;
 import ooga.model.gameState.GameStateInterface;
-import ooga.model.Player;
+import ooga.model.player.Player;
 
 /**
  * Class for mocking out the game state.

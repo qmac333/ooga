@@ -12,6 +12,6 @@ public class ReverseCard extends ActionCard {
   public void executeAction() {
     GameState myGame = super.getGame();
     myGame.reverseGamePlay();
-    super.getGame().discardCard(this);
+    myGame.discardCard(this);
   }
 }
