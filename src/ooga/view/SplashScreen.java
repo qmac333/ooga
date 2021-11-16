@@ -23,6 +23,8 @@ public class SplashScreen implements GameScreen {
   private static final String TITLE = "WELCOME TO UNO";
   private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
 
+  public static final String PLAY_CSS_ID = "PlayButton";
+
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller) {
@@ -88,6 +90,7 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("hbox");
 
     Button playButton = new Button("Play");
+    playButton.setId(PLAY_CSS_ID);
     playButton.setOnAction(e -> controller.playButtonHandler());
 
     root.getChildren().addAll(playButton);
