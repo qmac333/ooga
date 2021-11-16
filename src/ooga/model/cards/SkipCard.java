@@ -2,10 +2,10 @@ package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
 
-public class SkipCard extends ActionCard {
+public class SkipCard extends Card {
 
-  public SkipCard(GameState g, String color, String type) {
-    super(g, color, type);
+  public SkipCard(GameState g, String color) {
+    super(g, color, "Skip", -1);
   }
 
   @Override
