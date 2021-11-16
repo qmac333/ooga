@@ -1,7 +1,7 @@
 package ooga.model.cards;
 
 
-import ooga.model.Player;
+import ooga.model.player.Player;
 
 /**
  * interface implemented by all Cards in a game. changes the GameState

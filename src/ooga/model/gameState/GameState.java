@@ -1,11 +1,14 @@
 package ooga.model.gameState;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import ooga.model.player.Player;
 
-import ooga.model.Player;
 import ooga.model.cards.Card;
 
-public class GameState implements GameStateInterface, GameStateViewInterface {
+public class GameState implements GameStateInterface, GameStateViewInterface, GameStatePlayerInterface {
 
   private int order;
   private int currentPlayer;
@@ -39,6 +42,20 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
+  }
+
+  /**
+   * Default constructor for mocking purposes
+   */
+  public GameState(){
+    order = 1;
+    skipNext = false;
+    impendingDraw = 0;
+    this.pointsToWin = 100;
+    players = new ArrayList<>();
+    discardPile = new Stack<>();
+    currentPlayerPlayCard = false;
+    currentPlayer = 0;
   }
 
   @Override
@@ -122,6 +139,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   @Override
   public Card getNextCard() {
     return null;
+  }
+
+  @Override
+  public boolean canPlayCard(Card cardToPlay) {
+    return true;
   }
 
   @Override
