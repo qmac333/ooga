@@ -152,7 +152,56 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   @Override
   public GameStateViewInterface getGameState() {
-    return model;
+    return new GameStateViewInterface() {
+      @Override
+      public List<String> getPlayerNames() {
+        List<String> ret = new ArrayList<>();
+        ret.add("Andrew");
+        ret.add("Quentin");
+        return ret;
+      }
+
+      @Override
+      public List<Integer> getCardCounts() {
+        List<Integer> ret = new ArrayList<>();
+        ret.add(5);
+        ret.add(4);
+        return ret;
+      }
+
+      @Override
+      public int getGameplayDirection() {
+        return 1;
+      }
+
+      @Override
+      public int getCurrentPlayer() {
+        return 1;
+      }
+
+      @Override
+      public List<List<String>> getCurrentPlayerCards() {
+        List<List<String>> ret = new ArrayList<>();
+        List<String> firstCard = new ArrayList<>();
+        firstCard.add("0");
+        firstCard.add("blue");
+
+        List<String> secondCard = new ArrayList<>();
+        secondCard.add("1");
+        secondCard.add("red");
+
+        List<String> thirdCard = new ArrayList<>();
+        thirdCard.add("9");
+        thirdCard.add("yellow");
+
+        ret.add(firstCard);
+        ret.add(secondCard);
+        ret.add(thirdCard);
+        return ret;
+      }
+    };
+
+    //return model;
   }
 
   public GameState getModel(){
