@@ -80,13 +80,10 @@ public class SplashScreen implements GameScreen {
 
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
-    //fileChooser.setInitialDirectory(new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-    fileChooser.getExtensionFilters().add(extFilter);
+    fileChooser.setInitialDirectory(
+            new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
     File selectedFile = fileChooser.showOpenDialog(null);
-    if(selectedFile != null){
-      controller.loadNewHandler(selectedFile.getAbsolutePath());
-    }
+    controller.loadNewHandler(selectedFile.getAbsolutePath());
   }
 
   private HBox addHBox() {
