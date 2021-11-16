@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
+
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
@@ -67,11 +69,13 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   // TODO: start only if file has been loaded, create GameState object and pass to the view
   @Override
   public void playButtonHandler() {
-    // if(myUnoDisplay == null && myModel != null){
-    if (unoDisplay == null) {
+    if(model != null){
       unoDisplay = new UnoDisplay(this);
+      showScreen(unoDisplay);
     }
-    showScreen(unoDisplay);
+    else{
+      sendAlert("Please Load a Configuration File");
+    }
   }
 
   @Override
@@ -139,5 +143,12 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   private void showScreen(GameScreen screen) {
     stage.setScene(screen.setScene());
     stage.show();
+  }
+
+  // displays alert/error message to the user
+  private void sendAlert(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 }

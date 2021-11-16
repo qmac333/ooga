@@ -12,7 +12,8 @@ import java.util.Map;
 
 public class UnoControllerTest extends DukeApplicationTest {
     private UnoController controller;
-    private static final String ABSOLUTE_FILEPATH = "C:/Users/drewp/IdeaProjects/ooga_team05/doc/plan/data/config.json";
+    private static final String ABSOLUTE_FILEPATH_1 = "C:/Users/drewp/IdeaProjects/ooga_team05/data/configurationfiles/example1.json";
+    private static final String ABSOLUTE_FILEPATH_2 = "C:/Users/drewp/IdeaProjects/ooga_team05/data/configurationfiles/example2.json";
 
     @Override
     public void start(Stage stage){
@@ -26,7 +27,20 @@ public class UnoControllerTest extends DukeApplicationTest {
         playerMap.put("Drew", "CPU");
         playerMap.put("Quentin", "Human");
         GameState expected = new GameState("Basic", playerMap, 500, true);
-        controller.loadNewHandler(ABSOLUTE_FILEPATH);
+        controller.loadNewHandler(ABSOLUTE_FILEPATH_1);
+        assertTrue(expected.compareInitialParameters(controller.getModel()));
+    }
+
+    @Test
+    void loadingTwoFilesInARow(){
+        controller.loadNewHandler(ABSOLUTE_FILEPATH_1);
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("Jackson", "Human");
+        playerMap.put("Drew", "Human");
+        playerMap.put("Ryan", "CPU");
+        playerMap.put("Luke", "CPU");
+        GameState expected = new GameState("Special", playerMap, 70, false);
+        controller.loadNewHandler(ABSOLUTE_FILEPATH_2);
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 }
