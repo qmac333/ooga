@@ -138,23 +138,40 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     }
   }
 
+  /**
+   * @return game version
+   */
   public String getVersion() {
     return version;
   }
 
+  /**
+   * @return map of player names to player type (human or CPU)
+   */
   public Map<String, String> getPlayerMap() {
     return playerMap;
   }
 
+  /**
+   * @return points required to win
+   */
   public int getPointsToWin() {
     return pointsToWin;
   }
 
+  /**
+   * @return boolean indicating stackable
+   */
   public boolean getStackable(){
     return stackable;
   }
 
-  public boolean equals(GameState other){
+  /**
+   * Tests whether two GameState objects have the same initial parameters
+   * @param other GameState object to compare this object with
+   * @return boolean indicating whether the initial parameters are equal
+   */
+  public boolean compareInitialParameters(GameState other){
     boolean condition1 = version.equals(other.getVersion());
     boolean condition2 = playerMap.equals(other.getPlayerMap());
     boolean condition3 = (pointsToWin == other.getPointsToWin());

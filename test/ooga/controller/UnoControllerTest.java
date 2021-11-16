@@ -27,6 +27,6 @@ public class UnoControllerTest extends DukeApplicationTest {
         playerMap.put("Quentin", "Human");
         GameState expected = new GameState("Basic", playerMap, 500, true);
         controller.loadNewHandler(ABSOLUTE_FILEPATH);
-        assertTrue(expected.equals(controller.getModel()));
+        assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 }
