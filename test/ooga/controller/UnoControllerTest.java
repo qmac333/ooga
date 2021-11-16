@@ -7,13 +7,14 @@ import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UnoControllerTest extends DukeApplicationTest {
     private UnoController controller;
-    private static final String ABSOLUTE_FILEPATH_1 = "C:/Users/drewp/IdeaProjects/ooga_team05/data/configurationfiles/example1.json";
-    private static final String ABSOLUTE_FILEPATH_2 = "C:/Users/drewp/IdeaProjects/ooga_team05/data/configurationfiles/example2.json";
+    private static final String ABSOLUTE_FILEPATH_1 = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/example1.json";
+    private static final String ABSOLUTE_FILEPATH_2 = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/example2.json";
 
     @Override
     public void start(Stage stage){
@@ -43,4 +44,6 @@ public class UnoControllerTest extends DukeApplicationTest {
         controller.loadNewHandler(ABSOLUTE_FILEPATH_2);
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
+
+    // TODO: test invalid configuration files (wrong format, additional parameters, missing parameters) - Moshi should handle this but not sure how to verify?
 }
