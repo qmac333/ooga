@@ -66,10 +66,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   /**
    * Creates new Uno game display
    */
-  // TODO: start only if file has been loaded, create GameState object and pass to the view
   @Override
   public void playButtonHandler() {
     if(model != null){
+      // TODO: pass the model object to the view
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
     }
