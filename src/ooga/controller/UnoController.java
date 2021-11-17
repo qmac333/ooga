@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
@@ -20,13 +22,12 @@ import java.nio.file.Files;
 
 public class UnoController implements SplashScreenController, UnoDisplayController {
 
-  private Stage myStage;
-  private SplashScreen mySplashScreen;
-  private UnoDisplay myUnoDisplay;
+  private Stage stage;
+  private SplashScreen splashScreen;
+  private UnoDisplay unoDisplay;
 
-  private String filepath;
   private Moshi moshi;
-  private GameState myModel;
+  private GameState model;
 
   /**
    * initializes data structures for the UnoController
@@ -34,7 +35,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @param stage the initial window for the application
    */
   public UnoController(Stage stage) {
-    myStage = stage;
+    this.stage = stage;
     moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
   }
 
@@ -42,6 +43,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * passes the view's consumer to the model so the model can call .accept() whenever it needs to
    * notify the view of a change in its state
    */
+  // TODO: does the view do this directly through the GameStateViewInterface?
   public void setupConsumer(Consumer viewConsumer) {
 
   }
@@ -56,8 +58,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   /**
-<<<<<<< HEAD
-=======
    * passes the user's selected card to play to the model
    *
    * @param index of the user's selected card from their hand
@@ -74,27 +74,27 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   /**
->>>>>>> a5d5c7a1f4ca2f094ec7a1c0ad4a8ee2bff6d7e1
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (mySplashScreen == null) {
-      mySplashScreen = new SplashScreen(this);
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this);
     }
-    showScreen(mySplashScreen);
+    showScreen(splashScreen);
   }
 
   /**
    * Creates new Uno game display
    */
-  // TODO: start only if file has been loaded, create GameState object and pass to the view
   @Override
   public void playButtonHandler() {
-    // if(myUnoDisplay == null && myModel != null){
-    if (myUnoDisplay == null) {
-      myUnoDisplay = new UnoDisplay(this);
+    if(model != null){
+      unoDisplay = new UnoDisplay(this);
+      showScreen(unoDisplay);
     }
-    showScreen(myUnoDisplay);
+    else{
+      sendAlert("Please Load a Configuration File");
+    }
   }
 
   @Override
@@ -108,11 +108,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   @Override
   public void loadNewHandler(String filepath) {
-    System.out.println("Loading a File");
     try{
       String json = getFileContent(filepath);
       JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
-      myModel = jsonAdapter.fromJson(json);
+      model = jsonAdapter.fromJson(json);
     }
     catch (IOException e) {
       //TODO: better error handling
@@ -126,8 +125,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * @return content of the JSON file specified by the filepath
    * @throws IOException
    */
-  // TODO: maybe have view directly pass in a Path or File object so this method isn't needed?
-  private String getFileContent(String filepath) throws IOException{
+  public String getFileContent(String filepath) throws IOException{
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
@@ -173,12 +171,12 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
       @Override
       public int getGameplayDirection() {
-        return 0;
+        return 1;
       }
 
       @Override
       public int getCurrentPlayer() {
-        return 0;
+        return 1;
       }
 
       @Override
@@ -195,17 +193,30 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
         List<String> thirdCard = new ArrayList<>();
         thirdCard.add("9");
         thirdCard.add("yellow");
-        
+
         ret.add(firstCard);
         ret.add(secondCard);
         ret.add(thirdCard);
         return ret;
       }
     };
+
+    //return model;
+  }
+
+  public GameState getModel(){
+    return model;
   }
 
   private void showScreen(GameScreen screen) {
-    myStage.setScene(screen.setScene());
-    myStage.show();
+    stage.setScene(screen.setScene());
+    stage.show();
+  }
+
+  // displays alert/error message to the user
+  private void sendAlert(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 }

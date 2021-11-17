@@ -11,6 +11,8 @@ import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {
 
+  public static final String BACK_BUTTON_CSS = "BackButton";
+
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
   private HandListDisplay handListDisplay;
@@ -62,6 +64,7 @@ public class UnoDisplay implements GameScreen {
     VBox left = new VBox();
     left.setAlignment(Pos.CENTER);
     Button button = new Button("Back");
+    button.setId(BACK_BUTTON_CSS);
     button.setOnAction(e -> controller.backButtonHandler());
     left.getChildren().add(button);
     unoDisplay.setLeft(left);

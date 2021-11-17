@@ -1,8 +1,10 @@
-package ooga.model;
+package ooga.model.gameState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import ooga.model.gameState.GameState;
+import ooga.model.player.ComputerPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ public class GameStateTest {
 
   @BeforeEach
   void start(){
-    game = new GameState(null, null, 100, false);
+    game = new GameState(null, new HashMap<>(), 100, false);
   }
 
   @Test
@@ -45,9 +47,9 @@ public class GameStateTest {
   @Test
   public void keepingTrackOfCurrentPlayerWorksInNormalPlay(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new Player("Player1"));
-    game.addPlayer(new Player("Player2"));
-    game.addPlayer(new Player("Player3"));
+    game.addPlayer(new ComputerPlayer("Player1", game));
+    game.addPlayer(new ComputerPlayer("Player2", game));
+    game.addPlayer(new ComputerPlayer("Player3", game));
     // THEN the current player is 0
     assertEquals(0, game.getCurrentPlayer());
     // AND WHEN we take two turns
@@ -60,9 +62,9 @@ public class GameStateTest {
   @Test
   public void changingDirectionOfGameIsReflectedInCurrentPlayer(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new Player("Player1"));
-    game.addPlayer(new Player("Player2"));
-    game.addPlayer(new Player("Player3"));
+    game.addPlayer(new ComputerPlayer("Player1", game));
+    game.addPlayer(new ComputerPlayer("Player2", game));
+    game.addPlayer(new ComputerPlayer("Player3", game));
     // WHEN we change direction
     game.reverseGamePlay();
     game.playTurn();
@@ -73,9 +75,9 @@ public class GameStateTest {
   @Test
   public void skippingPlayerWorks(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new Player("Player1"));
-    game.addPlayer(new Player("Player2"));
-    game.addPlayer(new Player("Player3"));
+    game.addPlayer(new ComputerPlayer("Player1", game));
+    game.addPlayer(new ComputerPlayer("Player2", game));
+    game.addPlayer(new ComputerPlayer("Player3", game));
     // WHEN we skip right away
     game.skipNextPlayer();
     game.playTurn();

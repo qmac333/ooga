@@ -1,48 +1,41 @@
 package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
-import ooga.model.Player;
+import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.Player;
 
 public abstract class Card implements CardInterface {
 
-  private Player owner;
-  private GameState game;
-  private int num;
-  private String color;
-  private boolean canPlay;
+  private int myNum;
+  private String myColor;
+  private String myType;
 
 
-  public Card(GameState g, String color, String type) {
-    game = g;
-    this.color = color;
-    canPlay = true;
+  public Card(String color, String type, int num) {
+    myColor = color;
+    myType = type;
+    myNum = num;
   }
 
   @Override
-  public void executeAction() {
+  public abstract void executeAction(GameStatePlayerInterface game);
+
+  @Override
+  public int getNum() {
+    return myNum;
   }
 
   @Override
-  public void setPlayer(Player p) {
-    owner = p;
-    p.addCard(this);
+  public String getMyColor() {
+    return myColor;
   }
 
   @Override
-  public int getNum(){
-    return num;
-  }
-
-  @Override
-  public String getColor(){
-    return color;
-  }
-
-  protected GameState getGame() {
-    return game;
+  public String getType() {
+    return myType;
   }
 
   protected void setCardColor(String color) {
-    this.color = color;
+    myColor = color;
   }
 }

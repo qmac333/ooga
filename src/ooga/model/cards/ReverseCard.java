@@ -1,17 +1,16 @@
 package ooga.model.cards;
 
-import ooga.model.gameState.GameState;
+import ooga.model.gameState.GameStatePlayerInterface;
 
-public class ReverseCard extends ActionCard {
+public class ReverseCard extends Card {
 
-  public ReverseCard(GameState g, String color, String type) {
-    super(g, color, type);
+  public ReverseCard(String color) {
+    super(color, "Reverse", -1);
   }
 
   @Override
-  public void executeAction() {
-    GameState myGame = super.getGame();
-    myGame.reverseGamePlay();
-    super.getGame().discardCard(this);
+  public void executeAction(GameStatePlayerInterface game) {
+    game.reverseGamePlay();
+    game.discardCard(this);
   }
 }

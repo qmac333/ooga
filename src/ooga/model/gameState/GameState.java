@@ -1,27 +1,36 @@
 package ooga.model.gameState;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Stack;
-import ooga.model.Player;
+import ooga.model.player.Player;
+
 import ooga.model.cards.Card;
+import ooga.model.rules.RuleInterface;
 
-public class GameState implements GameStateInterface, GameStateViewInterface {
+public class GameState implements GameStateInterface, GameStateViewInterface,
+    GameStatePlayerInterface {
 
-  private int order;
+  private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
+      "ooga.model.gameState.GameStateResources");
+
   private int currentPlayer;
-  private List<Player> players;
-  private Stack<Card> discardPile;
-  private boolean currentPlayerPlayCard;
-  private final int pointsToWin;
-
-  private int cardNumConstraint;
-  private String cardColorConstraint;
+  private final List<Player> myPlayers;
+  private final Stack<Card> myDiscardPile;
+  private Stack<Card> myDeck;
 
   private int impendingDraw;
-
   private boolean skipNext;
+  private int order;
+
+  private String version;
+  private List<RuleInterface> myRules;
+  private Map<String, String> playerMap;
+  private boolean stackable;
+  private final int pointsToWin;
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -29,33 +38,61 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     skipNext = false;
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
-    players = new ArrayList<>();
-    discardPile = new Stack<>();
-    currentPlayerPlayCard = false;
+    myPlayers = new ArrayList<>();
+    myDiscardPile = new Stack<>();
+    currentPlayer = 0;
+    myRules = new ArrayList<>();
+    // FIXME: Create useful error
+    try {
+      createPlayers(playerMap);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    this.version = version;
+    this.playerMap = playerMap;
+    this.stackable = stackable;
+  }
+
+  /**
+   * Default constructor for mocking purposes
+   */
+  public GameState() {
+    order = 1;
+    skipNext = false;
+    impendingDraw = 0;
+    this.pointsToWin = 100;
+    myPlayers = new ArrayList<>();
+    myDiscardPile = new Stack<>();
     currentPlayer = 0;
   }
 
   @Override
   public List<String> getPlayerNames() {
-    return null;
+    List<String> result = new ArrayList<>();
+    for (Player p : myPlayers) {
+      result.add(p.getName());
+    }
+    return result;
   }
 
   @Override
   public List<Integer> getCardCounts() {
-    return null;
+    List<Integer> result = new ArrayList<>();
+    for (Player p : myPlayers) {
+      result.add(p.getHand().size());
+    }
+    return result;
   }
 
   @Override
   public void discardCard(Card c) {
-    discardPile.push(c);
-    cardColorConstraint = discardPile.peek().getColor();
-    cardNumConstraint = discardPile.peek().getNum();
+    myDiscardPile.push(c);
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return discardPile.peek().getType();
+    return myDiscardPile.peek().getType();
   }
 
 
@@ -71,7 +108,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void playTurn() {
-    Player player = players.get(currentPlayer);
+    Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
       enforceDrawRule(player);
     } else {
@@ -87,7 +124,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
 
   @Override
   public void addPlayer(Player p) {
-    players.add(p);
+    myPlayers.add(p);
   }
 
   @Override
@@ -111,16 +148,21 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
   }
 
   @Override
+  public boolean canPlayCard(Card cardToPlay) {
+    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.peek(), cardToPlay));
+  }
+
+  @Override
   public int getOrder() {
     return order;
   }
 
   private void loadNextPlayer() {
-    int boostedCurrentPlayer = currentPlayer + players.size();
+    int boostedCurrentPlayer = currentPlayer + myPlayers.size();
     if (!skipNext) {
-      currentPlayer = (boostedCurrentPlayer + order) % players.size();
+      currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
     } else {
-      currentPlayer = (boostedCurrentPlayer + 2 * order) % players.size();
+      currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
       skipNext = false;
     }
   }
@@ -129,6 +171,61 @@ public class GameState implements GameStateInterface, GameStateViewInterface {
     while (impendingDraw > 0) {
       player.addCard(getNextCard());
       impendingDraw--;
+    }
+  }
+
+  /**
+   * @return game version
+   */
+  public String getVersion() {
+    return version;
+  }
+
+  /**
+   * @return map of player names to player type (human or CPU)
+   */
+  public Map<String, String> getPlayerMap() {
+    return playerMap;
+  }
+
+  /**
+   * @return points required to win
+   */
+  public int getPointsToWin() {
+    return pointsToWin;
+  }
+
+  /**
+   * @return boolean indicating stackable
+   */
+  public boolean getStackable() {
+    return stackable;
+  }
+
+  /**
+   * Tests whether two GameState objects have the same initial parameters
+   *
+   * @param other GameState object to compare this object with
+   * @return boolean indicating whether the initial parameters are equal
+   */
+  public boolean compareInitialParameters(GameState other) {
+    boolean condition1 = version.equals(other.getVersion());
+    boolean condition2 = playerMap.equals(other.getPlayerMap());
+    boolean condition3 = (pointsToWin == other.getPointsToWin());
+    boolean condition4 = (stackable == other.getStackable());
+
+    return condition1 && condition2 && condition3 && condition4;
+  }
+
+  // Creates the list of players based on the map that's passed into the constructor
+  private void createPlayers(Map<String, String> playerMap)
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    for (String name : playerMap.keySet()) {
+      Class<?> playerClass = Class.forName(
+          String.format(gameStateResources.getString("PlayerClassBase"), gameStateResources.getString(playerMap.get(name))));
+      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
+          GameStatePlayerInterface.class).newInstance(name, this);
+      myPlayers.add(player);
     }
   }
 }

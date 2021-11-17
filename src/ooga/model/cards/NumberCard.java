@@ -1,19 +1,16 @@
 package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
+import ooga.model.gameState.GameStatePlayerInterface;
 
-public class NumberCard extends Card{
+public class NumberCard extends Card {
 
-  public NumberCard(GameState g, String color, String type) {
-    super(g, color, type);
+  public NumberCard(String color, int num) {
+    super(color, "Number", num);
   }
 
   @Override
-  public void executeAction(){
-    super.getGame().discardCard(this);
-  }
-  @Override
-  public String getType() {
-    return null;
+  public void executeAction(GameStatePlayerInterface game) {
+    game.discardCard(this);
   }
 }
