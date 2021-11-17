@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import ooga.model.cards.NumberCard;
+import ooga.model.drawRule.DrawRuleInterface;
+import ooga.model.drawRule.NormalDrawRule;
 import ooga.model.player.Player;
 
 import ooga.model.cards.Card;
 import ooga.model.rules.RuleInterface;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
-    GameStatePlayerInterface {
+    GameStatePlayerInterface, GameStateDrawInterface {
 
   private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
       "ooga.model.gameState.GameStateResources");
@@ -28,6 +31,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private String version;
   private List<RuleInterface> myRules;
+  private DrawRuleInterface myDrawRule;
   private Map<String, String> playerMap;
   private boolean stackable;
   private final int pointsToWin;
@@ -42,6 +46,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myDiscardPile = new Stack<>();
     currentPlayer = 0;
     myRules = new ArrayList<>();
+    myDrawRule = new NormalDrawRule();
     // FIXME: Create useful error
     try {
       createPlayers(playerMap);
@@ -108,9 +113,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void playTurn() {
+    // FIXME: Add in stacking logic
     Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
-      enforceDrawRule(player);
+      myDrawRule.forcedDraw(this, impendingDraw);
     } else {
       player.playCard();
     }
@@ -144,7 +150,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    return null;
+    // FIXME: Actually Create (Need deck creation)
+    return new NumberCard("Red", 5);
+  }
+
+  @Override
+  public List<Card> noPlayDraw() {
+    return myDrawRule.noPlayDraw(this);
   }
 
   @Override
@@ -164,13 +176,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } else {
       currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
       skipNext = false;
-    }
-  }
-
-  private void enforceDrawRule(Player player) {
-    while (impendingDraw > 0) {
-      player.addCard(getNextCard());
-      impendingDraw--;
     }
   }
 

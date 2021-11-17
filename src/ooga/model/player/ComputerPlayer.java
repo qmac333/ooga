@@ -22,7 +22,7 @@ public class ComputerPlayer extends Player {
     if (cardToPlay.isPresent()) {
       cardToPlay.get().executeAction(game);
     } else {
-      super.addCard(game.getNextCard());
+      super.addCards(game.noPlayDraw());
     }
   }
 }

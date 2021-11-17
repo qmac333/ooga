@@ -3,7 +3,6 @@ package ooga.model.gameState;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
-import ooga.model.gameState.GameState;
 import ooga.model.player.ComputerPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

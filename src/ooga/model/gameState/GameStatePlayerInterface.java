@@ -1,14 +1,15 @@
 package ooga.model.gameState;
 
+import java.util.List;
 import ooga.model.cards.Card;
 
 public interface GameStatePlayerInterface {
   /**
-   * Gets the next card from the deck
+   * Gets the card(s) required from a no-play-draw
    *
-   * @return card at the top of the deck
+   * @return card(s) from this draw
    */
-  public Card getNextCard();
+  public List<Card> noPlayDraw();
 
   /**
    * Returns Whether a card can be played

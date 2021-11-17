@@ -23,8 +23,8 @@ public abstract class Player implements PlayerInterface {
   public abstract void playCard();
 
   @Override
-  public void addCard(Card card) {
-    myHand.add(card);
+  public void addCards(List<Card> cards) {
+    myHand.addAll(cards);
   }
 
   @Override
