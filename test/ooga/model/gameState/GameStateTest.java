@@ -1,7 +1,8 @@
-package ooga.model;
+package ooga.model.gameState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import ooga.model.gameState.GameState;
 import ooga.model.player.ComputerPlayer;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ public class GameStateTest {
 
   @BeforeEach
   void start(){
-    game = new GameState(null, null, 100, false);
+    game = new GameState(null, new HashMap<>(), 100, false);
   }
 
   @Test

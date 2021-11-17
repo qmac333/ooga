@@ -1,8 +1,10 @@
 package ooga.model.gameState;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import ooga.model.player.Player;
 
@@ -11,6 +13,9 @@ import ooga.model.rules.RuleInterface;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface {
+
+  private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
+      "ooga.model.gameState.GameStateResources");
 
   private int currentPlayer;
   private final List<Player> myPlayers;
@@ -37,7 +42,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myDiscardPile = new Stack<>();
     currentPlayer = 0;
     myRules = new ArrayList<>();
-
+    // FIXME: Create useful error
+    try {
+      createPlayers(playerMap);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
@@ -205,5 +215,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition4 = (stackable == other.getStackable());
 
     return condition1 && condition2 && condition3 && condition4;
+  }
+
+  // Creates the list of players based on the map that's passed into the constructor
+  private void createPlayers(Map<String, String> playerMap)
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    for (String name : playerMap.keySet()) {
+      Class<?> playerClass = Class.forName(
+          String.format(gameStateResources.getString("PlayerClassBase"), gameStateResources.getString(playerMap.get(name))));
+      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
+          GameStatePlayerInterface.class).newInstance(name, this);
+      myPlayers.add(player);
+    }
   }
 }
