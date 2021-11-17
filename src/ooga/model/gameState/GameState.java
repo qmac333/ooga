@@ -69,6 +69,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayers = new ArrayList<>();
     myDiscardPile = new Stack<>();
     currentPlayer = 0;
+
+
   }
 
   @Override
@@ -233,4 +235,23 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
   }
+
+
+  private void createDeck(){
+    ResourceBundle deckProperties = ResourceBundle.getBundle(
+            "ooga.model.gameState." + version + "Deck.properties");
+
+    List<String> colors = List.of(deckProperties.getStringArray("Colors"));
+    List<String> actionCards = List.of(deckProperties.getStringArray("ActionCards"));
+    int numActionCards = Integer.parseInt(deckProperties.getString("NumberOfAction"));
+
+    List<String> numberCards = List.of(deckProperties.getStringArray("NumberCards"));
+    int numNumberCards = Integer.parseInt(deckProperties.getString("NumberOfNumber"));
+
+    List<String> wildCards = List.of(deckProperties.getStringArray("WildCards"));
+    int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
+
+    
+  }
+
 }
