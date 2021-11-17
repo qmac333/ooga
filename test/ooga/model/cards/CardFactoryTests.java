@@ -28,4 +28,16 @@ public class CardFactoryTests extends DukeApplicationTest {
             Assertions.fail();
         }
     }
+
+    @Test
+    public void initializeActionCardTest(){
+        try {
+            ReverseCard num = (ReverseCard) factory.makeCard("Reverse", 1, "red");
+            assertEquals("red", num.getMyColor());
+        }
+        catch(ClassCastException e){
+            System.out.println("card returned not of the right class");
+            Assertions.fail();
+        }
+    }
 }
