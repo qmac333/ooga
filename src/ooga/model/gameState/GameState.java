@@ -12,24 +12,20 @@ import ooga.model.rules.RuleInterface;
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface {
 
-  private int order;
   private int currentPlayer;
-  private List<Player> players;
-  private Stack<Card> discardPile;
-  private List<RuleInterface> myRules;
-  private boolean currentPlayerPlayCard;
-  private final int pointsToWin;
-
-  private int cardNumConstraint;
-  private String cardColorConstraint;
+  private final List<Player> myPlayers;
+  private final Stack<Card> myDiscardPile;
+  private Stack<Card> myDeck;
 
   private int impendingDraw;
-
   private boolean skipNext;
+  private int order;
 
   private String version;
+  private List<RuleInterface> myRules;
   private Map<String, String> playerMap;
   private boolean stackable;
+  private final int pointsToWin;
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -37,9 +33,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     skipNext = false;
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
-    players = new ArrayList<>();
-    discardPile = new Stack<>();
-    currentPlayerPlayCard = false;
+    myPlayers = new ArrayList<>();
+    myDiscardPile = new Stack<>();
     currentPlayer = 0;
     myRules = new ArrayList<>();
 
@@ -56,16 +51,15 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     skipNext = false;
     impendingDraw = 0;
     this.pointsToWin = 100;
-    players = new ArrayList<>();
-    discardPile = new Stack<>();
-    currentPlayerPlayCard = false;
+    myPlayers = new ArrayList<>();
+    myDiscardPile = new Stack<>();
     currentPlayer = 0;
   }
 
   @Override
   public List<String> getPlayerNames() {
     List<String> result = new ArrayList<>();
-    for (Player p : players) {
+    for (Player p : myPlayers) {
       result.add(p.getName());
     }
     return result;
@@ -74,7 +68,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public List<Integer> getCardCounts() {
     List<Integer> result = new ArrayList<>();
-    for (Player p : players) {
+    for (Player p : myPlayers) {
       result.add(p.getHand().size());
     }
     return result;
@@ -82,15 +76,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void discardCard(Card c) {
-    discardPile.push(c);
-    cardColorConstraint = discardPile.peek().getMyColor();
-    cardNumConstraint = discardPile.peek().getNum();
+    myDiscardPile.push(c);
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return discardPile.peek().getType();
+    return myDiscardPile.peek().getType();
   }
 
 
@@ -106,7 +98,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void playTurn() {
-    Player player = players.get(currentPlayer);
+    Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
       enforceDrawRule(player);
     } else {
@@ -122,7 +114,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void addPlayer(Player p) {
-    players.add(p);
+    myPlayers.add(p);
   }
 
   @Override
@@ -147,7 +139,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public boolean canPlayCard(Card cardToPlay) {
-    return myRules.stream().anyMatch(rule -> rule.canPlay(discardPile.peek(), cardToPlay));
+    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.peek(), cardToPlay));
   }
 
   @Override
@@ -156,11 +148,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private void loadNextPlayer() {
-    int boostedCurrentPlayer = currentPlayer + players.size();
+    int boostedCurrentPlayer = currentPlayer + myPlayers.size();
     if (!skipNext) {
-      currentPlayer = (boostedCurrentPlayer + order) % players.size();
+      currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
     } else {
-      currentPlayer = (boostedCurrentPlayer + 2 * order) % players.size();
+      currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
       skipNext = false;
     }
   }

@@ -18,36 +18,36 @@ public class ActionCardTests extends DukeApplicationTest {
 
   @Test
   public void drawFourCardTest() {
-    Card dfc = new DrawFourCard(game, "red");
-    dfc.executeAction();
+    Card dfc = new DrawFourCard("red");
+    dfc.executeAction(game);
     assertEquals("DrawFour", game.getLastCardThrownType());
   }
 
   @Test
   public void drawTwoCardTest() {
-    Card dtc = new DrawTwoCard(game, "red");
-    dtc.executeAction();
+    Card dtc = new DrawTwoCard("red");
+    dtc.executeAction(game);
     assertEquals("DrawTwo", game.getLastCardThrownType());
   }
 
   @Test
   public void reverseCardTest() {
 
-    Card rc = new ReverseCard(game, "red");
-    rc.executeAction();
+    Card rc = new ReverseCard("red");
+    rc.executeAction(game);
     assertEquals(-1, game.getOrder());
   }
 
   @Test
   public void skipCardTest() {
-    Card sc = new SkipCard(game, "red");
-    sc.executeAction();
+    Card sc = new SkipCard("red");
+    sc.executeAction(game);
     assertEquals("Skip", game.getLastCardThrownType());
   }
 
   @Test
   public void wildCardTest() {
-    Card wc = new WildCard(game, "wild");
+    Card wc = new WildCard("wild");
     // FIXME: Change this line once front-end support is in
     wc.setCardColor("red");
     assertEquals("red", wc.getMyColor());

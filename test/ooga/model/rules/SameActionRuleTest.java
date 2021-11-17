@@ -22,25 +22,25 @@ public class SameActionRuleTest {
   @Test
   public void twoNumberCardsCantPlay() {
     assertFalse(
-        sameActionRule.canPlay(new NumberCard(null, "Red", 9), new NumberCard(null, "Red", 9)));
+        sameActionRule.canPlay(new NumberCard("Red", 9), new NumberCard("Red", 9)));
     assertFalse(
-        sameActionRule.canPlay(new NumberCard(null, "Red", 6), new NumberCard(null, "Red", 9)));
+        sameActionRule.canPlay(new NumberCard("Red", 6), new NumberCard("Red", 9)));
   }
 
   @Test
   void twoDifferentActionCardsCantPlay() {
-    assertFalse(sameActionRule.canPlay(new SkipCard(null, "Red"), new DrawTwoCard(null, "Red")));
+    assertFalse(sameActionRule.canPlay(new SkipCard("Red"), new DrawTwoCard("Red")));
     assertFalse(
-        sameActionRule.canPlay(new DrawTwoCard(null, "Red"), new DrawFourCard(null, "Red")));
-    assertFalse(sameActionRule.canPlay(new SkipCard(null, "Red"), new DrawFourCard(null, "Red")));
-    assertFalse(sameActionRule.canPlay(new SkipCard(null, "Red"), new ReverseCard(null, "Red")));
+        sameActionRule.canPlay(new DrawTwoCard("Red"), new DrawFourCard("Red")));
+    assertFalse(sameActionRule.canPlay(new SkipCard("Red"), new DrawFourCard("Red")));
+    assertFalse(sameActionRule.canPlay(new SkipCard("Red"), new ReverseCard("Red")));
   }
 
   @Test
   void twoOfTheSameActionTypeCanPlay() {
-    assertTrue(sameActionRule.canPlay(new SkipCard(null, "Red"), new SkipCard(null, "Green")));
-    assertTrue(sameActionRule.canPlay(new ReverseCard(null, "Red"), new ReverseCard(null, "Green")));
-    assertTrue(sameActionRule.canPlay(new DrawTwoCard(null, "Red"), new DrawTwoCard(null, "Green")));
-    assertTrue(sameActionRule.canPlay(new DrawFourCard(null, "Red"), new DrawFourCard(null, "Green")));
+    assertTrue(sameActionRule.canPlay(new SkipCard("Red"), new SkipCard("Green")));
+    assertTrue(sameActionRule.canPlay(new ReverseCard("Red"), new ReverseCard("Green")));
+    assertTrue(sameActionRule.canPlay(new DrawTwoCard("Red"), new DrawTwoCard("Green")));
+    assertTrue(sameActionRule.canPlay(new DrawFourCard("Red"), new DrawFourCard("Green")));
   }
 }

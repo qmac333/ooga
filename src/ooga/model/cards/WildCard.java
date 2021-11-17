@@ -1,16 +1,17 @@
 package ooga.model.cards;
 
-import ooga.model.gameState.GameState;
+import ooga.model.gameState.GameStatePlayerInterface;
 
 public class WildCard extends Card {
 
-  public WildCard(GameState g, String color) {
-    super(g, "Black", "Wild", -1);
+  public WildCard(String color) {
+    super("Black", "Wild", -1);
   }
 
   @Override
-  public void executeAction() {
+  public void executeAction(GameStatePlayerInterface game) {
+    // FIXME: Once we have the interface figured out
 //    super.setCardColor(consumerInterface.getColorInput())
-    super.getGame().discardCard(this);
+    game.discardCard(this);
   }
 }
