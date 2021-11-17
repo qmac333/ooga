@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,7 +15,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import ooga.controller.SplashScreenController;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
+import ooga.view.table.Table;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -25,10 +29,23 @@ public class SplashScreen implements GameScreen {
 
   public static final String PLAY_CSS_ID = "PlayButton";
 
+  private static final String TABLE_HEADER_LEFT = "Name";
+  private static final String TABLE_HEADER_MIDDLE = "Player Type";
+  private static final String TABLE_HEADER_RIGHT = "Delete";
+  private static final String NAME_INPUT = "Enter a Name";
+  private static final String TYPE_INPUT = "Enter 'Human' or 'CPU'";
+
+  private static double CELL_HEIGHT = 30;
+  private static double CELL_WIDTH = 70;
+
+  private Button deleteButton;
+
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller) {
     this.controller = controller;
+    deleteButton = new Button("-");
+    deleteButton.getStyleClass().add("delete-button");
   }
 
   public Scene setScene() {
@@ -36,6 +53,7 @@ public class SplashScreen implements GameScreen {
     borderPane.setTop(addTopNode());
     borderPane.setLeft(addLeftNode());
     borderPane.setBottom(addBottomNode());
+    borderPane.setRight(createRightNode());
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
@@ -95,6 +113,36 @@ public class SplashScreen implements GameScreen {
 
     root.getChildren().addAll(playButton);
     return root;
+  }
+
+  private void addNewPlayer(TextField nameInput, TextField playerTypeInput) {
+    String name = nameInput.getText();
+    String playerType = playerTypeInput.getText();
+  }
+
+  private VBox createRightNode() {
+    VBox table = new VBox();
+    table.getStyleClass().add("vbox");
+
+    TextField nameInput = new TextField();
+    nameInput.setPromptText(NAME_INPUT);
+
+    TextField playerTypeInput = new TextField();
+    playerTypeInput.setPromptText(TYPE_INPUT);
+
+    Button addPlayer = new Button("Add New Player");
+    addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
+
+    Separator rule = new Separator();
+
+    Table initialPlayers = new Table(2, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
+    initialPlayers.setCell(0, 0, new Text(TABLE_HEADER_LEFT));
+    initialPlayers.setCell(1, 0, new Text(TABLE_HEADER_MIDDLE));
+    initialPlayers.setCell(2, 0, new Text(TABLE_HEADER_RIGHT));
+
+    table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, rule, initialPlayers.getDisplayableItem());
+
+    return table;
   }
 
   private void initDynamicView() {
