@@ -20,21 +20,21 @@ public class SameNumberRuleTest {
 
   @Test
   public void otherwiseEqualCardsWithDifferentNumbersDontWork(){
-    assertFalse(sameNumberRule.canPlay(new NumberCard(null, "red", 5), new NumberCard(null, "red", 6)));
-    assertFalse(sameNumberRule.canPlay(new NumberCard(null, "blue", 0), new NumberCard(null, "blue", 2)));
+    assertFalse(sameNumberRule.canPlay(new NumberCard("red", 5), new NumberCard("red", 6)));
+    assertFalse(sameNumberRule.canPlay(new NumberCard("blue", 0), new NumberCard("blue", 2)));
   }
 
   @Test
   public void nonNumberCardsNeverWork(){
-    assertFalse(sameNumberRule.canPlay(new ReverseCard(null, "red"), new ReverseCard(null, "red")));
-    assertFalse(sameNumberRule.canPlay(new DrawTwoCard(null, "red"), new DrawTwoCard(null, "red")));
-    assertFalse(sameNumberRule.canPlay(new DrawFourCard(null, "red"), new DrawFourCard(null, "red")));
-    assertFalse(sameNumberRule.canPlay(new SkipCard(null, "red"), new SkipCard(null, "red")));
+    assertFalse(sameNumberRule.canPlay(new ReverseCard("red"), new ReverseCard("red")));
+    assertFalse(sameNumberRule.canPlay(new DrawTwoCard("red"), new DrawTwoCard("red")));
+    assertFalse(sameNumberRule.canPlay(new DrawFourCard("red"), new DrawFourCard("red")));
+    assertFalse(sameNumberRule.canPlay(new SkipCard("red"), new SkipCard("red")));
   }
 
   @Test
   public void cardsWithTheSameNumbersShouldWork(){
-    assertTrue(sameNumberRule.canPlay(new NumberCard(null, "red", 5), new NumberCard(null, "green", 5)));
-    assertTrue(sameNumberRule.canPlay(new NumberCard(null, "blue", 0), new NumberCard(null, "yellow", 0)));
+    assertTrue(sameNumberRule.canPlay(new NumberCard("red", 5), new NumberCard("green", 5)));
+    assertTrue(sameNumberRule.canPlay(new NumberCard("blue", 0), new NumberCard("yellow", 0)));
   }
 }

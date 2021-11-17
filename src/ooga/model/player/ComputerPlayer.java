@@ -20,7 +20,7 @@ public class ComputerPlayer extends Player {
     GameStatePlayerInterface game = super.getMyGame();
     Optional<Card> cardToPlay = super.getMyHand().stream().filter(game::canPlayCard).findAny();
     if (cardToPlay.isPresent()) {
-      cardToPlay.get().executeAction();
+      cardToPlay.get().executeAction(game);
     } else {
       super.addCard(game.getNextCard());
     }

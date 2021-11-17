@@ -1,6 +1,7 @@
 package ooga.model.cards;
 
 
+import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.Player;
 
 /**
@@ -14,15 +15,7 @@ public interface CardInterface {
    * This can include identifying cards that can be played in the case of a Number Card, or changing
    * the GameState in place of an Action Card.
    */
-  void executeAction();
-
-
-  /**
-   * Set's a card's owner to a certain player, i.e. places this card in a player's hand.
-   *
-   * @param p
-   */
-  void setPlayer(Player p);
+  void executeAction(GameStatePlayerInterface game);
 
 
   /**

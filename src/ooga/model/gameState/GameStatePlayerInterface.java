@@ -17,4 +17,24 @@ public interface GameStatePlayerInterface {
    * @return can or can't play
    */
   public boolean canPlayCard(Card cardToPlay);
+
+  /**
+   * sets the lastCardThown member in the GameState
+   */
+  public void discardCard(Card c);
+
+  /**
+   * reverses the order of play
+   */
+  public void reverseGamePlay();
+
+  /**
+   * called by the Skip Action card to skip the next player
+   */
+  public void skipNextPlayer();
+
+  /**
+   * allows class calling this method to set the nextPlayerDrawTwo member to true
+   */
+  public void addDraw(int drawAmount);
 }
