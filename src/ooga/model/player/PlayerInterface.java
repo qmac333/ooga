@@ -1,6 +1,7 @@
 package ooga.model.player;
 
 import java.util.Collection;
+import java.util.List;
 import ooga.model.cards.Card;
 
 /**
@@ -16,10 +17,10 @@ public interface PlayerInterface {
   public void playCard();
 
   /**
-   * adds a card to a player's hand, specifically at the end
-   * @param card
+   * add a list of cards to a player's hand, specifically at the end
+   * @param cards cards to add
    */
-  public void addCard(Card card);
+  public void addCards(List<Card> cards);
 
   /**
    * returns a players hand

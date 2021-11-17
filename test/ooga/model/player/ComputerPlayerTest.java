@@ -1,5 +1,6 @@
 package ooga.model.player;
 
+import java.util.List;
 import ooga.model.cards.Card;
 import ooga.model.cards.SkipCard;
 import ooga.model.gameState.GameState;
@@ -32,25 +33,25 @@ public class ComputerPlayerTest {
     // GIVEN a player is asked to play with an empty hand
     myPlayer.playCard();
     // THEN they draw
-    verify(gameState, times(1)).getNextCard();
+    verify(gameState, times(1)).noPlayDraw();
   }
 
   @Test
   public void whenCardCantBePlayedDraw(){
     // GIVEN the player is asked to play when they don't have a rule abiding card
     cardToPlay = new SkipCard("Yellow");
-    myPlayer.addCard(cardToPlay);
+    myPlayer.addCards(List.of(cardToPlay));
     when(gameState.canPlayCard(any(Card.class))).thenReturn(false);
     myPlayer.playCard();
     // THEN they draw
-    verify(gameState, times(1)).getNextCard();
+    verify(gameState, times(1)).noPlayDraw();
   }
 
   @Test
   public void gameStateIsEffectedWhenCardCanBePlayed(){
     // GIVEN the player has a card they can play
     cardToPlay = new SkipCard("Yellow");
-    myPlayer.addCard(cardToPlay);
+    myPlayer.addCards(List.of(cardToPlay));
     when(gameState.canPlayCard(any(Card.class))).thenReturn(true);
     myPlayer.playCard();
     // THEN the card's action is performed
