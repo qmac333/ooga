@@ -3,6 +3,8 @@ package ooga.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import ooga.model.cards.NumberCard;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
 
 public class MockGameViewInterface implements GameStateViewInterface {
@@ -42,23 +44,12 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
-  public List<List<String>> getCurrentPlayerCards() {
-    List<List<String>> ret = new ArrayList<>();
-    List<String> firstCard = new ArrayList<>();
-    firstCard.add("0");
-    firstCard.add("blue");
+  public List<ViewCardInterface> getCurrentPlayerCards() {
+    List<ViewCardInterface> ret = new ArrayList<>();
+    ret.add(new NumberCard("blue", 0));
+    ret.add(new NumberCard("red", 1));
+    ret.add(new NumberCard("yellow", 9));
 
-    List<String> secondCard = new ArrayList<>();
-    secondCard.add("1");
-    secondCard.add("red");
-
-    List<String> thirdCard = new ArrayList<>();
-    thirdCard.add("9");
-    thirdCard.add("yellow");
-
-    ret.add(firstCard);
-    ret.add(secondCard);
-    ret.add(thirdCard);
     return ret;
   }
 

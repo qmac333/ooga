@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import ooga.model.cards.NumberCard;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.drawRule.NormalDrawRule;
 import ooga.model.player.Player;
@@ -139,8 +140,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public List<List<String>> getCurrentPlayerCards() {
-    return null;
+  public List<ViewCardInterface> getCurrentPlayerCards() {
+    List<ViewCardInterface> cards = new ArrayList<>();
+    for (ViewCardInterface card : myPlayers.get(currentPlayer).getHand()) {
+     cards.add(card);
+    }
+    return cards;
   }
 
   @Override

@@ -39,6 +39,7 @@ public class UnoDisplay implements GameScreen {
 
     // create the Timeline for the game
     gameTimeline = new Timeline();
+    gameTimeline.setCycleCount(Timeline.INDEFINITE);
     gameTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
     gameTimeline.play();
 
@@ -91,6 +92,7 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void playGame() {
+    System.out.println(controller.getGameState().getCurrentPlayer());
     controller.getGameState().playTurn();
   }
 

@@ -4,7 +4,7 @@ import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.Player;
 
-public abstract class Card implements CardInterface {
+public abstract class Card implements CardInterface, ViewCardInterface {
 
   private int myNum;
   private String myColor;
