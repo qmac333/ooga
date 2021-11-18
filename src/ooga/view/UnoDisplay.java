@@ -92,7 +92,6 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void playGame() {
-    System.out.println(controller.getGameState().getCurrentPlayer());
     controller.getGameState().playTurn();
   }
 
