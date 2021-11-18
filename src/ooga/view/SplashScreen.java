@@ -21,6 +21,8 @@ import ooga.view.table.Table;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SplashScreen implements GameScreen {
 
@@ -38,14 +40,15 @@ public class SplashScreen implements GameScreen {
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 70;
 
-  private Button deleteButton;
+  private Table initialPlayers;
+  private List<Button> rows;
 
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller) {
     this.controller = controller;
-    deleteButton = new Button("-");
-    deleteButton.getStyleClass().add("delete-button");
+    initializeTable();
+    rows = new ArrayList<>();
   }
 
   public Scene setScene() {
@@ -118,6 +121,31 @@ public class SplashScreen implements GameScreen {
   private void addNewPlayer(TextField nameInput, TextField playerTypeInput) {
     String name = nameInput.getText();
     String playerType = playerTypeInput.getText();
+    nameInput.clear();
+    playerTypeInput.clear();
+
+    Button deleteButton = new Button("-");
+    deleteButton.getStyleClass().add("delete-button");
+    rows.add(deleteButton);
+
+    int currentRow = initialPlayers.getNumRows();
+    deleteButton.setOnAction(e -> {
+      delete(currentRow);
+      for (int i=currentRow-1; i<rows.size(); i++) {
+        int finalI = i;
+        rows.get(i).setOnAction(var -> delete(finalI +1));
+      }
+    });
+
+    initialPlayers.addRow();
+    initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
+    initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
+    initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+  }
+
+  private void delete(int currentRow) {
+    initialPlayers.deleteRow(currentRow);
+    rows.remove(currentRow-1);
   }
 
   private VBox createRightNode() {
@@ -135,14 +163,16 @@ public class SplashScreen implements GameScreen {
 
     Separator rule = new Separator();
 
-    Table initialPlayers = new Table(2, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
-    initialPlayers.setCell(0, 0, new Text(TABLE_HEADER_LEFT));
-    initialPlayers.setCell(1, 0, new Text(TABLE_HEADER_MIDDLE));
-    initialPlayers.setCell(2, 0, new Text(TABLE_HEADER_RIGHT));
-
     table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, rule, initialPlayers.getDisplayableItem());
 
     return table;
+  }
+
+  private void initializeTable() {
+    initialPlayers = new Table(1, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
+    initialPlayers.setCell(0, 0, new Text(TABLE_HEADER_LEFT));
+    initialPlayers.setCell(1, 0, new Text(TABLE_HEADER_MIDDLE));
+    initialPlayers.setCell(2, 0, new Text(TABLE_HEADER_RIGHT));
   }
 
   private void initDynamicView() {
