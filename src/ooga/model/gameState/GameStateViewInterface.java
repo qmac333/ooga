@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public interface GameStateViewInterface {
 
-  static final int CLOCKWISE = 0;
-  static final int COUNTERCLOCKWISE = 1;
+  public static final int CLOCKWISE = 0;
+  public static final int COUNTERCLOCKWISE = 1;
 
   /**
    * @return a unmodifiable list of all player names
@@ -39,5 +39,10 @@ public interface GameStateViewInterface {
    * @return a Map of Integers to Lists of Strings
    */
   public List<List<String>> getCurrentPlayerCards();
+
+  /**
+   * Plays a turn of the game.
+   */
+  public void playTurn();
 
 }
