@@ -1,11 +1,9 @@
 package ooga.model.gameState;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
+
+import ooga.model.CardFactory;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.drawRule.DrawRuleInterface;
@@ -37,6 +35,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean stackable;
   private final int pointsToWin;
 
+  private CardFactory myCardFactory;
+
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
     order = 1;
@@ -48,6 +48,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     currentPlayer = 0;
     myRules = new ArrayList<>();
     myDrawRule = new NormalDrawRule();
+
+
+    myCardFactory = new CardFactory();
+    myDeck = new Stack<>();
+
     // FIXME: Create useful error
     try {
       createPlayers(playerMap);
@@ -57,6 +62,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
+
+    createDeck();
   }
 
   /**
@@ -70,6 +77,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayers = new ArrayList<>();
     myDiscardPile = new Stack<>();
     currentPlayer = 0;
+
+
   }
 
   @Override
@@ -238,4 +247,55 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
   }
+
+
+  private void createDeck(){
+    ResourceBundle deckProperties = ResourceBundle.getBundle(
+            "ooga.model.gameState." + version + "Deck.properties");
+
+    List<String> colors = List.of(deckProperties.getStringArray("Colors"));
+    List<String> actionCards = List.of(deckProperties.getStringArray("ActionCards"));
+    int numActionCards = Integer.parseInt(deckProperties.getString("NumberOfAction"));
+
+    List<String> numberCards = List.of(deckProperties.getStringArray("NumberCards"));
+    int numNumberCards = Integer.parseInt(deckProperties.getString("NumberOfNumber"));
+
+    List<String> wildCards = List.of(deckProperties.getStringArray("WildCards"));
+    int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
+
+    List<Card> cards = new ArrayList<Card>();
+
+    createCardsFromData(colors, numActionCards, actionCards, cards);
+    createCardsFromData(colors, numNumberCards, numberCards, cards);
+    createCardsFromData(colors, numWildCards, wildCards, cards);
+
+    Collections.shuffle(cards);
+
+    myDeck.addAll(cards);
+
+  }
+
+  private void createCardsFromData(List<String> colorList,
+                                         int numCards,
+                                         List<String> cardTypeList,
+                                         List<Card> deckList){
+
+    for(String type : cardTypeList){
+      for(int i = 0; i < numCards; i++){
+        Card newCard;
+        for(String color : colorList){
+
+          try{
+            int n = Integer.parseInt(type);
+            newCard = myCardFactory.makeCard("Number", n, color);
+          }
+          catch(NumberFormatException e){
+            newCard = myCardFactory.makeCard(type, -1, color);
+          }
+          deckList.add(newCard);
+        }
+      }
+    }
+  }
+
 }
