@@ -29,7 +29,7 @@ public abstract class Player implements PlayerInterface {
 
   @Override
   public Collection<Card> getHand() {
-    return null;
+    return myHand;
   }
 
   @Override

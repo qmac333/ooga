@@ -21,9 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javax.swing.text.View;
 import ooga.controller.UnoController;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.Card;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
 
@@ -44,7 +46,7 @@ public class HandListDisplay implements DisplayableItem {
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
   private HBox handList;
-  private List<List<String>> currentCards;
+  private List<ViewCardInterface> currentCards;
   private List<StackPane> cardDisplay;
   private Timeline timeline;
 
@@ -77,14 +79,22 @@ public class HandListDisplay implements DisplayableItem {
   public Node getDisplayableItem() {
     try {
       handList.setSpacing(20);
-      for (List<String> cardProps : currentCards) {
+      for (ViewCardInterface cardProps : currentCards) {
         StackPane stack = new StackPane();
         Rectangle base = new Rectangle(CARD_WIDTH+CARD_OFFSET, CARD_HEIGHT+CARD_OFFSET);
         base.setFill(DEFAULT_COLOR);
         Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-        card.setFill(COLORS.get(cardProps.get(1)));
+        card.setFill(COLORS.get(cardProps.getMyColor()));
 
-        Image image = new Image(new FileInputStream(String.format("./data/%s.png", cardProps.get(0))));
+        String loadFileString;
+        if (cardProps.getType().equals("Number")) {
+          loadFileString = String.valueOf(cardProps.getNum());
+        }
+        else {
+          loadFileString = cardProps.getType();
+        }
+
+        Image image = new Image(new FileInputStream(String.format("./data/%s.png", loadFileString)));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(CARD_WIDTH);
         imageView.setFitWidth(CARD_HEIGHT/2);
