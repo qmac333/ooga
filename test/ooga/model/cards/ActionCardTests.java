@@ -14,7 +14,7 @@ public class ActionCardTests extends DukeApplicationTest {
 
   @BeforeEach
   public void start() {
-    game = new GameState(null, new HashMap<>(), 100, false);
+    game = new GameState("Basic", new HashMap<>(), 100, false);
   }
 
   @Test
