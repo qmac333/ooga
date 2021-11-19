@@ -251,16 +251,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private void createDeck(){
     ResourceBundle deckProperties = ResourceBundle.getBundle(
-            "ooga.model.gameState." + version + "Deck.properties");
+            "ooga.model.gameState." + version + "Deck");
 
-    List<String> colors = List.of(deckProperties.getStringArray("Colors"));
-    List<String> actionCards = List.of(deckProperties.getStringArray("ActionCards"));
+    List<String> colors = List.of(deckProperties.getString("Colors").split(","));
+    List<String> actionCards = List.of(deckProperties.getString("ActionCards").split(","));
     int numActionCards = Integer.parseInt(deckProperties.getString("NumberOfAction"));
 
-    List<String> numberCards = List.of(deckProperties.getStringArray("NumberCards"));
+    List<String> numberCards = List.of(deckProperties.getString("NumberCards").split(","));
     int numNumberCards = Integer.parseInt(deckProperties.getString("NumberOfNumber"));
 
-    List<String> wildCards = List.of(deckProperties.getStringArray("WildCards"));
+    List<String> wildCards = List.of(deckProperties.getString("WildCards").split(","));
     int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
 
     List<Card> cards = new ArrayList<Card>();

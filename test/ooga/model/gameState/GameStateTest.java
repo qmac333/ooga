@@ -12,7 +12,7 @@ public class GameStateTest {
 
   @BeforeEach
   void start(){
-    game = new GameState(null, new HashMap<>(), 100, false);
+    game = new GameState("Basic", new HashMap<>(), 100, false);
   }
 
   @Test
