@@ -35,7 +35,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean stackable;
   private final int pointsToWin;
 
-  private CardFactory myCardFactory;
+
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -54,9 +54,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } catch (Exception e){
       e.printStackTrace();
     }
-
-
-    myCardFactory = new CardFactory();
+    
 
 
     // FIXME: Create useful error
