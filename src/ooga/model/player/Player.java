@@ -26,7 +26,11 @@ public abstract class Player implements PlayerInterface {
   public void addCards(List<Card> cards) {
     myHand.addAll(cards);
   }
-  
+
+  /**
+   * asdds a single card c to a player's hand
+   * @param c
+   */
   public void addCard(Card c){myHand.add(c);}
 
   @Override

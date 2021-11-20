@@ -71,6 +71,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
 
     myDeck = new UnoDeck(version);
+    dealCards();
     myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
 
@@ -274,16 +275,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return ret;
   }
 
-  private void dealCards() throws DeckToSmallException {
-    int numCardsToBeDealt = NUM_CARDS_PER_PLAYER*myPlayers.size();
-    if(numCardsToBeDealt > myDeck.getNumCards()){
-      throw new DeckToSmallException();
-    }
+  private void dealCards() {
 
     for(int i = 0; i < NUM_CARDS_PER_PLAYER; i++){
       for(int j = 0; j < myPlayers.size(); j++){
         Card newCard = myDeck.popTopCard();
-        myPlayers.get(j).ad
+        myPlayers.get(j).addCard(newCard);
       }
     }
   }
