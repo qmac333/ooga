@@ -10,6 +10,18 @@
     -fx-padding: 8;
 }
 
+.delete-button {
+    -fx-pref-width: 20px;
+    -fx-pref-height: 5px;
+    -fx-text-fill: ghostwhite;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-background-color: darkred;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-padding: 0;
+}
+
 .vbox {
     -fx-padding: 15px;
     -fx-alignment: center;
