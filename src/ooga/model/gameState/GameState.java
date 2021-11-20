@@ -82,7 +82,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = 100;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
 
 
@@ -108,13 +108,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void discardCard(Card c) {
-    myDiscardPile.push(c);
+    myDiscardPile.placeOnTop(c);
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return myDiscardPile.peek().getType();
+    return myDiscardPile.lastCardPushed().getType();
   }
 
 
@@ -182,7 +182,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public boolean canPlayCard(Card cardToPlay) {
-    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.peek(), cardToPlay));
+    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
   }
 
   @Override
