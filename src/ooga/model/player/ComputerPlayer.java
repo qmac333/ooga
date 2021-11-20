@@ -21,6 +21,7 @@ public class ComputerPlayer extends Player {
     Optional<Card> cardToPlay = super.getMyHand().stream().filter(game::canPlayCard).findAny();
     if (cardToPlay.isPresent()) {
       cardToPlay.get().executeAction(game);
+      super.getMyHand().remove(cardToPlay.get());
     } else {
       super.addCards(game.noPlayDraw());
     }

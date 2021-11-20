@@ -46,8 +46,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayers = new ArrayList<>();
     myDiscardPile = new Stack<>();
     currentPlayer = 0;
-    myRules = new ArrayList<>();
-    myDrawRule = new NormalDrawRule();
+
+
+    try {
+      myRules = createRules();
+      myDrawRule = createDrawRule();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
 
 
     myCardFactory = new CardFactory();
@@ -64,6 +70,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
 
     createDeck();
+    myDiscardPile.push(myDeck.pop());
   }
 
   /**
@@ -127,6 +134,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
       myDrawRule.forcedDraw(this, impendingDraw);
+      impendingDraw = 0;
     } else {
       player.playCard();
     }
@@ -164,8 +172,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    // FIXME: Actually Create (Need deck creation)
-    return new NumberCard("Red", 5);
+    return myDeck.pop();
   }
 
   @Override
@@ -296,6 +303,23 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
         }
       }
     }
+  }
+
+  private DrawRuleInterface createDrawRule()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"), gameStateResources.getString("DrawRule")));
+    return (DrawRuleInterface) clazz.getDeclaredConstructor().newInstance();
+  }
+
+  private List<RuleInterface> createRules()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    String base = gameStateResources.getString("PlayRulesBase");
+    List<RuleInterface> ret = new ArrayList<>();
+    for (String rule : gameStateResources.getString("PlayRules").split(",")){
+      Class<?> clazz = Class.forName(String.format(base, rule));
+      ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
+    }
+    return ret;
   }
 
 }
