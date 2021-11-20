@@ -4,10 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ooga.model.CardFactory;
-import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPile;
+import ooga.model.deck.DeckToSmallException;
+import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
-import ooga.model.drawRule.NormalDrawRule;
 import ooga.model.player.Player;
 
 import ooga.model.cards.Card;
@@ -21,8 +22,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private int currentPlayer;
   private final List<Player> myPlayers;
-  private final Stack<Card> myDiscardPile;
-  private Stack<Card> myDeck;
+  private final CardPile myDiscardPile;
+  private CardPile myDeck;
 
   private int impendingDraw;
   private boolean skipNext;
@@ -35,7 +36,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean stackable;
   private final int pointsToWin;
 
-  private CardFactory myCardFactory;
+  private final static int NUM_CARDS_PER_PLAYER = 7;
+
+
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -44,14 +47,18 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
-    myRules = new ArrayList<>();
-    myDrawRule = new NormalDrawRule();
 
 
-    myCardFactory = new CardFactory();
-    myDeck = new Stack<>();
+    try {
+      myRules = createRules();
+      myDrawRule = createDrawRule();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
+
 
     // FIXME: Create useful error
     try {
@@ -63,7 +70,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.playerMap = playerMap;
     this.stackable = stackable;
 
-    createDeck();
+    myDeck = new UnoDeck(version);
+    dealCards();
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
 
   /**
@@ -75,7 +84,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = 100;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
 
 
@@ -101,7 +110,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void discardCard(Card c) {
-    myDiscardPile.push(c);
+    myDiscardPile.placeOnTop(c);
   }
 
   @Override
@@ -111,7 +120,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public String getLastCardThrownType() {
-    return myDiscardPile.peek().getType();
+    return myDiscardPile.lastCardPushed().getType();
   }
 
 
@@ -131,6 +140,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
       myDrawRule.forcedDraw(this, impendingDraw);
+      impendingDraw = 0;
     } else {
       player.playCard();
     }
@@ -168,8 +178,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    // FIXME: Actually Create (Need deck creation)
-    return new NumberCard("Red", 5);
+    return myDeck.popTopCard();
   }
 
   @Override
@@ -179,7 +188,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public boolean canPlayCard(Card cardToPlay) {
-    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.peek(), cardToPlay));
+    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
   }
 
   @Override
@@ -253,51 +262,29 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
 
-  private void createDeck(){
-    ResourceBundle deckProperties = ResourceBundle.getBundle(
-            "ooga.model.gameState." + version + "Deck");
-
-    List<String> colors = List.of(deckProperties.getString("Colors").split(","));
-    List<String> actionCards = List.of(deckProperties.getString("ActionCards").split(","));
-    int numActionCards = Integer.parseInt(deckProperties.getString("NumberOfAction"));
-
-    List<String> numberCards = List.of(deckProperties.getString("NumberCards").split(","));
-    int numNumberCards = Integer.parseInt(deckProperties.getString("NumberOfNumber"));
-
-    List<String> wildCards = List.of(deckProperties.getString("WildCards").split(","));
-    int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
-
-    List<Card> cards = new ArrayList<Card>();
-
-    createCardsFromData(colors, numActionCards, actionCards, cards);
-    createCardsFromData(colors, numNumberCards, numberCards, cards);
-    createCardsFromData(colors, numWildCards, wildCards, cards);
-
-    Collections.shuffle(cards);
-
-    myDeck.addAll(cards);
-
+  private DrawRuleInterface createDrawRule()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"), gameStateResources.getString("DrawRule")));
+    return (DrawRuleInterface) clazz.getDeclaredConstructor().newInstance();
   }
 
-  private void createCardsFromData(List<String> colorList,
-                                         int numCards,
-                                         List<String> cardTypeList,
-                                         List<Card> deckList){
+  private List<RuleInterface> createRules()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    String base = gameStateResources.getString("PlayRulesBase");
+    List<RuleInterface> ret = new ArrayList<>();
+    for (String rule : gameStateResources.getString("PlayRules").split(",")){
+      Class<?> clazz = Class.forName(String.format(base, rule));
+      ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
+    }
+    return ret;
+  }
 
-    for(String type : cardTypeList){
-      for(int i = 0; i < numCards; i++){
-        Card newCard;
-        for(String color : colorList){
+  private void dealCards() {
 
-          try{
-            int n = Integer.parseInt(type);
-            newCard = myCardFactory.makeCard("Number", n, color);
-          }
-          catch(NumberFormatException e){
-            newCard = myCardFactory.makeCard(type, -1, color);
-          }
-          deckList.add(newCard);
-        }
+    for(int i = 0; i < NUM_CARDS_PER_PLAYER; i++){
+      for(int j = 0; j < myPlayers.size(); j++){
+        Card newCard = myDeck.popTopCard();
+        myPlayers.get(j).addCard(newCard);
       }
     }
   }

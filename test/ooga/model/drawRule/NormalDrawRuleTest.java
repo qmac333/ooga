@@ -2,6 +2,7 @@ package ooga.model.drawRule;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ public class NormalDrawRuleTest {
   @BeforeEach
   public void start(){
     normalDrawRule = new NormalDrawRule();
-    game = new GameState();
+    game = new GameState("Basic", new HashMap<>(), 100, false);
   }
 
   @Test
