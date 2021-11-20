@@ -1,7 +1,6 @@
 package ooga.model.deck;
 
 import ooga.model.cards.Card;
-import ooga.model.deck.CardPileInterface;
 
 import java.util.*;
 
@@ -14,8 +13,12 @@ public abstract class CardPile implements CardPileInterface {
     }
 
     @Override
-    public void pushCard(Card c) {
+    public void placeOnTop(Card c) {
         pile.push(c);
+    }
+
+    public void placeOneTop(Collection<Card> cards){
+        addFromCollection(cards);
     }
 
     @Override
@@ -40,8 +43,12 @@ public abstract class CardPile implements CardPileInterface {
         pile.clear();
 
         Collections.shuffle((List<?>) intermediary);
-        for(Card c : intermediary){
-            other.pushCard(c);
+
+    }
+
+    private void addFromCollection(Collection<Card> cardGroup){
+        for(Card c : cardGroup){
+            this.placeOnTop(c);
         }
     }
 }

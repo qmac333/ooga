@@ -13,7 +13,7 @@ public interface CardPileInterface {
     /**
      * pushes card to the top of a pile of cards
      */
-    public void pushCard(Card c);
+    public void placeOnTop(Card c);
 
     /**
      * allows caller to see the card at the top of a

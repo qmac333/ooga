@@ -21,7 +21,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private int currentPlayer;
   private final List<Player> myPlayers;
-  private final Stack<Card> myDiscardPile;
+  private final CardPile myDiscardPile;
   private CardPile myDeck;
 
   private int impendingDraw;
@@ -255,55 +255,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
-
-  private void createDeck(){
-    ResourceBundle deckProperties = ResourceBundle.getBundle(
-            "ooga.model.gameState." + version + "Deck");
-
-    List<String> colors = List.of(deckProperties.getString("Colors").split(","));
-    List<String> actionCards = List.of(deckProperties.getString("ActionCards").split(","));
-    int numActionCards = Integer.parseInt(deckProperties.getString("NumberOfAction"));
-
-    List<String> numberCards = List.of(deckProperties.getString("NumberCards").split(","));
-    int numNumberCards = Integer.parseInt(deckProperties.getString("NumberOfNumber"));
-
-    List<String> wildCards = List.of(deckProperties.getString("WildCards").split(","));
-    int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
-
-    List<Card> cards = new ArrayList<Card>();
-
-    createCardsFromData(colors, numActionCards, actionCards, cards);
-    createCardsFromData(colors, numNumberCards, numberCards, cards);
-    createCardsFromData(colors, numWildCards, wildCards, cards);
-
-    Collections.shuffle(cards);
-
-    myDeck.addAll(cards);
-
-  }
-
-  private void createCardsFromData(List<String> colorList,
-                                         int numCards,
-                                         List<String> cardTypeList,
-                                         List<Card> deckList){
-
-    for(String type : cardTypeList){
-      for(int i = 0; i < numCards; i++){
-        Card newCard;
-        for(String color : colorList){
-
-          try{
-            int n = Integer.parseInt(type);
-            newCard = myCardFactory.makeCard("Number", n, color);
-          }
-          catch(NumberFormatException e){
-            newCard = myCardFactory.makeCard(type, -1, color);
-          }
-          deckList.add(newCard);
-        }
-      }
-    }
-  }
 
   private DrawRuleInterface createDrawRule()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
