@@ -6,7 +6,7 @@ import java.util.*;
 import ooga.model.CardFactory;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
-import ooga.model.deck.CardPileInterface;
+import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.Player;
 
@@ -44,7 +44,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
 
 
@@ -57,7 +57,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
 
     myCardFactory = new CardFactory();
-    myDeck = new Stack<>();
+
 
     // FIXME: Create useful error
     try {
@@ -69,8 +69,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.playerMap = playerMap;
     this.stackable = stackable;
 
-    createDeck();
-    myDiscardPile.push(myDeck.popLastCard());
+    myDeck = new UnoDeck(version);
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
 
   /**
@@ -172,7 +172,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    return myDeck.popLastCard();
+    return myDeck.popTopCard();
   }
 
   @Override

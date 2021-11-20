@@ -24,7 +24,7 @@ public interface CardPileInterface {
     /**
      * removes a card from the top of a pile of cards
      */
-    public Card popLastCard();
+    public Card popTopCard();
 
     /**
      * removes all the cards from one CardPile and adds them to other,

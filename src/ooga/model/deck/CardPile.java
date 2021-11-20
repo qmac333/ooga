@@ -4,7 +4,7 @@ import ooga.model.cards.Card;
 
 import java.util.*;
 
-public abstract class CardPile implements CardPileInterface {
+public class CardPile implements CardPileInterface {
 
     private Stack<Card> pile;
 
@@ -17,7 +17,7 @@ public abstract class CardPile implements CardPileInterface {
         pile.push(c);
     }
 
-    public void placeOneTop(Collection<Card> cards){
+    public void placeOnTop(Collection<Card> cards){
         addFromCollection(cards);
     }
 
@@ -27,7 +27,7 @@ public abstract class CardPile implements CardPileInterface {
     }
 
     @Override
-    public Card popLastCard() {
+    public Card popTopCard() {
         try{
             return pile.pop();
         }

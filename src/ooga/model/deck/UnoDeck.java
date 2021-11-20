@@ -13,6 +13,7 @@ public class UnoDeck extends CardPile{
     private CardFactory myCardFactory;
 
     public UnoDeck(String version){
+        myCardFactory = new CardFactory();
         createDeck(version);
     }
 
@@ -39,7 +40,7 @@ public class UnoDeck extends CardPile{
 
         Collections.shuffle(cards);
 
-        super.placeOneTop(cards);
+        super.placeOnTop(cards);
 
     }
 
