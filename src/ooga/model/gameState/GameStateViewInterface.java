@@ -34,11 +34,23 @@ public interface GameStateViewInterface {
   public int getCurrentPlayer();
 
   /**
-   * returns a map of card types to the different Colors and Types of cards
-   * that exist in a players hand with that number
-   * @return a Map of Integers to Lists of Strings
+   * Returns a list of the player's cards to display
+   * @return a list of cards in the player's hand
    */
   public List<ViewCardInterface> getCurrentPlayerCards();
+
+  /**
+   * Gets the top card of the deck.
+   * @return the top card of the deck
+   */
+  public ViewCardInterface getNextCard();
+
+  /**
+   * Gets the card at the top of the discard pile.
+   * @return the top card of the discard pile.
+   */
+  public ViewCardInterface getLastCardThrown();
+
 
   /**
    * Plays a turn of the game.

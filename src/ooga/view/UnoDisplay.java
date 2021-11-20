@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
+import ooga.model.cards.ViewCardInterface;
 import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {

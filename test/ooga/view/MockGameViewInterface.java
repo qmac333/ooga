@@ -54,6 +54,16 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public ViewCardInterface getNextCard() {
+    return null;
+  }
+
+  @Override
+  public ViewCardInterface getLastCardThrown() {
+    return null;
+  }
+
+  @Override
   public void playTurn() {
 
   }
