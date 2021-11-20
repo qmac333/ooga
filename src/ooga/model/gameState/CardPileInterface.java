@@ -13,7 +13,7 @@ public interface CardPileInterface {
     /**
      * pushes card to the top of a pile of cards
      */
-    public void pushCard();
+    public void pushCard(Card c);
 
     /**
      * allows caller to see the card at the top of a
@@ -25,4 +25,10 @@ public interface CardPileInterface {
      * removes a card from the top of a pile of cards
      */
     public Card popLastCard();
+
+    /**
+     * removes all the cards from one CardPile and adds them to another,
+     * emptying the first one in the process
+     */
+    public void copyOver(CardPileInterface other);
 }

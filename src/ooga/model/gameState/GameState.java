@@ -22,7 +22,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private int currentPlayer;
   private final List<Player> myPlayers;
   private final Stack<Card> myDiscardPile;
-  private Stack<Card> myDeck;
+  private CardPileInterface myDeck;
 
   private int impendingDraw;
   private boolean skipNext;
@@ -70,7 +70,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
 
     createDeck();
-    myDiscardPile.push(myDeck.pop());
+    myDiscardPile.push(myDeck.popLastCard());
   }
 
   /**
@@ -172,7 +172,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    return myDeck.pop();
+    return myDeck.popLastCard();
   }
 
   @Override
