@@ -6,6 +6,7 @@ import java.util.*;
 import ooga.model.CardFactory;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
+import ooga.model.deck.DeckToSmallException;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.Player;
@@ -35,6 +36,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean stackable;
   private final int pointsToWin;
 
+  private final static int NUM_CARDS_PER_PLAYER = 7;
+
 
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
@@ -54,7 +57,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } catch (Exception e){
       e.printStackTrace();
     }
-    
+
 
 
     // FIXME: Create useful error
@@ -269,6 +272,20 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
     }
     return ret;
+  }
+
+  private void dealCards() throws DeckToSmallException {
+    int numCardsToBeDealt = NUM_CARDS_PER_PLAYER*myPlayers.size();
+    if(numCardsToBeDealt > myDeck.getNumCards()){
+      throw new DeckToSmallException();
+    }
+
+    for(int i = 0; i < NUM_CARDS_PER_PLAYER; i++){
+      for(int j = 0; j < myPlayers.size(); j++){
+        Card newCard = myDeck.popTopCard();
+        myPlayers.get(j).ad
+      }
+    }
   }
 
 }

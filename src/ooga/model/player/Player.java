@@ -26,6 +26,8 @@ public abstract class Player implements PlayerInterface {
   public void addCards(List<Card> cards) {
     myHand.addAll(cards);
   }
+  
+  public void addCard(Card c){myHand.add(c);}
 
   @Override
   public Collection<Card> getHand() {

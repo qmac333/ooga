@@ -16,6 +16,12 @@ public interface CardPileInterface {
     public void placeOnTop(Card c);
 
     /**
+     * gets the number of cards in a pile
+     */
+    public int getNumCards();
+
+
+    /**
      * allows caller to see the card at the top of a
      * pile of cards
      */

@@ -17,6 +17,11 @@ public class CardPile implements CardPileInterface {
         pile.push(c);
     }
 
+    @Override
+    public int getNumCards() {
+        return pile.size();
+    }
+
     public void placeOnTop(Collection<Card> cards){
         addFromCollection(cards);
     }
