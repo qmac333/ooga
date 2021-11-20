@@ -4,10 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import ooga.model.CardFactory;
-import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPile;
+import ooga.model.deck.CardPileInterface;
 import ooga.model.drawRule.DrawRuleInterface;
-import ooga.model.drawRule.NormalDrawRule;
 import ooga.model.player.Player;
 
 import ooga.model.cards.Card;
@@ -22,7 +22,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private int currentPlayer;
   private final List<Player> myPlayers;
   private final Stack<Card> myDiscardPile;
-  private CardPileInterface myDeck;
+  private CardPile myDeck;
 
   private int impendingDraw;
   private boolean skipNext;

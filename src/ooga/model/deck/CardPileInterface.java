@@ -1,4 +1,4 @@
-package ooga.model.gameState;
+package ooga.model.deck;
 
 
 import ooga.model.cards.Card;
@@ -27,7 +27,7 @@ public interface CardPileInterface {
     public Card popLastCard();
 
     /**
-     * removes all the cards from one CardPile and adds them to another,
+     * removes all the cards from one CardPile and adds them to other,
      * emptying the first one in the process
      */
     public void copyOver(CardPileInterface other);
