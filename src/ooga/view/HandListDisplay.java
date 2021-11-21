@@ -46,7 +46,6 @@ public class HandListDisplay implements DisplayableItem {
   }
 
   private void update() {
-    long startTime = System.currentTimeMillis();
     handList.getChildren().clear();
     cardDisplay.clear();
     currentCards = gameState.getCurrentPlayerCards();
@@ -58,9 +57,6 @@ public class HandListDisplay implements DisplayableItem {
       cardDisplay.add(card);
       handList.getChildren().add(card);
     }
-    long endTime = System.currentTimeMillis();
-
-    System.out.println("That took " + (endTime - startTime) + " milliseconds");
   }
 
   @Override
