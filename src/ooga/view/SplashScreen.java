@@ -3,10 +3,7 @@ package ooga.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -94,7 +91,7 @@ public class SplashScreen implements GameScreen {
 
     Button setGame = new Button(languageResources.getString("GameParameters"));
     // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
-//    setGame.setOnAction(e -> controller.setGameParameters(points.getText(), gameType, stackable));
+    setGame.setOnAction(e -> setGameHandler(points));
 
     Button loadExisting = new Button(languageResources.getString("LoadExisting"));
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
@@ -104,6 +101,20 @@ public class SplashScreen implements GameScreen {
     root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
 
     return root;
+  }
+
+  private void setGameHandler(TextField points){
+    Map<String, String> playerMap = new HashMap<>();
+    int rows = initialPlayers.getNumRows();
+    for(int i = 1; i < rows; i++){
+      Text currentNameNode = (Text) initialPlayers.getCell(0, i);
+      String currentName = currentNameNode.getText();
+      Text currentTypeNode = (Text) initialPlayers.getCell(1, i);
+      String currentType = currentTypeNode.getText();
+      playerMap.put(currentName, currentType);
+    }
+
+    controller.setGameParameters(gameType, playerMap, points.getText(), stackable);
   }
 
   private void stack(Button button) {
@@ -139,29 +150,35 @@ public class SplashScreen implements GameScreen {
     return root;
   }
 
-  private void addNewPlayer(TextField nameInput, TextField playerTypeInput) {
+  private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {
+
     String name = nameInput.getText();
-    String playerType = playerTypeInput.getText();
-    nameInput.clear();
-    playerTypeInput.clear();
+    String playerType = playerTypeInput.getValue();
+    if(playerType == "Human" || playerType == "CPU"){
+      nameInput.clear();
 
-    Button deleteButton = new Button("-");
-    deleteButton.getStyleClass().add("delete-button");
-    rows.add(deleteButton);
+      Button deleteButton = new Button("-");
+      deleteButton.getStyleClass().add("delete-button");
+      rows.add(deleteButton);
 
-    int currentRow = initialPlayers.getNumRows();
-    deleteButton.setOnAction(e -> {
-      delete(currentRow);
-      for (int i=currentRow-1; i<rows.size(); i++) {
-        int finalI = i;
-        rows.get(i).setOnAction(var -> delete(finalI +1));
-      }
-    });
+      int currentRow = initialPlayers.getNumRows();
+      deleteButton.setOnAction(e -> {
+        delete(currentRow);
+        for (int i=currentRow-1; i<rows.size(); i++) {
+          int finalI = i;
+          rows.get(i).setOnAction(var -> delete(finalI +1));
+        }
+      });
 
-    initialPlayers.addRow();
-    initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
-    initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
-    initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+      initialPlayers.addRow();
+      initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
+      initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
+      initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+    }
+
+    else{
+      sendAlert("Please Select Player Type");
+    }
   }
 
   private void delete(int currentRow) {
@@ -196,6 +213,13 @@ public class SplashScreen implements GameScreen {
 
   private void initDynamicView() {
 
+  }
+
+  // displays alert/error message to the user
+  private void sendAlert(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 
 }
