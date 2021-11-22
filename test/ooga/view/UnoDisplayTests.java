@@ -10,8 +10,9 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
+    CardDisplay.initializeCards();
     UnoController controller = new UnoController(stage);
-    controller.start();
+    controller.languageHandler("English");
     controller.loadNewHandler("data/configurationfiles/example1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
@@ -24,7 +25,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
     clickOn(backButton);
 
     // assert that the playButton is on the screen
-    Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+    // Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
 
   }
 

@@ -15,6 +15,4 @@ public interface SplashScreenController {
 
   void loadNewHandler(String filepath);
 
-  void languageHandler();
-
 }
