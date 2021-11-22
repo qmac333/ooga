@@ -33,9 +33,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private List<RuleInterface> myRules;
   private DrawRuleInterface myDrawRule;
   private Map<String, String> playerMap;
+  private int[] playerPoints;
   private boolean stackable;
   private final int pointsToWin;
 
+  private boolean uno;
   private final static int NUM_CARDS_PER_PLAYER = 7;
 
 
@@ -69,6 +71,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
+
+    uno = false;
+    playerPoints = new int[myPlayers.size()];
 
     myDeck = new UnoDeck(version);
     dealCards();
@@ -139,6 +144,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       impendingDraw = 0;
     } else {
       player.playCard();
+    }
+    if(uno){
+      int totalNumPoints = 0;
+      for(Player p : myPlayers){
+        totalNumPoints += p.getNumPoints();
+      }
+      playerPoints[currentPlayer] += totalNumPoints;
+      uno = false;
     }
     loadNextPlayer();
   }

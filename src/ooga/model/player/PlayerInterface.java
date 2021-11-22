@@ -35,4 +35,10 @@ public interface PlayerInterface {
    * @return a String that is the player's name
    */
   public String getName();
+
+  /**
+   * returns the total number of points that a player's hand contains
+   * @return integer sum of card nums
+   */
+  public int getNumPoints();
 }
