@@ -21,10 +21,7 @@ import ooga.view.table.Table;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SplashScreen implements GameScreen {
 
@@ -43,18 +40,20 @@ public class SplashScreen implements GameScreen {
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 70;
 
+  protected ResourceBundle languageResources;
+
   private Table initialPlayers;
   private List<Button> rows;
 
   private boolean stackable;
-  private int pointsToWin;
   private String gameType;
   private Map<String, String> players;
 
   SplashScreenController controller;
 
-  public SplashScreen(SplashScreenController controller) {
+  public SplashScreen(SplashScreenController controller, String language) {
     this.controller = controller;
+    languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     initializeTable();
     rows = new ArrayList<>();
     players = new HashMap<>();
@@ -110,13 +109,7 @@ public class SplashScreen implements GameScreen {
     Button loadNew = new Button("Load New Game");
     loadNew.setOnAction(e -> chooseFile());
 
-    ChoiceBox<String> language = new ChoiceBox<>();
-    language.setValue("Language");
-    language.getItems().add("English");
-    language.getItems().add("Spanish");
-    language.setOnAction(e -> controller.languageHandler());
-
-    root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew, language);
+    root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
 
     return root;
   }
