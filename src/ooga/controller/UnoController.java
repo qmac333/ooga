@@ -3,8 +3,7 @@ package ooga.controller;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import javafx.scene.control.Alert;
@@ -14,7 +13,6 @@ import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
-import ooga.model.gameState.GameState;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -28,6 +26,11 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
 
   private Moshi moshi;
   private GameState model;
+
+  private String currentVersion;
+  private Map<String, String> currentPlayerMap;
+  private int currentPointsToWin;
+  private boolean currentStackable;
 
   /**
    * initializes data structures for the UnoController
@@ -45,15 +48,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   // TODO: does the view do this directly through the GameStateViewInterface?
   public void setupConsumer(Consumer viewConsumer) {
-
-  }
-
-  /**
-   * steps through one turn of the game by calling the corresponding model method MAYBE pause the
-   * timeline if it is the user's turn? In this case you would unpause the timeline once the
-   * playUserCard method got called...
-   */
-  public void step() {
 
   }
 
@@ -83,6 +77,27 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
     showScreen(splashScreen);
   }
 
+  @Override
+  public void setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable){
+    if(version != null && playerMap.size() > 0 && pointsToWin != null){
+      try{
+        currentPointsToWin = Integer.parseInt(pointsToWin);
+        currentVersion = version;
+        currentPlayerMap = playerMap;
+        currentStackable = stackable;
+
+        model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
+      }
+      catch(NumberFormatException e){
+        sendAlert("Please Input a Numeric Value in the Points to Win Field");
+      }
+    }
+    else{
+      sendAlert("Please Input ALL Game Parameters (Version, Points to Win, Stackability and Players)");
+    }
+
+  }
+
   /**
    * Creates new Uno game display
    */
@@ -93,7 +108,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
       showScreen(unoDisplay);
     }
     else{
-      sendAlert("Please Load a Configuration File");
+      sendAlert("Please Load a Configuration File or Manually Input Parameters");
     }
   }
 

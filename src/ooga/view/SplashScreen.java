@@ -3,10 +3,7 @@ package ooga.view;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -37,7 +34,7 @@ public class SplashScreen implements GameScreen {
   private static final String TABLE_HEADER_MIDDLE = "Player Type";
   private static final String TABLE_HEADER_RIGHT = "Delete";
   private static final String NAME_INPUT = "Enter a Name";
-  private static final String TYPE_INPUT = "Enter 'Human' or 'CPU'";
+  private static final String TYPE_INPUT = "Player Type";
   private static final String POINTS_INPUT = "How Many Points To Win?";
 
   private static double CELL_HEIGHT = 30;
@@ -93,9 +90,9 @@ public class SplashScreen implements GameScreen {
 
     ChoiceBox<String> game = new ChoiceBox<>();
     game.setValue("UNO Game Type");
-    game.getItems().add("Original");
-    game.getItems().add("UNO Flip");
-    game.getItems().add("UNO Blast");
+    game.getItems().add("Basic");
+    game.getItems().add("Flip");
+    game.getItems().add("Blast");
     game.setOnAction(e -> gameType = game.getValue());
 
     Button stackCards = new Button("Stack Cards? NO");
@@ -103,7 +100,7 @@ public class SplashScreen implements GameScreen {
 
     Button setGame = new Button("Set Game Parameters");
     // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
-//    setGame.setOnAction(e -> controller.setGameParameters(points.getText(), gameType, stackable));
+    setGame.setOnAction(e -> setGameHandler(points));
 
     Button loadExisting = new Button("Load Existing Game");
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
@@ -119,6 +116,20 @@ public class SplashScreen implements GameScreen {
     root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew, language);
 
     return root;
+  }
+
+  private void setGameHandler(TextField points){
+    Map<String, String> playerMap = new HashMap<>();
+    int rows = initialPlayers.getNumRows();
+    for(int i = 1; i < rows; i++){
+      Text currentNameNode = (Text) initialPlayers.getCell(0, i);
+      String currentName = currentNameNode.getText();
+      Text currentTypeNode = (Text) initialPlayers.getCell(1, i);
+      String currentType = currentTypeNode.getText();
+      playerMap.put(currentName, currentType);
+    }
+
+    controller.setGameParameters(gameType, playerMap, points.getText(), stackable);
   }
 
   private void stack(Button button) {
@@ -154,29 +165,35 @@ public class SplashScreen implements GameScreen {
     return root;
   }
 
-  private void addNewPlayer(TextField nameInput, TextField playerTypeInput) {
+  private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {
+
     String name = nameInput.getText();
-    String playerType = playerTypeInput.getText();
-    nameInput.clear();
-    playerTypeInput.clear();
+    String playerType = playerTypeInput.getValue();
+    if(playerType == "Human" || playerType == "CPU"){
+      nameInput.clear();
 
-    Button deleteButton = new Button("-");
-    deleteButton.getStyleClass().add("delete-button");
-    rows.add(deleteButton);
+      Button deleteButton = new Button("-");
+      deleteButton.getStyleClass().add("delete-button");
+      rows.add(deleteButton);
 
-    int currentRow = initialPlayers.getNumRows();
-    deleteButton.setOnAction(e -> {
-      delete(currentRow);
-      for (int i=currentRow-1; i<rows.size(); i++) {
-        int finalI = i;
-        rows.get(i).setOnAction(var -> delete(finalI +1));
-      }
-    });
+      int currentRow = initialPlayers.getNumRows();
+      deleteButton.setOnAction(e -> {
+        delete(currentRow);
+        for (int i=currentRow-1; i<rows.size(); i++) {
+          int finalI = i;
+          rows.get(i).setOnAction(var -> delete(finalI +1));
+        }
+      });
 
-    initialPlayers.addRow();
-    initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
-    initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
-    initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+      initialPlayers.addRow();
+      initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
+      initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
+      initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+    }
+
+    else{
+      sendAlert("Please Select Player Type");
+    }
   }
 
   private void delete(int currentRow) {
@@ -191,8 +208,10 @@ public class SplashScreen implements GameScreen {
     TextField nameInput = new TextField();
     nameInput.setPromptText(NAME_INPUT);
 
-    TextField playerTypeInput = new TextField();
-    playerTypeInput.setPromptText(TYPE_INPUT);
+    ChoiceBox<String> playerTypeInput = new ChoiceBox<>();
+    playerTypeInput.setValue(TYPE_INPUT);
+    playerTypeInput.getItems().add("Human");
+    playerTypeInput.getItems().add("CPU");
 
     Button addPlayer = new Button("Add New Player");
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
@@ -211,6 +230,13 @@ public class SplashScreen implements GameScreen {
 
   private void initDynamicView() {
 
+  }
+
+  // displays alert/error message to the user
+  private void sendAlert(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 
 }
