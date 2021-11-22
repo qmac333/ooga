@@ -7,7 +7,7 @@ public class DrawFourCard extends Card {
   private final int DRAW_AMOUNT = 4;
 
   public DrawFourCard(String color) {
-    super("Black", "DrawFour", -1);
+    super("Black", "DrawFour", 50);
   }
 
   @Override

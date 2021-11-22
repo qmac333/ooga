@@ -74,7 +74,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     uno = false;
     playerPoints = new int[myPlayers.size()];
-    
+
     myDeck = new UnoDeck(version);
     dealCards();
     myDiscardPile.placeOnTop(myDeck.popTopCard());
@@ -145,6 +145,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } else {
       player.playCard();
     }
+
     loadNextPlayer();
   }
 

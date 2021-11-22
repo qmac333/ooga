@@ -6,7 +6,7 @@ import ooga.model.gameState.GameStatePlayerInterface;
 public class SkipCard extends Card {
 
   public SkipCard(String color) {
-    super(color, "Skip", -1);
+    super(color, "Skip", 20);
   }
 
   @Override

@@ -8,7 +8,7 @@ public class DrawTwoCard extends Card {
   private final int DRAW_AMOUNT = 2;
 
   public DrawTwoCard(String color) {
-    super(color, "DrawTwo", -1);
+    super(color, "DrawTwo", 20);
   }
 
   @Override
