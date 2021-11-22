@@ -145,7 +145,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } else {
       player.playCard();
     }
-
+    if(uno){
+      int totalNumPoints = 0;
+      for(Player p : myPlayers){
+        totalNumPoints += p.getNumPoints();
+      }
+      playerPoints[currentPlayer] += totalNumPoints;
+      uno = false;
+    }
     loadNextPlayer();
   }
 
