@@ -83,22 +83,22 @@ public class SplashScreen implements GameScreen {
     points.setPromptText(languageResources.getString("PointsInput"));
 
     ChoiceBox<String> game = new ChoiceBox<>();
-    game.setValue("UNO Game Type");
-    game.getItems().add("Original");
-    game.getItems().add("UNO Flip");
-    game.getItems().add("UNO Blast");
+    game.setValue(languageResources.getString("GameHeader"));
+    game.getItems().add(languageResources.getString("Original"));
+    game.getItems().add(languageResources.getString("Flip"));
+    game.getItems().add(languageResources.getString("Blast"));
     game.setOnAction(e -> gameType = game.getValue());
 
-    Button stackCards = new Button("Stack Cards? NO");
+    Button stackCards = new Button(languageResources.getString("NoStack"));
     stackCards.setOnAction(e -> stack(stackCards));
 
     Button setGame = new Button("Set Game Parameters");
     // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
 //    setGame.setOnAction(e -> controller.setGameParameters(points.getText(), gameType, stackable));
 
-    Button loadExisting = new Button("Load Existing Game");
+    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
-    Button loadNew = new Button("Load New Game");
+    Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setOnAction(e -> chooseFile());
 
     root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
@@ -109,10 +109,10 @@ public class SplashScreen implements GameScreen {
   private void stack(Button button) {
     stackable = !stackable;
     if (!stackable) {
-      button.setText("Stack Cards? NO");
+      button.setText(languageResources.getString("NoStack"));
     }
     else {
-      button.setText("Stack Cards? YES");
+      button.setText(languageResources.getString("YesStack"));
     }
   }
 
@@ -131,7 +131,7 @@ public class SplashScreen implements GameScreen {
     HBox root = new HBox();
     root.getStyleClass().add("hbox");
 
-    Button playButton = new Button("Play");
+    Button playButton = new Button(languageResources.getString("Play"));
     playButton.setId(PLAY_CSS_ID);
     playButton.setOnAction(e -> controller.playButtonHandler());
 
@@ -179,7 +179,7 @@ public class SplashScreen implements GameScreen {
     TextField playerTypeInput = new TextField();
     playerTypeInput.setPromptText(languageResources.getString("TypeInput"));
 
-    Button addPlayer = new Button("Add New Player");
+    Button addPlayer = new Button(languageResources.getString("AddPlayer"));
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
 
     table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, new Separator(), initialPlayers.getDisplayableItem());
