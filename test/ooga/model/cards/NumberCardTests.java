@@ -13,7 +13,7 @@ public class NumberCardTests extends DukeApplicationTest {
     GameState game;
 
     @BeforeEach
-    public void start(){game = new GameState(null, new HashMap<>(), 100, false);}
+    public void start(){game = new GameState("Basic", new HashMap<>(), 100, false);}
 
     @Test
     public void numberCardTest(){

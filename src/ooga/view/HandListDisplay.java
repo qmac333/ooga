@@ -1,51 +1,27 @@
 package ooga.view;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
-import ooga.controller.UnoController;
 import ooga.controller.UnoDisplayController;
-import ooga.model.cards.Card;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
 
 public class HandListDisplay implements DisplayableItem {
 
-  private static final Map<String, Color> COLORS = Map.of(
-          "blue", Color.BLUE,
-          "red", Color.RED,
-          "green", Color.GREEN,
-          "yellow", Color.YELLOW
-  );
-
-  private static Color DEFAULT_COLOR = Color.BLACK;
-  private static double CARD_WIDTH = 60;
-  private static double CARD_HEIGHT = 100;
-  private static double CARD_OFFSET = 10;
-
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
   private HBox handList;
-  private List<List<String>> currentCards;
-  private List<StackPane> cardDisplay;
+  private List<ViewCardInterface> currentCards;
+  private List<Node> cardDisplay;
   private Timeline timeline;
 
   /**
@@ -70,35 +46,22 @@ public class HandListDisplay implements DisplayableItem {
   }
 
   private void update() {
+    handList.getChildren().clear();
+    cardDisplay.clear();
     currentCards = gameState.getCurrentPlayerCards();
+    for (ViewCardInterface cardProps : currentCards) {
+      CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()), cardProps.getType(), cardProps.getMyColor());
+      Node card = cardMock.getCard();
+
+      card.setOnMouseClicked(e -> controller.playUserCard(cardDisplay.indexOf(card)));
+      cardDisplay.add(card);
+      handList.getChildren().add(card);
+    }
   }
 
   @Override
   public Node getDisplayableItem() {
-    try {
-      handList.setSpacing(20);
-      for (List<String> cardProps : currentCards) {
-        StackPane stack = new StackPane();
-        Rectangle base = new Rectangle(CARD_WIDTH+CARD_OFFSET, CARD_HEIGHT+CARD_OFFSET);
-        base.setFill(DEFAULT_COLOR);
-        Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-        card.setFill(COLORS.get(cardProps.get(1)));
-
-        Image image = new Image(new FileInputStream(String.format("./data/%s.png", cardProps.get(0))));
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(CARD_WIDTH);
-        imageView.setFitWidth(CARD_HEIGHT/2);
-
-        stack.getChildren().addAll(base, card, imageView);
-        StackPane.setMargin(stack, new Insets(0, 10, 0, 0));
-        cardDisplay.add(stack);
-        stack.setOnMouseClicked(e -> controller.playUserCard(cardDisplay.indexOf(stack)));
-        handList.getChildren().add(stack);
-      }
-    }
-    catch(Exception e) {
-      System.out.println("Couldn't find the image file for the card.");
-    }
+    handList.setSpacing(20);
     return handList;
   }
 }

@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,10 +15,16 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import ooga.controller.SplashScreenController;
+import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
+import ooga.view.table.Table;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SplashScreen implements GameScreen {
 
@@ -25,10 +33,31 @@ public class SplashScreen implements GameScreen {
 
   public static final String PLAY_CSS_ID = "PlayButton";
 
+  private static final String TABLE_HEADER_LEFT = "Name";
+  private static final String TABLE_HEADER_MIDDLE = "Player Type";
+  private static final String TABLE_HEADER_RIGHT = "Delete";
+  private static final String NAME_INPUT = "Enter a Name";
+  private static final String TYPE_INPUT = "Enter 'Human' or 'CPU'";
+  private static final String POINTS_INPUT = "How Many Points To Win?";
+
+  private static double CELL_HEIGHT = 30;
+  private static double CELL_WIDTH = 70;
+
+  private Table initialPlayers;
+  private List<Button> rows;
+
+  private boolean stackable;
+  private int pointsToWin;
+  private String gameType;
+  private Map<String, String> players;
+
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller) {
     this.controller = controller;
+    initializeTable();
+    rows = new ArrayList<>();
+    players = new HashMap<>();
   }
 
   public Scene setScene() {
@@ -36,6 +65,7 @@ public class SplashScreen implements GameScreen {
     borderPane.setTop(addTopNode());
     borderPane.setLeft(addLeftNode());
     borderPane.setBottom(addBottomNode());
+    borderPane.setRight(createRightNode());
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
@@ -58,20 +88,47 @@ public class SplashScreen implements GameScreen {
     VBox root = new VBox();
     root.getStyleClass().add("vbox");
 
+    TextField points = new TextField();
+    points.setPromptText(POINTS_INPUT);
+
+    ChoiceBox<String> game = new ChoiceBox<>();
+    game.setValue("UNO Game Type");
+    game.getItems().add("Original");
+    game.getItems().add("UNO Flip");
+    game.getItems().add("UNO Blast");
+    game.setOnAction(e -> gameType = game.getValue());
+
+    Button stackCards = new Button("Stack Cards? NO");
+    stackCards.setOnAction(e -> stack(stackCards));
+
+    Button setGame = new Button("Set Game Parameters");
+    // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
+//    setGame.setOnAction(e -> controller.setGameParameters(points.getText(), gameType, stackable));
+
     Button loadExisting = new Button("Load Existing Game");
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
     Button loadNew = new Button("Load New Game");
     loadNew.setOnAction(e -> chooseFile());
 
-    ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    choiceBox.setValue("Language");
-    choiceBox.getItems().add("English");
-    choiceBox.getItems().add("Spanish");
-    choiceBox.setOnAction(e -> controller.languageHandler());
+    ChoiceBox<String> language = new ChoiceBox<>();
+    language.setValue("Language");
+    language.getItems().add("English");
+    language.getItems().add("Spanish");
+    language.setOnAction(e -> controller.languageHandler());
 
-    root.getChildren().addAll(loadExisting, loadNew, choiceBox);
+    root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew, language);
 
     return root;
+  }
+
+  private void stack(Button button) {
+    stackable = !stackable;
+    if (!stackable) {
+      button.setText("Stack Cards? NO");
+    }
+    else {
+      button.setText("Stack Cards? YES");
+    }
   }
 
   private void chooseFile() {
@@ -95,6 +152,61 @@ public class SplashScreen implements GameScreen {
 
     root.getChildren().addAll(playButton);
     return root;
+  }
+
+  private void addNewPlayer(TextField nameInput, TextField playerTypeInput) {
+    String name = nameInput.getText();
+    String playerType = playerTypeInput.getText();
+    nameInput.clear();
+    playerTypeInput.clear();
+
+    Button deleteButton = new Button("-");
+    deleteButton.getStyleClass().add("delete-button");
+    rows.add(deleteButton);
+
+    int currentRow = initialPlayers.getNumRows();
+    deleteButton.setOnAction(e -> {
+      delete(currentRow);
+      for (int i=currentRow-1; i<rows.size(); i++) {
+        int finalI = i;
+        rows.get(i).setOnAction(var -> delete(finalI +1));
+      }
+    });
+
+    initialPlayers.addRow();
+    initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
+    initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
+    initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
+  }
+
+  private void delete(int currentRow) {
+    initialPlayers.deleteRow(currentRow);
+    rows.remove(currentRow-1);
+  }
+
+  private VBox createRightNode() {
+    VBox table = new VBox();
+    table.getStyleClass().add("vbox");
+
+    TextField nameInput = new TextField();
+    nameInput.setPromptText(NAME_INPUT);
+
+    TextField playerTypeInput = new TextField();
+    playerTypeInput.setPromptText(TYPE_INPUT);
+
+    Button addPlayer = new Button("Add New Player");
+    addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
+
+    table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, new Separator(), initialPlayers.getDisplayableItem());
+
+    return table;
+  }
+
+  private void initializeTable() {
+    initialPlayers = new Table(1, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
+    initialPlayers.setCell(0, 0, new Text(TABLE_HEADER_LEFT));
+    initialPlayers.setCell(1, 0, new Text(TABLE_HEADER_MIDDLE));
+    initialPlayers.setCell(2, 0, new Text(TABLE_HEADER_RIGHT));
   }
 
   private void initDynamicView() {

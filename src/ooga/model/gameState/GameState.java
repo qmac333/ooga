@@ -1,14 +1,14 @@
 package ooga.model.gameState;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Stack;
-import ooga.model.cards.NumberCard;
+import java.util.*;
+
+import ooga.model.CardFactory;
+import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPile;
+import ooga.model.deck.DeckToSmallException;
+import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
-import ooga.model.drawRule.NormalDrawRule;
 import ooga.model.player.Player;
 
 import ooga.model.cards.Card;
@@ -22,8 +22,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private int currentPlayer;
   private final List<Player> myPlayers;
-  private final Stack<Card> myDiscardPile;
-  private Stack<Card> myDeck;
+  private final CardPile myDiscardPile;
+  private CardPile myDeck;
 
   private int impendingDraw;
   private boolean skipNext;
@@ -36,6 +36,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean stackable;
   private final int pointsToWin;
 
+  private final static int NUM_CARDS_PER_PLAYER = 7;
+
+
+
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
     order = 1;
@@ -43,10 +47,19 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
-    myRules = new ArrayList<>();
-    myDrawRule = new NormalDrawRule();
+
+
+    try {
+      myRules = createRules();
+      myDrawRule = createDrawRule();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
+
+
     // FIXME: Create useful error
     try {
       createPlayers(playerMap);
@@ -56,6 +69,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
+
+    myDeck = new UnoDeck(version);
+    dealCards();
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
 
   /**
@@ -67,8 +84,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = 100;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new Stack<>();
+    myDiscardPile = new CardPile();
     currentPlayer = 0;
+
+
   }
 
   @Override
@@ -91,13 +110,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void discardCard(Card c) {
-    myDiscardPile.push(c);
+    myDiscardPile.placeOnTop(c);
   }
 
 
   @Override
   public String getLastCardThrownType() {
-    return myDiscardPile.peek().getType();
+    return myDiscardPile.lastCardPushed().getType();
   }
 
 
@@ -117,6 +136,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
       myDrawRule.forcedDraw(this, impendingDraw);
+      impendingDraw = 0;
     } else {
       player.playCard();
     }
@@ -139,8 +159,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public List<List<String>> getCurrentPlayerCards() {
-    return null;
+  public List<ViewCardInterface> getCurrentPlayerCards() {
+    List<ViewCardInterface> cards = new ArrayList<>();
+    for (ViewCardInterface card : myPlayers.get(currentPlayer).getHand()) {
+     cards.add(card);
+    }
+    return cards;
   }
 
   @Override
@@ -150,8 +174,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getNextCard() {
-    // FIXME: Actually Create (Need deck creation)
-    return new NumberCard("Red", 5);
+    return myDeck.popTopCard();
   }
 
   @Override
@@ -161,7 +184,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public boolean canPlayCard(Card cardToPlay) {
-    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.peek(), cardToPlay));
+    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
   }
 
   @Override
@@ -233,4 +256,33 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
   }
+
+
+  private DrawRuleInterface createDrawRule()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"), gameStateResources.getString("DrawRule")));
+    return (DrawRuleInterface) clazz.getDeclaredConstructor().newInstance();
+  }
+
+  private List<RuleInterface> createRules()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    String base = gameStateResources.getString("PlayRulesBase");
+    List<RuleInterface> ret = new ArrayList<>();
+    for (String rule : gameStateResources.getString("PlayRules").split(",")){
+      Class<?> clazz = Class.forName(String.format(base, rule));
+      ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
+    }
+    return ret;
+  }
+
+  private void dealCards() {
+
+    for(int i = 0; i < NUM_CARDS_PER_PLAYER; i++){
+      for(int j = 0; j < myPlayers.size(); j++){
+        Card newCard = myDeck.popTopCard();
+        myPlayers.get(j).addCard(newCard);
+      }
+    }
+  }
+
 }

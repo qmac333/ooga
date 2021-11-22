@@ -15,6 +15,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
+    CardDisplay.initializeCards();
     controller = new MockController();
     display = new TurnInfoDisplay(controller);
     Group root = new Group();

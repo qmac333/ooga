@@ -1,17 +1,21 @@
 package ooga.view;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {
 
   public static final String BACK_BUTTON_CSS = "BackButton";
+  public static final double SECONDS_BETWEEN_TURNS = 1;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -19,6 +23,8 @@ public class UnoDisplay implements GameScreen {
   private Scene myScene;
 
   private BorderPane unoDisplay;
+
+  private Timeline gameTimeline;
 
   /**
    * initializes data structures and saves the given controller
@@ -30,6 +36,12 @@ public class UnoDisplay implements GameScreen {
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller);
     unoDisplay = new BorderPane();
+
+    // create the Timeline for the game
+    gameTimeline = new Timeline();
+    gameTimeline.setCycleCount(Timeline.INDEFINITE);
+    gameTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
+    gameTimeline.play();
 
     createScene();
   }
@@ -77,6 +89,10 @@ public class UnoDisplay implements GameScreen {
 
     Scene scene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     myScene = scene;
+  }
+
+  private void playGame() {
+    controller.getGameState().playTurn();
   }
 
 
