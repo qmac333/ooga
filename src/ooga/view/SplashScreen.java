@@ -30,7 +30,7 @@ public class SplashScreen implements GameScreen {
   public static final String PLAY_CSS_ID = "PlayButton";
 
   private static double CELL_HEIGHT = 30;
-  private static double CELL_WIDTH = 70;
+  private static double CELL_WIDTH = 100;
 
   protected ResourceBundle languageResources;
 
@@ -92,7 +92,7 @@ public class SplashScreen implements GameScreen {
     Button stackCards = new Button(languageResources.getString("NoStack"));
     stackCards.setOnAction(e -> stack(stackCards));
 
-    Button setGame = new Button("Set Game Parameters");
+    Button setGame = new Button(languageResources.getString("GameParameters"));
     // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
 //    setGame.setOnAction(e -> controller.setGameParameters(points.getText(), gameType, stackable));
 
