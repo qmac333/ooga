@@ -25,17 +25,9 @@ import java.util.*;
 
 public class SplashScreen implements GameScreen {
 
-  private static final String TITLE = "WELCOME TO UNO";
   private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
 
   public static final String PLAY_CSS_ID = "PlayButton";
-
-  private static final String TABLE_HEADER_LEFT = "Name";
-  private static final String TABLE_HEADER_MIDDLE = "Player Type";
-  private static final String TABLE_HEADER_RIGHT = "Delete";
-  private static final String NAME_INPUT = "Enter a Name";
-  private static final String TYPE_INPUT = "Enter 'Human' or 'CPU'";
-  private static final String POINTS_INPUT = "How Many Points To Win?";
 
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 70;
@@ -76,7 +68,7 @@ public class SplashScreen implements GameScreen {
     HBox hbox = new HBox();
     hbox.getStyleClass().add("hbox");
 
-    Text checkForUpdates = new Text(TITLE);
+    Text checkForUpdates = new Text(languageResources.getString("Title"));
     checkForUpdates.getStyleClass().add("text-title");
     hbox.getChildren().add(checkForUpdates);
 
@@ -88,7 +80,7 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("vbox");
 
     TextField points = new TextField();
-    points.setPromptText(POINTS_INPUT);
+    points.setPromptText(languageResources.getString("PointsInput"));
 
     ChoiceBox<String> game = new ChoiceBox<>();
     game.setValue("UNO Game Type");
@@ -182,10 +174,10 @@ public class SplashScreen implements GameScreen {
     table.getStyleClass().add("vbox");
 
     TextField nameInput = new TextField();
-    nameInput.setPromptText(NAME_INPUT);
+    nameInput.setPromptText(languageResources.getString("NameInput"));
 
     TextField playerTypeInput = new TextField();
-    playerTypeInput.setPromptText(TYPE_INPUT);
+    playerTypeInput.setPromptText(languageResources.getString("TypeInput"));
 
     Button addPlayer = new Button("Add New Player");
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
@@ -197,9 +189,9 @@ public class SplashScreen implements GameScreen {
 
   private void initializeTable() {
     initialPlayers = new Table(1, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
-    initialPlayers.setCell(0, 0, new Text(TABLE_HEADER_LEFT));
-    initialPlayers.setCell(1, 0, new Text(TABLE_HEADER_MIDDLE));
-    initialPlayers.setCell(2, 0, new Text(TABLE_HEADER_RIGHT));
+    initialPlayers.setCell(0, 0, new Text(languageResources.getString("TableHeaderLeft")));
+    initialPlayers.setCell(1, 0, new Text(languageResources.getString("TableHeaderMiddle")));
+    initialPlayers.setCell(2, 0, new Text(languageResources.getString("TableHeaderRight")));
   }
 
   private void initDynamicView() {
