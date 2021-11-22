@@ -66,4 +66,11 @@ public interface GameStateInterface {
    * @return order member
    */
   public int getOrder();
+
+  /**
+   * returns the total number of points a player has accumulated
+   * @param player
+   * @return player's number of points
+   */
+  public int getPlayersPoints(int player);
 }

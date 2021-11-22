@@ -205,6 +205,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return order;
   }
 
+  @Override
+  public int getPlayersPoints(int player) {
+    try{
+      return playerPoints[player];
+    }
+    catch(IndexOutOfBoundsException e){
+      return -1;
+    }
+  }
+
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + myPlayers.size();
     if (!skipNext) {
