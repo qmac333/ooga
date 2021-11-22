@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
+import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
 import ooga.model.gameState.GameState;
@@ -20,9 +21,10 @@ import com.squareup.moshi.Moshi;
 
 import java.nio.file.Files;
 
-public class UnoController implements SplashScreenController, UnoDisplayController {
+public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
 
   private Stage stage;
+  private LanguageScreen languageScreen;
   private SplashScreen splashScreen;
   private UnoDisplay unoDisplay;
 
@@ -77,10 +79,10 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (splashScreen == null) {
-      splashScreen = new SplashScreen(this);
+    if (languageScreen == null) {
+      languageScreen = new LanguageScreen(this);
     }
-    showScreen(splashScreen);
+    showScreen(languageScreen);
   }
 
   /**
@@ -140,8 +142,11 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   @Override
-  public void languageHandler() {
-      System.out.println("Choose a language");
+  public void languageHandler(String language) {
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this, language);
+    }
+    showScreen(splashScreen);
   }
 
 
