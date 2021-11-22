@@ -193,8 +193,10 @@ public class SplashScreen implements GameScreen {
     TextField nameInput = new TextField();
     nameInput.setPromptText(languageResources.getString("NameInput"));
 
-    TextField playerTypeInput = new TextField();
-    playerTypeInput.setPromptText(languageResources.getString("TypeInput"));
+    ChoiceBox<String> playerTypeInput = new ChoiceBox<>();
+    playerTypeInput.setValue(languageResources.getString("TypeInput"));
+    playerTypeInput.getItems().add("Human");
+    playerTypeInput.getItems().add("CPU");
 
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
