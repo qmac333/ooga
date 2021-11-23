@@ -13,4 +13,9 @@ public class ReverseCard extends Card {
     game.reverseGamePlay();
     game.discardCard(this);
   }
+
+  @Override
+  public void flip() {
+    // Do nothing
+  }
 }

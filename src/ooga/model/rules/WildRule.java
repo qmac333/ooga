@@ -3,6 +3,7 @@ package ooga.model.rules;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 
 public class WildRule implements RuleInterface {
 
@@ -10,7 +11,7 @@ public class WildRule implements RuleInterface {
       "ooga.model.rules.RulesInformation");
 
   @Override
-  public boolean canPlay(Card cardToMatch, Card cardToPlay) {
+  public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
     return Arrays.stream(ruleResources.getString("AlwaysPlayable").split(","))
         .anyMatch(c -> c.equals(cardToPlay.getType()));
   }

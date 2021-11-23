@@ -3,11 +3,10 @@ package ooga.model.gameState;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import ooga.model.CardFactory;
+import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
 import ooga.model.deck.CardPileViewInterface;
-import ooga.model.deck.DeckToSmallException;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.Player;
@@ -42,7 +41,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private final static int NUM_CARDS_PER_PLAYER = 7;
 
 
-
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
     order = 1;
@@ -53,15 +51,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myDiscardPile = new CardPile();
     currentPlayer = 0;
 
-
     try {
       myRules = createRules();
       myDrawRule = createDrawRule();
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
-
-
 
     // FIXME: Create useful error
     try {
@@ -109,7 +104,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public List<Integer> getCardCounts() {
     List<Integer> result = new ArrayList<>();
     for (Player p : myPlayers) {
-      result.add(p.getHand().size());
+      result.add(p.getHandSize());
     }
     return result;
   }
@@ -155,9 +150,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } else {
       player.playCard();
     }
-    if(uno){
+    if (uno) {
       int totalNumPoints = 0;
-      for(Player p : myPlayers){
+      for (Player p : myPlayers) {
         totalNumPoints += p.getNumPoints();
       }
       playerPoints[currentPlayer] += totalNumPoints;
@@ -183,11 +178,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
-    List<ViewCardInterface> cards = new ArrayList<>();
-    for (ViewCardInterface card : myPlayers.get(currentPlayer).getHand()) {
-     cards.add(card);
-    }
-    return cards;
+    return myPlayers.get(currentPlayer).getViewCards();
   }
 
   @Override
@@ -201,13 +192,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public List<Card> noPlayDraw() {
+  public List<CardInterface> noPlayDraw() {
     return myDrawRule.noPlayDraw(this);
   }
 
   @Override
-  public boolean canPlayCard(Card cardToPlay) {
-    return myRules.stream().anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
+  public boolean canPlayCard(CardInterface cardToPlay) {
+    return myRules.stream()
+        .anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
   }
 
   @Override
@@ -273,7 +265,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     for (String name : playerMap.keySet()) {
       Class<?> playerClass = Class.forName(
-          String.format(gameStateResources.getString("PlayerClassBase"), gameStateResources.getString(playerMap.get(name))));
+          String.format(gameStateResources.getString("PlayerClassBase"),
+              gameStateResources.getString(playerMap.get(name))));
       Player player = (Player) playerClass.getDeclaredConstructor(String.class,
           GameStatePlayerInterface.class).newInstance(name, this);
       myPlayers.add(player);
@@ -283,7 +276,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private DrawRuleInterface createDrawRule()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"), gameStateResources.getString("DrawRule")));
+    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"),
+        gameStateResources.getString("DrawRule")));
     return (DrawRuleInterface) clazz.getDeclaredConstructor().newInstance();
   }
 
@@ -291,7 +285,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     String base = gameStateResources.getString("PlayRulesBase");
     List<RuleInterface> ret = new ArrayList<>();
-    for (String rule : gameStateResources.getString("PlayRules").split(",")){
+    for (String rule : gameStateResources.getString("PlayRules").split(",")) {
       Class<?> clazz = Class.forName(String.format(base, rule));
       ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
     }
@@ -300,10 +294,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private void dealCards() {
 
-    for(int i = 0; i < NUM_CARDS_PER_PLAYER; i++){
-      for(int j = 0; j < myPlayers.size(); j++){
+    for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
+      for (Player myPlayer : myPlayers) {
         Card newCard = myDeck.popTopCard();
-        myPlayers.get(j).addCard(newCard);
+        myPlayer.addCards(List.of(newCard));
       }
     }
   }

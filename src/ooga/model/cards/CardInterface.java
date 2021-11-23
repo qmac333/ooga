@@ -40,4 +40,9 @@ public interface CardInterface {
    * @return
    */
   String getMyColor();
+
+  /**
+   * Flips the card
+   */
+  void flip();
 }

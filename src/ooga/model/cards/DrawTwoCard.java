@@ -16,4 +16,9 @@ public class DrawTwoCard extends Card {
     game.addDraw(DRAW_AMOUNT);
     game.discardCard(this);
   }
+
+  @Override
+  public void flip() {
+    // Do nothing
+  }
 }

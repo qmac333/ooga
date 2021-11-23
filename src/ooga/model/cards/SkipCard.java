@@ -14,4 +14,9 @@ public class SkipCard extends Card {
     game.skipNextPlayer();
     game.discardCard(this);
   }
+
+  @Override
+  public void flip() {
+    // Do nothing
+  }
 }
