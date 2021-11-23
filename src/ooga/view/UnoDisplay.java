@@ -21,6 +21,8 @@ public class UnoDisplay implements GameScreen {
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
   private HandListDisplay handListDisplay;
+  private DeckDisplay deckDisplay;
+
   private Scene myScene;
 
   private BorderPane unoDisplay;
@@ -36,6 +38,7 @@ public class UnoDisplay implements GameScreen {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller);
+    this.deckDisplay = new DeckDisplay(controller);
     unoDisplay = new BorderPane();
 
     // create the Timeline for the game
@@ -70,7 +73,7 @@ public class UnoDisplay implements GameScreen {
     // center panel
     VBox center = new VBox();
     center.setAlignment(Pos.BOTTOM_CENTER);
-    center.getChildren().addAll(handListDisplay.getDisplayableItem());
+    center.getChildren().addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
     unoDisplay.setCenter(center);
 
     // left panel

@@ -120,7 +120,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Card getLastCardThrown() {
-    return myDiscardPile.peek();
+    return myDiscardPile.lastCardPushed();
   }
 
   @Override

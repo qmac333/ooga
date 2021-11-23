@@ -34,6 +34,14 @@ public class CardDisplay {
 
     private StackPane cardDisplay;
 
+    /**
+     * Creates a display for the top side of a card.
+     */
+    public CardDisplay() {
+        this(String.valueOf(-1), "Top", "Black");
+
+    }
+
     public CardDisplay(String number, String type, String color) {
         cardDisplay = new StackPane();
         Rectangle base = new Rectangle(CARD_WIDTH+CARD_OFFSET, CARD_HEIGHT+CARD_OFFSET);

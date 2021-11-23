@@ -36,9 +36,12 @@ public class DeckDisplay implements DisplayableItem {
 
   private void update() {
     displayedItem.getChildren().clear();
-    ViewCardInterface nextCard = controller.getGameState().getNextCard();
-    // returns a displayable instance of that card, add to the display
+
+    CardDisplay topDeck = new CardDisplay();
     ViewCardInterface topDiscard = controller.getGameState().getLastCardThrown();
     // return a displayable instance of that card, add to the display
+    CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(), topDiscard.getMyColor());
+    displayedItem.getChildren().add(topDeck.getCard());
+    displayedItem.getChildren().add(card.getCard());
   }
 }
