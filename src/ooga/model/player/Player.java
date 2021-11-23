@@ -1,41 +1,30 @@
 package ooga.model.player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import ooga.model.cards.Card;
-import ooga.model.gameState.GameState;
+import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.hand.Hand;
 
 public abstract class Player implements PlayerInterface {
 
-  private List<Card> myHand;
+  private Hand myHand;
   private String myName;
   private GameStatePlayerInterface myGame;
 
   public Player(String name, GameStatePlayerInterface game) {
     myName = name;
     myGame = game;
-    myHand = new ArrayList<>();
+    myHand = new Hand();
   }
 
   @Override
   public abstract void playCard();
 
   @Override
-  public void addCards(List<Card> cards) {
-    myHand.addAll(cards);
-  }
-
-  /**
-   * asdds a single card c to a player's hand
-   * @param c
-   */
-  public void addCard(Card c){myHand.add(c);}
-
-  @Override
-  public Collection<Card> getHand() {
-    return myHand;
+  public void addCards(List<CardInterface> cards) {
+    myHand.add(cards);
   }
 
   @Override
@@ -44,19 +33,33 @@ public abstract class Player implements PlayerInterface {
   }
 
   @Override
-  public int getNumPoints(){
+  public int getNumPoints() {
     int sum = 0;
-    for(Card c : myHand){
+    for (CardInterface c : myHand) {
       sum += c.getNum();
     }
     return sum;
   }
 
-  protected List<Card> getMyHand(){
+  @Override
+  public int getHandSize() {
+    return myHand.size();
+  }
+
+  @Override
+  public List<ViewCardInterface> getViewCards() {
+    ArrayList<ViewCardInterface> ret = new ArrayList<>();
+    for (CardInterface card : myHand) {
+      ret.add((ViewCardInterface) card);
+    }
+    return ret;
+  }
+
+  protected Hand getMyHand() {
     return myHand;
   }
 
-  protected GameStatePlayerInterface getMyGame(){
+  protected GameStatePlayerInterface getMyGame() {
     return myGame;
   }
 }

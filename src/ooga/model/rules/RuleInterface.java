@@ -1,6 +1,6 @@
 package ooga.model.rules;
 
-import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 
 public interface RuleInterface {
 
@@ -11,5 +11,5 @@ public interface RuleInterface {
    * @param cardToPlay  Card we are trying to play
    * @return whether we can play this card
    */
-  boolean canPlay(Card cardToMatch, Card cardToPlay);
+  boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay);
 }

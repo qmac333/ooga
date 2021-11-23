@@ -1,6 +1,7 @@
 package ooga.model.gameState;
 
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 
 public interface GameStateDrawInterface {
 
@@ -17,5 +18,5 @@ public interface GameStateDrawInterface {
    * @param cardToPlay the card we are trying to play
    * @return whether this is a legal move
    */
-  boolean canPlayCard(Card cardToPlay);
+  boolean canPlayCard(CardInterface cardToPlay);
 }

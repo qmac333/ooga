@@ -2,11 +2,12 @@ package ooga.model.player;
 
 import java.util.Optional;
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 
 /**
  * @author Paul Truitt
- *
+ * <p>
  * Subclass of player that is automated
  */
 public class ComputerPlayer extends Player {
@@ -17,13 +18,19 @@ public class ComputerPlayer extends Player {
 
   @Override
   public void playCard() {
+    int position = 0;
     GameStatePlayerInterface game = super.getMyGame();
-    Optional<Card> cardToPlay = super.getMyHand().stream().filter(game::canPlayCard).findAny();
-    if (cardToPlay.isPresent()) {
-      cardToPlay.get().executeAction(game);
-      super.getMyHand().remove(cardToPlay.get());
-    } else {
-      super.addCards(game.noPlayDraw());
+    for (CardInterface card : super.getMyHand()) {
+      if (game.canPlayCard(card)) {
+        try {
+          super.getMyHand().play(position, game);
+        } catch (Exception e){
+          e.printStackTrace();
+        }
+        return;
+      }
+      position++;
     }
+    super.addCards(game.noPlayDraw());
   }
 }

@@ -1,11 +1,11 @@
 package ooga.model.rules;
 
-import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 
 public class SameActionRule implements RuleInterface {
 
   @Override
-  public boolean canPlay(Card cardToMatch, Card cardToPlay) {
+  public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
     return cardToMatch.getType().equals(cardToPlay.getType()) && !cardToMatch.getType()
         .equals("Number");
   }
