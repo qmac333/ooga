@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -19,12 +20,18 @@ import ooga.util.Config;
  */
 public class DeckDisplay implements DisplayableItem {
 
+  public static final String DECK_NUM_CARDS_TEXT_CSS = "NumCardsDeck";
+  public static final String DECK_CARD_CSS = "DeckCard";
+
   private UnoDisplayController controller;
   private HBox displayedItem;
   private Timeline updateTimeline;
 
   private VBox deckDisplay;
   private VBox discardPileDisplay;
+
+  // deck display
+  private Text numCardsDeckText;
 
   public DeckDisplay(UnoDisplayController controller) {
     this.controller = controller;
@@ -50,7 +57,15 @@ public class DeckDisplay implements DisplayableItem {
   private void initDeckDisplay() {
     deckDisplay = new VBox();
     deckDisplay.setAlignment(Pos.CENTER);
-    deckDisplay.getChildren().addAll(new CardDisplay().getCard(), new Text(String.valueOf(controller.getGameState().getDeck().getNumCards())));
+
+    numCardsDeckText = new Text();
+    numCardsDeckText.setId(DECK_NUM_CARDS_TEXT_CSS);
+    updateNumCardsDeck();
+
+    // add a blank card to the display
+    Parent cardDisplay = new CardDisplay().getCard();
+    cardDisplay.setId(DECK_CARD_CSS);
+    deckDisplay.getChildren().addAll(cardDisplay, numCardsDeckText);
   }
 
   private void initDiscardPileDisplay() {
@@ -63,10 +78,8 @@ public class DeckDisplay implements DisplayableItem {
   }
 
   private void updateDeckDisplay() {
-    int topIndex = deckDisplay.getChildren().size() - 1;
-    deckDisplay.getChildren().remove(topIndex);
-    deckDisplay.getChildren().add(new Text(String.valueOf(controller.getGameState().getDeck().getNumCards())));
-     //TODO: handle update for when deck is out of cards
+    updateNumCardsDeck();
+    //TODO: handle update for when deck is out of cards
   }
 
   private void updateDiscardPileDisplay() {
@@ -75,5 +88,9 @@ public class DeckDisplay implements DisplayableItem {
     // return a displayable instance of that card, add to the display
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(), topDiscard.getMyColor());
     discardPileDisplay.getChildren().add(card.getCard());
+  }
+
+  private void updateNumCardsDeck() {
+    numCardsDeckText.setText(String.valueOf(controller.getGameState().getDeck().getNumCards()));
   }
 }

@@ -1,6 +1,7 @@
 package ooga.view;
 
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -18,7 +19,7 @@ public class CardDisplay {
     private static final ResourceBundle imageResources = ResourceBundle.getBundle(
             "ooga.view.ImageFiles");
 
-    private static Map<String, Image> IMAGES;
+    public static Map<String, Image> IMAGES;
 
     private static final Map<String, Color> COLORS = Map.of(
             "blue", Color.BLUE,
@@ -65,7 +66,7 @@ public class CardDisplay {
         cardDisplay.getChildren().addAll(base, card, imageView);
     }
 
-    public Node getCard() {
+    public Parent getCard() {
         return cardDisplay;
     }
 
