@@ -2,14 +2,16 @@ package ooga.model.gameState;
 
 import java.util.List;
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 
 public interface GameStatePlayerInterface {
+
   /**
    * Gets the card(s) required from a no-play-draw
    *
    * @return card(s) from this draw
    */
-  public List<Card> noPlayDraw();
+  public List<CardInterface> noPlayDraw();
 
   /**
    * Returns Whether a card can be played
@@ -17,7 +19,7 @@ public interface GameStatePlayerInterface {
    * @param cardToPlay card in question
    * @return can or can't play
    */
-  public boolean canPlayCard(Card cardToPlay);
+  public boolean canPlayCard(CardInterface cardToPlay);
 
   /**
    * sets the lastCardThown member in the GameState

@@ -1,6 +1,5 @@
 package ooga.model.cards;
 
-import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStatePlayerInterface;
 
 public class NumberCard extends Card {
@@ -12,5 +11,10 @@ public class NumberCard extends Card {
   @Override
   public void executeAction(GameStatePlayerInterface game) {
     game.discardCard(this);
+  }
+
+  @Override
+  public void flip() {
+    // Do Nothing
   }
 }

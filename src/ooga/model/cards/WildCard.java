@@ -14,4 +14,9 @@ public class WildCard extends Card {
 //    super.setCardColor(consumerInterface.getColorInput())
     game.discardCard(this);
   }
+
+  @Override
+  public void flip() {
+    // Do nothing
+  }
 }

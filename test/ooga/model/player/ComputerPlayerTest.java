@@ -2,6 +2,7 @@ package ooga.model.player;
 
 import java.util.List;
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
 import ooga.model.cards.SkipCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ public class ComputerPlayerTest {
   @Mock
   GameState gameState;
 
-  Card cardToPlay;
+  CardInterface cardToPlay;
 
   @BeforeEach
   public void setUp(){
