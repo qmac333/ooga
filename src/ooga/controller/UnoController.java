@@ -3,8 +3,7 @@ package ooga.controller;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import javafx.scene.control.Alert;
@@ -12,22 +11,28 @@ import javafx.stage.Stage;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
+import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
 import ooga.view.UnoDisplay;
-import ooga.model.gameState.GameState;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import java.nio.file.Files;
 
-public class UnoController implements SplashScreenController, UnoDisplayController {
+public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
 
   private Stage stage;
+  private LanguageScreen languageScreen;
   private SplashScreen splashScreen;
   private UnoDisplay unoDisplay;
 
   private Moshi moshi;
   private GameState model;
+
+  private String currentVersion;
+  private Map<String, String> currentPlayerMap;
+  private int currentPointsToWin;
+  private boolean currentStackable;
 
   /**
    * initializes data structures for the UnoController
@@ -45,15 +50,6 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    */
   // TODO: does the view do this directly through the GameStateViewInterface?
   public void setupConsumer(Consumer viewConsumer) {
-
-  }
-
-  /**
-   * steps through one turn of the game by calling the corresponding model method MAYBE pause the
-   * timeline if it is the user's turn? In this case you would unpause the timeline once the
-   * playUserCard method got called...
-   */
-  public void step() {
 
   }
 
@@ -77,10 +73,31 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (splashScreen == null) {
-      splashScreen = new SplashScreen(this);
+    if (languageScreen == null) {
+      languageScreen = new LanguageScreen(this);
     }
-    showScreen(splashScreen);
+    showScreen(languageScreen);
+  }
+
+  @Override
+  public void setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable){
+    if(version != null && playerMap.size() > 0 && pointsToWin != null){
+      try{
+        currentPointsToWin = Integer.parseInt(pointsToWin);
+        currentVersion = version;
+        currentPlayerMap = playerMap;
+        currentStackable = stackable;
+
+        model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
+      }
+      catch(NumberFormatException e){
+        sendAlert("Please Input a Numeric Value in the Points to Win Field");
+      }
+    }
+    else{
+      sendAlert("Please Input ALL Game Parameters (Version, Points to Win, Stackability and Players)");
+    }
+
   }
 
   /**
@@ -93,7 +110,7 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
       showScreen(unoDisplay);
     }
     else{
-      sendAlert("Please Load a Configuration File");
+      sendAlert("Please Load a Configuration File or Manually Input Parameters");
     }
   }
 
@@ -140,8 +157,11 @@ public class UnoController implements SplashScreenController, UnoDisplayControll
   }
 
   @Override
-  public void languageHandler() {
-      System.out.println("Choose a language");
+  public void languageHandler(String language) {
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this, language);
+    }
+    showScreen(splashScreen);
   }
 
 

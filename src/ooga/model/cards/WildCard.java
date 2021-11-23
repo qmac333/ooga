@@ -5,7 +5,7 @@ import ooga.model.gameState.GameStatePlayerInterface;
 public class WildCard extends Card {
 
   public WildCard(String color) {
-    super("Black", "Wild", -1);
+    super("Black", "Wild", 50);
   }
 
   @Override

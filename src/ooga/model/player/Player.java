@@ -43,6 +43,15 @@ public abstract class Player implements PlayerInterface {
     return myName;
   }
 
+  @Override
+  public int getNumPoints(){
+    int sum = 0;
+    for(Card c : myHand){
+      sum += c.getNum();
+    }
+    return sum;
+  }
+
   protected List<Card> getMyHand(){
     return myHand;
   }

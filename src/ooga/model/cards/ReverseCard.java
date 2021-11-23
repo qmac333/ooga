@@ -5,7 +5,7 @@ import ooga.model.gameState.GameStatePlayerInterface;
 public class ReverseCard extends Card {
 
   public ReverseCard(String color) {
-    super(color, "Reverse", -1);
+    super(color, "Reverse", 20);
   }
 
   @Override
