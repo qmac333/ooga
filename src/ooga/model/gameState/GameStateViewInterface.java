@@ -2,6 +2,7 @@ package ooga.model.gameState;
 
 import java.util.List;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPileViewInterface;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.
@@ -40,16 +41,16 @@ public interface GameStateViewInterface {
   public List<ViewCardInterface> getCurrentPlayerCards();
 
   /**
-   * Gets the top card of the deck.
-   * @return the top card of the deck
+   * Gets read-only access to the deck.
+   * @return an interface that provides access to the deck
    */
-  public ViewCardInterface getNextCard();
+  public CardPileViewInterface getDeck();
 
   /**
-   * Gets the card at the top of the discard pile.
-   * @return the top card of the discard pile.
+   * Gets read-only access to attributesof the discard pile.
+   * @return an interface that provides access to the discard pile.
    */
-  public ViewCardInterface getLastCardThrown();
+  public CardPileViewInterface getDiscardPile();
 
 
   /**

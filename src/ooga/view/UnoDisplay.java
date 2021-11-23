@@ -73,6 +73,7 @@ public class UnoDisplay implements GameScreen {
     // center panel
     VBox center = new VBox();
     center.setAlignment(Pos.BOTTOM_CENTER);
+    center.setSpacing(100);
     center.getChildren().addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
     unoDisplay.setCenter(center);
 

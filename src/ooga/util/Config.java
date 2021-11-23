@@ -12,6 +12,6 @@ public class Config {
   public static final double LANGUAGE_SCREEN_WIDTH = 400;
   public static final double LANGUAGE_SCREEN_HEIGHT = 50;
 
-  public static final double REFRESH_RATE = 1.0/60;
+  public static final double REFRESH_RATE = 1.0/10;
 
 }

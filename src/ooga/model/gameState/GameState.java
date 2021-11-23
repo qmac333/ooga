@@ -6,6 +6,7 @@ import java.util.*;
 import ooga.model.CardFactory;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
+import ooga.model.deck.CardPileViewInterface;
 import ooga.model.deck.DeckToSmallException;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
@@ -114,13 +115,18 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public void discardCard(Card c) {
-    myDiscardPile.placeOnTop(c);
+  public CardPileViewInterface getDeck() {
+    return myDeck;
   }
 
   @Override
-  public Card getLastCardThrown() {
-    return myDiscardPile.lastCardPushed();
+  public CardPileViewInterface getDiscardPile() {
+    return myDiscardPile;
+  }
+
+  @Override
+  public void discardCard(Card c) {
+    myDiscardPile.placeOnTop(c);
   }
 
   @Override

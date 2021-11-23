@@ -4,7 +4,7 @@ import ooga.model.cards.Card;
 
 import java.util.*;
 
-public class CardPile implements CardPileInterface {
+public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     private Stack<Card> pile;
 
