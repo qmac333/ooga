@@ -26,6 +26,7 @@ public class TableCell {
 
   /**
    * Sets the contents of the cell.
+   *
    * @param newContents will be the new contents of the cell.
    */
   public void setContents(Node newContents) {
@@ -44,6 +45,7 @@ public class TableCell {
 
   /**
    * Change the background color of this cell.
+   *
    * @param color is the new color of the cell
    */
   public void changeColor(Color color) {

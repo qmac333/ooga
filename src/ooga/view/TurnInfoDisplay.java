@@ -70,7 +70,8 @@ public class TurnInfoDisplay implements DisplayableItem {
   }
 
   private void initializeTable() {
-    playerTable = new Table(gameState.getPlayerNames().size(), 2, CELL_WIDTH, CELL_HEIGHT, "TurnInfo");
+    playerTable = new Table(gameState.getPlayerNames().size(), 2, CELL_WIDTH, CELL_HEIGHT,
+        "TurnInfo");
     displayableItem.getChildren().add(playerTable.getDisplayableItem());
   }
 
@@ -113,8 +114,7 @@ public class TurnInfoDisplay implements DisplayableItem {
     int direction = gameState.getGameplayDirection();
     if (direction == 1) {
       displayText.setText("Down");
-    }
-    else {
+    } else {
       displayText.setText("Up");
     }
   }

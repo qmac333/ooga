@@ -57,7 +57,7 @@ public class SplashScreen implements GameScreen {
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
-            .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
+        .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
     return scene;
   }
 
@@ -98,15 +98,16 @@ public class SplashScreen implements GameScreen {
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setOnAction(e -> chooseFile());
 
-    root.getChildren().addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
+    root.getChildren()
+        .addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
 
     return root;
   }
 
-  private void setGameHandler(TextField points){
+  private void setGameHandler(TextField points) {
     Map<String, String> playerMap = new HashMap<>();
     int rows = initialPlayers.getNumRows();
-    for(int i = 1; i < rows; i++){
+    for (int i = 1; i < rows; i++) {
       Text currentNameNode = (Text) initialPlayers.getCell(0, i);
       String currentName = currentNameNode.getText();
       Text currentTypeNode = (Text) initialPlayers.getCell(1, i);
@@ -121,8 +122,7 @@ public class SplashScreen implements GameScreen {
     stackable = !stackable;
     if (!stackable) {
       button.setText(languageResources.getString("NoStack"));
-    }
-    else {
+    } else {
       button.setText(languageResources.getString("YesStack"));
     }
   }
@@ -130,10 +130,11 @@ public class SplashScreen implements GameScreen {
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
     //fileChooser.setInitialDirectory(new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)",
+        "*.json");
     fileChooser.getExtensionFilters().add(extFilter);
     File selectedFile = fileChooser.showOpenDialog(null);
-    if(selectedFile != null){
+    if (selectedFile != null) {
       controller.loadNewHandler(selectedFile.getAbsolutePath());
     }
   }
@@ -154,7 +155,7 @@ public class SplashScreen implements GameScreen {
 
     String name = nameInput.getText();
     String playerType = playerTypeInput.getValue();
-    if(playerType == "Human" || playerType == "CPU"){
+    if (playerType == "Human" || playerType == "CPU") {
       nameInput.clear();
 
       Button deleteButton = new Button("-");
@@ -164,26 +165,24 @@ public class SplashScreen implements GameScreen {
       int currentRow = initialPlayers.getNumRows();
       deleteButton.setOnAction(e -> {
         delete(currentRow);
-        for (int i=currentRow-1; i<rows.size(); i++) {
+        for (int i = currentRow - 1; i < rows.size(); i++) {
           int finalI = i;
-          rows.get(i).setOnAction(var -> delete(finalI +1));
+          rows.get(i).setOnAction(var -> delete(finalI + 1));
         }
       });
 
       initialPlayers.addRow();
-      initialPlayers.setCell(0, initialPlayers.getNumRows()-1, new Text(name));
-      initialPlayers.setCell(1, initialPlayers.getNumRows()-1, new Text(playerType));
-      initialPlayers.setCell(2, initialPlayers.getNumRows()-1, deleteButton);
-    }
-
-    else{
+      initialPlayers.setCell(0, initialPlayers.getNumRows() - 1, new Text(name));
+      initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
+      initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
+    } else {
       sendAlert("Please Select Player Type");
     }
   }
 
   private void delete(int currentRow) {
     initialPlayers.deleteRow(currentRow);
-    rows.remove(currentRow-1);
+    rows.remove(currentRow - 1);
   }
 
   private VBox createRightNode() {
@@ -201,7 +200,8 @@ public class SplashScreen implements GameScreen {
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
 
-    table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, new Separator(), initialPlayers.getDisplayableItem());
+    table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, new Separator(),
+        initialPlayers.getDisplayableItem());
 
     return table;
   }

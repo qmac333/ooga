@@ -9,6 +9,7 @@ import ooga.controller.UnoController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeckDisplayTest extends DukeApplicationTest {
@@ -32,8 +33,7 @@ public class DeckDisplayTest extends DukeApplicationTest {
     int numCards = 0;
     try {
       numCards = Integer.parseInt(numCardsText.getText());
-    }
-    catch (NumberFormatException e) {
+    } catch (NumberFormatException e) {
       Assertions.fail(); // not a valid number of cards
     }
 
@@ -48,20 +48,12 @@ public class DeckDisplayTest extends DukeApplicationTest {
     int numChildrenSize = viewCardVisual.getChildrenUnmodifiable().size();
     ImageView cardImage = null;
     try {
-      cardImage = (ImageView)viewCardVisual.getChildrenUnmodifiable().get(numChildrenSize - 1);
-    }
-    catch (Exception e) {
+      cardImage = (ImageView) viewCardVisual.getChildrenUnmodifiable().get(numChildrenSize - 1);
+    } catch (Exception e) {
       Assertions.fail();
     }
 
     assertEquals(cardImage.getImage(), CardDisplay.IMAGES.get("Top"));
-  }
-
-  private void pause(double millis) {
-    long init = System.currentTimeMillis();
-    while (System.currentTimeMillis() < init + millis) {
-      // spin
-    }
   }
 
 }

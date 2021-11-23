@@ -45,7 +45,8 @@ public class DeckDisplay implements DisplayableItem {
 
     updateTimeline = new Timeline();
     updateTimeline.setCycleCount(Animation.INDEFINITE);
-    updateTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
+    updateTimeline.getKeyFrames()
+        .add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
     updateTimeline.play();
   }
 
@@ -86,7 +87,8 @@ public class DeckDisplay implements DisplayableItem {
     discardPileDisplay.getChildren().clear();
     ViewCardInterface topDiscard = controller.getGameState().getDiscardPile().lastCardPushed();
     // return a displayable instance of that card, add to the display
-    CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(), topDiscard.getMyColor());
+    CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
+        topDiscard.getMyColor());
     discardPileDisplay.getChildren().add(card.getCard());
   }
 

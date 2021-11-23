@@ -44,7 +44,8 @@ public class UnoDisplay implements GameScreen {
     // create the Timeline for the game
     gameTimeline = new Timeline();
     gameTimeline.setCycleCount(Timeline.INDEFINITE);
-    gameTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
+    gameTimeline.getKeyFrames()
+        .add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
     gameTimeline.play();
 
     createScene();
@@ -74,7 +75,8 @@ public class UnoDisplay implements GameScreen {
     VBox center = new VBox();
     center.setAlignment(Pos.BOTTOM_CENTER);
     center.setSpacing(100);
-    center.getChildren().addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
+    center.getChildren()
+        .addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
     unoDisplay.setCenter(center);
 
     // left panel

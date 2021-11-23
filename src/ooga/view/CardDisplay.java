@@ -16,69 +16,68 @@ import java.util.ResourceBundle;
 
 public class CardDisplay {
 
-    private static final ResourceBundle imageResources = ResourceBundle.getBundle(
-            "ooga.view.ImageFiles");
+  private static final ResourceBundle imageResources = ResourceBundle.getBundle(
+      "ooga.view.ImageFiles");
 
-    public static Map<String, Image> IMAGES;
+  public static Map<String, Image> IMAGES;
 
-    private static final Map<String, Color> COLORS = Map.of(
-            "blue", Color.BLUE,
-            "red", Color.RED,
-            "green", Color.GREEN,
-            "yellow", Color.YELLOW
-    );
+  private static final Map<String, Color> COLORS = Map.of(
+      "blue", Color.BLUE,
+      "red", Color.RED,
+      "green", Color.GREEN,
+      "yellow", Color.YELLOW
+  );
 
-    private static Color DEFAULT_COLOR = Color.BLACK;
-    private static double CARD_WIDTH = 60;
-    private static double CARD_HEIGHT = 100;
-    private static double CARD_OFFSET = 10;
+  private static Color DEFAULT_COLOR = Color.BLACK;
+  private static double CARD_WIDTH = 60;
+  private static double CARD_HEIGHT = 100;
+  private static double CARD_OFFSET = 10;
 
-    private StackPane cardDisplay;
+  private StackPane cardDisplay;
 
-    /**
-     * Creates a display for the top side of a card.
-     */
-    public CardDisplay() {
-        this(String.valueOf(-1), "Top", "Black");
+  /**
+   * Creates a display for the top side of a card.
+   */
+  public CardDisplay() {
+    this(String.valueOf(-1), "Top", "Black");
 
+  }
+
+  public CardDisplay(String number, String type, String color) {
+    cardDisplay = new StackPane();
+    Rectangle base = new Rectangle(CARD_WIDTH + CARD_OFFSET, CARD_HEIGHT + CARD_OFFSET);
+    base.setFill(DEFAULT_COLOR);
+    Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
+    card.setFill(COLORS.get(color));
+
+    String loadFileString;
+    if (type.equals("Number")) {
+      loadFileString = String.valueOf(number);
+    } else {
+      loadFileString = type;
     }
 
-    public CardDisplay(String number, String type, String color) {
-        cardDisplay = new StackPane();
-        Rectangle base = new Rectangle(CARD_WIDTH+CARD_OFFSET, CARD_HEIGHT+CARD_OFFSET);
-        base.setFill(DEFAULT_COLOR);
-        Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-        card.setFill(COLORS.get(color));
+    Image image = IMAGES.get(loadFileString);
+    ImageView imageView = new ImageView(image);
+    imageView.setFitHeight(CARD_WIDTH);
+    imageView.setFitWidth(CARD_HEIGHT / 2);
 
-        String loadFileString;
-        if (type.equals("Number")) {
-            loadFileString = String.valueOf(number);
-        }
-        else {
-            loadFileString = type;
-        }
+    cardDisplay.getChildren().addAll(base, card, imageView);
+  }
 
-        Image image = IMAGES.get(loadFileString);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(CARD_WIDTH);
-        imageView.setFitWidth(CARD_HEIGHT/2);
+  public Parent getCard() {
+    return cardDisplay;
+  }
 
-        cardDisplay.getChildren().addAll(base, card, imageView);
+  public static void initializeCards() {
+    try {
+      IMAGES = new HashMap<>();
+      for (String key : imageResources.keySet()) {
+        IMAGES.put(key, new Image(new FileInputStream(imageResources.getString(key))));
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
     }
-
-    public Parent getCard() {
-        return cardDisplay;
-    }
-
-    public static void initializeCards() {
-        try {
-            IMAGES = new HashMap<>();
-            for (String key : imageResources.keySet()) {
-                IMAGES.put(key, new Image(new FileInputStream(imageResources.getString(key))));
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+  }
 
 }
