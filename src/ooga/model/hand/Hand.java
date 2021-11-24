@@ -1,6 +1,7 @@
 package ooga.model.hand;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import ooga.model.cards.CardInterface;
@@ -16,7 +17,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
   }
 
   @Override
-  public void add(List<CardInterface> card) {
+  public void add(Collection<CardInterface> card) {
     myCards.addAll(card);
   }
 

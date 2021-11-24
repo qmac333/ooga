@@ -1,6 +1,7 @@
 package ooga.model.player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
@@ -23,7 +24,7 @@ public abstract class Player implements PlayerInterface {
   public abstract void playCard();
 
   @Override
-  public void addCards(List<CardInterface> cards) {
+  public void addCards(Collection<CardInterface> cards) {
     myHand.add(cards);
   }
 

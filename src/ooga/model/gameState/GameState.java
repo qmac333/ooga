@@ -177,12 +177,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public Card getNextCard() {
+  public CardInterface getNextCard() {
     return myDeck.popTopCard();
   }
 
   @Override
-  public List<CardInterface> noPlayDraw() {
+  public Collection<CardInterface> noPlayDraw() {
     return myDrawRule.noPlayDraw(this);
   }
 
