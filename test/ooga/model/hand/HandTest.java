@@ -39,22 +39,22 @@ public class HandTest {
 
   @Test
   public void handSizeAdjustsCorrectly() {
-    myHand.add(List.of(new SkipCard("red")));
+    myHand.add(List.of(new SkipCard("red", null)));
     assertEquals(1, myHand.size());
-    myHand.add(List.of(new ReverseCard("red"), new NumberCard("red", 5)));
+    myHand.add(List.of(new ReverseCard("red", null), new NumberCard("red", 5)));
     assertEquals(3, myHand.size());
   }
 
   @Test
   public void handSizeDecreasesOnPlay() throws InvalidCardSelectionException {
-    myHand.add(List.of(new ReverseCard("red"), new NumberCard("red", 5)));
+    myHand.add(List.of(new ReverseCard("red", null), new NumberCard("red", 5)));
     myHand.play(1, myGame);
     assertEquals(1, myHand.size());
   }
 
   @Test
   public void correctMethodCalledOnTheGame() throws InvalidCardSelectionException {
-    myHand.add(List.of(new SkipCard("red")));
+    myHand.add(List.of(new SkipCard("red", null)));
     myHand.play(0, myGame);
     verify(myGame, times(1)).skipNextPlayer();
   }
@@ -66,9 +66,9 @@ public class HandTest {
 
   @Test
   public void iterationGoesOverAllCards() {
-    CardInterface c1 = new SkipCard("red");
-    CardInterface c2 = new SkipCard("blue");
-    CardInterface c3 = new SkipCard("green");
+    CardInterface c1 = new SkipCard("red", null);
+    CardInterface c2 = new SkipCard("blue", null);
+    CardInterface c3 = new SkipCard("green", null);
     List<CardInterface> cards = List.of(c1, c2, c3);
     myHand.add(cards);
     int i = 0;

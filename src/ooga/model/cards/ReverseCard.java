@@ -1,11 +1,12 @@
 package ooga.model.cards;
 
+import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 
 public class ReverseCard extends Card {
 
-  public ReverseCard(String color) {
-    super(color, "Reverse", 20);
+  public ReverseCard(String color, Supplier<String> supplier) {
+    super(color, "Reverse", 20, supplier);
   }
 
   @Override

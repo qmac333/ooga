@@ -1,5 +1,6 @@
 package ooga.model.drawRule;
 
+import java.util.function.Supplier;
 import ooga.model.cards.SkipCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,7 @@ public class BlasterDrawRuleTest {
   public void start(){
     myRule = new BlasterDrawRule();
     game = Mockito.mock(GameState.class);
-    when(game.getNextCard()).thenReturn(new SkipCard("red"));
+    when(game.getNextCard()).thenReturn(new SkipCard("red", null));
   }
 
   @Test

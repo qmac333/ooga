@@ -3,6 +3,7 @@ package ooga.model.gameState;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
@@ -57,12 +58,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       e.printStackTrace();
     }
 
-    // FIXME: Create useful error
-    try {
-      createPlayers(playerMap);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
     this.version = version;
     this.playerMap = playerMap;
     this.stackable = stackable;
@@ -70,9 +65,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     uno = false;
     playerPoints = new int[myPlayers.size()];
 
-    myDeck = new UnoDeck(version);
-    dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+
+
   }
 
   /**
@@ -86,8 +80,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayers = new ArrayList<>();
     myDiscardPile = new CardPile();
     currentPlayer = 0;
-
-
   }
 
   @Override
@@ -251,16 +243,19 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   // Creates the list of players based on the map that's passed into the constructor
-  private void createPlayers(Map<String, String> playerMap)
+  @Override
+  public void createPlayers(Supplier<Integer> supplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     for (String name : playerMap.keySet()) {
       Class<?> playerClass = Class.forName(
           String.format(gameStateResources.getString("PlayerClassBase"),
               gameStateResources.getString(playerMap.get(name))));
       Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          GameStatePlayerInterface.class).newInstance(name, this);
+          GameStatePlayerInterface.class, Supplier.class).newInstance(name, this, supplier);
       myPlayers.add(player);
     }
+    dealCards();
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
 
 
@@ -292,4 +287,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  public void createDeck(Map<String, Supplier<String>> map){
+    myDeck = new UnoDeck(version, map);
+  }
 }

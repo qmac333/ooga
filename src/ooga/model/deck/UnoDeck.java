@@ -1,5 +1,7 @@
 package ooga.model.deck;
 
+import java.util.Map;
+import java.util.function.Supplier;
 import ooga.model.CardFactory;
 import ooga.model.cards.Card;
 
@@ -12,13 +14,13 @@ public class UnoDeck extends CardPile{
 
     private CardFactory myCardFactory;
 
-    public UnoDeck(String version){
+    public UnoDeck(String version, Map<String, Supplier<String>> map){
         myCardFactory = new CardFactory();
-        createDeck(version);
+        createDeck(version, map);
     }
 
 
-    private void createDeck(String version){
+    private void createDeck(String version, Map<String, Supplier<String>> map){
         ResourceBundle deckProperties = ResourceBundle.getBundle(
                 "ooga.model.gameState." + version + "Deck");
 
@@ -34,9 +36,9 @@ public class UnoDeck extends CardPile{
 
         List<Card> cards = new ArrayList<Card>();
 
-        createCardsFromData(colors, numActionCards, actionCards, cards);
-        createCardsFromData(colors, numNumberCards, numberCards, cards);
-        createCardsFromData(colors, numWildCards, wildCards, cards);
+        createCardsFromData(colors, numActionCards, actionCards, cards, map);
+        createCardsFromData(colors, numNumberCards, numberCards, cards, map);
+        createCardsFromData(colors, numWildCards, wildCards, cards, map);
 
         Collections.shuffle(cards);
 
@@ -47,7 +49,7 @@ public class UnoDeck extends CardPile{
     private void createCardsFromData(List<String> colorList,
                                      int numCards,
                                      List<String> cardTypeList,
-                                     List<Card> deckList){
+                                     List<Card> deckList, Map<String, Supplier<String>> map){
 
         for(String type : cardTypeList){
             for(int i = 0; i < numCards; i++){
@@ -59,7 +61,11 @@ public class UnoDeck extends CardPile{
                         newCard = myCardFactory.makeCard("Number", n, color);
                     }
                     catch(NumberFormatException e){
-                        newCard = myCardFactory.makeCard(type, -1, color);
+                        if (map.containsKey(type)) {
+                            newCard = myCardFactory.makeCard(type, -1, color, map.get(type));
+                        } else {
+                            newCard = myCardFactory.makeCard(type, -1, color);
+                        }
                     }
                     deckList.add(newCard);
                 }
