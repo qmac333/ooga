@@ -1,5 +1,7 @@
 package ooga.view;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer.ConditionObject;
 import java.util.concurrent.locks.Condition;
@@ -32,7 +34,7 @@ public class UnoDisplay implements GameScreen {
 
   private Timeline gameTimeline;
 
-  private boolean isAwaitingCardInput;
+  private volatile boolean isAwaitingCardInput;
   private int cardPlayedIndex;
 
   /**
@@ -42,12 +44,22 @@ public class UnoDisplay implements GameScreen {
    */
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
+
+    controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
+    // send suppliers down to the model
+    try {
+      controller.getGameState().createPlayers(() -> playCard());
+    } catch (Exception e) {
+      e.getMessage();
+    }
+
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller, e -> takeCardInput(e));
     this.deckDisplay = new DeckDisplay(controller);
     unoDisplay = new BorderPane();
 
     isAwaitingCardInput = false;
+
 
     // create the Timeline for the game
     gameTimeline = new Timeline();
@@ -118,17 +130,14 @@ public class UnoDisplay implements GameScreen {
   private int playCard() {
     // do not advance gameplay until a card is played
     gameTimeline.pause();
-    isAwaitingCardInput = true;
+    isAwaitingCardInput = false;
 
     while (isAwaitingCardInput) {
-      try {
-        Thread.sleep(250);
-      } catch (InterruptedException e) {
-      }
     }
+
     gameTimeline.play();
 
-    return cardPlayedIndex;
+    return 0;
   }
 
   private void takeCardInput(int index) {
@@ -138,5 +147,8 @@ public class UnoDisplay implements GameScreen {
     }
   }
 
+  private String sendColor() {
+    return "red";
+  }
 
 }

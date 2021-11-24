@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,15 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     controller = new UnoController(stage);
     controller.languageHandler("English");
     controller.loadNewHandler("data/configurationfiles/example1.json");
+
+    controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
+    // send suppliers down to the model
+    try {
+      controller.getGameState().createPlayers(() -> playCard());
+    } catch (Exception e) {
+      e.getMessage();
+    }
+
     display = new TurnInfoDisplay(controller);
   }
 
@@ -50,6 +60,15 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
       // spin
     }
   }
+
+  private int playCard() {
+    return 0;
+  }
+
+  private String sendColor() {
+    return "red";
+  }
+
 
 
 }
