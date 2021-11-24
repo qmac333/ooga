@@ -3,6 +3,7 @@ package ooga.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.function.Consumer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -24,13 +25,15 @@ public class HandListDisplay implements DisplayableItem {
   private List<Node> cardDisplay;
   private Timeline timeline;
 
+  private Consumer<Integer> playCard;
+
   /**
    * Initialize a class that creates the display for an UNO hand.
    *
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public HandListDisplay(UnoDisplayController controller) {
+  public HandListDisplay(UnoDisplayController controller, Consumer<Integer> selectCard) {
     this.controller = controller;
     gameState = controller.getGameState();
     handList = new HBox();
@@ -38,6 +41,8 @@ public class HandListDisplay implements DisplayableItem {
 
     cardDisplay = new ArrayList<>();
     currentCards = gameState.getCurrentPlayerCards();
+
+    playCard = selectCard;
 
     timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
@@ -53,10 +58,10 @@ public class HandListDisplay implements DisplayableItem {
       CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
           cardProps.getType(), cardProps.getMyColor());
       Node card = cardMock.getCard();
-
-      card.setOnMouseClicked(e -> controller.playUserCard(cardDisplay.indexOf(card)));
       cardDisplay.add(card);
       handList.getChildren().add(card);
+
+      card.setOnMousePressed(e -> playCard.accept(cardDisplay.indexOf(card)));
     }
   }
 

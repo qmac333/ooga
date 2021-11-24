@@ -1,5 +1,10 @@
 package ooga.view;
 
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer.ConditionObject;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -7,16 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
-import ooga.model.cards.ViewCardInterface;
 import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {
 
   public static final String BACK_BUTTON_CSS = "BackButton";
-  public static final double SECONDS_BETWEEN_TURNS = 1;
+  public static final double SECONDS_BETWEEN_TURNS = 5;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -29,6 +32,9 @@ public class UnoDisplay implements GameScreen {
 
   private Timeline gameTimeline;
 
+  private boolean isAwaitingCardInput;
+  private int cardPlayedIndex;
+
   /**
    * initializes data structures and saves the given controller
    *
@@ -37,9 +43,11 @@ public class UnoDisplay implements GameScreen {
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
-    this.handListDisplay = new HandListDisplay(controller);
+    this.handListDisplay = new HandListDisplay(controller, e -> takeCardInput(e));
     this.deckDisplay = new DeckDisplay(controller);
     unoDisplay = new BorderPane();
+
+    isAwaitingCardInput = false;
 
     // create the Timeline for the game
     gameTimeline = new Timeline();
@@ -100,6 +108,34 @@ public class UnoDisplay implements GameScreen {
 
   private void playGame() {
     controller.getGameState().playTurn();
+  }
+
+  /**
+   * Called by the HumanPlayer class when the user has to decide which card to play.
+   *
+   * @return the index of the card in the user's hand to play.
+   */
+  private int playCard() {
+    // do not advance gameplay until a card is played
+    gameTimeline.pause();
+    isAwaitingCardInput = true;
+
+    while (isAwaitingCardInput) {
+      try {
+        Thread.sleep(250);
+      } catch (InterruptedException e) {
+      }
+    }
+    gameTimeline.play();
+
+    return cardPlayedIndex;
+  }
+
+  private void takeCardInput(int index) {
+    if (isAwaitingCardInput) {
+      cardPlayedIndex = index;
+      isAwaitingCardInput = false;
+    }
   }
 
 
