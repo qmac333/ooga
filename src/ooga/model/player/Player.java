@@ -1,7 +1,9 @@
 package ooga.model.player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
@@ -12,18 +14,20 @@ public abstract class Player implements PlayerInterface {
   private Hand myHand;
   private String myName;
   private GameStatePlayerInterface myGame;
+  private Supplier<Integer> myIntegerSupplier;
 
-  public Player(String name, GameStatePlayerInterface game) {
+  public Player(String name, GameStatePlayerInterface game, Supplier<Integer> supplier) {
     myName = name;
     myGame = game;
     myHand = new Hand();
+    myIntegerSupplier = supplier;
   }
 
   @Override
   public abstract void playCard();
 
   @Override
-  public void addCards(List<CardInterface> cards) {
+  public void addCards(Collection<CardInterface> cards) {
     myHand.add(cards);
   }
 
@@ -61,5 +65,9 @@ public abstract class Player implements PlayerInterface {
 
   protected GameStatePlayerInterface getMyGame() {
     return myGame;
+  }
+
+  protected Supplier<Integer> getMyIntegerSupplier(){
+    return myIntegerSupplier;
   }
 }

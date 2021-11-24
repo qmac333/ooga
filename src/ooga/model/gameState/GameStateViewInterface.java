@@ -1,6 +1,8 @@
 package ooga.model.gameState;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.function.Supplier;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
 
@@ -58,4 +60,5 @@ public interface GameStateViewInterface {
    */
   public void playTurn();
 
+  void createPlayers(Supplier<Integer> supplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 }

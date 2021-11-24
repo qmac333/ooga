@@ -1,6 +1,6 @@
 package ooga.model.gameState;
 
-import java.util.List;
+import java.util.Collection;
 import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 
@@ -11,7 +11,7 @@ public interface GameStatePlayerInterface {
    *
    * @return card(s) from this draw
    */
-  public List<CardInterface> noPlayDraw();
+  public Collection<CardInterface> noPlayDraw();
 
   /**
    * Returns Whether a card can be played

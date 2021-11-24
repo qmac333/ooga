@@ -1,5 +1,6 @@
 package ooga.model.hand;
 
+import java.util.Collection;
 import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
@@ -11,7 +12,7 @@ public interface HandInterface {
    *
    * @param card Card to add
    */
-  void add(List<CardInterface> card);
+  void add(Collection<CardInterface> card);
 
   /**
    * Plays a card

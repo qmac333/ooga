@@ -5,7 +5,7 @@ import ooga.model.gameState.GameStatePlayerInterface;
 public class NumberCard extends Card {
 
   public NumberCard(String color, int num) {
-    super(color, "Number", num);
+    super(color, "Number", num, null);
   }
 
   @Override

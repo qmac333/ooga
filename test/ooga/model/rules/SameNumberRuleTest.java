@@ -26,10 +26,10 @@ public class SameNumberRuleTest {
 
   @Test
   public void nonNumberCardsNeverWork(){
-    assertFalse(sameNumberRule.canPlay(new ReverseCard("red"), new ReverseCard("red")));
-    assertFalse(sameNumberRule.canPlay(new DrawTwoCard("red"), new DrawTwoCard("red")));
-    assertFalse(sameNumberRule.canPlay(new DrawFourCard("red"), new DrawFourCard("red")));
-    assertFalse(sameNumberRule.canPlay(new SkipCard("red"), new SkipCard("red")));
+    assertFalse(sameNumberRule.canPlay(new ReverseCard("red", null), new ReverseCard("red", null)));
+    assertFalse(sameNumberRule.canPlay(new DrawTwoCard("red", null), new DrawTwoCard("red", null)));
+    assertFalse(sameNumberRule.canPlay(new DrawFourCard("red", null), new DrawFourCard("red", null)));
+    assertFalse(sameNumberRule.canPlay(new SkipCard("red", null), new SkipCard("red", null)));
   }
 
   @Test

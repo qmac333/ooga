@@ -1,5 +1,6 @@
 package ooga.model.drawRule;
 
+import java.util.Collection;
 import java.util.List;
 import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
@@ -13,7 +14,7 @@ public interface DrawRuleInterface {
    * @param game the game this is happening in
    * @return the card(s) that are drawn as a result
    */
-  List<CardInterface> noPlayDraw(GameStateDrawInterface game);
+  Collection<CardInterface> noPlayDraw(GameStateDrawInterface game);
 
   /**
    * This is called as the result of draw penalty from a player
@@ -22,5 +23,12 @@ public interface DrawRuleInterface {
    * @param amount the amount you need to draw
    * @return the card(s) that are drawn as a result
    */
-  List<CardInterface> forcedDraw(GameStateDrawInterface game, int amount);
+  Collection<CardInterface> forcedDraw(GameStateDrawInterface game, int amount);
+
+  /**
+   * Sets the probability of the blaster if any
+   *
+   * @param probability desired probability
+   */
+  void setBlastProbability(double probability);
 }
