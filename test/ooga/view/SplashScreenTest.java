@@ -16,13 +16,13 @@ public class SplashScreenTest extends DukeApplicationTest {
 
     @Test
     public void playBeforeLoad() {
-        Button button = lookup("#PlayButton").query();
+        Button button = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
         clickOn(button);
     }
 
     @Test
     public void loadFile() {
-        Button button = lookup("#LoadNewGame").query();
+        Button button = lookup("#" + SplashScreen.LOAD_NEW_GAME_CSS).query();
         clickOn(button);
     }
 }

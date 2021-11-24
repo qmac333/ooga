@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
@@ -74,6 +75,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   @Override
   public void createPlayers(Supplier<Integer> supplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+  }
+
+  @Override
+  public void createDeck(Map<String, Supplier<String>> map) {
 
   }
 

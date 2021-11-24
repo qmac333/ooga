@@ -56,4 +56,9 @@ public class DeckDisplayTest extends DukeApplicationTest {
     assertEquals(cardImage.getImage(), CardDisplay.IMAGES.get("Top"));
   }
 
+  @Test
+  public void checkDiscardPileImage() {
+
+  }
+
 }

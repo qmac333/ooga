@@ -25,6 +25,7 @@ public class SplashScreen implements GameScreen {
   private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
 
   public static final String PLAY_CSS_ID = "PlayButton";
+  public static final String LOAD_NEW_GAME_CSS = "LoadNewGame";
 
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 100;
@@ -96,7 +97,7 @@ public class SplashScreen implements GameScreen {
     Button loadExisting = new Button(languageResources.getString("LoadExisting"));
     loadExisting.setOnAction(e -> controller.loadExistingHandler());
     Button loadNew = new Button(languageResources.getString("LoadNew"));
-    loadNew.setId("LoadNewGame");
+    loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
 
     root.getChildren()
