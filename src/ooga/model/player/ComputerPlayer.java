@@ -1,6 +1,7 @@
 package ooga.model.player;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
@@ -12,8 +13,8 @@ import ooga.model.gameState.GameStatePlayerInterface;
  */
 public class ComputerPlayer extends Player {
 
-  public ComputerPlayer(String name, GameStatePlayerInterface game) {
-    super(name, game);
+  public ComputerPlayer(String name, GameStatePlayerInterface game, Supplier<Integer> supplier) {
+    super(name, game, supplier);
   }
 
   @Override

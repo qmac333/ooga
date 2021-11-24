@@ -26,7 +26,7 @@ public class ComputerPlayerTest {
   @BeforeEach
   public void setUp(){
     gameState = Mockito.mock(GameState.class);
-    myPlayer = new ComputerPlayer("Paul", gameState);
+    myPlayer = new ComputerPlayer("Paul", gameState, null);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class ComputerPlayerTest {
   @Test
   public void whenCardCantBePlayedDraw(){
     // GIVEN the player is asked to play when they don't have a rule abiding card
-    cardToPlay = new SkipCard("Yellow");
+    cardToPlay = new SkipCard("Yellow", null);
     myPlayer.addCards(List.of(cardToPlay));
     when(gameState.canPlayCard(any(Card.class))).thenReturn(false);
     myPlayer.playCard();
@@ -51,7 +51,7 @@ public class ComputerPlayerTest {
   @Test
   public void gameStateIsEffectedWhenCardCanBePlayed(){
     // GIVEN the player has a card they can play
-    cardToPlay = new SkipCard("Yellow");
+    cardToPlay = new SkipCard("Yellow", null);
     myPlayer.addCards(List.of(cardToPlay));
     when(gameState.canPlayCard(any(Card.class))).thenReturn(true);
     myPlayer.playCard();

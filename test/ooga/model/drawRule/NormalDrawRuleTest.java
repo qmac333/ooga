@@ -2,6 +2,7 @@ package ooga.model.drawRule;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +13,12 @@ public class NormalDrawRuleTest {
   GameState game;
 
   @BeforeEach
-  public void start(){
+  public void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     normalDrawRule = new NormalDrawRule();
     game = new GameState("Basic", new HashMap<>(), 100, false);
+    game.createDeck(new HashMap<>());
+    game.createPlayers(null);
   }
 
   @Test

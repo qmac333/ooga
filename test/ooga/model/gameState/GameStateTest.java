@@ -2,6 +2,7 @@ package ooga.model.gameState;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import ooga.model.player.ComputerPlayer;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,11 @@ public class GameStateTest {
   GameState game;
 
   @BeforeEach
-  void start(){
+  void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     game = new GameState("Basic", new HashMap<>(), 100, false);
+    game.createDeck(new HashMap<>());
+    game.createPlayers(null);
   }
 
   @Test
@@ -46,9 +50,9 @@ public class GameStateTest {
   @Test
   public void keepingTrackOfCurrentPlayerWorksInNormalPlay(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new ComputerPlayer("Player1", game));
-    game.addPlayer(new ComputerPlayer("Player2", game));
-    game.addPlayer(new ComputerPlayer("Player3", game));
+    game.addPlayer(new ComputerPlayer("Player1", game, null));
+    game.addPlayer(new ComputerPlayer("Player2", game, null));
+    game.addPlayer(new ComputerPlayer("Player3", game, null));
     // THEN the current player is 0
     assertEquals(0, game.getCurrentPlayer());
     // AND WHEN we take two turns
@@ -61,9 +65,9 @@ public class GameStateTest {
   @Test
   public void changingDirectionOfGameIsReflectedInCurrentPlayer(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new ComputerPlayer("Player1", game));
-    game.addPlayer(new ComputerPlayer("Player2", game));
-    game.addPlayer(new ComputerPlayer("Player3", game));
+    game.addPlayer(new ComputerPlayer("Player1", game, null));
+    game.addPlayer(new ComputerPlayer("Player2", game, null));
+    game.addPlayer(new ComputerPlayer("Player3", game, null));
     // WHEN we change direction
     game.reverseGamePlay();
     game.playTurn();
@@ -74,9 +78,9 @@ public class GameStateTest {
   @Test
   public void skippingPlayerWorks(){
     // GIVEN a game starts with 3 players
-    game.addPlayer(new ComputerPlayer("Player1", game));
-    game.addPlayer(new ComputerPlayer("Player2", game));
-    game.addPlayer(new ComputerPlayer("Player3", game));
+    game.addPlayer(new ComputerPlayer("Player1", game, null));
+    game.addPlayer(new ComputerPlayer("Player2", game, null));
+    game.addPlayer(new ComputerPlayer("Player3", game, null));
     // WHEN we skip right away
     game.skipNextPlayer();
     game.playTurn();

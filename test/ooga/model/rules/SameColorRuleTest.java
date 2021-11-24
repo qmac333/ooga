@@ -19,20 +19,20 @@ public class SameColorRuleTest {
 
   @Test
   public void completelyDifferentCardsDontWork(){
-    assertFalse(sameColorRule.canPlay(new DrawFourCard("red"), new DrawTwoCard("blue")));
-    assertFalse(sameColorRule.canPlay(new SkipCard("red"), new ReverseCard("blue")));
+    assertFalse(sameColorRule.canPlay(new DrawFourCard("red", null), new DrawTwoCard("blue", null)));
+    assertFalse(sameColorRule.canPlay(new SkipCard("red", null), new ReverseCard("blue", null)));
   }
 
   @Test
   public void otherwiseDifferentCardsWithSameColorCanWork(){
-    assertTrue(sameColorRule.canPlay(new SkipCard("red"), new DrawTwoCard("red")));
-    assertTrue(sameColorRule.canPlay(new SkipCard("blue"), new ReverseCard("blue")));
+    assertTrue(sameColorRule.canPlay(new SkipCard("red", null), new DrawTwoCard("red", null)));
+    assertTrue(sameColorRule.canPlay(new SkipCard("blue", null), new ReverseCard("blue", null)));
   }
 
   @Test
   public void sameCardsWithDifferentColorsDontWork(){
-    assertFalse(sameColorRule.canPlay(new DrawTwoCard("red"), new DrawTwoCard("blue")));
-    assertFalse(sameColorRule.canPlay(new ReverseCard("red"), new ReverseCard("blue")));
-    assertFalse(sameColorRule.canPlay(new SkipCard("red"), new SkipCard("blue")));
+    assertFalse(sameColorRule.canPlay(new DrawTwoCard("red", null), new DrawTwoCard("blue", null)));
+    assertFalse(sameColorRule.canPlay(new ReverseCard("red", null), new ReverseCard("blue", null)));
+    assertFalse(sameColorRule.canPlay(new SkipCard("red", null), new SkipCard("blue", null)));
   }
 }
