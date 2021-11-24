@@ -6,6 +6,7 @@ import java.util.*;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
+import ooga.model.deck.CardPileViewInterface;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.Player;
@@ -109,10 +110,19 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
+  public CardPileViewInterface getDeck() {
+    return myDeck;
+  }
+
+  @Override
+  public CardPileViewInterface getDiscardPile() {
+    return myDiscardPile;
+  }
+
+  @Override
   public void discardCard(Card c) {
     myDiscardPile.placeOnTop(c);
   }
-
 
   @Override
   public String getLastCardThrownType() {

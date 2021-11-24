@@ -50,7 +50,8 @@ public class HandListDisplay implements DisplayableItem {
     cardDisplay.clear();
     currentCards = gameState.getCurrentPlayerCards();
     for (ViewCardInterface cardProps : currentCards) {
-      CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()), cardProps.getType(), cardProps.getMyColor());
+      CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
+          cardProps.getType(), cardProps.getMyColor());
       Node card = cardMock.getCard();
 
       card.setOnMouseClicked(e -> controller.playUserCard(cardDisplay.indexOf(card)));

@@ -11,40 +11,41 @@ import ooga.util.Config;
 
 public class LanguageScreen implements GameScreen {
 
-    private static final String CSS_STYLE = "/ooga/resources/languageScreen.css";
-    private static final String TITLE = "Please Choose A Language";
+  private static final String CSS_STYLE = "/ooga/resources/languageScreen.css";
+  private static final String TITLE = "Please Choose A Language";
 
-    private LanguageScreenController controller;
+  private LanguageScreenController controller;
 
-    public LanguageScreen(LanguageScreenController controller) {
-        this.controller = controller;
-    }
+  public LanguageScreen(LanguageScreenController controller) {
+    this.controller = controller;
+  }
 
-    public Scene setScene() {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(addTopNode());
+  public Scene setScene() {
+    BorderPane borderPane = new BorderPane();
+    borderPane.setTop(addTopNode());
 
-        Scene scene = new Scene(borderPane, Config.LANGUAGE_SCREEN_WIDTH, Config.LANGUAGE_SCREEN_HEIGHT);
-        scene.getStylesheets()
-                .add(LanguageScreen.class.getResource(CSS_STYLE).toExternalForm());
-        return scene;
-    }
+    Scene scene = new Scene(borderPane, Config.LANGUAGE_SCREEN_WIDTH,
+        Config.LANGUAGE_SCREEN_HEIGHT);
+    scene.getStylesheets()
+        .add(LanguageScreen.class.getResource(CSS_STYLE).toExternalForm());
+    return scene;
+  }
 
-    private Node addTopNode() {
-        HBox hbox = new HBox();
-        hbox.getStyleClass().add("hbox");
+  private Node addTopNode() {
+    HBox hbox = new HBox();
+    hbox.getStyleClass().add("hbox");
 
-        Text checkForUpdates = new Text(TITLE);
-        checkForUpdates.getStyleClass().add("text-title");
+    Text checkForUpdates = new Text(TITLE);
+    checkForUpdates.getStyleClass().add("text-title");
 
-        ChoiceBox<String> language = new ChoiceBox<>();
-        language.setValue("Language");
-        language.getItems().add("English");
-        language.getItems().add("Spanish");
-        language.setOnAction(e -> controller.languageHandler(language.getValue()));
+    ChoiceBox<String> language = new ChoiceBox<>();
+    language.setValue("Language");
+    language.getItems().add("English");
+    language.getItems().add("Spanish");
+    language.setOnAction(e -> controller.languageHandler(language.getValue()));
 
-        hbox.getChildren().addAll(checkForUpdates, language);
+    hbox.getChildren().addAll(checkForUpdates, language);
 
-        return hbox;
-    }
+    return hbox;
+  }
 }

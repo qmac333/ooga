@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
+import ooga.model.cards.ViewCardInterface;
 import ooga.util.Config;
 
 public class UnoDisplay implements GameScreen {
@@ -20,6 +21,8 @@ public class UnoDisplay implements GameScreen {
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
   private HandListDisplay handListDisplay;
+  private DeckDisplay deckDisplay;
+
   private Scene myScene;
 
   private BorderPane unoDisplay;
@@ -35,12 +38,14 @@ public class UnoDisplay implements GameScreen {
     this.controller = controller;
     this.turnDisplay = new TurnInfoDisplay(controller);
     this.handListDisplay = new HandListDisplay(controller);
+    this.deckDisplay = new DeckDisplay(controller);
     unoDisplay = new BorderPane();
 
     // create the Timeline for the game
     gameTimeline = new Timeline();
     gameTimeline.setCycleCount(Timeline.INDEFINITE);
-    gameTimeline.getKeyFrames().add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
+    gameTimeline.getKeyFrames()
+        .add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
     gameTimeline.play();
 
     createScene();
@@ -69,7 +74,9 @@ public class UnoDisplay implements GameScreen {
     // center panel
     VBox center = new VBox();
     center.setAlignment(Pos.BOTTOM_CENTER);
-    center.getChildren().addAll(handListDisplay.getDisplayableItem());
+    center.setSpacing(100);
+    center.getChildren()
+        .addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
     unoDisplay.setCenter(center);
 
     // left panel

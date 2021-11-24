@@ -2,6 +2,7 @@ package ooga.model.gameState;
 
 import java.util.List;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPileViewInterface;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.
@@ -34,11 +35,23 @@ public interface GameStateViewInterface {
   public int getCurrentPlayer();
 
   /**
-   * returns a map of card types to the different Colors and Types of cards
-   * that exist in a players hand with that number
-   * @return a Map of Integers to Lists of Strings
+   * Returns a list of the player's cards to display
+   * @return a list of cards in the player's hand
    */
   public List<ViewCardInterface> getCurrentPlayerCards();
+
+  /**
+   * Gets read-only access to the deck.
+   * @return an interface that provides access to the deck
+   */
+  public CardPileViewInterface getDeck();
+
+  /**
+   * Gets read-only access to attributesof the discard pile.
+   * @return an interface that provides access to the discard pile.
+   */
+  public CardPileViewInterface getDiscardPile();
+
 
   /**
    * Plays a turn of the game.

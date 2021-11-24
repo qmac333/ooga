@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.deck.CardPileViewInterface;
 import ooga.model.gameState.GameStateViewInterface;
 
 public class MockGameViewInterface implements GameStateViewInterface {
@@ -51,6 +52,16 @@ public class MockGameViewInterface implements GameStateViewInterface {
     ret.add(new NumberCard("yellow", 9));
 
     return ret;
+  }
+
+  @Override
+  public CardPileViewInterface getDeck() {
+    return null;
+  }
+
+  @Override
+  public CardPileViewInterface getDiscardPile() {
+    return null;
   }
 
   @Override

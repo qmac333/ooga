@@ -32,11 +32,12 @@ public class Table implements DisplayableItem {
 
   /**
    * Initializes the table.
-   * @param rows is the initial number of rows in the table.
-   * @param cols is the initial number of cols in the table.
-   * @param cellWidth is the width of an individual cell
+   *
+   * @param rows       is the initial number of rows in the table.
+   * @param cols       is the initial number of cols in the table.
+   * @param cellWidth  is the width of an individual cell
    * @param cellHeight is the height of an individual cell
-   * @param name is the name of this table
+   * @param name       is the name of this table
    */
   public Table(int rows, int cols, double cellWidth, double cellHeight, String name) {
     numRows = 0; // will be incremented by the addRow() method when adding rows
@@ -99,18 +100,20 @@ public class Table implements DisplayableItem {
 
   /**
    * Deletes a row from the table.
+   *
    * @index i is the row number to delete.
    * @throw IndexOutofBoundsException
    */
   public void deleteRow(int row) throws IndexOutOfBoundsException {
-      tableCells.remove(row);
-      visualRows.remove(row);
-      visualDisplay.getChildren().remove(row);
-      numRows--;
+    tableCells.remove(row);
+    visualRows.remove(row);
+    visualDisplay.getChildren().remove(row);
+    numRows--;
   }
 
   /**
    * Change the color of a cell in the table to have a certain color.
+   *
    * @param color is the new color of the cell
    */
   public void setColor(int x, int y, Color color) {
@@ -119,16 +122,18 @@ public class Table implements DisplayableItem {
 
   /**
    * Edits the cell at position (x, y) in the table.
+   *
    * @param contents the new contents of the cell to set.
    * @throw IndexOutofBoundsException for invalid cell coordinates.
    */
   public void setCell(int x, int y, Node contents) throws IndexOutOfBoundsException {
-      tableCells.get(y).get(x).setContents(contents);
-      contents.setId(String.format("%s_%d_%d", tableName, x, y));
+    tableCells.get(y).get(x).setContents(contents);
+    contents.setId(String.format("%s_%d_%d", tableName, x, y));
   }
 
   /**
    * Gets the contents of a cell at (x, y).
+   *
    * @throw IndexOutofBoundsException for invalid cell coordinates.
    */
   public Node getCell(int x, int y) throws IndexOutOfBoundsException {
