@@ -8,6 +8,7 @@ import ooga.model.cards.CardInterface;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
+import ooga.model.cards.WildCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,12 @@ public class HandTest {
 
   @Mock
   GameState myGame;
+
+  @Mock
+  WildCard card1;
+
+  @Mock
+  WildCard card2;
 
   @BeforeEach
   public void start() {
@@ -70,5 +77,15 @@ public class HandTest {
       i++;
     }
     assertEquals(3, i);
+  }
+
+  @Test
+  public void flipIsCalledOnAllCards(){
+    card1 = Mockito.mock(WildCard.class);
+    card2 = Mockito.mock(WildCard.class);
+    myHand.add(List.of(card1, card2));
+    myHand.flip();
+    verify(card1, times(1)).flip();
+    verify(card2, times(1)).flip();
   }
 }

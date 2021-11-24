@@ -23,7 +23,7 @@ public interface PlayerInterface {
    *
    * @param cards cards to add
    */
-  public void addCards(List<CardInterface> cards);
+  public void addCards(Collection<CardInterface> cards);
 
   /**
    * returns the name of the player

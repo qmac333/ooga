@@ -2,6 +2,7 @@ package ooga.model.gameState;
 
 import java.util.List;
 import java.util.Map;
+import ooga.model.cards.CardInterface;
 import ooga.model.player.Player;
 import ooga.model.cards.Card;
 
@@ -59,7 +60,7 @@ public interface GameStateInterface {
    *
    * @return card at the top of the deck
    */
-  public Card getNextCard();
+  public CardInterface getNextCard();
 
   /**
    * returns the order of play as an integer

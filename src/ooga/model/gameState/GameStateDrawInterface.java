@@ -10,7 +10,7 @@ public interface GameStateDrawInterface {
    *
    * @return card at the top of the deck
    */
-  Card getNextCard();
+  CardInterface getNextCard();
 
   /**
    * Determines whether you can play a card
