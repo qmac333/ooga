@@ -8,8 +8,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
@@ -17,6 +19,8 @@ import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
 
 public class HandListDisplay implements DisplayableItem {
+
+  private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
 
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
@@ -61,7 +65,12 @@ public class HandListDisplay implements DisplayableItem {
       cardDisplay.add(card);
       handList.getChildren().add(card);
 
-      card.setOnMousePressed(e -> playCard.accept(cardDisplay.indexOf(card)));
+      card.setOnMousePressed(e -> {
+        if (cardProps.getType().equals("Wild") || cardProps.getType().equals("DrawFour")) {
+          wildPopUp();
+        }
+        playCard.accept(cardDisplay.indexOf(card));
+      });
     }
   }
 
@@ -69,5 +78,17 @@ public class HandListDisplay implements DisplayableItem {
   public Node getDisplayableItem() {
     handList.setSpacing(20);
     return handList;
+  }
+
+  private void wildPopUp() {
+    ChoiceDialog<String> dialog = new ChoiceDialog<>(
+            WILDCOLORS[0], WILDCOLORS);
+    dialog.setTitle("Wild Card Color");
+    dialog.setHeaderText(null);
+    dialog.setContentText("Choose the color you want to use:");
+    dialog.getDialogPane().getButtonTypes().clear();
+    ButtonType color = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().add(color);
+    dialog.showAndWait();
   }
 }
