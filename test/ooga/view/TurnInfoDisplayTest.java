@@ -24,8 +24,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     controller.languageHandler("English");
     controller.loadNewHandler("data/configurationfiles/example1.json");
 
-    controller.getGameState()
-        .createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
+    controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
     // send suppliers down to the model
     try {
       controller.getGameState().createPlayers(() -> playCard());
@@ -69,6 +68,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
   private String sendColor() {
     return "red";
   }
+
 
 
 }
