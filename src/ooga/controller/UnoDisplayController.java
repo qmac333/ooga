@@ -7,7 +7,7 @@ import ooga.model.gameState.GameStateViewInterface;
  */
 public interface UnoDisplayController {
 
-  void saveCurrentHandler();
+  void saveCurrentFile();
 
   void backButtonHandler();
 

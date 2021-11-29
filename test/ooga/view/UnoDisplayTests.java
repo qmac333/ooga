@@ -12,8 +12,8 @@ public class UnoDisplayTests extends DukeApplicationTest {
   public void start(Stage stage) {
     CardDisplay.initializeCards();
     UnoController controller = new UnoController(stage);
-    controller.languageHandler("English");
-    controller.loadNewHandler("data/configurationfiles/example1.json");
+    controller.setLanguage("English");
+    controller.loadNewFile("data/configurationfiles/example1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
   }

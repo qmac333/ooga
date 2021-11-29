@@ -1,8 +1,5 @@
 package ooga.view;
 
-import java.util.Map;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -23,8 +20,8 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
-    controller.languageHandler("English");
-    controller.loadNewHandler("data/configurationfiles/example1.json");
+    controller.setLanguage("English");
+    controller.loadNewFile("data/configurationfiles/example1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
 

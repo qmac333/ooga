@@ -13,7 +13,7 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
-  public void saveCurrentHandler() {
+  public void saveCurrentFile() {
 
   }
 

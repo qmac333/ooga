@@ -63,13 +63,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * saves the current simulation/configuration to a JSON file
-   */
-  public void saveFile() {
-
-  }
-
-  /**
    * Shows the splash screen of the application.
    */
   public void start() {
@@ -105,7 +98,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * Creates new Uno game display
    */
   @Override
-  public void playButtonHandler() {
+  public void playNewGame() {
     if(model != null){
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
@@ -116,7 +109,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   @Override
-  public void loadExistingHandler() {
+  public void loadExistingFile() {
     System.out.println("Loading a File");
   }
 
@@ -125,7 +118,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * @param filepath of the chosen JSON
    */
   @Override
-  public boolean loadNewHandler(String filepath) {
+  public boolean loadNewFile(String filepath) {
     try{
       String json = getFileContent(filepath);
       JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
@@ -156,12 +149,12 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * Saves the current simulation/configuration to a JSON file
    */
   @Override
-  public void saveCurrentHandler() {
+  public void saveCurrentFile() {
 
   }
 
   @Override
-  public void languageHandler(String language) {
+  public void setLanguage(String language) {
     if (splashScreen == null) {
       splashScreen = new SplashScreen(this, language);
     }

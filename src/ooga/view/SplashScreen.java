@@ -1,23 +1,15 @@
 package ooga.view;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import ooga.controller.SplashScreenController;
-import ooga.model.gameState.GameStateViewInterface;
 import ooga.util.Config;
 import ooga.view.table.Table;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class SplashScreen implements GameScreen {
@@ -95,7 +87,7 @@ public class SplashScreen implements GameScreen {
     setGame.setOnAction(e -> setGameHandler(points));
 
     Button loadExisting = new Button(languageResources.getString("LoadExisting"));
-    loadExisting.setOnAction(e -> controller.loadExistingHandler());
+    loadExisting.setOnAction(e -> controller.loadExistingFile());
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
@@ -139,7 +131,7 @@ public class SplashScreen implements GameScreen {
     fileChooser.getExtensionFilters().add(extFilter);
     File selectedFile = fileChooser.showOpenDialog(null);
     if (selectedFile != null) {
-      boolean successfulLoad = controller.loadNewHandler(selectedFile.getAbsolutePath());
+      boolean successfulLoad = controller.loadNewFile(selectedFile.getAbsolutePath());
       if(successfulLoad){
         readyIndicator.setText("Game Parameters Set (Loaded File)");
       }
@@ -152,7 +144,7 @@ public class SplashScreen implements GameScreen {
 
     Button playButton = new Button(languageResources.getString("Play"));
     playButton.setId(PLAY_CSS_ID);
-    playButton.setOnAction(e -> controller.playButtonHandler());
+    playButton.setOnAction(e -> controller.playNewGame());
 
     readyIndicator = new Text("");
 

@@ -11,7 +11,7 @@ public class SplashScreenTest extends DukeApplicationTest {
     @Override
     public void start(Stage stage) {
         UnoController controller = new UnoController(stage);
-        controller.languageHandler("English");
+        controller.setLanguage("English");
     }
 
     @Test
