@@ -79,5 +79,4 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
   }
 
 
-
 }
