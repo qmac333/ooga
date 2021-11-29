@@ -56,7 +56,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   /**
    * passes the user's selected card to play to the model
-   *
    * @param index of the user's selected card from their hand
    */
   public void playUserCard(int index) {
@@ -73,6 +72,14 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     showScreen(languageScreen);
   }
 
+  /**
+   * Creates new model (GameState) object based on the input parameters provided
+   * @param version ** see GameState documentation **
+   * @param playerMap ** see GameState documentation **
+   * @param pointsToWin ** see GameState documentation **
+   * @param stackable ** see GameState documentation **
+   * @return boolean indicating the successful creation of a new model
+   */
   @Override
   public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin > 0){
@@ -88,8 +95,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Creates new Uno game display
-   * @return
+   * Creates a new game display and shows it to the user
+   * @return boolean indicating successful creation of a new game
    */
   @Override
   public boolean playNewGame() {
@@ -107,8 +114,9 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Retrieves model parameters from the specified JSON file using Moshi before initializing a new model (GameState) object
+   * Retrieves model parameters from the specified JSON file using Moshi before creating a new model (GameState) object
    * @param filepath of the chosen JSON
+   * @return boolean indicating successful parsing of the provided file and creation of a new model
    */
   @Override
   public boolean loadNewFile(String filepath) {
@@ -147,6 +155,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   }
 
+  /**
+   * Creates a new splash screen with the inputted language
+   * @param language desired language
+   */
   @Override
   public void setLanguage(String language) {
     if (splashScreen == null) {
@@ -161,11 +173,18 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     start();
   }
 
+  /**
+   * Provides the GameState interface to the view, giving it access to only the methods it needs
+   * @return the GameStateViewInterface object
+   */
   @Override
   public GameStateViewInterface getGameState() {
     return model;
   }
 
+  /**
+   * @return the GameState object - FOR TESTING PURPOSES ONLY
+   */
   public GameState getModel(){
     return model;
   }
@@ -173,12 +192,5 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private void showScreen(GameScreen screen) {
     stage.setScene(screen.setScene());
     stage.show();
-  }
-
-  // displays alert/error message to the user
-  private void sendAlert(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setContentText(alertMessage);
-    alert.show();
   }
 }
