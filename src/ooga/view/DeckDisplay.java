@@ -22,7 +22,7 @@ public class DeckDisplay implements DisplayableItem {
 
   public static final String DECK_NUM_CARDS_TEXT_CSS = "NumCardsDeck";
   public static final String DECK_CARD_CSS = "DeckCard";
-
+  public static final String DISCARD_PILE_CSS = "DiscardCard";
   private UnoDisplayController controller;
   private HBox displayedItem;
   private Timeline updateTimeline;
@@ -89,6 +89,8 @@ public class DeckDisplay implements DisplayableItem {
     // return a displayable instance of that card, add to the display
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
         topDiscard.getMyColor());
+    card.getCard().setId(DISCARD_PILE_CSS);
+
     discardPileDisplay.getChildren().add(card.getCard());
   }
 
