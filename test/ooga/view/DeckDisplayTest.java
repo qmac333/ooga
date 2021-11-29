@@ -64,7 +64,8 @@ public class DeckDisplayTest extends DukeApplicationTest {
   public void checkDiscardPileImage() {
     // find the card on top of the discard pile
     controller.getModel().discardCard(new NumberCard("red", 9));
-    pause(2 * Config.REFRESH_RATE * 1000); // let the screen refresh (refresh rate in seconds, must convert to millis)
+    pause(2 * Config.REFRESH_RATE
+        * 1000); // let the screen refresh (refresh rate in seconds, must convert to millis)
 
     Parent viewCardVisual = lookup("#" + DeckDisplay.DISCARD_PILE_CSS).query();
 
