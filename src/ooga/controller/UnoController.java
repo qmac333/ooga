@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.squareup.moshi.JsonDataException;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ooga.model.gameState.GameState;
@@ -73,39 +74,31 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   @Override
-  public boolean setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable){
-    if(version != null && playerMap.size() > 0 && pointsToWin != null){
-      try{
-        currentPointsToWin = Integer.parseInt(pointsToWin);
-        currentVersion = version;
-        currentPlayerMap = playerMap;
-        currentStackable = stackable;
+  public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
+    if(version != null && playerMap.size() > 0 && pointsToWin > 0){
+      currentPointsToWin = pointsToWin;
+      currentVersion = version;
+      currentPlayerMap = playerMap;
+      currentStackable = stackable;
 
-        model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
-        return true;
-      }
-      catch(NumberFormatException e){
-        sendAlert("Please Input a Numeric Value in the Points to Win Field");
-      }
-    }
-    else{
-      sendAlert("Please Input ALL Game Parameters (Version, Points to Win, Stackability and Players)");
+      model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
+      return true;
     }
     return false;
   }
 
   /**
    * Creates new Uno game display
+   * @return
    */
   @Override
-  public void playNewGame() {
+  public boolean playNewGame() {
     if(model != null){
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
+      return true;
     }
-    else{
-      sendAlert("Please Load a Configuration File or Manually Input Parameters");
-    }
+    return false;
   }
 
   @Override
@@ -125,10 +118,11 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       model = jsonAdapter.fromJson(json);
       return true;
     }
-    catch (IOException e) {
-      //TODO: better error handling
+    catch (IOException e){
       System.out.println(e.getMessage());
-      sendAlert("Unrecognized File Format");
+    }
+    catch (JsonDataException e){
+      System.out.println(e.getMessage());
     }
     return false;
   }

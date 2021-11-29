@@ -21,7 +21,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.setLanguage("English");
-    controller.loadNewFile("data/configurationfiles/example1.json");
+    controller.loadNewFile("data/configurationfiles/validNewFile1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
 

@@ -109,9 +109,18 @@ public class SplashScreen implements GameScreen {
       playerMap.put(currentName, currentType);
     }
 
-    boolean successfulSetup = controller.setGameParameters(gameType, playerMap, points.getText(), stackable);
-    if(successfulSetup){
-      readyIndicator.setText("Game Parameters Set (Manual)");
+    try{
+      int pointsToWin = Integer.parseInt(points.getText());
+      boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin, stackable);
+      if(successfulSetup){
+        readyIndicator.setText("Game Parameters Set (Manual)");
+      }
+      else{
+        sendAlert("Please Input Valid Values For All Four Game Parameters");
+      }
+    }
+    catch(NumberFormatException e){
+      sendAlert("Please Input a Numeric Value in the Points to Win Field");
     }
   }
 
@@ -135,6 +144,9 @@ public class SplashScreen implements GameScreen {
       if(successfulLoad){
         readyIndicator.setText("Game Parameters Set (Loaded File)");
       }
+      else{
+        sendAlert("Unrecognized File Format");
+      }
     }
   }
 
@@ -144,12 +156,19 @@ public class SplashScreen implements GameScreen {
 
     Button playButton = new Button(languageResources.getString("Play"));
     playButton.setId(PLAY_CSS_ID);
-    playButton.setOnAction(e -> controller.playNewGame());
+    playButton.setOnAction(e -> playNewGame());
 
     readyIndicator = new Text("");
 
     root.getChildren().addAll(readyIndicator, playButton);
     return root;
+  }
+
+  private void playNewGame(){
+    boolean successfulPlay = controller.playNewGame();
+    if(successfulPlay){
+      sendAlert("Please Load a Configuration File or Manually Input Parameters");
+    }
   }
 
   private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {

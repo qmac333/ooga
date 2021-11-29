@@ -7,9 +7,9 @@ import java.util.Map;
  */
 public interface SplashScreenController {
 
-  void playNewGame();
+  boolean playNewGame();
 
-  boolean setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable);
+  boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable);
 
   void loadExistingFile();
 

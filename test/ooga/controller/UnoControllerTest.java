@@ -13,8 +13,9 @@ import java.util.Map;
 
 public class UnoControllerTest extends DukeApplicationTest {
     private UnoController controller;
-    private static final String ABSOLUTE_FILEPATH_1 = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/example1.json";
-    private static final String ABSOLUTE_FILEPATH_2 = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/example2.json";
+    private static final String VALID_NEW_FILE_1_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/validNewFile1.json";
+    private static final String VALID_NEW_FILE_2_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/validNewFile2.json";
+    private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/invalidNewFile1.json";
 
     @Override
     public void start(Stage stage){
@@ -22,26 +23,36 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    void creatingModelFromJsonFile(){
+    void loadingNewFile(){
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+    }
+
+    @Test
+    void loadingNewInvalidFile(){
+        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+    }
+
+    @Test
+    void checkingModelObjectAfterLoadingNewFile(){
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Andrew", "Human");
         playerMap.put("Drew", "CPU");
         playerMap.put("Quentin", "Human");
         GameState expected = new GameState("Basic", playerMap, 500, true);
-        controller.loadNewFile(ABSOLUTE_FILEPATH_1);
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
     @Test
-    void loadingTwoFilesInARow(){
-        controller.loadNewFile(ABSOLUTE_FILEPATH_1);
+    void checkingModelObjectAfterLoadingTwoNewFilesInARow(){
+        controller.loadNewFile(VALID_NEW_FILE_1_PATH);
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Jackson", "Human");
         playerMap.put("Drew", "Human");
         playerMap.put("Ryan", "CPU");
         playerMap.put("Luke", "CPU");
         GameState expected = new GameState("Basic", playerMap, 70, false);
-        controller.loadNewFile(ABSOLUTE_FILEPATH_2);
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_2_PATH));
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
