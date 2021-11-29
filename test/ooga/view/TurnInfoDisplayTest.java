@@ -4,9 +4,11 @@ import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import ooga.util.Config;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -14,29 +16,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TurnInfoDisplayTest extends DukeApplicationTest {
 
-  private TurnInfoDisplay display;
   private UnoController controller;
 
   @Override
   public void start(Stage stage) {
+
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.languageHandler("English");
     controller.loadNewHandler("data/configurationfiles/example1.json");
+    Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+    clickOn(playButton);
 
-    controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
-    // send suppliers down to the model
-    try {
-      controller.getGameState().createPlayers(() -> playCard());
-    } catch (Exception e) {
-      e.getMessage();
-    }
-
-    display = new TurnInfoDisplay(controller);
   }
 
   @Test
   public void checkInitTable() {
+    TurnInfoDisplay display = new TurnInfoDisplay(controller);
     // Initial table will be a 3 x 2 table
 
     String[][] expected = {{"Andrew", "7"}, {"Drew", "7"}, {"Quentin", "7"}};
@@ -46,12 +42,25 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
     for (int i = 0; i < MockGameViewInterface.NUM_PLAYERS; i++) {
       for (int j = 0; j < 2; j++) {
-        // now check the contents of the table
-        //Text text = lookup(String.format("#TurnInfo_%d_%d", j, i)).query();
         Text text = (Text) display.getTable().getCell(j, i);
         assertEquals(expected[i][j], text.getText());
       }
     }
+  }
+
+  @Test
+  public void checkInitDirection() {
+    ImageView arrow = lookup("#" + TurnInfoDisplay.ARROW_CSS).query();
+    assertEquals(90, arrow.getRotate()); // arrow is pointing down
+  }
+
+  @Test
+  public void reverseDirection() {
+    controller.getModel().reverseGamePlay();
+    pause(2 * Config.REFRESH_RATE * 1000);
+    ImageView arrow = lookup("#" + TurnInfoDisplay.ARROW_CSS).query();
+    assertEquals(-90, arrow.getRotate()); // arrow is pointing down
+
   }
 
   private void pause(double millis) {
@@ -68,7 +77,6 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
   private String sendColor() {
     return "red";
   }
-
 
 
 }
