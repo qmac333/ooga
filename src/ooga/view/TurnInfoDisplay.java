@@ -1,5 +1,7 @@
 package ooga.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -20,17 +25,22 @@ import ooga.view.table.Table;
 
 public class TurnInfoDisplay implements DisplayableItem {
 
+  public static String ARROW_CSS = "GameplayDirection";
+
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 70;
+
+  private static double ARROW_HEIGHT = 50;
+  private static double ARROW_WIDTH = 50;
 
 
   private static Color HIGHLIGHT_COLOR = Color.YELLOW;
 
   private GameStateViewInterface gameState;
-  //private Map<TurnInfoChanges, Consumer> changeHandlers;
+
   private Table playerTable;
-  private VBox displayableItem;
-  private Text displayText;
+  private ImageView directionArrow;
+  private HBox displayableItem;
 
   private Timeline timeline;
   private int prevCurrentPlayer;
@@ -47,12 +57,11 @@ public class TurnInfoDisplay implements DisplayableItem {
     gameState = controller.getGameState();
     prevCurrentPlayer = 0;
 
-    displayableItem = new VBox();
-    displayableItem.setAlignment(Pos.CENTER);
+    displayableItem = new HBox();
+    displayableItem.setSpacing(20);
 
+    initializeDirection();
     initializeTable();
-    displayText = new Text("Down");
-    displayableItem.getChildren().add(displayText);
 
     timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
@@ -73,6 +82,23 @@ public class TurnInfoDisplay implements DisplayableItem {
     playerTable = new Table(gameState.getPlayerNames().size(), 2, CELL_WIDTH, CELL_HEIGHT,
         "TurnInfo");
     displayableItem.getChildren().add(playerTable.getDisplayableItem());
+  }
+
+  private void initializeDirection() {
+    try {
+      directionArrow = new ImageView(new Image(new FileInputStream("data/images/Arrow.png")));
+      directionArrow.setId(ARROW_CSS);
+    } catch (FileNotFoundException e) {
+      System.exit(-1); // TODO: use logging
+    }
+
+
+    directionArrow.setFitHeight(ARROW_HEIGHT);
+    directionArrow.setFitWidth(ARROW_WIDTH);
+    newDirectionChangeHandler();
+
+    displayableItem.getChildren().add(directionArrow);
+
   }
 
   private void update() {
@@ -113,9 +139,10 @@ public class TurnInfoDisplay implements DisplayableItem {
   private void newDirectionChangeHandler() {
     int direction = gameState.getGameplayDirection();
     if (direction == 1) {
-      displayText.setText("Down");
-    } else {
-      displayText.setText("Up");
+      directionArrow.setRotate(90); // rotate arrow to face downward
+    }
+    else {
+      directionArrow.setRotate(-90); // rotate arrow to face upward
     }
   }
 }
