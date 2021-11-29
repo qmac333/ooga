@@ -80,7 +80,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   @Override
-  public void setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable){
+  public boolean setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin != null){
       try{
         currentPointsToWin = Integer.parseInt(pointsToWin);
@@ -89,6 +89,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
         currentStackable = stackable;
 
         model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
+        return true;
       }
       catch(NumberFormatException e){
         sendAlert("Please Input a Numeric Value in the Points to Win Field");
@@ -97,7 +98,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     else{
       sendAlert("Please Input ALL Game Parameters (Version, Points to Win, Stackability and Players)");
     }
-
+    return false;
   }
 
   /**
@@ -124,16 +125,19 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * @param filepath of the chosen JSON
    */
   @Override
-  public void loadNewHandler(String filepath) {
+  public boolean loadNewHandler(String filepath) {
     try{
       String json = getFileContent(filepath);
       JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
       model = jsonAdapter.fromJson(json);
+      return true;
     }
     catch (IOException e) {
       //TODO: better error handling
       System.out.println(e.getMessage());
+      sendAlert("Unrecognized File Format");
     }
+    return false;
   }
 
   /**

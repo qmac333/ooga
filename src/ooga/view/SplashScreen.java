@@ -34,6 +34,7 @@ public class SplashScreen implements GameScreen {
 
   private Table initialPlayers;
   private List<Button> rows;
+  private Text readyIndicator;
 
   private boolean stackable;
   private String gameType;
@@ -91,7 +92,6 @@ public class SplashScreen implements GameScreen {
     stackCards.setOnAction(e -> stack(stackCards));
 
     Button setGame = new Button(languageResources.getString("GameParameters"));
-    // TODO: uncomment the next line of code on the setGameParameters in UnoController is created
     setGame.setOnAction(e -> setGameHandler(points));
 
     Button loadExisting = new Button(languageResources.getString("LoadExisting"));
@@ -117,7 +117,10 @@ public class SplashScreen implements GameScreen {
       playerMap.put(currentName, currentType);
     }
 
-    controller.setGameParameters(gameType, playerMap, points.getText(), stackable);
+    boolean successfulSetup = controller.setGameParameters(gameType, playerMap, points.getText(), stackable);
+    if(successfulSetup){
+      readyIndicator.setText("Game Parameters Set (Manual)");
+    }
   }
 
   private void stack(Button button) {
@@ -131,25 +134,29 @@ public class SplashScreen implements GameScreen {
 
   private void chooseFile() {
     FileChooser fileChooser = new FileChooser();
-    //fileChooser.setInitialDirectory(new File(Paths.get(".").toAbsolutePath().normalize() + "/data"));
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)",
         "*.json");
     fileChooser.getExtensionFilters().add(extFilter);
     File selectedFile = fileChooser.showOpenDialog(null);
     if (selectedFile != null) {
-      controller.loadNewHandler(selectedFile.getAbsolutePath());
+      boolean successfulLoad = controller.loadNewHandler(selectedFile.getAbsolutePath());
+      if(successfulLoad){
+        readyIndicator.setText("Game Parameters Set (Loaded File)");
+      }
     }
   }
 
-  private HBox addBottomNode() {
-    HBox root = new HBox();
+  private VBox addBottomNode() {
+    VBox root = new VBox();
     root.getStyleClass().add("hbox");
 
     Button playButton = new Button(languageResources.getString("Play"));
     playButton.setId(PLAY_CSS_ID);
     playButton.setOnAction(e -> controller.playButtonHandler());
 
-    root.getChildren().addAll(playButton);
+    readyIndicator = new Text("");
+
+    root.getChildren().addAll(readyIndicator, playButton);
     return root;
   }
 

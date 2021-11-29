@@ -9,10 +9,10 @@ public interface SplashScreenController {
 
   void playButtonHandler();
 
-  void setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable);
+  boolean setGameParameters(String version, Map<String, String> playerMap, String pointsToWin, boolean stackable);
 
   void loadExistingHandler();
 
-  void loadNewHandler(String filepath);
+  boolean loadNewHandler(String filepath);
 
 }
