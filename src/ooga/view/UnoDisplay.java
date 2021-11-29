@@ -9,6 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,8 +35,7 @@ public class UnoDisplay implements GameScreen {
 
   private Timeline gameTimeline;
 
-  private volatile boolean isAwaitingCardInput;
-  private int cardPlayedIndex;
+  private Thread currentThread;
 
   /**
    * initializes data structures and saves the given controller
@@ -54,11 +54,9 @@ public class UnoDisplay implements GameScreen {
     }
 
     this.turnDisplay = new TurnInfoDisplay(controller);
-    this.handListDisplay = new HandListDisplay(controller, e -> takeCardInput(e));
+    this.handListDisplay = new HandListDisplay(controller);
     this.deckDisplay = new DeckDisplay(controller);
     unoDisplay = new BorderPane();
-
-    isAwaitingCardInput = false;
 
 
     // create the Timeline for the game
@@ -119,7 +117,21 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void playGame() {
-    controller.getGameState().playTurn();
+
+    if (currentThread != null && currentThread.isAlive()) {
+      return; // still awaiting user input
+    }
+
+    Task task = new Task() {
+      @Override
+      protected Object call() throws Exception {
+        controller.getGameState().playTurn();
+        return null; // placeholder
+      }
+    };
+    currentThread = new Thread(task);
+    currentThread.setDaemon(true);
+    currentThread.start();
   }
 
   /**
@@ -130,25 +142,16 @@ public class UnoDisplay implements GameScreen {
   private int playCard() {
     // do not advance gameplay until a card is played
     gameTimeline.pause();
-    isAwaitingCardInput = false;
-
-    while (isAwaitingCardInput) {
-    }
+    int indexCard = handListDisplay.selectCard();
 
     gameTimeline.play();
 
-    return 0;
-  }
-
-  private void takeCardInput(int index) {
-    if (isAwaitingCardInput) {
-      cardPlayedIndex = index;
-      isAwaitingCardInput = false;
-    }
+    return indexCard;
   }
 
   private String sendColor() {
-    return "red";
+    //return "red";
+    return handListDisplay.wildPopUp();
   }
 
 }

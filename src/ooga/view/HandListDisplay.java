@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.function.Consumer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
@@ -18,6 +21,8 @@ import ooga.util.Config;
 
 public class HandListDisplay implements DisplayableItem {
 
+  private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
+
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
   private HBox handList;
@@ -25,7 +30,11 @@ public class HandListDisplay implements DisplayableItem {
   private List<Node> cardDisplay;
   private Timeline timeline;
 
-  private Consumer<Integer> playCard;
+  private volatile boolean isAwaitingCardInput;
+  private volatile String colorSelection;
+
+  private int cardPlayedIndex;
+
 
   /**
    * Initialize a class that creates the display for an UNO hand.
@@ -33,7 +42,7 @@ public class HandListDisplay implements DisplayableItem {
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public HandListDisplay(UnoDisplayController controller, Consumer<Integer> selectCard) {
+  public HandListDisplay(UnoDisplayController controller) {
     this.controller = controller;
     gameState = controller.getGameState();
     handList = new HBox();
@@ -42,7 +51,7 @@ public class HandListDisplay implements DisplayableItem {
     cardDisplay = new ArrayList<>();
     currentCards = gameState.getCurrentPlayerCards();
 
-    playCard = selectCard;
+    isAwaitingCardInput = false;
 
     timeline = new Timeline();
     timeline.setCycleCount(Timeline.INDEFINITE);
@@ -61,7 +70,7 @@ public class HandListDisplay implements DisplayableItem {
       cardDisplay.add(card);
       handList.getChildren().add(card);
 
-      card.setOnMousePressed(e -> playCard.accept(cardDisplay.indexOf(card)));
+      card.setOnMousePressed(e -> takeCardInput(cardDisplay.indexOf(card)));
     }
   }
 
@@ -69,5 +78,46 @@ public class HandListDisplay implements DisplayableItem {
   public Node getDisplayableItem() {
     handList.setSpacing(20);
     return handList;
+  }
+
+  public String wildPopUp() {
+    colorSelection = null;
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                WILDCOLORS[0], WILDCOLORS);
+        dialog.setTitle("Wild Card Color");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Choose the color you want to use:");
+        dialog.getDialogPane().getButtonTypes().clear();
+        ButtonType color = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(color);
+        dialog.showAndWait();
+        colorSelection = dialog.getSelectedItem();
+      }
+    });
+
+    while (colorSelection == null) {
+    }
+
+    return colorSelection;
+
+  }
+
+  public int selectCard() {
+    isAwaitingCardInput = true;
+
+    while (isAwaitingCardInput) {
+    }
+
+    return cardPlayedIndex;
+  }
+
+  private void takeCardInput(int index) {
+    if (isAwaitingCardInput) {
+      cardPlayedIndex = index;
+      isAwaitingCardInput = false;
+    }
   }
 }
