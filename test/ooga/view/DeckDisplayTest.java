@@ -3,9 +3,13 @@ package ooga.view;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import ooga.model.cards.NumberCard;
+import ooga.util.Config;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -58,7 +62,33 @@ public class DeckDisplayTest extends DukeApplicationTest {
 
   @Test
   public void checkDiscardPileImage() {
+    // find the card on top of the discard pile
+    controller.getModel().discardCard(new NumberCard("red", 9));
+    pause(2 * Config.REFRESH_RATE
+        * 1000); // let the screen refresh (refresh rate in seconds, must convert to millis)
 
+    Parent viewCardVisual = lookup("#" + DeckDisplay.DISCARD_PILE_CSS).query();
+
+    int numChildrenSize = viewCardVisual.getChildrenUnmodifiable().size();
+    Rectangle cardColor = null;
+    ImageView cardImage = null;
+    try {
+      cardImage = (ImageView) viewCardVisual.getChildrenUnmodifiable().get(numChildrenSize - 1);
+      cardColor = (Rectangle) viewCardVisual.getChildrenUnmodifiable().get(numChildrenSize - 2);
+    } catch (Exception e) {
+      Assertions.fail();
+    }
+
+    //assertEquals(cardImage.getImage(), CardDisplay.IMAGES.get("9"));
+    assertEquals(cardColor.getFill(), Color.RED);
+
+  }
+
+  private void pause(double millis) {
+    long init = System.currentTimeMillis();
+    while (System.currentTimeMillis() < init + millis) {
+      // spin
+    }
   }
 
 }
