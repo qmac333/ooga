@@ -3,7 +3,6 @@ package ooga.model.cards;
 import java.util.HashMap;
 import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
-import ooga.model.player.ComputerPlayer;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,7 @@ public class ActionCardTests extends DukeApplicationTest {
 
   @Test
   public void drawFourCardTest() {
-    Card dfc = new WildDrawFourCard("black");
+    OneSidedCard dfc = new WildDrawFourCard("black");
     dfc.executeAction(player);
     game.discardCard(dfc);
     assertEquals("DrawFour", game.getLastCardThrownType());
@@ -42,7 +41,7 @@ public class ActionCardTests extends DukeApplicationTest {
 
   @Test
   public void drawTwoCardTest() {
-    Card dtc = new DrawTwoCard("red");
+    OneSidedCard dtc = new DrawTwoCard("red");
     dtc.executeAction(player);
     game.discardCard(dtc);
     assertEquals("DrawTwo", game.getLastCardThrownType());
@@ -51,14 +50,14 @@ public class ActionCardTests extends DukeApplicationTest {
   @Test
   public void reverseCardTest() {
 
-    Card rc = new ReverseCard("red");
+    OneSidedCard rc = new ReverseCard("red");
     rc.executeAction(player);
     assertEquals(-1, game.getOrder());
   }
 
   @Test
   public void skipCardTest() {
-    Card sc = new SkipCard("red");
+    OneSidedCard sc = new SkipCard("red");
     sc.executeAction(player);
     game.discardCard(sc);
     assertEquals("Skip", game.getLastCardThrownType());
@@ -66,7 +65,7 @@ public class ActionCardTests extends DukeApplicationTest {
 
   @Test
   public void wildCardTest() {
-    Card wc = new WildCard("wild");
+    OneSidedCard wc = new WildCard("wild");
     // FIXME: Change this line once front-end support is in
     wc.setCardColor("red");
     assertEquals("red", wc.getMyColor());

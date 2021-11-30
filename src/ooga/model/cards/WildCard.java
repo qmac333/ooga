@@ -3,7 +3,7 @@ package ooga.model.cards;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
-public class WildCard extends Card {
+public class WildCard extends OneSidedCard {
 
   public WildCard(String color) {
     super("Black", "Wild", 50);
@@ -19,10 +19,5 @@ public class WildCard extends Card {
   @Override
   public void executeAction(PlayerInterface player) {
     super.setCardColor(player.getColor());
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }

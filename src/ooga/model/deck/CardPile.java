@@ -1,10 +1,9 @@
 package ooga.model.deck;
 
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
 
 import java.util.*;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.ViewCardInterface;
 
 public class CardPile implements CardPileInterface, CardPileViewInterface {
 
@@ -24,13 +23,13 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         return pile.size();
     }
 
-    public void placeOnTop(Collection<Card> cards){
+    public void placeOnTop(Collection<OneSidedCard> cards){
         addFromCollection(cards);
     }
 
     @Override
-    public Card lastCardPushed() {
-        return (Card) pile.peek();
+    public OneSidedCard lastCardPushed() {
+        return (OneSidedCard) pile.peek();
     }
 
     @Override
@@ -53,8 +52,8 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     }
 
-    private void addFromCollection(Collection<Card> cardGroup){
-        for(Card c : cardGroup){
+    private void addFromCollection(Collection<OneSidedCard> cardGroup){
+        for(OneSidedCard c : cardGroup){
             this.placeOnTop(c);
         }
     }

@@ -3,7 +3,6 @@ package ooga.model.hand;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;

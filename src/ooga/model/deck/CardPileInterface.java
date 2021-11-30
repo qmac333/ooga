@@ -1,9 +1,8 @@
 package ooga.model.deck;
 
 
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.ViewCardInterface;
 
 /**
  * Interface which describes the functionality of both the Uno card deck and the discard pile.
@@ -27,7 +26,7 @@ public interface CardPileInterface {
      * allows caller to see the card at the top of a
      * pile of cards
      */
-    public Card lastCardPushed();
+    public OneSidedCard lastCardPushed();
 
     /**
      * removes a card from the top of a pile of cards

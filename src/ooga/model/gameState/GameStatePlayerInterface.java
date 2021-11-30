@@ -1,7 +1,6 @@
 package ooga.model.gameState;
 
 import java.util.Collection;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 
 public interface GameStatePlayerInterface {

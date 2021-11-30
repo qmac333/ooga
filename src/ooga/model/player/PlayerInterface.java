@@ -2,7 +2,6 @@ package ooga.model.player;
 
 import java.util.Collection;
 import java.util.List;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 

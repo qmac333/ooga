@@ -1,6 +1,5 @@
 package ooga.model.gameState;
 
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 
 public interface GameStateDrawInterface {
