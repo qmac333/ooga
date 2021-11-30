@@ -37,6 +37,11 @@ public interface GameStatePlayerInterface {
   public void skipNextPlayer();
 
   /**
+   * Skips everyone and returns to the current player
+   */
+  void skipEveryone();
+
+  /**
    * allows class calling this method to set the nextPlayerDrawTwo member to true
    */
   public void addDraw(int drawAmount);

@@ -92,4 +92,17 @@ public class GameStateTest {
     // THEN it's now to player 1
     assertEquals(1, game.getCurrentPlayer());
   }
+
+  @Test
+  public void skippingEveryoneWorks(){
+    // GIVEN a game starts with 3 players
+    game.addPlayer(new ComputerPlayer("Player1", game, null));
+    game.addPlayer(new ComputerPlayer("Player2", game, null));
+    game.addPlayer(new ComputerPlayer("Player3", game, null));
+    // WHEN we skip everyone
+    game.skipEveryone();
+    game.playTurn();
+    // THEN the next player is still 0
+    assertEquals(0, game.getCurrentPlayer());
+  }
 }
