@@ -104,7 +104,7 @@ public class UnoDisplay implements GameScreen {
     button.setOnAction(e -> controller.backButtonHandler());
     left.getChildren().add(button);
 
-    Button goButton = new Button("Choose Card");
+    Button goButton = new Button("Play Turn");
     goButton.setOnAction(e -> playGame());
     left.getChildren().add(goButton);
 
