@@ -61,11 +61,7 @@ public class UnoDeck extends CardPile{
                         newCard = myCardFactory.makeCard("Number", n, color);
                     }
                     catch(NumberFormatException e){
-                        if (map.containsKey(type)) {
-                            newCard = myCardFactory.makeCard(type, -1, color, map.get(type));
-                        } else {
-                            newCard = myCardFactory.makeCard(type, -1, color);
-                        }
+                        newCard = myCardFactory.makeCard(type, -1, color);
                     }
                     deckList.add(newCard);
                 }

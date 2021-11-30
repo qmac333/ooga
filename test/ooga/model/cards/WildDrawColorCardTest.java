@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
+import ooga.model.player.HumanPlayer;
+import ooga.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,6 +17,7 @@ import org.mockito.Mock;
 public class WildDrawColorCardTest {
 
   WildDrawColorCard wdcc;
+  Player mockedPlayer;
 
   @Mock
   Supplier colorSupplier;
@@ -30,7 +33,8 @@ public class WildDrawColorCardTest {
     when(colorSupplier.get()).thenReturn("red");
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
-    wdcc = new WildDrawColorCard(null, colorSupplier);
+    wdcc = new WildDrawColorCard(null);
+    mockedPlayer = new HumanPlayer("Paul", mockedGameState, null, colorSupplier);
   }
 
   @Test
@@ -42,19 +46,20 @@ public class WildDrawColorCardTest {
 
   @Test
   void callsTheAddDrawWithCorrectArgument() {
-    wdcc.executeAction(mockedGameState);
+    wdcc.executeAction(mockedPlayer);
     verify(mockedGameState, times(1)).addDraw(-2);
   }
 
   @Test
   void colorOfCardChangesOnExecution() {
-    wdcc.executeAction(mockedGameState);
+    wdcc.executeAction(mockedPlayer);
     assertEquals("red", wdcc.getMyColor());
   }
 
   @Test
   void successfullyDiscards() {
-    wdcc.executeAction(gameState);
+    wdcc.executeAction(mockedPlayer);
+    gameState.discardCard(wdcc);
     assertEquals("WildDrawColor", gameState.getLastCardThrownType());
   }
 }

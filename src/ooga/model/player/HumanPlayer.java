@@ -5,8 +5,8 @@ import ooga.model.gameState.GameStatePlayerInterface;
 
 public class HumanPlayer extends Player {
 
-  public HumanPlayer(String name, GameStatePlayerInterface game, Supplier<Integer> supplier) {
-    super(name, game, supplier);
+  public HumanPlayer(String name, GameStatePlayerInterface game, Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
+    super(name, game, integerSupplier, stringSupplier);
   }
 
   @Override
@@ -14,9 +14,14 @@ public class HumanPlayer extends Player {
     int index = -1;
     index = super.getMyIntegerSupplier().get();
     try {
-      getMyHand().play(index, super.getMyGame());
+      getMyHand().play(index, super.getMyGame(), this);
     } catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public String getColor(){
+    return super.getMyStringSupplier().get();
   }
 }

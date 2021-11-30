@@ -3,17 +3,19 @@ package ooga.model.deck;
 import ooga.model.cards.Card;
 
 import java.util.*;
+import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 
 public class CardPile implements CardPileInterface, CardPileViewInterface {
 
-    private Stack<Card> pile;
+    private Stack<CardInterface> pile;
 
     public CardPile(){
-        pile = new Stack<Card>();
+        pile = new Stack<CardInterface>();
     }
 
     @Override
-    public void placeOnTop(Card c) {
+    public void placeOnTop(CardInterface c) {
         pile.push(c);
     }
 
@@ -28,11 +30,11 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     @Override
     public Card lastCardPushed() {
-        return pile.peek();
+        return (Card) pile.peek();
     }
 
     @Override
-    public Card popTopCard() {
+    public CardInterface popTopCard() {
         try{
             return pile.pop();
         }
@@ -43,7 +45,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     @Override
     public void copyOver(CardPileInterface other) {
-        Collection<Card> intermediary = new ArrayList<Card>();
+        Collection<CardInterface> intermediary = new ArrayList<CardInterface>();
         intermediary.addAll(pile);
         pile.clear();
 

@@ -1,6 +1,8 @@
 package ooga.model.deck;
 
 import ooga.model.cards.Card;
+import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 
 /**
  * An interface that passes read-only information about a card pile to the view

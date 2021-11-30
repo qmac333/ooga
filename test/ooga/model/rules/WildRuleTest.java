@@ -2,7 +2,7 @@ package ooga.model.rules;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ooga.model.cards.DrawFourCard;
+import ooga.model.cards.WildDrawFourCard;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
@@ -22,17 +22,17 @@ public class WildRuleTest {
   public void nonWildCardsNeverFit(){
     assertFalse(wildRule.canPlay(new NumberCard("red", 5), new NumberCard("green", 5)));
     assertFalse(wildRule.canPlay(new NumberCard("blue", 0), new NumberCard("yellow", 0)));
-    assertFalse(wildRule.canPlay(new ReverseCard("blue", null), new ReverseCard("yellow", null)));
-    assertFalse(wildRule.canPlay(new SkipCard("red", null), new SkipCard("red", null)));
+    assertFalse(wildRule.canPlay(new ReverseCard("blue"), new ReverseCard("yellow")));
+    assertFalse(wildRule.canPlay(new SkipCard("red"), new SkipCard("red")));
   }
 
   @Test
   public void wildCardsAlwaysWork(){
-    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new DrawFourCard("red", null)));
-    assertTrue(wildRule.canPlay(new ReverseCard("green", null), new DrawFourCard("red", null)));
-    assertTrue(wildRule.canPlay(new SkipCard("green", null), new DrawFourCard("red", null)));
-    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildCard("red", null)));
-    assertTrue(wildRule.canPlay(new ReverseCard("green", null), new WildCard("red", null)));
-    assertTrue(wildRule.canPlay(new SkipCard("green", null), new WildCard("red", null)));
+    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildDrawFourCard("red")));
+    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildDrawFourCard("red")));
+    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildDrawFourCard("red")));
+    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildCard("red")));
+    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildCard("red")));
+    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildCard("red")));
   }
 }

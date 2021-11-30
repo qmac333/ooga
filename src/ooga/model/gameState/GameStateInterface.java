@@ -20,7 +20,7 @@ public interface GameStateInterface {
   /**
    * sets the lastCardThown member in the GameState
    */
-  public void discardCard(Card c);
+  public void discardCard(CardInterface c);
 
   /**
    * gets the tpye of the lastCardThrown

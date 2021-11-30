@@ -46,7 +46,7 @@ public class UnoDisplay implements GameScreen {
     controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
     // send suppliers down to the model
     try {
-      controller.getGameState().createPlayers(() -> playCard());
+      controller.getGameState().createPlayers(() -> playCard(), () -> sendColor());
     } catch (Exception e) {
       e.getMessage();
     }

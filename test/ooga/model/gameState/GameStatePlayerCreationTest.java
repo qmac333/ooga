@@ -26,7 +26,7 @@ public class GameStatePlayerCreationTest {
     map.put("Paul", "CPU");
     gameState = new GameState("Basic", map, 100, false);
     gameState.createDeck(new HashMap<>());
-    gameState.createPlayers(null);
+    gameState.createPlayers(null, null);
     // THEN we have one name
     assertEquals(1, gameState.getPlayerNames().size());
   }
@@ -41,7 +41,7 @@ public class GameStatePlayerCreationTest {
     map.put("Drew", "Human");
     gameState = new GameState("Basic", map, 100, false);
     gameState.createDeck(new HashMap<>());
-    gameState.createPlayers(null);
+    gameState.createPlayers(null, null);
     // THEN we will have three names returned with correct names
     assertEquals(3, gameState.getPlayerNames().size());
     assertTrue(gameState.getPlayerNames().contains("Paul"));

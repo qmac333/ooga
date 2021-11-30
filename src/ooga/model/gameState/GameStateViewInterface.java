@@ -63,18 +63,22 @@ public interface GameStateViewInterface {
 
   /**
    * Pass in a handler that can be called by the model to select a card to play for a human player.
-   * @param supplier is a function that returns the index of the card to be played in a user's hand
+   * @param integerSupplier is a function that returns the index of the card to be played in a user's hand
+   * @param stringSupplier returns the requested string
    * @throws ClassNotFoundException
    * @throws NoSuchMethodException
    * @throws InvocationTargetException
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
-  void createPlayers(Supplier<Integer> supplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+  void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 
   /**
    * Creates a deck of cards.
    * @param map contains function handlers as values that are called if a card in the map is played with the type being a key in the map.
    */
   void createDeck(Map<String, Supplier<String>> map);
+
+  @Deprecated
+  void createPlayers(Supplier<Integer> integerSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 }
