@@ -28,6 +28,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private int impendingDraw;
   private boolean skipNext;
+  private boolean skipEveryone;
   private int order;
 
   private String version;
@@ -46,6 +47,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       boolean stackable) {
     order = 1;
     skipNext = false;
+    skipEveryone = false;
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
@@ -133,6 +135,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
+  public void skipEveryone(){
+    skipEveryone = true;
+  }
+
+  @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
     Player player = myPlayers.get(currentPlayer);
@@ -208,11 +215,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + myPlayers.size();
-    if (!skipNext) {
-      currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
-    } else {
+    if (skipNext){
       currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
       skipNext = false;
+    } else if (skipEveryone){
+      skipEveryone = false;
+    } else {
+      currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
     }
   }
 
