@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.squareup.moshi.JsonDataException;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
@@ -74,10 +73,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   /**
    * Creates new model (GameState) object based on the input parameters provided
-   * @param version ** see GameState documentation **
-   * @param playerMap ** see GameState documentation **
-   * @param pointsToWin ** see GameState documentation **
-   * @param stackable ** see GameState documentation **
+   * @param version **see GameState documentation**
+   * @param playerMap **see GameState documentation**
+   * @param pointsToWin **see GameState documentation**
+   * @param stackable **see GameState documentation**
    * @return boolean indicating the successful creation of a new model
    */
   @Override
@@ -126,10 +125,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       model = jsonAdapter.fromJson(json);
       return true;
     }
-    catch (IOException e){
-      System.out.println(e.getMessage());
-    }
-    catch (JsonDataException e){
+    catch (IOException | JsonDataException e){
       System.out.println(e.getMessage());
     }
     return false;
@@ -156,11 +152,11 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Creates a new splash screen with the inputted language
+   * Creates a new splash screen in the given language
    * @param language desired language
    */
   @Override
-  public void setLanguage(String language) {
+  public void createSplashScreen(String language) {
     if (splashScreen == null) {
       splashScreen = new SplashScreen(this, language);
     }
@@ -183,10 +179,31 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
+   * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
+   */
+  public LanguageScreen getLanguageScreen(){
+    return languageScreen;
+  }
+
+  /**
+   * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
+   */
+  public SplashScreen getSplashScreen(){
+    return splashScreen;
+  }
+
+  /**
    * @return the GameState object - FOR TESTING PURPOSES ONLY
    */
   public GameState getModel(){
     return model;
+  }
+
+  /**
+   * @return the UnoDisplay object - FOR TESTING PURPOSES ONLY
+   */
+  public UnoDisplay getUnoDisplay(){
+    return unoDisplay;
   }
 
   private void showScreen(GameScreen screen) {

@@ -3,6 +3,7 @@ package ooga.controller;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javafx.stage.Stage;
+import ooga.view.CardDisplay;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -23,6 +24,24 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
+    void creatingInitialMenuScreen(){
+        runAsJFXAction(() -> controller.start());
+        assertNotNull(controller.getLanguageScreen());
+    }
+
+    @Test
+    void creatingSplashScreen(){
+        runAsJFXAction(() -> controller.createSplashScreen("English"));
+        assertNotNull(controller.getSplashScreen());
+    }
+
+    @Test
+    void pressingBackButton(){
+        runAsJFXAction(() -> controller.backButtonHandler());
+        assertNotNull(controller.getLanguageScreen());
+    }
+
+    @Test
     void loadingNewFile(){
         assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
     }
@@ -34,27 +53,154 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void checkingModelObjectAfterLoadingNewFile(){
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Andrew", "Human");
         playerMap.put("Drew", "CPU");
         playerMap.put("Quentin", "Human");
-        GameState expected = new GameState("Basic", playerMap, 500, true);
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        int pointsToWin = 500;
+        boolean stackable = true;
+        GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
     @Test
     void checkingModelObjectAfterLoadingTwoNewFilesInARow(){
-        controller.loadNewFile(VALID_NEW_FILE_1_PATH);
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_2_PATH));
+        String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Jackson", "Human");
         playerMap.put("Drew", "Human");
         playerMap.put("Ryan", "CPU");
         playerMap.put("Luke", "CPU");
-        GameState expected = new GameState("Basic", playerMap, 70, false);
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_2_PATH));
+        int pointsToWin = 70;
+        boolean stackable = false;
+        GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
-    // TODO: test invalid configuration files (wrong format, additional parameters, missing parameters) - Moshi should handle this but not sure how to verify?
+    @Test
+    void checkingModelObjectAfterLoadingNewInvalidFile(){
+        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+        assertNull(controller.getModel());
+    }
+
+    @Test
+    void manuallySettingGameParameters(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("player1", "Human");
+        playerMap.put("Player 2", "Human");
+        playerMap.put("Player3", "CPU");
+        int pointsToWin = 778;
+        boolean stackable = true;
+        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+    }
+
+    @Test
+    void manuallySettingInvalidGameParameters(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        int pointsToWin = 9;
+        boolean stackable = false;
+        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+    }
+
+    @Test
+    void manuallySettingInvalidGameParameters2(){
+        String version = null;
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("Adam", "CPU");
+        playerMap.put("Player 2", "Human");
+        int pointsToWin = 99;
+        boolean stackable = true;
+        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+    }
+
+    @Test
+    void manuallySettingInvalidGameParameters3(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("Drew", "Human");
+        playerMap.put("Quentin", "Human");
+        playerMap.put("Will Long", "CPU");
+        int pointsToWin = -1;
+        boolean stackable = false;
+        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+    }
+
+    @Test
+    void checkingModelObjectAfterManuallySettingGameParameters(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("player1", "Human");
+        playerMap.put("Player 2", "Human");
+        playerMap.put("Player3", "CPU");
+        int pointsToWin = 778;
+        boolean stackable = true;
+        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
+        assertTrue(expected.compareInitialParameters(controller.getModel()));
+    }
+
+    @Test
+    void checkingModelObjectAfterManuallySettingInvalidGameParameters(){
+        String version = null;
+        Map<String, String> playerMap = new HashMap<>();
+        int pointsToWin = -1;
+        boolean stackable = false;
+        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        assertNull(controller.getModel());
+    }
+
+    @Test
+    void playingNewGameBeforeLoadingFileOrManuallySettingParameters(){
+        assertFalse(controller.playNewGame());
+    }
+
+    @Test
+    void playingNewGameAfterLoadingFile(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+    }
+
+    @Test
+    void playingNewGameAfterLoadingInvalidFile(){
+        CardDisplay.initializeCards();
+        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
+    }
+
+    @Test
+    void playingNewGameAfterManuallySettingParameters(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("player1", "Human");
+        playerMap.put("Player 2", "Human");
+        playerMap.put("Player3", "CPU");
+        int pointsToWin = 778;
+        boolean stackable = true;
+        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+    }
+
+    @Test
+    void playingNewGameAfterManuallySettingInvalidParameters(){
+        String version = null;
+        Map<String, String> playerMap = new HashMap<>();
+        int pointsToWin = -1;
+        boolean stackable = false;
+        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
+    }
+
+    // TODO: Save file testing!
+    // TODO: Load existing file testing!
 }
