@@ -225,35 +225,35 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * @return game version
+   * @return game version - FOR TESTING PURPOSES ONLY
    */
   public String getVersion() {
     return version;
   }
 
   /**
-   * @return map of player names to player type (human or CPU)
+   * @return map of player names to player type (human or CPU) - FOR TESTING PURPOSES ONLY
    */
   public Map<String, String> getPlayerMap() {
     return playerMap;
   }
 
   /**
-   * @return points required to win
+   * @return points required to win - FOR TESTING PURPOSES ONLY
    */
   public int getPointsToWin() {
     return pointsToWin;
   }
 
   /**
-   * @return boolean indicating stackable
+   * @return boolean indicating stackable - FOR TESTING PURPOSES ONLY
    */
   public boolean getStackable() {
     return stackable;
   }
 
   /**
-   * Tests whether two GameState objects have the same initial parameters
+   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
    *
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal

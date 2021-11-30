@@ -166,7 +166,6 @@ public class SplashScreen implements GameScreen {
 
   private void playNewGame(){
     boolean successfulPlay = controller.playNewGame();
-    System.out.println(successfulPlay);
     if(!successfulPlay){
       sendAlert("Please Load a Configuration File or Manually Input Parameters");
     }

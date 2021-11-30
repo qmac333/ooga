@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import com.squareup.moshi.JsonDataException;
 import javafx.stage.Stage;
@@ -42,15 +41,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public UnoController(Stage stage) {
     this.stage = stage;
     moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
-  }
-
-  /**
-   * passes the view's consumer to the model so the model can call .accept() whenever it needs to
-   * notify the view of a change in its state
-   */
-  // TODO: does the view do this directly through the GameStateViewInterface?
-  public void setupConsumer(Consumer viewConsumer) {
-
   }
 
   /**
