@@ -1,6 +1,7 @@
 package ooga.model.hand;
 
 import java.util.Collection;
+import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
@@ -43,4 +44,11 @@ public interface HandInterface {
    * @return the size of the hand
    */
   int size();
+
+  /**
+   * Removes all cards of that color from the hand
+   *
+   * @param color to discard
+   */
+  Collection<CardInterface> removeColor(String color);
 }

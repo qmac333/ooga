@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
@@ -63,6 +64,18 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
   @Override
   public Iterator<CardInterface> iterator() {
     return new HandIterator();
+  }
+
+  @Override
+  public Collection<CardInterface> removeColor(String color){
+    List<CardInterface> removed = new ArrayList<>();
+    for (CardInterface card : myCards){
+      if (card.getMyColor().equals(color)){
+        removed.add(card);
+      }
+    }
+    myCards.removeAll(removed);
+    return removed;
   }
 
   private class HandIterator implements Iterator<CardInterface> {

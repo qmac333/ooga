@@ -84,4 +84,11 @@ public interface PlayerInterface {
    * Causes the game to skip everyone
    */
   void skipEveryone();
+
+  /**
+   * Has player discard all cards that are of the specified color
+   *
+   * @param color color to discard
+   */
+  void discardColor(String color);
 }

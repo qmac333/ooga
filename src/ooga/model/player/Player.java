@@ -94,6 +94,14 @@ public abstract class Player implements PlayerInterface {
     myGame.addDraw(drawAmount);
   }
 
+  @Override
+  public void discardColor(String color){
+    Collection<CardInterface> cards = myHand.removeColor(color);
+    for (CardInterface card : cards){
+      myGame.discardCard(card);
+    }
+  }
+
   protected Hand getMyHand() {
     return myHand;
   }
