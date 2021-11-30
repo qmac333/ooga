@@ -20,32 +20,31 @@ public class FlipCardTest {
   GameState gameMocked;
 
   @BeforeEach
-  void start(){
+  void start() {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
     fc = new FlipCard("red", null);
   }
 
   @Test
-  void callsTheFlipMethodInTheGame(){
-
+  void callsTheFlipMethodInTheGame() {
     fc.executeAction(gameMocked);
     verify(gameMocked, times(1)).flipCards();
   }
 
   @Test
-  void allDefaultsAreSetHowTheyShouldBe(){
-    assertEquals("Flip",fc.getType());
-    assertEquals(20,fc.getNum());
+  void allDefaultsAreSetHowTheyShouldBe() {
+    assertEquals("Flip", fc.getType());
+    assertEquals(20, fc.getNum());
   }
 
   @Test
-  void colorSets(){
-    assertEquals("red",fc.getMyColor());
+  void colorSets() {
+    assertEquals("red", fc.getMyColor());
   }
 
   @Test
-  void successfullyDiscards(){
+  void successfullyDiscards() {
     fc.executeAction(realGame);
     assertEquals("Flip", realGame.getLastCardThrownType());
   }
