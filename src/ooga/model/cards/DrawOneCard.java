@@ -4,19 +4,21 @@ import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 
 /**
- * Card to make every Player flip their hands
+ * Card to force next player to draw one card
  *
  * @author Paul Truitt
  */
-public class FlipCard extends Card {
+public class DrawOneCard extends Card {
 
-  public FlipCard(String color, Supplier<String> supplier) {
-    super(color, "Flip", 20, supplier);
+  private final int DRAW_AMOUNT = 1;
+
+  public DrawOneCard(String color, Supplier<String> supplier) {
+    super(color, "DrawOne", 10, supplier);
   }
 
   @Override
   public void executeAction(GameStatePlayerInterface game) {
-    game.flipCards();
+    game.addDraw(DRAW_AMOUNT);
     game.discardCard(this);
   }
 
