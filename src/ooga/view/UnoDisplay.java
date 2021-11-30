@@ -35,8 +35,6 @@ public class UnoDisplay implements GameScreen {
 
   private Timeline gameTimeline;
 
-  private Thread currentThread;
-
   /**
    * initializes data structures and saves the given controller
    *
@@ -60,11 +58,12 @@ public class UnoDisplay implements GameScreen {
 
 
     // create the Timeline for the game
-    gameTimeline = new Timeline();
-    gameTimeline.setCycleCount(Timeline.INDEFINITE);
-    gameTimeline.getKeyFrames()
-        .add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
-    gameTimeline.play();
+//    gameTimeline = new Timeline();
+//    gameTimeline.setCycleCount(Timeline.INDEFINITE);
+//    gameTimeline.getKeyFrames()
+//        .add(new KeyFrame(Duration.seconds(SECONDS_BETWEEN_TURNS), e -> playGame()));
+//    gameTimeline.play();
+
 
     createScene();
   }
@@ -104,6 +103,10 @@ public class UnoDisplay implements GameScreen {
     button.setId(BACK_BUTTON_CSS);
     button.setOnAction(e -> controller.backButtonHandler());
     left.getChildren().add(button);
+
+    Button goButton = new Button("Choose Card");
+    goButton.setOnAction(e -> playGame());
+    left.getChildren().add(goButton);
     unoDisplay.setLeft(left);
 
     // right panel
@@ -117,21 +120,7 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void playGame() {
-
-    if (currentThread != null && currentThread.isAlive()) {
-      return; // still awaiting user input
-    }
-
-    Task task = new Task() {
-      @Override
-      protected Object call() throws Exception {
-        controller.getGameState().playTurn();
-        return null; // placeholder
-      }
-    };
-    currentThread = new Thread(task);
-    currentThread.setDaemon(true);
-    currentThread.start();
+    controller.getGameState().playTurn();
   }
 
   /**
@@ -140,17 +129,13 @@ public class UnoDisplay implements GameScreen {
    * @return the index of the card in the user's hand to play.
    */
   private int playCard() {
-    // do not advance gameplay until a card is played
-    gameTimeline.pause();
-    int indexCard = handListDisplay.selectCard();
 
-    gameTimeline.play();
+    int indexCard = handListDisplay.selectCard();
 
     return indexCard;
   }
 
   private String sendColor() {
-    //return "red";
     return handListDisplay.wildPopUp();
   }
 
