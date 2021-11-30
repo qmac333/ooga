@@ -4,22 +4,21 @@ import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 
 /**
- * Card that allows user to choose color and makes the next player draw 2
+ * Card that makes the next player draw 5 cards
  *
  * @author Paul Truitt
  */
-public class WildDrawTwoCard extends Card {
+public class DrawFiveCard extends Card {
 
-  private final int DRAW_AMOUNT = 2;
+  private final int DRAW_AMOUNT = 5;
 
-  public WildDrawTwoCard(String color, Supplier<String> supplier) {
-    super("Black", "WildDrawTwo", 50, supplier);
+  public DrawFiveCard(String color, Supplier<String> supplier) {
+    super(color, "DrawFive", 20, supplier);
   }
 
   @Override
   public void executeAction(GameStatePlayerInterface game) {
     game.addDraw(DRAW_AMOUNT);
-    super.setCardColor(super.getSupplier().get());
     game.discardCard(this);
   }
 
