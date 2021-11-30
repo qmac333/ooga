@@ -40,4 +40,9 @@ public interface GameStatePlayerInterface {
    * allows class calling this method to set the nextPlayerDrawTwo member to true
    */
   public void addDraw(int drawAmount);
+
+  /**
+   * Flips everyone's hands
+   */
+  void flipCards();
 }

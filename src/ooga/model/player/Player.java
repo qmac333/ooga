@@ -59,6 +59,11 @@ public abstract class Player implements PlayerInterface {
     return ret;
   }
 
+  @Override
+  public void flipHand(){
+    myHand.flip();
+  }
+
   protected Hand getMyHand() {
     return myHand;
   }
