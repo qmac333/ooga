@@ -2,6 +2,7 @@ package ooga.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -95,8 +96,23 @@ public class HandListDisplay implements DisplayableItem {
     dialog.getDialogPane().getButtonTypes().clear();
     ButtonType draw = new ButtonType("Draw", ButtonBar.ButtonData.LEFT);
     ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(ok, draw);
-    dialog.showAndWait();
+    dialog.getDialogPane().getButtonTypes().addAll(draw, ok);
+
+    dialog.setResultConverter((ButtonType type) -> {
+      ButtonBar.ButtonData data = type == null ? null : type.getButtonData();
+      if (data == ButtonBar.ButtonData.LEFT) {
+        return -1;
+      }
+      else {
+        return null;
+      }
+    });
+
+    Optional<Integer> result = dialog.showAndWait();
+
+    if (result.get() == -1) {
+      return result.get();
+    }
 
     return dialog.getSelectedItem();
   }
