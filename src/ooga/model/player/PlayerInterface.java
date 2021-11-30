@@ -45,4 +45,9 @@ public interface PlayerInterface {
   int getHandSize();
 
   List<ViewCardInterface> getViewCards();
+
+  /**
+   * Flips all of their cards
+   */
+  void flipHand();
 }

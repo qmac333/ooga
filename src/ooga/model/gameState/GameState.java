@@ -137,7 +137,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     // FIXME: Add in stacking logic
     Player player = myPlayers.get(currentPlayer);
     if (impendingDraw > 0) {
-      myDrawRule.forcedDraw(this, impendingDraw);
+      player.addCards(myDrawRule.forcedDraw(this, impendingDraw));
       impendingDraw = 0;
     } else {
       player.playCard();
@@ -176,6 +176,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addDraw(int drawAmount) {
     impendingDraw += drawAmount;
+  }
+
+  @Override
+  public void flipCards() {
+    for (Player p : myPlayers){
+      p.flipHand();
+    }
   }
 
   @Override
