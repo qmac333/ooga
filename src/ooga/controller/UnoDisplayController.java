@@ -11,8 +11,6 @@ public interface UnoDisplayController {
 
   void backButtonHandler();
 
-  void playUserCard(int index);
-
   GameStateViewInterface getGameState();
 
 }

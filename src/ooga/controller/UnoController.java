@@ -54,14 +54,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * passes the user's selected card to play to the model
-   * @param index of the user's selected card from their hand
-   */
-  public void playUserCard(int index) {
-    System.out.println("Played card "+index);
-  }
-
-  /**
    * Shows the splash screen of the application.
    */
   public void start() {
