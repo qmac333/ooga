@@ -1,6 +1,5 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
@@ -9,7 +8,7 @@ import ooga.model.player.PlayerInterface;
  *
  * @author Paul Truitt
  */
-public class WildDrawTwoCard extends Card {
+public class WildDrawTwoCard extends OneSidedCard {
 
   private final int DRAW_AMOUNT = 2;
 
@@ -28,10 +27,5 @@ public class WildDrawTwoCard extends Card {
   public void executeAction(PlayerInterface player) {
     player.enforceDraw(DRAW_AMOUNT);
     super.setCardColor(player.getColor());
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }

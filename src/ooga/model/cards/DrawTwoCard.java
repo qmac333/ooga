@@ -1,10 +1,9 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
-public class DrawTwoCard extends Card {
+public class DrawTwoCard extends OneSidedCard {
 
   private final int DRAW_AMOUNT = 2;
 
@@ -21,10 +20,5 @@ public class DrawTwoCard extends Card {
   @Override
   public void executeAction(PlayerInterface player) {
     player.enforceDraw(DRAW_AMOUNT);
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }

@@ -1,10 +1,9 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
-public class WildDrawFourCard extends Card {
+public class WildDrawFourCard extends OneSidedCard {
 
   private final int DRAW_AMOUNT = 4;
 
@@ -23,10 +22,5 @@ public class WildDrawFourCard extends Card {
   public void executeAction(PlayerInterface player) {
     player.enforceDraw(DRAW_AMOUNT);
     super.setCardColor(player.getColor());
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }

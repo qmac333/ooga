@@ -1,8 +1,6 @@
 package ooga.model.player;
 
-import java.util.Optional;
 import java.util.function.Supplier;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 

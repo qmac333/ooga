@@ -6,14 +6,14 @@ import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.Player;
 import ooga.model.player.PlayerInterface;
 
-public abstract class Card implements CardInterface, ViewCardInterface {
+public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
 
   private int myNum;
   private String myColor;
   private String myType;
 
 
-  public Card(String color, String type, int num) {
+  public OneSidedCard(String color, String type, int num) {
     myColor = color;
     myType = type;
     myNum = num;
@@ -39,6 +39,11 @@ public abstract class Card implements CardInterface, ViewCardInterface {
   @Override
   public String getType() {
     return myType;
+  }
+
+  @Override
+  public void flip(){
+    // Do Nothing
   }
 
   protected void setCardColor(String color) {

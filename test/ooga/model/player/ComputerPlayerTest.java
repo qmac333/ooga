@@ -1,7 +1,7 @@
 package ooga.model.player;
 
 import java.util.List;
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.SkipCard;
 import ooga.model.gameState.GameState;
@@ -42,7 +42,7 @@ public class ComputerPlayerTest {
     // GIVEN the player is asked to play when they don't have a rule abiding card
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));
-    when(gameState.canPlayCard(any(Card.class))).thenReturn(false);
+    when(gameState.canPlayCard(any(OneSidedCard.class))).thenReturn(false);
     myPlayer.playCard();
     // THEN they draw
     verify(gameState, times(1)).noPlayDraw();
@@ -53,7 +53,7 @@ public class ComputerPlayerTest {
     // GIVEN the player has a card they can play
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));
-    when(gameState.canPlayCard(any(Card.class))).thenReturn(true);
+    when(gameState.canPlayCard(any(OneSidedCard.class))).thenReturn(true);
     myPlayer.playCard();
     // THEN the card's action is performed
     verify(gameState, times(1)).skipNextPlayer();

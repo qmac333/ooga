@@ -1,10 +1,9 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
-public class ReverseCard extends Card {
+public class ReverseCard extends OneSidedCard {
 
   public ReverseCard(String color) {
     super(color, "Reverse", 20);
@@ -19,10 +18,5 @@ public class ReverseCard extends Card {
   @Override
   public void executeAction(PlayerInterface player) {
     player.reverseGame();
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }

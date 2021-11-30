@@ -8,7 +8,7 @@ import ooga.model.player.PlayerInterface;
  *
  * @author Paul Truitt
  */
-public class DrawFiveCard extends Card {
+public class DrawFiveCard extends OneSidedCard {
 
   private final int DRAW_AMOUNT = 5;
 
@@ -25,10 +25,5 @@ public class DrawFiveCard extends Card {
   @Override
   public void executeAction(PlayerInterface player){
     player.enforceDraw(DRAW_AMOUNT);
-  }
-
-  @Override
-  public void flip() {
-    // Do nothing
   }
 }
