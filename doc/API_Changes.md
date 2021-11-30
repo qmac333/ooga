@@ -9,3 +9,5 @@ a player
 skipEveryone() to Player interface for changing player v. card structure
 * Deprecated the play that doesn't take a Player Interface in favor of one that
 does
+* Added discardColor() to PlayerInterface and removeColor() to hand for the
+DiscardColorCard
