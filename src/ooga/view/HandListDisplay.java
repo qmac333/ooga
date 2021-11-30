@@ -103,6 +103,9 @@ public class HandListDisplay implements DisplayableItem {
       if (data == ButtonBar.ButtonData.LEFT) {
         return -1;
       }
+      else if (data == ButtonBar.ButtonData.OK_DONE) {
+        return dialog.getSelectedItem();
+      }
       else {
         return null;
       }
