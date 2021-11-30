@@ -2,7 +2,7 @@ package ooga.model.rules;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ooga.model.cards.DrawFourCard;
+import ooga.model.cards.WildDrawFourCard;
 import ooga.model.cards.DrawTwoCard;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
@@ -26,10 +26,10 @@ public class SameNumberRuleTest {
 
   @Test
   public void nonNumberCardsNeverWork(){
-    assertFalse(sameNumberRule.canPlay(new ReverseCard("red", null), new ReverseCard("red", null)));
-    assertFalse(sameNumberRule.canPlay(new DrawTwoCard("red", null), new DrawTwoCard("red", null)));
-    assertFalse(sameNumberRule.canPlay(new DrawFourCard("red", null), new DrawFourCard("red", null)));
-    assertFalse(sameNumberRule.canPlay(new SkipCard("red", null), new SkipCard("red", null)));
+    assertFalse(sameNumberRule.canPlay(new ReverseCard("red"), new ReverseCard("red")));
+    assertFalse(sameNumberRule.canPlay(new DrawTwoCard("red"), new DrawTwoCard("red")));
+    assertFalse(sameNumberRule.canPlay(new WildDrawFourCard("red"), new WildDrawFourCard("red")));
+    assertFalse(sameNumberRule.canPlay(new SkipCard("red"), new SkipCard("red")));
   }
 
   @Test

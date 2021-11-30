@@ -21,7 +21,7 @@ public class BlasterDrawRuleTest {
   public void start(){
     myRule = new BlasterDrawRule();
     game = Mockito.mock(GameState.class);
-    when(game.getNextCard()).thenReturn(new SkipCard("red", null));
+    when(game.getNextCard()).thenReturn(new SkipCard("red"));
   }
 
   @Test

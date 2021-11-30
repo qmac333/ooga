@@ -4,24 +4,27 @@ import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerInterface;
 
 public abstract class Card implements CardInterface, ViewCardInterface {
 
   private int myNum;
   private String myColor;
   private String myType;
-  private final Supplier<String> mySupplier;
 
 
-  public Card(String color, String type, int num, Supplier<String> supplier) {
+  public Card(String color, String type, int num) {
     myColor = color;
     myType = type;
     myNum = num;
-    mySupplier = supplier;
   }
 
   @Override
+  @Deprecated
   public abstract void executeAction(GameStatePlayerInterface game);
+
+  @Override
+  public abstract void executeAction(PlayerInterface player);
 
   @Override
   public int getNum() {
@@ -40,9 +43,5 @@ public abstract class Card implements CardInterface, ViewCardInterface {
 
   protected void setCardColor(String color) {
     myColor = color;
-  }
-
-  protected Supplier<String> getSupplier(){
-    return mySupplier;
   }
 }

@@ -2,6 +2,7 @@ package ooga.model.cards;
 
 import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.PlayerInterface;
 
 /**
  * Card to make every Player flip their hands
@@ -10,14 +11,19 @@ import ooga.model.gameState.GameStatePlayerInterface;
  */
 public class FlipCard extends Card {
 
-  public FlipCard(String color, Supplier<String> supplier) {
-    super(color, "Flip", 20, supplier);
+  public FlipCard(String color) {
+    super(color, "Flip", 20);
   }
 
   @Override
+  @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.flipCards();
-    game.discardCard(this);
+  }
+
+  @Override
+  public void executeAction(PlayerInterface player) {
+    player.flipGame();
   }
 
   @Override

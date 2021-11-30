@@ -1,6 +1,8 @@
 package ooga.model.cards;
 
 import ooga.model.gameState.GameState;
+import ooga.model.player.HumanPlayer;
+import ooga.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +18,8 @@ public class FlipCardTest {
   GameState realGame;
   FlipCard fc;
 
+  Player player;
+
   @Mock
   GameState gameMocked;
 
@@ -23,7 +27,8 @@ public class FlipCardTest {
   void start() {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
-    fc = new FlipCard("red", null);
+    fc = new FlipCard("red");
+    player = new HumanPlayer("Paul", gameMocked, null, null);
   }
 
   @Test
@@ -45,7 +50,8 @@ public class FlipCardTest {
 
   @Test
   void successfullyDiscards() {
-    fc.executeAction(realGame);
+    fc.executeAction(player);
+    realGame.discardCard(fc);
     assertEquals("Flip", realGame.getLastCardThrownType());
   }
 }

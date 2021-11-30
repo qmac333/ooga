@@ -18,7 +18,7 @@ public class NormalDrawRuleTest {
     normalDrawRule = new NormalDrawRule();
     game = new GameState("Basic", new HashMap<>(), 100, false);
     game.createDeck(new HashMap<>());
-    game.createPlayers(null);
+    game.createPlayers(null, null);
   }
 
   @Test

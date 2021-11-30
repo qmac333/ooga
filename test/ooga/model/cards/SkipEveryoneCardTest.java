@@ -6,6 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import ooga.model.gameState.GameState;
+import ooga.model.player.HumanPlayer;
+import ooga.model.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,6 +21,8 @@ public class SkipEveryoneCardTest {
 
   GameState realGame;
   SkipEveryoneCard sec;
+  Player mockedPlayer;
+  Player realPlayer;
 
   @Mock
   GameState gameMocked;
@@ -27,12 +31,14 @@ public class SkipEveryoneCardTest {
   void start() {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
-    sec = new SkipEveryoneCard("red", null);
+    sec = new SkipEveryoneCard("red");
+    mockedPlayer = new HumanPlayer("Paul", gameMocked, null, null);
+    realPlayer = new HumanPlayer("Paul", realGame, null, null);
   }
 
   @Test
   void callsTheFlipMethodInTheGame() {
-    sec.executeAction(gameMocked);
+    sec.executeAction(mockedPlayer);
     verify(gameMocked, times(1)).skipEveryone();
   }
 
@@ -49,7 +55,8 @@ public class SkipEveryoneCardTest {
 
   @Test
   void successfullyDiscards() {
-    sec.executeAction(realGame);
+    sec.executeAction(realPlayer);
+    realGame.discardCard(sec);
     assertEquals("SkipEveryone", realGame.getLastCardThrownType());
   }
 }
