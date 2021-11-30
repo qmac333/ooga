@@ -86,14 +86,14 @@ public class SplashScreen implements GameScreen {
     Button setGame = new Button(languageResources.getString("GameParameters"));
     setGame.setOnAction(e -> setGameHandler(points));
 
-    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
-    loadExisting.setOnAction(e -> controller.loadExistingFile());
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
+    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
+    loadExisting.setOnAction(e -> controller.loadExistingFile());
 
     root.getChildren()
-        .addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
+        .addAll(points, game, stackCards, setGame, new Separator(), loadNew, loadExisting);
 
     return root;
   }

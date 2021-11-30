@@ -130,7 +130,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   @Override
   public void saveCurrentFile() {
-
+    System.out.println("Saving File!");
   }
 
   /**

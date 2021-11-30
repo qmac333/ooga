@@ -225,28 +225,28 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * @return game version - FOR TESTING PURPOSES ONLY
+   * @return initial game parameter - version
    */
   public String getVersion() {
     return version;
   }
 
   /**
-   * @return map of player names to player type (human or CPU) - FOR TESTING PURPOSES ONLY
+   * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
     return playerMap;
   }
 
   /**
-   * @return points required to win - FOR TESTING PURPOSES ONLY
+   * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
     return pointsToWin;
   }
 
   /**
-   * @return boolean indicating stackable - FOR TESTING PURPOSES ONLY
+   * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
     return stackable;

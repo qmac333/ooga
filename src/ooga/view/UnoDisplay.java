@@ -107,6 +107,10 @@ public class UnoDisplay implements GameScreen {
     Button goButton = new Button("Choose Card");
     goButton.setOnAction(e -> playGame());
     left.getChildren().add(goButton);
+
+    Button saveButton = new Button("Save");
+    saveButton.setOnAction(e -> controller.saveCurrentFile());
+    left.getChildren().add(saveButton);
     unoDisplay.setLeft(left);
 
     // right panel
