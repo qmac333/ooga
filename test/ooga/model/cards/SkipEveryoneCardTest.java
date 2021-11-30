@@ -10,6 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+/**
+ * Card that causes the game to skip everyone and go back to the user
+ *
+ * @author Paul Truitt
+ */
 public class SkipEveryoneCardTest {
 
   GameState realGame;
