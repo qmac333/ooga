@@ -86,7 +86,7 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   private void initializeDirection() {
     try {
-      directionArrow = new ImageView(new Image(new FileInputStream("./ooga_team05/data/images/Arrow.png")));
+      directionArrow = new ImageView(new Image(new FileInputStream("data/images/Arrow.png")));
       directionArrow.setId(ARROW_CSS);
     } catch (FileNotFoundException e) {
       System.exit(-1); // TODO: use logging
