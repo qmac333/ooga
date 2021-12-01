@@ -6,7 +6,7 @@ package ooga.util;
 
 public class Config {
 
-  public static final double SCREEN_WIDTH = 600;
+  public static final double SCREEN_WIDTH = 1000;
   public static final double SCREEN_HEIGHT = 800;
 
   public static final double LANGUAGE_SCREEN_WIDTH = 400;
