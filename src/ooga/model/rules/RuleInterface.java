@@ -11,5 +11,16 @@ public interface RuleInterface {
    * @param cardToPlay  Card we are trying to play
    * @return whether we can play this card
    */
+  @Deprecated
   boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay);
+
+  /**
+   * Tells us whether a card can be played
+   *
+   * @param cardToMatch Card that determines our play
+   * @param cardToPlay Card we want to play
+   * @param draw amount we are being told to draw
+   * @return whether we can play this card
+   */
+  boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw);
 }
