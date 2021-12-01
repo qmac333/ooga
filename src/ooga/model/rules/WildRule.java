@@ -12,7 +12,7 @@ public class WildRule implements RuleInterface {
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
-    return Arrays.stream(ruleResources.getString("AlwaysPlayable").split(","))
+    return Arrays.stream(ruleResources.getString("Wild").split(","))
         .anyMatch(c -> c.equals(cardToPlay.getType()));
   }
 
@@ -21,7 +21,7 @@ public class WildRule implements RuleInterface {
     if (draw != 0)
       return false;
 
-    return Arrays.stream(ruleResources.getString("AlwaysPlayable").split(","))
+    return Arrays.stream(ruleResources.getString("Wild").split(","))
         .anyMatch(c -> c.equals(cardToPlay.getType()));
   }
 }
