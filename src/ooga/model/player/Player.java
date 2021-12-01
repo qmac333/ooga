@@ -15,12 +15,14 @@ public abstract class Player implements PlayerInterface {
   private String myName;
   private GameStatePlayerInterface myGame;
   private Supplier<Integer> myIntegerSupplier;
+  private Supplier<String> myStringSupplier;
 
-  public Player(String name, GameStatePlayerInterface game, Supplier<Integer> supplier) {
+  public Player(String name, GameStatePlayerInterface game, Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
     myName = name;
     myGame = game;
     myHand = new Hand();
-    myIntegerSupplier = supplier;
+    myIntegerSupplier = integerSupplier;
+    myStringSupplier = stringSupplier;
   }
 
   @Override
@@ -64,6 +66,42 @@ public abstract class Player implements PlayerInterface {
     myHand.flip();
   }
 
+  @Override
+  public abstract String getColor();
+
+  @Override
+  public void flipGame(){
+    myGame.flipCards();
+  }
+
+  @Override
+  public void reverseGame(){
+    myGame.reverseGamePlay();
+  }
+
+  @Override
+  public void skipNextPlayer(){
+    myGame.skipNextPlayer();
+  }
+
+  @Override
+  public void skipEveryone(){
+    myGame.skipEveryone();
+  }
+
+  @Override
+  public void enforceDraw(int drawAmount){
+    myGame.addDraw(drawAmount);
+  }
+
+  @Override
+  public void discardColor(String color){
+    Collection<CardInterface> cards = myHand.removeColor(color);
+    for (CardInterface card : cards){
+      myGame.discardCard(card);
+    }
+  }
+
   protected Hand getMyHand() {
     return myHand;
   }
@@ -74,5 +112,9 @@ public abstract class Player implements PlayerInterface {
 
   protected Supplier<Integer> getMyIntegerSupplier(){
     return myIntegerSupplier;
+  }
+
+  protected Supplier<String> getMyStringSupplier(){
+    return myStringSupplier;
   }
 }

@@ -1,23 +1,23 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.PlayerInterface;
 
-public class WildCard extends Card {
+public class WildCard extends OneSidedCard {
 
-  public WildCard(String color, Supplier<String> supplier) {
-    super("Black", "Wild", 50, supplier);
+  public WildCard(String color) {
+    super("Black", "Wild", 50);
   }
 
   @Override
+  @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     // FIXME: Once we have the interface figured out
-    super.setCardColor(super.getSupplier().get());
-    game.discardCard(this);
+    super.setCardColor("Red");
   }
 
   @Override
-  public void flip() {
-    // Do nothing
+  public void executeAction(PlayerInterface player) {
+    super.setCardColor(player.getColor());
   }
 }

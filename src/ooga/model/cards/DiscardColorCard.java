@@ -3,20 +3,20 @@ package ooga.model.cards;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerInterface;
 
-public class SkipEveryoneCard extends OneSidedCard {
+public class DiscardColorCard extends OneSidedCard {
 
-  public SkipEveryoneCard(String color) {
-    super(color, "SkipEveryone", 30);
+  public DiscardColorCard(String color) {
+    super(color, "DiscardColor", 20);
   }
 
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.skipEveryone();
+    // Do nothing
   }
 
   @Override
   public void executeAction(PlayerInterface player) {
-    player.skipEveryone();
+    player.discardColor(super.getMyColor());
   }
 }

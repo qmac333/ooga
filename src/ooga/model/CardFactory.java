@@ -1,7 +1,6 @@
 package ooga.model;
 
-import java.util.function.Supplier;
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.NumberCard;
 
 
@@ -11,12 +10,7 @@ import ooga.model.cards.NumberCard;
  */
 public class CardFactory {
 
-
-    public Card makeCard(String type, int n, String c)  {
-        return makeCard(type, n, c, null);
-    }
-
-    public Card makeCard(String type, int n, String c, Supplier<String> supplier) {
+    public OneSidedCard makeCard(String type, int n, String c) {
         if(type == "Number"){
             return new NumberCard(c, n);
         }
@@ -24,7 +18,7 @@ public class CardFactory {
             String cardType = "ooga.model.cards." + type + "Card";
             try {
                 Class<?> cardClass = Class.forName(cardType);
-                Card newCard = (Card) cardClass.getDeclaredConstructor(String.class, Supplier.class).newInstance(c, supplier);
+                OneSidedCard newCard = (OneSidedCard) cardClass.getDeclaredConstructor(String.class).newInstance(c);
                 return newCard;
             } catch (Exception e) {
                 System.out.println("issue with creating new ActionCard");

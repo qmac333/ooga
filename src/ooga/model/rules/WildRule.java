@@ -2,7 +2,6 @@ package ooga.model.rules;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 
 public class WildRule implements RuleInterface {

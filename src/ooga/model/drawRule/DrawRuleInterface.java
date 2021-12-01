@@ -1,8 +1,6 @@
 package ooga.model.drawRule;
 
 import java.util.Collection;
-import java.util.List;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 

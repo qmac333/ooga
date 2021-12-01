@@ -73,6 +73,12 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+  }
+
+  @Override
   public void createPlayers(Supplier<Integer> supplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.PlayerInterface;
 import org.jetbrains.annotations.NotNull;
 
 public class Hand implements Iterable<CardInterface>, HandInterface {
@@ -22,6 +23,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
   }
 
   @Override
+  @Deprecated
   public void play(int indexOfCard, GameStatePlayerInterface game)
       throws InvalidCardSelectionException {
     if (indexOfCard >= myCards.size()) {
@@ -29,6 +31,19 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
           String.format("Input index: %d is too large", indexOfCard));
     }
     myCards.get(indexOfCard).executeAction(game);
+    game.discardCard(myCards.get(indexOfCard));
+    myCards.remove(indexOfCard);
+  }
+
+  @Override
+  public void play(int indexOfCard, GameStatePlayerInterface game, PlayerInterface player)
+      throws InvalidCardSelectionException {
+    if (indexOfCard >= myCards.size()) {
+      throw new InvalidCardSelectionException(
+          String.format("Input index: %d is too large", indexOfCard));
+    }
+    myCards.get(indexOfCard).executeAction(player);
+    game.discardCard(myCards.get(indexOfCard));
     myCards.remove(indexOfCard);
   }
 
@@ -48,6 +63,18 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
   @Override
   public Iterator<CardInterface> iterator() {
     return new HandIterator();
+  }
+
+  @Override
+  public Collection<CardInterface> removeColor(String color){
+    List<CardInterface> removed = new ArrayList<>();
+    for (CardInterface card : myCards){
+      if (card.getMyColor().equals(color)){
+        removed.add(card);
+      }
+    }
+    myCards.removeAll(removed);
+    return removed;
   }
 
   private class HandIterator implements Iterator<CardInterface> {

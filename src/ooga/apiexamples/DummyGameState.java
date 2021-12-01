@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
+import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStateInterface;
 import ooga.model.player.Player;
 
@@ -34,7 +35,7 @@ public class DummyGameState implements GameStateInterface {
   }
 
   @Override
-  public void discardCard(Card c) {
+  public void discardCard(CardInterface c) {
 
   }
 
@@ -69,7 +70,7 @@ public class DummyGameState implements GameStateInterface {
   }
 
   @Override
-  public Card getNextCard() {
+  public OneSidedCard getNextCard() {
     return null;
   }
 

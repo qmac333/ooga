@@ -86,14 +86,14 @@ public class SplashScreen implements GameScreen {
     Button setGame = new Button(languageResources.getString("GameParameters"));
     setGame.setOnAction(e -> setGameHandler(points));
 
-    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
-    loadExisting.setOnAction(e -> controller.loadExistingFile());
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
+    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
+    loadExisting.setOnAction(e -> controller.loadExistingFile());
 
     root.getChildren()
-        .addAll(points, game, stackCards, setGame, new Separator(), loadExisting, loadNew);
+        .addAll(points, game, stackCards, setGame, new Separator(), loadNew, loadExisting);
 
     return root;
   }
@@ -116,11 +116,11 @@ public class SplashScreen implements GameScreen {
         readyIndicator.setText("Game Parameters Set (Manual)");
       }
       else{
-        sendAlert("Please Input Valid Values For All Four Game Parameters");
+        showError("Please Input Valid Values For All Four Game Parameters");
       }
     }
     catch(NumberFormatException e){
-      sendAlert("Please Input a Numeric Value in the Points to Win Field");
+      showError("Please Input a Numeric Value in the Points to Win Field");
     }
   }
 
@@ -145,7 +145,7 @@ public class SplashScreen implements GameScreen {
         readyIndicator.setText("Game Parameters Set (Loaded File)");
       }
       else{
-        sendAlert("Unrecognized File Format");
+        showError("Unrecognized File Format");
       }
     }
   }
@@ -166,9 +166,8 @@ public class SplashScreen implements GameScreen {
 
   private void playNewGame(){
     boolean successfulPlay = controller.playNewGame();
-    System.out.println(successfulPlay);
     if(!successfulPlay){
-      sendAlert("Please Load a Configuration File or Manually Input Parameters");
+      showError("Please Load a Configuration File or Manually Input Parameters");
     }
   }
 
@@ -197,7 +196,7 @@ public class SplashScreen implements GameScreen {
       initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
       initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
     } else {
-      sendAlert("Please Select Player Type");
+      showError("Please Select Player Type");
     }
   }
 
@@ -239,7 +238,7 @@ public class SplashScreen implements GameScreen {
   }
 
   // displays alert/error message to the user
-  private void sendAlert(String alertMessage) {
+  private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
     alert.show();

@@ -1,25 +1,24 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
-import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.PlayerInterface;
 
-public class DrawTwoCard extends Card {
+public class DrawTwoCard extends OneSidedCard {
 
   private final int DRAW_AMOUNT = 2;
 
-  public DrawTwoCard(String color, Supplier<String> supplier) {
-    super(color, "DrawTwo", 20, supplier);
+  public DrawTwoCard(String color) {
+    super(color, "DrawTwo", 20);
   }
 
   @Override
+  @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.addDraw(DRAW_AMOUNT);
-    game.discardCard(this);
   }
 
   @Override
-  public void flip() {
-    // Do nothing
+  public void executeAction(PlayerInterface player) {
+    player.enforceDraw(DRAW_AMOUNT);
   }
 }

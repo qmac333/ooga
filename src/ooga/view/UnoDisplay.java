@@ -1,8 +1,11 @@
 package ooga.view;
 
 import java.util.Map;
+import java.io.IOException;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import ooga.controller.UnoDisplayController;
@@ -36,7 +39,7 @@ public class UnoDisplay implements GameScreen {
     controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
     // send suppliers down to the model
     try {
-      controller.getGameState().createPlayers(() -> playCard());
+      controller.getGameState().createPlayers(() -> playCard(), () -> sendColor());
     } catch (Exception e) {
       e.getMessage();
     }
@@ -61,16 +64,6 @@ public class UnoDisplay implements GameScreen {
     return myScene;
   }
 
-  /**
-   * provides a user-friendly way for errors to be displayed controller needs to call this method
-   * when errors are encountered
-   *
-   * @param e the exception that was thrown from the error
-   */
-  public void showError(Exception e) {
-
-  }
-
   private void createScene() {
     // center panel
     VBox center = new VBox();
@@ -93,6 +86,11 @@ public class UnoDisplay implements GameScreen {
     button.setOnAction(e -> controller.backButtonHandler());
     left.getChildren().add(button);
 
+    Button saveButton = new Button("Save");
+    saveButton.getStyleClass().add("main_display_button");
+    saveButton.setOnAction(e -> saveFile());
+    left.getChildren().add(saveButton);
+
     unoDisplay.setLeft(left);
 
     // right panel
@@ -104,6 +102,25 @@ public class UnoDisplay implements GameScreen {
 
   private void playGame() {
     controller.getGameState().playTurn();
+  }
+
+  private void saveFile(){
+    try{
+      TextInputDialog inputPopup = new TextInputDialog();
+      inputPopup.setTitle("Save File");
+      inputPopup.setHeaderText("Enter Desired Filename:");
+      inputPopup.showAndWait();
+      String filename = inputPopup.getResult();
+      if(filename != null){
+        controller.saveCurrentFile(filename);
+      }
+    }
+    catch (IOException e){
+      // TODO: this
+      e.printStackTrace();
+      showError(e.getMessage());
+      //showError("Invalid File Name");
+    }
   }
 
   /**
@@ -120,6 +137,13 @@ public class UnoDisplay implements GameScreen {
 
   private String sendColor() {
     return handListDisplay.wildPopUp();
+  }
+
+  // displays alert/error message to the user
+  private void showError(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 
 }

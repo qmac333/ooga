@@ -1,7 +1,6 @@
 package ooga.model.gameState;
 
 import java.util.Collection;
-import ooga.model.cards.Card;
 import ooga.model.cards.CardInterface;
 
 public interface GameStatePlayerInterface {
@@ -24,7 +23,7 @@ public interface GameStatePlayerInterface {
   /**
    * sets the lastCardThown member in the GameState
    */
-  public void discardCard(Card c);
+  public void discardCard(CardInterface c);
 
   /**
    * reverses the order of play

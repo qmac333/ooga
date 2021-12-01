@@ -12,7 +12,6 @@ import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.Player;
 
-import ooga.model.cards.Card;
 import ooga.model.rules.RuleInterface;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
@@ -114,7 +113,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public void discardCard(Card c) {
+  public void discardCard(CardInterface c) {
     myDiscardPile.placeOnTop(c);
   }
 
@@ -226,35 +225,35 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * @return game version
+   * @return initial game parameter - version
    */
   public String getVersion() {
     return version;
   }
 
   /**
-   * @return map of player names to player type (human or CPU)
+   * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
     return playerMap;
   }
 
   /**
-   * @return points required to win
+   * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
     return pointsToWin;
   }
 
   /**
-   * @return boolean indicating stackable
+   * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
     return stackable;
   }
 
   /**
-   * Tests whether two GameState objects have the same initial parameters
+   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
    *
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal
@@ -270,14 +269,31 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   // Creates the list of players based on the map that's passed into the constructor
   @Override
-  public void createPlayers(Supplier<Integer> supplier)
+  public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     for (String name : playerMap.keySet()) {
       Class<?> playerClass = Class.forName(
           String.format(gameStateResources.getString("PlayerClassBase"),
               gameStateResources.getString(playerMap.get(name))));
       Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          GameStatePlayerInterface.class, Supplier.class).newInstance(name, this, supplier);
+          GameStatePlayerInterface.class, Supplier.class, Supplier.class).newInstance(name, this, integerSupplier, stringSupplier);
+      myPlayers.add(player);
+    }
+    dealCards();
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
+  }
+
+  // Creates the list of players based on the map that's passed into the constructor
+  @Override
+  @Deprecated
+  public void createPlayers(Supplier<Integer> integerSupplier)
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    for (String name : playerMap.keySet()) {
+      Class<?> playerClass = Class.forName(
+          String.format(gameStateResources.getString("PlayerClassBase"),
+              gameStateResources.getString(playerMap.get(name))));
+      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
+          GameStatePlayerInterface.class, Supplier.class, Supplier.class).newInstance(name, this, integerSupplier, null);
       myPlayers.add(player);
     }
     dealCards();
@@ -307,7 +323,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
       for (Player myPlayer : myPlayers) {
-        Card newCard = myDeck.popTopCard();
+        CardInterface newCard = myDeck.popTopCard();
         myPlayer.addCards(List.of(newCard));
       }
     }

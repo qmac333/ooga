@@ -1,19 +1,20 @@
 package ooga.model.deck;
 
-import ooga.model.cards.Card;
+import ooga.model.cards.OneSidedCard;
 
 import java.util.*;
+import ooga.model.cards.CardInterface;
 
 public class CardPile implements CardPileInterface, CardPileViewInterface {
 
-    private Stack<Card> pile;
+    private Stack<CardInterface> pile;
 
     public CardPile(){
-        pile = new Stack<Card>();
+        pile = new Stack<CardInterface>();
     }
 
     @Override
-    public void placeOnTop(Card c) {
+    public void placeOnTop(CardInterface c) {
         pile.push(c);
     }
 
@@ -22,17 +23,17 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         return pile.size();
     }
 
-    public void placeOnTop(Collection<Card> cards){
+    public void placeOnTop(Collection<OneSidedCard> cards){
         addFromCollection(cards);
     }
 
     @Override
-    public Card lastCardPushed() {
-        return pile.peek();
+    public OneSidedCard lastCardPushed() {
+        return (OneSidedCard) pile.peek();
     }
 
     @Override
-    public Card popTopCard() {
+    public CardInterface popTopCard() {
         try{
             return pile.pop();
         }
@@ -43,7 +44,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     @Override
     public void copyOver(CardPileInterface other) {
-        Collection<Card> intermediary = new ArrayList<Card>();
+        Collection<CardInterface> intermediary = new ArrayList<CardInterface>();
         intermediary.addAll(pile);
         pile.clear();
 
@@ -51,8 +52,8 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     }
 
-    private void addFromCollection(Collection<Card> cardGroup){
-        for(Card c : cardGroup){
+    private void addFromCollection(Collection<OneSidedCard> cardGroup){
+        for(OneSidedCard c : cardGroup){
             this.placeOnTop(c);
         }
     }

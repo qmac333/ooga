@@ -14,10 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-public class WildBlastTest {
+public class WildDrawColorCardTest {
 
-  WildBlastCard wbc;
-  Player realPlayer;
+  WildDrawColorCard wdcc;
   Player mockedPlayer;
 
   @Mock
@@ -34,34 +33,33 @@ public class WildBlastTest {
     when(colorSupplier.get()).thenReturn("red");
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
-    wbc = new WildBlastCard(null);
-    realPlayer = new HumanPlayer("Paul", gameState, null, colorSupplier);
+    wdcc = new WildDrawColorCard(null);
     mockedPlayer = new HumanPlayer("Paul", mockedGameState, null, colorSupplier);
   }
 
   @Test
   void correctDefaultValues() {
-    assertEquals("WildBlast", wbc.getType());
-    assertEquals(50, wbc.getNum());
-    assertEquals("Black", wbc.getMyColor());
+    assertEquals("WildDrawColor", wdcc.getType());
+    assertEquals(60, wdcc.getNum());
+    assertEquals("Black", wdcc.getMyColor());
   }
 
   @Test
   void callsTheAddDrawWithCorrectArgument() {
-    wbc.executeAction(mockedPlayer);
-    verify(mockedGameState, times(1)).addDraw(-1);
+    wdcc.executeAction(mockedPlayer);
+    verify(mockedGameState, times(1)).addDraw(-2);
   }
 
   @Test
   void colorOfCardChangesOnExecution() {
-    wbc.executeAction(mockedPlayer);
-    assertEquals("red", wbc.getMyColor());
+    wdcc.executeAction(mockedPlayer);
+    assertEquals("red", wdcc.getMyColor());
   }
 
   @Test
   void successfullyDiscards() {
-    wbc.executeAction(realPlayer);
-    gameState.discardCard(wbc);
-    assertEquals("WildBlast", gameState.getLastCardThrownType());
+    wdcc.executeAction(mockedPlayer);
+    gameState.discardCard(wdcc);
+    assertEquals("WildDrawColor", gameState.getLastCardThrownType());
   }
 }
