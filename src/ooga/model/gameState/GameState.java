@@ -66,9 +66,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     uno = false;
     playerPoints = new int[myPlayers.size()];
-
-
-
   }
 
   /**
@@ -193,7 +190,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Collection<CardInterface> noPlayDraw() {
-    return myDrawRule.noPlayDraw(this);
+    if (impendingDraw == 0){
+      return myDrawRule.noPlayDraw(this);
+    }
+    if (impendingDraw < 0){
+      // FIXME: Create correct draw methods in the draw rules (Draw till color, Draw till blast)
+      return new ArrayList<>();
+    }
+    return myDrawRule.forcedDraw(this, impendingDraw);
   }
 
   @Override

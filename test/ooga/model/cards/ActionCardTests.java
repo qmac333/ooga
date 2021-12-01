@@ -36,7 +36,7 @@ public class ActionCardTests extends DukeApplicationTest {
     OneSidedCard dfc = new WildDrawFourCard("black");
     dfc.executeAction(player);
     game.discardCard(dfc);
-    assertEquals("DrawFour", game.getLastCardThrownType());
+    assertEquals("WildDrawFour", game.getLastCardThrownType());
   }
 
   @Test
