@@ -50,7 +50,9 @@ public class UnoDeck extends CardPile{
         createCardsFromData(colors, numNumberCards, numberCards, cards, map);
         createCardsFromData(colors, numWildCards, wildCards, cards, map);
         if(numTwoSidedCards != -1){
-            createCardsFromData(colors, numTwoSidedCards, twoSidedCardFronts, cards, map);
+            createCardsFromData(colors, numTwoSidedCards,
+                    twoSidedCardFronts, twoSidedCardBacks,
+                    cards, map);
         }
         Collections.shuffle(cards);
 
@@ -70,13 +72,7 @@ public class UnoDeck extends CardPile{
                 OneSidedCard newCard;
                 for(String color : colorList){
 
-                    try{
-                        int n = Integer.parseInt(type);
-                        newCard = myCardFactory.makeCard("Number", n, color);
-                    }
-                    catch(NumberFormatException e){
-                        newCard = myCardFactory.makeCard(type, -1, color);
-                    }
+                    newCard = getOneSidedCard(color, type);
                     deckList.add(newCard);
                 }
             }
