@@ -88,6 +88,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     if(model != null){
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
+      splashScreen = null;
       return true;
     }
     return false;
@@ -110,8 +111,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       model = jsonAdapter.fromJson(json);
       return true;
     }
-    // TODO: throws IO in signature instead of this?
     catch (IOException | JsonDataException e){
+      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
@@ -164,6 +165,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       splashScreen = new SplashScreen(this, language);
     }
     showScreen(splashScreen);
+    languageScreen = null;
   }
 
   /**
@@ -172,7 +174,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   // TODO: Rename function to a verb - standard convention
   @Override
   public void backButtonHandler() {
-    // TODO: set model = null to prevent error?
+    unoDisplay = null;
+    model = null;
     start();
   }
 

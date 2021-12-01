@@ -17,6 +17,9 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String VALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile1.json").toAbsolutePath().normalize().toString();
     private static final String VALID_NEW_FILE_2_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile2.json").toAbsolutePath().normalize().toString();
     private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
+    private static final String SAVE_FILENAME_1 = "jUnitTest_savingAfterLoadingNewFile";
+    private static final String SAVE_FILENAME_2 = "jUnitTest_savingAfterManuallySettingParameters";
+    private static final String SAVE_FILENAME_3 ="jUnitTest_loadingFileAfterSavingFile";
 
     @Override
     public void start(Stage stage){
@@ -207,7 +210,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
-        assertTrue(controller.saveCurrentFile("jUnitTest_savingAfterLoadingNewFile"));
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_1));
     }
 
     @Test
@@ -222,8 +225,22 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
-        assertTrue(controller.saveCurrentFile("jUnitTest_savingAfterManuallySettingParameters"));
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_2));
     }
+
+    // TODO: test fails because of back button issue
+    /*
+    @Test
+    void loadingFileAfterSavingFile(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_3));
+        runAsJFXAction(() -> controller.backButtonHandler());
+        assertTrue(controller.loadNewFile(SAVE_FILENAME_3));
+    }
+    */
 
     // TODO: Save file testing!
     // TODO: Load existing file testing!
