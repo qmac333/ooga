@@ -68,7 +68,7 @@ public class UnoDisplay implements GameScreen {
     VBox center = new VBox();
     center.getStyleClass().add("main_display_center_panel");
 
-    Button goButton = new Button("Choose Card");
+    Button goButton = new Button("Play Turn");
     goButton.getStyleClass().add("main_display_button");
     goButton.setOnAction(e -> playGame());
     center.getChildren()
