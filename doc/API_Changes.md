@@ -11,3 +11,5 @@ skipEveryone() to Player interface for changing player v. card structure
 does
 * Added discardColor() to PlayerInterface and removeColor() to hand for the
 DiscardColorCard
+* Deprecated the can play that takes two CardInterfaces in favor of one that 
+additionally takes an int that says the impending draw for stacking rule

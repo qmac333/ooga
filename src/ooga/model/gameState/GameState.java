@@ -66,9 +66,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     uno = false;
     playerPoints = new int[myPlayers.size()];
-
-
-
   }
 
   /**
@@ -142,12 +139,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     // FIXME: Add in stacking logic
     Player player = myPlayers.get(currentPlayer);
-    if (impendingDraw > 0) {
-      player.addCards(myDrawRule.forcedDraw(this, impendingDraw));
-      impendingDraw = 0;
-    } else {
-      player.playCard();
-    }
+    player.playCard();
     if (uno) {
       int totalNumPoints = 0;
       for (Player p : myPlayers) {
@@ -198,13 +190,20 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public Collection<CardInterface> noPlayDraw() {
-    return myDrawRule.noPlayDraw(this);
+    if (impendingDraw == 0){
+      return myDrawRule.noPlayDraw(this);
+    }
+    if (impendingDraw < 0){
+      // FIXME: Create correct draw methods in the draw rules (Draw till color, Draw till blast)
+      return new ArrayList<>();
+    }
+    return myDrawRule.forcedDraw(this, impendingDraw);
   }
 
   @Override
   public boolean canPlayCard(CardInterface cardToPlay) {
     return myRules.stream()
-        .anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay));
+        .anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay, impendingDraw));
   }
 
   @Override
