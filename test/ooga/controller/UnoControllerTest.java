@@ -20,6 +20,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String SAVE_FILENAME_1 = "jUnitTest_savingAfterLoadingNewFile";
     private static final String SAVE_FILENAME_2 = "jUnitTest_savingAfterManuallySettingParameters";
     private static final String SAVE_FILENAME_3 ="jUnitTest_loadingFileAfterSavingFile";
+    private static final String SAVE_FILENAME_3_PATH = Paths.get(".", "\\data\\configurationfiles\\" + SAVE_FILENAME_3 + ".json").toAbsolutePath().normalize().toString();
 
     @Override
     public void start(Stage stage){
@@ -205,6 +206,17 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
+    void usingBackButtonAfterPlayingNewGame(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        runAsJFXAction(() -> controller.backButtonHandler());
+        assertNull(controller.getModel());
+        assertNull(controller.getUnoDisplay());
+    }
+
+    @Test
     void savingAfterLoadingNewFile(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
@@ -228,8 +240,6 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_2));
     }
 
-    // TODO: test fails because of back button issue
-    /*
     @Test
     void loadingFileAfterSavingFile(){
         CardDisplay.initializeCards();
@@ -238,11 +248,9 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_3));
         runAsJFXAction(() -> controller.backButtonHandler());
-        assertTrue(controller.loadNewFile(SAVE_FILENAME_3));
+        assertTrue(controller.loadNewFile(SAVE_FILENAME_3_PATH));
     }
-    */
 
     // TODO: Save file testing!
     // TODO: Load existing file testing!
-    // TODO: Back button testing
 }

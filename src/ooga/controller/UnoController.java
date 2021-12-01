@@ -51,7 +51,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * Shows the splash screen of the application.
    */
   public void start() {
-    model = null;
     languageScreen = new LanguageScreen(this);
     showScreen(languageScreen);
   }
@@ -113,6 +112,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     catch (IOException | JsonDataException e){
       // TODO: this
       System.out.println(e.getMessage());
+      e.printStackTrace();
     }
     return false;
   }
