@@ -44,6 +44,12 @@
 .turn_info_gameplay_direction_arrow {
 }
 
+/** Hand List Display */
+.hand_list_card_box {
+  -fx-alignment: center;
+  -fx-spacing: 10px;
+}
+
 
 .hbox {
   -fx-spacing: 20;

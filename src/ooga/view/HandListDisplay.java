@@ -55,9 +55,12 @@ public class HandListDisplay implements DisplayableItem {
       CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
           cardProps.getType(), cardProps.getMyColor());
       VBox cardBox = new VBox();
-      cardBox.setAlignment(Pos.CENTER);
+      cardBox.getStyleClass().add("hand_list_card_box");
+
       Node card = cardMock.getCard();
-      cardBox.getChildren().addAll(new Text(String.valueOf(indexCounter)), card);
+      Text index = new Text(String.valueOf(indexCounter));
+      index.getStyleClass().add("text");
+      cardBox.getChildren().addAll(index, card);
       handList.getChildren().add(cardBox);
       indexCounter++;
     }
