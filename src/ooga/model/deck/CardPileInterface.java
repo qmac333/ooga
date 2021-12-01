@@ -26,7 +26,7 @@ public interface CardPileInterface {
      * allows caller to see the card at the top of a
      * pile of cards
      */
-    public OneSidedCard lastCardPushed();
+    public CardInterface lastCardPushed();
 
     /**
      * removes a card from the top of a pile of cards
