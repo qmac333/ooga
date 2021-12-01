@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -27,7 +28,7 @@ public class HandListDisplay implements DisplayableItem {
 
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
-  private HBox handList;
+  private FlowPane handList;
   private List<ViewCardInterface> currentCards;
 
 
@@ -40,7 +41,7 @@ public class HandListDisplay implements DisplayableItem {
   public HandListDisplay(UnoDisplayController controller) {
     this.controller = controller;
     gameState = controller.getGameState();
-    handList = new HBox();
+    handList = new FlowPane();
     handList.setAlignment(Pos.CENTER);
 
     currentCards = gameState.getCurrentPlayerCards();
@@ -68,7 +69,8 @@ public class HandListDisplay implements DisplayableItem {
 
   @Override
   public Node getDisplayableItem() {
-    handList.setSpacing(20);
+    handList.setHgap(20);
+    handList.setVgap(20);
     return handList;
   }
 

@@ -75,10 +75,10 @@ public class SplashScreen implements GameScreen {
 
     ChoiceBox<String> game = new ChoiceBox<>();
     game.setValue(languageResources.getString("GameHeader"));
-    game.getItems().add(languageResources.getString("Original"));
+    game.getItems().add(languageResources.getString("Basic"));
     game.getItems().add(languageResources.getString("Flip"));
     game.getItems().add(languageResources.getString("Blast"));
-    game.setOnAction(e -> gameType = game.getValue());
+    game.setOnAction(e -> gameType = translateToEnglish(game.getValue()));
 
     Button stackCards = new Button(languageResources.getString("NoStack"));
     stackCards.setOnAction(e -> stack(stackCards));
@@ -235,6 +235,15 @@ public class SplashScreen implements GameScreen {
 
   private void initDynamicView() {
 
+  }
+
+  private String translateToEnglish(String value) {
+    for (String key : languageResources.keySet()) {
+      if (Objects.equals(languageResources.getString(key), value)) {
+        return key;
+      }
+    }
+    return null;
   }
 
   // displays alert/error message to the user
