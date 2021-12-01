@@ -203,5 +203,4 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     // TODO: Save file testing!
     // TODO: Load existing file testing!
-    // TODO: playing a game, hitting back, and then trying to load a new game doesn't work
 }

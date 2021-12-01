@@ -1,7 +1,5 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -134,15 +132,24 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * Saves the current simulation/configuration to a JSON file
    * @param filename
+   * @return
    */
   @Override
-  public void saveCurrentFile(String filename) throws IOException {
-    Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
-    FileWriter writer = new FileWriter(path.toFile());
-    String json = jsonAdapter.toJson(model);
-    writer.write(json);
-    writer.flush();
-    writer.close();
+  public boolean saveCurrentFile(String filename) {
+    try{
+      Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
+      FileWriter writer = new FileWriter(path.toFile());
+      String json = jsonAdapter.toJson(model);
+      writer.write(json);
+      writer.flush();
+      writer.close();
+      return true;
+    }
+    catch (IOException e){
+      // TODO: this
+      e.printStackTrace();
+    }
+    return false;
   }
 
   /**
