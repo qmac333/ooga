@@ -27,7 +27,6 @@ public class DeckDisplay implements DisplayableItem {
   public static final String DISCARD_PILE_CSS = "DiscardCard";
   private UnoDisplayController controller;
   private HBox displayedItem;
-  private Timeline updateTimeline;
 
   private VBox deckDisplay;
   private VBox discardPileDisplay;
@@ -47,11 +46,6 @@ public class DeckDisplay implements DisplayableItem {
     initDiscardPileDisplay();
     displayedItem.getChildren().addAll(deckDisplay, discardPileDisplay);
 
-    updateTimeline = new Timeline();
-    updateTimeline.setCycleCount(Animation.INDEFINITE);
-    updateTimeline.getKeyFrames()
-        .add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
-    updateTimeline.play();
   }
 
   @Override
@@ -82,7 +76,7 @@ public class DeckDisplay implements DisplayableItem {
     colorText.getStyleClass().add("text");
   }
 
-  private void update() {
+  public void update() {
     updateDeckDisplay();
     updateDiscardPileDisplay();
   }

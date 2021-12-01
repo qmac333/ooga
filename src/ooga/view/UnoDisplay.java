@@ -17,7 +17,6 @@ public class UnoDisplay implements GameScreen {
   private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
 
   public static final String BACK_BUTTON_CSS = "BackButton";
-  public static final double SECONDS_BETWEEN_TURNS = 5;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -69,7 +68,7 @@ public class UnoDisplay implements GameScreen {
     VBox center = new VBox();
     center.getStyleClass().add("main_display_center_panel");
 
-    Button goButton = new Button("Choose Card");
+    Button goButton = new Button("Play Turn");
     goButton.getStyleClass().add("main_display_button");
     goButton.setOnAction(e -> playGame());
     center.getChildren()
@@ -98,10 +97,20 @@ public class UnoDisplay implements GameScreen {
     right.getStyleClass().add("main_display_right_panel");
     right.getChildren().add(turnDisplay.getDisplayableItem());
     unoDisplay.setRight(right);
+
+    render();
   }
 
   private void playGame() {
     controller.getGameState().playTurn();
+    render();
+  }
+
+  private void render() {
+    deckDisplay.update();
+    handListDisplay.update();
+    turnDisplay.update();
+
   }
 
   private void saveFile(){

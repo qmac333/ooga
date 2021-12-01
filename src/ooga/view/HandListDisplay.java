@@ -30,7 +30,6 @@ public class HandListDisplay implements DisplayableItem {
   private HBox handList;
   private List<ViewCardInterface> currentCards;
   private List<Node> cardDisplay;
-  private Timeline timeline;
 
 
   /**
@@ -48,13 +47,9 @@ public class HandListDisplay implements DisplayableItem {
     cardDisplay = new ArrayList<>();
     currentCards = gameState.getCurrentPlayerCards();
 
-    timeline = new Timeline();
-    timeline.setCycleCount(Timeline.INDEFINITE);
-    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
-    timeline.play();
   }
 
-  private void update() {
+  public void update() {
     handList.getChildren().clear();
     cardDisplay.clear();
     currentCards = gameState.getCurrentPlayerCards();
