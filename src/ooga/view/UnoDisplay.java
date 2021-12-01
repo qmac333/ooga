@@ -1,7 +1,7 @@
 package ooga.view;
 
 import java.util.Map;
-import java.io.IOException;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -114,21 +114,17 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void saveFile(){
-    try{
-      TextInputDialog inputPopup = new TextInputDialog();
-      inputPopup.setTitle("Save File");
-      inputPopup.setHeaderText("Enter Desired Filename:");
-      inputPopup.showAndWait();
-      String filename = inputPopup.getResult();
-      if(filename != null){
-        controller.saveCurrentFile(filename);
+    TextInputDialog inputPopup = new TextInputDialog();
+    inputPopup.setTitle("Save File");
+    inputPopup.setHeaderText("File Destination: /data/configurationfiles");
+    inputPopup.setContentText("Filename:");
+    inputPopup.showAndWait();
+    String filename = inputPopup.getResult();
+    if(filename != null){
+      boolean successfulSave = controller.saveCurrentFile(filename);
+      if(!successfulSave){
+        showError("Invalid File Name");
       }
-    }
-    catch (IOException e){
-      // TODO: this
-      e.printStackTrace();
-      showError(e.getMessage());
-      //showError("Invalid File Name");
     }
   }
 

@@ -13,8 +13,8 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
-  public void saveCurrentFile(String filename) {
-
+  public boolean saveCurrentFile(String filename) {
+    return true;
   }
 
   @Override

@@ -1,7 +1,5 @@
 package ooga.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -89,6 +87,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     if(model != null){
       unoDisplay = new UnoDisplay(this);
       showScreen(unoDisplay);
+      splashScreen = null;
       return true;
     }
     return false;
@@ -111,20 +110,20 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       model = jsonAdapter.fromJson(json);
       return true;
     }
-    // TODO: throws IO in signature instead of this?
     catch (IOException | JsonDataException e){
+      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
   }
 
   /**
-   * Retrieves the content in the JSON file specified by the input
+   * Retrieves the content in the JSON file at the given path
    * @param filepath of the JSON file
-   * @return content of the JSON file specified by the filepath
+   * @return content of the JSON file
    * @throws IOException
    */
-  public String getFileContent(String filepath) throws IOException{
+  private String getFileContent(String filepath) throws IOException{
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
@@ -132,16 +131,27 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   /**
    * Saves the current simulation/configuration to a JSON file
-   * @param filename
+   * @param filename desired name of file (NOT filepath)
+   * @return boolean indicating successful saving of the game's state to a JSON file with the given filename
    */
   @Override
-  public void saveCurrentFile(String filename) throws IOException {
-    Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
-    FileWriter writer = new FileWriter(path.toFile());
-    String json = jsonAdapter.toJson(model);
-    writer.write(json);
-    writer.flush();
-    writer.close();
+  public boolean saveCurrentFile(String filename) {
+    try{
+      if(model != null){
+        Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
+        FileWriter writer = new FileWriter(path.toFile());
+        String json = jsonAdapter.toJson(model);
+        writer.write(json);
+        writer.flush();
+        writer.close();
+        return true;
+      }
+    }
+    catch (IOException e){
+      // TODO: this
+      e.printStackTrace();
+    }
+    return false;
   }
 
   /**
@@ -154,11 +164,17 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       splashScreen = new SplashScreen(this, language);
     }
     showScreen(splashScreen);
+    languageScreen = null;
   }
 
-
+  /**
+   * Returns the user from the main Uno Game Screen to the initial Language Screen
+   */
+  // TODO: Rename function to a verb - standard convention
   @Override
   public void backButtonHandler() {
+    unoDisplay = null;
+    model = null;
     start();
   }
 
@@ -199,6 +215,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     return unoDisplay;
   }
 
+  /**
+   * Displays the given screen on the main stage
+   * @param screen
+   */
   private void showScreen(GameScreen screen) {
     stage.setScene(screen.setScene());
     stage.show();
