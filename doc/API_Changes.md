@@ -11,3 +11,4 @@ skipEveryone() to Player interface for changing player v. card structure
 does
 * Added discardColor() to PlayerInterface and removeColor() to hand for the
 DiscardColorCard
+* Adding

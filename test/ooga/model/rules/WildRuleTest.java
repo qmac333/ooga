@@ -20,19 +20,29 @@ public class WildRuleTest {
 
   @Test
   public void nonWildCardsNeverFit(){
-    assertFalse(wildRule.canPlay(new NumberCard("red", 5), new NumberCard("green", 5)));
-    assertFalse(wildRule.canPlay(new NumberCard("blue", 0), new NumberCard("yellow", 0)));
-    assertFalse(wildRule.canPlay(new ReverseCard("blue"), new ReverseCard("yellow")));
-    assertFalse(wildRule.canPlay(new SkipCard("red"), new SkipCard("red")));
+    assertFalse(wildRule.canPlay(new NumberCard("red", 5), new NumberCard("green", 5), 0));
+    assertFalse(wildRule.canPlay(new NumberCard("blue", 0), new NumberCard("yellow", 0), 0));
+    assertFalse(wildRule.canPlay(new ReverseCard("blue"), new ReverseCard("yellow"), 0));
+    assertFalse(wildRule.canPlay(new SkipCard("red"), new SkipCard("red"), 0));
   }
 
   @Test
   public void wildCardsAlwaysWork(){
-    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildDrawFourCard("red")));
-    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildDrawFourCard("red")));
-    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildDrawFourCard("red")));
-    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildCard("red")));
-    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildCard("red")));
-    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildCard("red")));
+    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildDrawFourCard("red"), 0));
+    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildDrawFourCard("red"), 0));
+    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildDrawFourCard("red"), 0));
+    assertTrue(wildRule.canPlay(new NumberCard("green", 5), new WildCard("red"), 0));
+    assertTrue(wildRule.canPlay(new ReverseCard("green"), new WildCard("red"), 0));
+    assertTrue(wildRule.canPlay(new SkipCard("green"), new WildCard("red"), 0));
+  }
+
+  @Test
+  void ruleClassDoesntWorkWhenDraw(){
+    assertFalse(wildRule.canPlay(new NumberCard("green", 5), new WildDrawFourCard("red"), 1));
+    assertFalse(wildRule.canPlay(new ReverseCard("green"), new WildDrawFourCard("red"), 1));
+    assertFalse(wildRule.canPlay(new SkipCard("green"), new WildDrawFourCard("red"), 1));
+    assertFalse(wildRule.canPlay(new NumberCard("green", 5), new WildCard("red"), 2));
+    assertFalse(wildRule.canPlay(new ReverseCard("green"), new WildCard("red"), 7));
+    assertFalse(wildRule.canPlay(new SkipCard("green"), new WildCard("red"), 3));
   }
 }
