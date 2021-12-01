@@ -53,9 +53,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * Shows the splash screen of the application.
    */
   public void start() {
-    if (languageScreen == null) {
-      languageScreen = new LanguageScreen(this);
-    }
+    model = null;
+    languageScreen = new LanguageScreen(this);
     showScreen(languageScreen);
   }
 
