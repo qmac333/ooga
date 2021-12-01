@@ -161,7 +161,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    void playingNewGameAfterLoadingFile(){
+    void playingNewGameAfterLoadingNewFile(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
@@ -169,7 +169,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    void playingNewGameAfterLoadingInvalidFile(){
+    void playingNewGameAfterLoadingNewInvalidFile(){
         CardDisplay.initializeCards();
         assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
@@ -199,6 +199,30 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
         runAsJFXAction(() -> controller.playNewGame());
         assertNull(controller.getUnoDisplay());
+    }
+
+    @Test
+    void savingAfterLoadingNewFile(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertTrue(controller.saveCurrentFile("jUnitTest_savingAfterLoadingNewFile"));
+    }
+
+    @Test
+    void savingAfterManuallySettingParameters(){
+        String version = "Basic";
+        Map<String, String> playerMap = new HashMap<>();
+        playerMap.put("player1", "Human");
+        playerMap.put("Player 2", "Human");
+        playerMap.put("Player3", "CPU");
+        int pointsToWin = 778;
+        boolean stackable = true;
+        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertTrue(controller.saveCurrentFile("jUnitTest_savingAfterManuallySettingParameters"));
     }
 
     // TODO: Save file testing!

@@ -118,12 +118,12 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Retrieves the content in the JSON file specified by the input
+   * Retrieves the content in the JSON file at the given path
    * @param filepath of the JSON file
-   * @return content of the JSON file specified by the filepath
+   * @return content of the JSON file
    * @throws IOException
    */
-  public String getFileContent(String filepath) throws IOException{
+  private String getFileContent(String filepath) throws IOException{
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
@@ -131,19 +131,21 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   /**
    * Saves the current simulation/configuration to a JSON file
-   * @param filename
-   * @return
+   * @param filename desired name of file (NOT filepath)
+   * @return boolean indicating successful saving of the game's state to a JSON file with the given filename
    */
   @Override
   public boolean saveCurrentFile(String filename) {
     try{
-      Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
-      FileWriter writer = new FileWriter(path.toFile());
-      String json = jsonAdapter.toJson(model);
-      writer.write(json);
-      writer.flush();
-      writer.close();
-      return true;
+      if(model != null){
+        Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
+        FileWriter writer = new FileWriter(path.toFile());
+        String json = jsonAdapter.toJson(model);
+        writer.write(json);
+        writer.flush();
+        writer.close();
+        return true;
+      }
     }
     catch (IOException e){
       // TODO: this
@@ -163,7 +165,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     }
     showScreen(splashScreen);
   }
-
 
   @Override
   public void backButtonHandler() {
@@ -207,6 +208,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     return unoDisplay;
   }
 
+  /**
+   * Displays the given screen on the main stage
+   * @param screen
+   */
   private void showScreen(GameScreen screen) {
     stage.setScene(screen.setScene());
     stage.show();
