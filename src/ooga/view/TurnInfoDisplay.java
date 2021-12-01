@@ -58,7 +58,7 @@ public class TurnInfoDisplay implements DisplayableItem {
     prevCurrentPlayer = 0;
 
     displayableItem = new HBox();
-    displayableItem.setSpacing(20);
+    displayableItem.getStyleClass().add("turn_info_main_display");
 
     initializeDirection();
     initializeTable();
@@ -87,6 +87,7 @@ public class TurnInfoDisplay implements DisplayableItem {
   private void initializeDirection() {
     try {
       directionArrow = new ImageView(new Image(new FileInputStream("data/images/Arrow.png")));
+      directionArrow.getStyleClass().add("turn_info_gameplay_direction_arrow");
       directionArrow.setId(ARROW_CSS);
     } catch (FileNotFoundException e) {
       System.exit(-1); // TODO: use logging

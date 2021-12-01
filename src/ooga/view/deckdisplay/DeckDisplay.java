@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.deckdisplay;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -14,6 +14,8 @@ import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
 import ooga.util.Config;
+import ooga.view.CardDisplay;
+import ooga.view.DisplayableItem;
 
 /**
  * Class for displaying the deck and discard pile.
@@ -30,14 +32,16 @@ public class DeckDisplay implements DisplayableItem {
   private VBox deckDisplay;
   private VBox discardPileDisplay;
 
+  // discard pile display
+  private Text colorText;
+
   // deck display
   private Text numCardsDeckText;
 
   public DeckDisplay(UnoDisplayController controller) {
     this.controller = controller;
     displayedItem = new HBox();
-    displayedItem.setAlignment(Pos.CENTER);
-    displayedItem.setSpacing(20);
+    displayedItem.getStyleClass().add("deck_main_display");
 
     initDeckDisplay();
     initDiscardPileDisplay();
@@ -57,9 +61,11 @@ public class DeckDisplay implements DisplayableItem {
 
   private void initDeckDisplay() {
     deckDisplay = new VBox();
-    deckDisplay.setAlignment(Pos.CENTER);
+    deckDisplay.getStyleClass().add("vbox");
 
     numCardsDeckText = new Text();
+    numCardsDeckText.getStyleClass().add("text");
+
     numCardsDeckText.setId(DECK_NUM_CARDS_TEXT_CSS);
     updateNumCardsDeck();
 
@@ -71,6 +77,9 @@ public class DeckDisplay implements DisplayableItem {
 
   private void initDiscardPileDisplay() {
     discardPileDisplay = new VBox();
+    discardPileDisplay.getStyleClass().add("vbox");
+    colorText = new Text();
+    colorText.getStyleClass().add("text");
   }
 
   private void update() {
@@ -90,8 +99,8 @@ public class DeckDisplay implements DisplayableItem {
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
         topDiscard.getMyColor());
     card.getCard().setId(DISCARD_PILE_CSS);
-
-    discardPileDisplay.getChildren().add(card.getCard());
+    colorText.setText(String.format("Card Color: %s", topDiscard.getMyColor().toUpperCase()));
+    discardPileDisplay.getChildren().addAll(card.getCard(), colorText);
   }
 
   private void updateNumCardsDeck() {
