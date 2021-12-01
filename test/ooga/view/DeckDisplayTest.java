@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.cards.NumberCard;
 import ooga.util.Config;
+import ooga.view.deckdisplay.DeckDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

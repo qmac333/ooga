@@ -1,0 +1,56 @@
+.text {
+  -fx-font-weight: BOLD;
+  -fx-font-family: Verdana;
+  -fx-font-style: normal;
+  -fx-font-size: 12 pt;
+}
+
+/** Main Display **/
+
+.main_display_button {
+  -fx-font-family: Verdana;
+  -fx-background-color: white;
+  -fx-border-color: black;
+  -fx-border-radius: 5px;
+}
+
+.main_display_center_panel {
+  -fx-alignment: bottom-center;
+  -fx-spacing: 75px;
+}
+
+.main_display_left_panel {
+  -fx-alignment: center;
+  -fx-spacing: 30px
+}
+
+.main_display_right_panel {
+  -fx-alignment: center-left;
+}
+
+/** Deck Display */
+
+.deck_main_display {
+  -fx-spacing: 50px;
+  -fx-alignment: CENTER;
+}
+
+/** Turn Info Display */
+
+.turn_info_main_display {
+  -fx-spacing: 50px;
+}
+
+.turn_info_gameplay_direction_arrow {
+}
+
+
+.hbox {
+  -fx-spacing: 20;
+  -fx-alignment: CENTER;
+}
+
+.vbox {
+  -fx-spacing: 20;
+  -fx-alignment: CENTER;
+}
