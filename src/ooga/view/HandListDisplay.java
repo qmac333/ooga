@@ -13,6 +13,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
@@ -23,13 +25,10 @@ public class HandListDisplay implements DisplayableItem {
 
   private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
 
-  private static final int[] NUMBERS  = {1,2,3,4,5,6,7};
-
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
   private HBox handList;
   private List<ViewCardInterface> currentCards;
-  private List<Node> cardDisplay;
 
 
   /**
@@ -44,21 +43,23 @@ public class HandListDisplay implements DisplayableItem {
     handList = new HBox();
     handList.setAlignment(Pos.CENTER);
 
-    cardDisplay = new ArrayList<>();
     currentCards = gameState.getCurrentPlayerCards();
 
   }
 
   public void update() {
+    int indexCounter = 0;
     handList.getChildren().clear();
-    cardDisplay.clear();
     currentCards = gameState.getCurrentPlayerCards();
     for (ViewCardInterface cardProps : currentCards) {
       CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
           cardProps.getType(), cardProps.getMyColor());
+      VBox cardBox = new VBox();
+      cardBox.setAlignment(Pos.CENTER);
       Node card = cardMock.getCard();
-      cardDisplay.add(card);
-      handList.getChildren().add(card);
+      cardBox.getChildren().addAll(new Text(String.valueOf(indexCounter)), card);
+      handList.getChildren().add(cardBox);
+      indexCounter++;
     }
   }
 
@@ -82,12 +83,19 @@ public class HandListDisplay implements DisplayableItem {
   }
 
   public int selectCard() {
-    ChoiceDialog<Integer> dialog = new ChoiceDialog<>(NUMBERS[0]);
+    int numCards = gameState.getCurrentPlayerCards().size();
+    if (numCards == 0) {
+      return -1; // TODO: determine what happens in model when a player wins
+    }
+
+    ChoiceDialog<Integer> dialog = new ChoiceDialog<>(0); // default to first card in hand
     ObservableList<Integer> list = dialog.getItems();
-    list.addAll(NUMBERS[1], NUMBERS[2], NUMBERS[3]);
+    for (int i = 0; i < numCards; i++) {
+      list.add(i);
+    }
     dialog.setTitle("Select Card");
     dialog.setHeaderText(null);
-    dialog.setContentText("Choose the index of the card you want to play:");
+    dialog.setContentText("Choose the index of the card you want to play.\nThe leftmost card is at index 0, and the index of each card to the right goes up by 1.");
     dialog.getDialogPane().getButtonTypes().clear();
     ButtonType draw = new ButtonType("Draw", ButtonBar.ButtonData.LEFT);
     ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
