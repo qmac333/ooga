@@ -1,21 +1,16 @@
 package ooga.view;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer.ConditionObject;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import javafx.animation.KeyFrame;
+
 import javafx.animation.Timeline;
-import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.util.Config;
 
@@ -77,16 +72,6 @@ public class UnoDisplay implements GameScreen {
     return myScene;
   }
 
-  /**
-   * provides a user-friendly way for errors to be displayed controller needs to call this method
-   * when errors are encountered
-   *
-   * @param e the exception that was thrown from the error
-   */
-  public void showError(Exception e) {
-
-  }
-
   private void createScene() {
     // center panel
     VBox center = new VBox();
@@ -109,7 +94,7 @@ public class UnoDisplay implements GameScreen {
     left.getChildren().add(goButton);
 
     Button saveButton = new Button("Save");
-    saveButton.setOnAction(e -> controller.saveCurrentFile());
+    saveButton.setOnAction(e -> saveFile());
     left.getChildren().add(saveButton);
     unoDisplay.setLeft(left);
 
@@ -127,6 +112,25 @@ public class UnoDisplay implements GameScreen {
     controller.getGameState().playTurn();
   }
 
+  private void saveFile(){
+    try{
+      TextInputDialog inputPopup = new TextInputDialog();
+      inputPopup.setTitle("Save File");
+      inputPopup.setHeaderText("Enter Desired Filename:");
+      inputPopup.showAndWait();
+      String filename = inputPopup.getResult();
+      if(filename != null){
+        controller.saveCurrentFile(filename);
+      }
+    }
+    catch (IOException e){
+      // TODO: this
+      e.printStackTrace();
+      showError(e.getMessage());
+      //showError("Invalid File Name");
+    }
+  }
+
   /**
    * Called by the HumanPlayer class when the user has to decide which card to play.
    *
@@ -141,6 +145,13 @@ public class UnoDisplay implements GameScreen {
 
   private String sendColor() {
     return handListDisplay.wildPopUp();
+  }
+
+  // displays alert/error message to the user
+  private void showError(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
   }
 
 }

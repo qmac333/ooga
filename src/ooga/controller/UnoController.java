@@ -1,5 +1,8 @@
 package ooga.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +22,7 @@ import com.squareup.moshi.Moshi;
 import java.nio.file.Files;
 
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
+  private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configurationfiles").toAbsolutePath().normalize().toString();
 
   private Stage stage;
   private LanguageScreen languageScreen;
@@ -26,6 +30,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private UnoDisplay unoDisplay;
 
   private Moshi moshi;
+  private JsonAdapter<GameState> jsonAdapter;
   private GameState model;
 
   private String currentVersion;
@@ -41,6 +46,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public UnoController(Stage stage) {
     this.stage = stage;
     moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
+    jsonAdapter = moshi.adapter(GameState.class);
   }
 
   /**
@@ -103,10 +109,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean loadNewFile(String filepath) {
     try{
       String json = getFileContent(filepath);
-      JsonAdapter<GameState> jsonAdapter = moshi.adapter(GameState.class);
       model = jsonAdapter.fromJson(json);
       return true;
     }
+    // TODO: throws IO in signature instead of this?
     catch (IOException | JsonDataException e){
       System.out.println(e.getMessage());
     }
@@ -127,10 +133,16 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
 
   /**
    * Saves the current simulation/configuration to a JSON file
+   * @param filename
    */
   @Override
-  public void saveCurrentFile() {
-    System.out.println("Saving File!");
+  public void saveCurrentFile(String filename) throws IOException {
+    Path path = Paths.get(SAVE_FILE_PATH + "\\" + filename + ".json");
+    FileWriter writer = new FileWriter(path.toFile());
+    String json = jsonAdapter.toJson(model);
+    writer.write(json);
+    writer.flush();
+    writer.close();
   }
 
   /**

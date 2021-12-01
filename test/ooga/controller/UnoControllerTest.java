@@ -14,9 +14,9 @@ import java.util.Map;
 
 public class UnoControllerTest extends DukeApplicationTest {
     private UnoController controller;
-    private static final String VALID_NEW_FILE_1_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/validNewFile1.json";
-    private static final String VALID_NEW_FILE_2_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/validNewFile2.json";
-    private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".").toAbsolutePath().normalize() + "/data/configurationfiles/invalidNewFile1.json";
+    private static final String VALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile1.json").toAbsolutePath().normalize().toString();
+    private static final String VALID_NEW_FILE_2_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile2.json").toAbsolutePath().normalize().toString();
+    private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
 
     @Override
     public void start(Stage stage){
@@ -203,4 +203,5 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     // TODO: Save file testing!
     // TODO: Load existing file testing!
+    // TODO: playing a game, hitting back, and then trying to load a new game doesn't work
 }

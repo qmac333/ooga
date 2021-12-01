@@ -116,11 +116,11 @@ public class SplashScreen implements GameScreen {
         readyIndicator.setText("Game Parameters Set (Manual)");
       }
       else{
-        sendAlert("Please Input Valid Values For All Four Game Parameters");
+        showError("Please Input Valid Values For All Four Game Parameters");
       }
     }
     catch(NumberFormatException e){
-      sendAlert("Please Input a Numeric Value in the Points to Win Field");
+      showError("Please Input a Numeric Value in the Points to Win Field");
     }
   }
 
@@ -145,7 +145,7 @@ public class SplashScreen implements GameScreen {
         readyIndicator.setText("Game Parameters Set (Loaded File)");
       }
       else{
-        sendAlert("Unrecognized File Format");
+        showError("Unrecognized File Format");
       }
     }
   }
@@ -167,7 +167,7 @@ public class SplashScreen implements GameScreen {
   private void playNewGame(){
     boolean successfulPlay = controller.playNewGame();
     if(!successfulPlay){
-      sendAlert("Please Load a Configuration File or Manually Input Parameters");
+      showError("Please Load a Configuration File or Manually Input Parameters");
     }
   }
 
@@ -196,7 +196,7 @@ public class SplashScreen implements GameScreen {
       initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
       initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
     } else {
-      sendAlert("Please Select Player Type");
+      showError("Please Select Player Type");
     }
   }
 
@@ -238,7 +238,7 @@ public class SplashScreen implements GameScreen {
   }
 
   // displays alert/error message to the user
-  private void sendAlert(String alertMessage) {
+  private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
     alert.show();
