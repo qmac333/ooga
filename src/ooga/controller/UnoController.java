@@ -166,8 +166,13 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     showScreen(splashScreen);
   }
 
+  /**
+   * Returns the user from the main Uno Game Screen to the initial Language Screen
+   */
+  // TODO: Rename function to a verb - standard convention
   @Override
   public void backButtonHandler() {
+    // TODO: set model = null to prevent error?
     start();
   }
 
