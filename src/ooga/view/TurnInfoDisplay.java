@@ -42,7 +42,6 @@ public class TurnInfoDisplay implements DisplayableItem {
   private ImageView directionArrow;
   private HBox displayableItem;
 
-  private Timeline timeline;
   private int prevCurrentPlayer;
 
 
@@ -63,10 +62,6 @@ public class TurnInfoDisplay implements DisplayableItem {
     initializeDirection();
     initializeTable();
 
-    timeline = new Timeline();
-    timeline.setCycleCount(Timeline.INDEFINITE);
-    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(Config.REFRESH_RATE), e -> update()));
-    timeline.play();
   }
 
   @Override
@@ -102,7 +97,7 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   }
 
-  private void update() {
+  public void update() {
     playersChangeHandler();
     numCardsChangeHandler();
     currentPlayerChangeHandler();

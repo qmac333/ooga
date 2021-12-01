@@ -11,6 +11,7 @@ import ooga.util.Config;
 
 public class LanguageScreen implements GameScreen {
 
+  public static final String LANGUAGE_PICKER_CSS = "LanguagePicker";
   private static final String CSS_STYLE = "/ooga/resources/languageScreen.css";
   private static final String TITLE = "Please Choose A Language";
 
@@ -39,6 +40,7 @@ public class LanguageScreen implements GameScreen {
     checkForUpdates.getStyleClass().add("text-title");
 
     ChoiceBox<String> language = new ChoiceBox<>();
+    language.setId(LANGUAGE_PICKER_CSS);
     language.setValue("Language");
     language.getItems().add("English");
     language.getItems().add("Spanish");

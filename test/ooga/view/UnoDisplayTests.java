@@ -1,8 +1,10 @@
 package ooga.view;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -24,8 +26,15 @@ public class UnoDisplayTests extends DukeApplicationTest {
     Button backButton = lookup("#" + UnoDisplay.BACK_BUTTON_CSS).query();
     clickOn(backButton);
 
-    // assert that the playButton is on the screen
-    // Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+    try {
+      Node languagePicker = lookup("#" + LanguageScreen.LANGUAGE_PICKER_CSS).query();
+    }
+    catch (Exception e) {
+      Assertions.fail();
+    }
+
+
+
 
   }
 
