@@ -23,7 +23,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         return pile.size();
     }
 
-    public void placeOnTop(Collection<OneSidedCard> cards){
+    public void placeOnTop(Collection<CardInterface> cards){
         addFromCollection(cards);
     }
 
@@ -52,8 +52,8 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
 
     }
 
-    private void addFromCollection(Collection<OneSidedCard> cardGroup){
-        for(OneSidedCard c : cardGroup){
+    private void addFromCollection(Collection<CardInterface> cardGroup){
+        for(CardInterface c : cardGroup){
             this.placeOnTop(c);
         }
     }

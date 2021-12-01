@@ -3,6 +3,7 @@ package ooga.model.deck;
 import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.CardFactory;
+import ooga.model.cards.CardInterface;
 import ooga.model.cards.OneSidedCard;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class UnoDeck extends CardPile{
         List<String> wildCards = List.of(deckProperties.getString("WildCards").split(","));
         int numWildCards = Integer.parseInt(deckProperties.getString("NumberOfWild"));
 
-        List<OneSidedCard> cards = new ArrayList<OneSidedCard>();
+        List<CardInterface> cards = new ArrayList<CardInterface>();
 
         createCardsFromData(colors, numActionCards, actionCards, cards, map);
         createCardsFromData(colors, numNumberCards, numberCards, cards, map);
@@ -49,7 +50,7 @@ public class UnoDeck extends CardPile{
     private void createCardsFromData(List<String> colorList,
                                      int numCards,
                                      List<String> cardTypeList,
-                                     List<OneSidedCard> deckList, Map<String, Supplier<String>> map){
+                                     List<CardInterface> deckList, Map<String, Supplier<String>> map){
 
         for(String type : cardTypeList){
             for(int i = 0; i < numCards; i++){
