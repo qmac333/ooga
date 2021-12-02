@@ -139,6 +139,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
+    if(impendingDraw > myDeck.getNumCards()){
+
+    }
     Player player = myPlayers.get(currentPlayer);
     player.playCard();
     if (uno) {
@@ -178,8 +181,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public void setCalledUno(boolean uno) {
-    uno = uno;
+  public void setCalledUno(boolean unoCalled) {
+    uno = unoCalled;
   }
 
   @Override
