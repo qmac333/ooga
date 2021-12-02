@@ -40,6 +40,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
 
   private boolean uno;
+  private boolean endGame;
   private final static int NUM_CARDS_PER_PLAYER = 7;
 
 
@@ -66,6 +67,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
 
     uno = false;
+    endGame = false;
     playerPoints = new int[myPlayers.size()];
   }
 
@@ -152,8 +154,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       playerPoints[currentPlayer] += totalNumPoints;
       uno = false;
     }
+    if(playerPoints[currentPlayer] >= pointsToWin){
+      endGame = true;
+    }
     loadNextPlayer();
   }
+
 
   @Override
   public int getGameplayDirection() {
@@ -341,5 +347,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   public void createDeck(Map<String, Supplier<String>> map){
     myDeck = new UnoDeck(version, map);
+  }
+
+  @Override
+  public boolean getEndGame() {
+    return endGame;
   }
 }

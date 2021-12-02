@@ -80,6 +80,11 @@ public interface GameStateViewInterface {
   void createDeck(Map<String, Supplier<String>> map);
 
   /**
+   * allows class calling this method to determine whether the end of the game has been reached
+   */
+  public boolean getEndGame();
+
+  /**
    * Allows the model to set a variable if uno is chosen by the user
    * @param called whether uno was called by clicking a button in the display
    */
