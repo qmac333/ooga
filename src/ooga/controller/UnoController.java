@@ -43,7 +43,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   public UnoController(Stage stage) {
     this.stage = stage;
-    moshi = new Moshi.Builder().add(new GameStateJsonAdapter()).build();
+    moshi = new Moshi.Builder().add(new CardInterfaceAdapter()).add(new GameStateJsonAdapter()).build();
     jsonAdapter = moshi.adapter(GameState.class);
   }
 

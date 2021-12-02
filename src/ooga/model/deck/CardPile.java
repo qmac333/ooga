@@ -57,4 +57,5 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
             this.placeOnTop(c);
         }
     }
+
 }

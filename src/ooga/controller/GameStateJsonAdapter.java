@@ -2,14 +2,13 @@ package ooga.controller;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
+import ooga.model.cards.CardInterface;
+import ooga.model.deck.CardPile;
 import ooga.model.gameState.GameState;
+import ooga.model.hand.Hand;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-// Note to self: if an optional parameter is included in the config file, figure out how Moshi converts to GameStateJSON
-// when the optional parameter is missing, and then once that is resolved, call the corresponding method in GameState
-// to load in the option parameter if it is present
 /**
  * Class used to tell Moshi how to convert between GameStateJson (dummy class that has instance variables of the exact
  * same format as the JSON file) and GameState (the actual model class)
@@ -17,11 +16,30 @@ import java.util.Map;
 public class GameStateJsonAdapter {
     @FromJson GameState gameStateFromJson(GameStateJson myGameStateJson){
         String version = myGameStateJson.getVersion();
-        Map<String, String> playerMap = myGameStateJson.getPlayers();
+        Map<String, String> playerMap = myGameStateJson.getPlayerMap();
         int points = myGameStateJson.getPoints();
         boolean stackable = myGameStateJson.getStackable();
 
         GameState myGameState = new GameState(version, playerMap, points, stackable);
+        if(myGameStateJson.getMyHands() != null){
+            int currentPlayer = myGameStateJson.getCurrentPlayer();
+            List<Hand> myHands = myGameStateJson.getMyHands();
+
+            List<CardInterface> myDiscardList = myGameStateJson.getMyDiscardList();
+            CardPile myDiscardPile = cardListToPile(myDiscardList);
+
+            List<CardInterface> myDeckList = myGameStateJson.getMyDeckList();
+            CardPile myDeck = cardListToPile(myDeckList);
+
+            int impendingDraw = myGameStateJson.getImpendingDraw();
+            boolean skipNext = myGameStateJson.getSkipNext();
+            boolean skipEveryone = myGameStateJson.getSkipEveryone();
+            int order = myGameStateJson.getOrder();
+            int[] playerPoints = myGameStateJson.getPlayerPoints();
+            boolean uno = myGameStateJson.getUno();
+            myGameState.loadExistingGame(currentPlayer, myHands, myDiscardPile, myDeck, impendingDraw, skipNext,
+                    skipEveryone, order, playerPoints, uno);
+        }
         return myGameState;
     }
 
@@ -31,7 +49,40 @@ public class GameStateJsonAdapter {
         int points = myGameState.getPointsToWin();
         boolean stackable = myGameState.getStackable();
 
-        GameStateJson myGameStateJson = new GameStateJson(version, playerMap, points, stackable);
+        int currentPlayer = myGameState.getCurrentPlayer();
+        List<Hand> myHands = myGameState.getMyHands();
+
+        CardPile myDiscardPile = myGameState.getMyDiscardPile();
+        List<CardInterface> myDiscardList = cardPileToList(myDiscardPile);
+
+        CardPile myDeck = myGameState.getMyDeck();
+        List<CardInterface> myDeckList = cardPileToList(myDeck);
+
+        int impendingDraw = myGameState.getImpendingDraw();
+        boolean skipNext = myGameState.getSkipNext();
+        boolean skipEveryone = myGameState.getSkipEveryone();
+        int order = myGameState.getOrder();
+        int[] playerPoints = myGameState.getPlayerPoints();
+        boolean uno = myGameState.getUno();
+
+        GameStateJson myGameStateJson = new GameStateJson(version, playerMap, points, stackable, currentPlayer, myHands,
+                myDiscardList, myDeckList, impendingDraw, skipNext, skipEveryone, order, playerPoints, uno);
         return myGameStateJson;
+    }
+
+    private List<CardInterface> cardPileToList(CardPile pile){
+        List<CardInterface> cardList = new ArrayList<>();
+        for(int i = 0; i < pile.getNumCards(); i++){
+            cardList.add(pile.popTopCard());
+        }
+        return cardList;
+    }
+
+    private CardPile cardListToPile(List<CardInterface> cardList){
+        CardPile pile = new CardPile();
+        for(int i = 0; i < cardList.size(); i++){
+            pile.placeOnTop(cardList.get(i));
+        }
+        return pile;
     }
 }

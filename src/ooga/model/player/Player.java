@@ -102,7 +102,11 @@ public abstract class Player implements PlayerInterface {
     }
   }
 
-  protected Hand getMyHand() {
+  public void loadHand(Hand hand){
+    myHand = hand;
+  }
+
+  public Hand getMyHand() {
     return myHand;
   }
 

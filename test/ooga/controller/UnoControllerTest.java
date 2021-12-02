@@ -217,6 +217,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertNull(controller.getUnoDisplay());
     }
 
+
     @Test
     void savingAfterLoadingNewFile(){
         CardDisplay.initializeCards();
@@ -228,6 +229,7 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void savingAfterManuallySettingParameters(){
+        CardDisplay.initializeCards();
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("player1", "Human");
@@ -260,6 +262,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         runAsJFXAction(() -> controller.backButtonHandler());
         assertTrue(controller.loadFile(SAVE_FILENAME_3_PATH));
     }
+
 
     // TODO: Save file testing!
     // TODO: Load existing file testing!
