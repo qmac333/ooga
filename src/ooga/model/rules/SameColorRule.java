@@ -15,6 +15,6 @@ public class SameColorRule implements RuleInterface {
     if (draw != 0)
       return false;
 
-    return cardToMatch.getMyColor().equals(cardToPlay.getMyColor());
+    return cardToMatch.getMyColor().equals(cardToPlay.getMyColor()) || cardToMatch.getMyColor().equals("Black");
   }
 }
