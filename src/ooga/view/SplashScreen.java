@@ -89,11 +89,9 @@ public class SplashScreen implements GameScreen {
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
-    Button loadExisting = new Button(languageResources.getString("LoadExisting"));
-    loadExisting.setOnAction(e -> controller.loadExistingFile());
 
     root.getChildren()
-        .addAll(points, game, stackCards, setGame, new Separator(), loadNew, loadExisting);
+        .addAll(points, game, stackCards, setGame, new Separator(), loadNew);
 
     return root;
   }
@@ -106,11 +104,11 @@ public class SplashScreen implements GameScreen {
         readyIndicator.setText("Game Parameters Set (Manual)");
       }
       else{
-        showError("Please Input Valid Values For All Four Game Parameters");
+        showError("Please Input Valid Values For All Game Parameters (Game Type, Players, Points, Stackable)");
       }
     }
     catch(NumberFormatException e){
-      showError("Please Input a Numeric Value in the Points to Win Field");
+      showError("Invalid Points Value");
     }
   }
 
@@ -157,7 +155,7 @@ public class SplashScreen implements GameScreen {
   private void playNewGame(){
     boolean successfulPlay = controller.playNewGame();
     if(!successfulPlay){
-      showError("Please Load a Configuration File or Manually Input Parameters");
+      showError("Please Load A Configuration File Or Manually Input Parameters");
     }
   }
 
