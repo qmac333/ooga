@@ -92,18 +92,13 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     return false;
   }
 
-  @Override
-  public void loadExistingFile() {
-    System.out.println("Loading a File");
-  }
-
   /**
    * Retrieves model parameters from the specified JSON file using Moshi before creating a new model (GameState) object
    * @param filepath of the chosen JSON
    * @return boolean indicating successful parsing of the provided file and creation of a new model
    */
   @Override
-  public boolean loadNewFile(String filepath) {
+  public boolean loadFile(String filepath) {
     try{
       String json = getFileContent(filepath);
       model = jsonAdapter.fromJson(json);

@@ -2,10 +2,8 @@ package ooga.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.util.Config;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -21,7 +19,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.createSplashScreen("English");
-    controller.loadNewFile("data/configurationfiles/validNewFile1.json");
+    controller.loadFile("data/configurationfiles/validNewFile1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
 

@@ -128,7 +128,7 @@ public class SplashScreen implements GameScreen {
     fileChooser.getExtensionFilters().add(extFilter);
     File selectedFile = fileChooser.showOpenDialog(null);
     if (selectedFile != null) {
-      boolean successfulLoad = controller.loadNewFile(selectedFile.getAbsolutePath());
+      boolean successfulLoad = controller.loadFile(selectedFile.getAbsolutePath());
       if(successfulLoad){
         readyIndicator.setText("Game Parameters Set (Loaded File)");
       }

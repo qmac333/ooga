@@ -15,7 +15,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
     CardDisplay.initializeCards();
     UnoController controller = new UnoController(stage);
     controller.createSplashScreen("English");
-    controller.loadNewFile("data/configurationfiles/validNewFile1.json");
+    controller.loadFile("data/configurationfiles/validNewFile1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
   }

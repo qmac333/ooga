@@ -3,13 +3,9 @@ package ooga.view;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.model.cards.NumberCard;
-import ooga.util.Config;
 import ooga.view.deckdisplay.DeckDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +22,7 @@ public class DeckDisplayTest extends DukeApplicationTest {
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.createSplashScreen("English");
-    controller.loadNewFile("data/configurationfiles/validNewFile1.json");
+    controller.loadFile("data/configurationfiles/validNewFile1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
     clickOn(playButton);
   }

@@ -11,8 +11,6 @@ public interface SplashScreenController {
 
   boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable);
 
-  void loadExistingFile();
-
-  boolean loadNewFile(String filepath);
+  boolean loadFile(String filepath);
 
 }

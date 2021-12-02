@@ -20,6 +20,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String SAVE_FILENAME_1 = "jUnitTest_savingAfterLoadingNewFile";
     private static final String SAVE_FILENAME_2 = "jUnitTest_savingAfterManuallySettingParameters";
     private static final String SAVE_FILENAME_3 ="jUnitTest_loadingFileAfterSavingFile";
+    private static final String INVALID_SAVE_FILENAME_1 = "/this.won't/work/";
     private static final String SAVE_FILENAME_3_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME_3 + ".json").toAbsolutePath().normalize().toString();
 
     @Override
@@ -47,17 +48,17 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void loadingNewFile(){
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
     }
 
     @Test
     void loadingNewInvalidFile(){
-        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
     }
 
     @Test
     void checkingModelObjectAfterLoadingNewFile(){
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Andrew", "Human");
@@ -71,8 +72,8 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void checkingModelObjectAfterLoadingTwoNewFilesInARow(){
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_2_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_2_PATH));
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Jackson", "Human");
@@ -87,7 +88,7 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void checkingModelObjectAfterLoadingNewInvalidFile(){
-        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
         assertNull(controller.getModel());
     }
 
@@ -167,7 +168,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void playingNewGameAfterLoadingNewFile(){
         CardDisplay.initializeCards();
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
     }
@@ -175,7 +176,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void playingNewGameAfterLoadingNewInvalidFile(){
         CardDisplay.initializeCards();
-        assertFalse(controller.loadNewFile(INVALID_NEW_FILE_1_PATH));
+        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNull(controller.getUnoDisplay());
     }
@@ -208,7 +209,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void usingBackButtonAfterPlayingNewGame(){
         CardDisplay.initializeCards();
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         runAsJFXAction(() -> controller.backButtonHandler());
@@ -219,7 +220,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void savingAfterLoadingNewFile(){
         CardDisplay.initializeCards();
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_1));
@@ -241,14 +242,23 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
+    void savingUsingInvalidFilename(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertFalse(controller.saveCurrentFile(INVALID_SAVE_FILENAME_1));
+    }
+
+    @Test
     void loadingFileAfterSavingFile(){
         CardDisplay.initializeCards();
-        assertTrue(controller.loadNewFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_3));
         runAsJFXAction(() -> controller.backButtonHandler());
-        assertTrue(controller.loadNewFile(SAVE_FILENAME_3_PATH));
+        assertTrue(controller.loadFile(SAVE_FILENAME_3_PATH));
     }
 
     // TODO: Save file testing!
