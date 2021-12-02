@@ -70,22 +70,6 @@ public class SplashScreen implements GameScreen {
     VBox root = new VBox();
     root.getStyleClass().add("vbox");
 
-    TextField points = new TextField();
-    points.setPromptText(languageResources.getString("PointsInput"));
-
-    ChoiceBox<String> game = new ChoiceBox<>();
-    game.setValue(languageResources.getString("GameHeader"));
-    game.getItems().add(languageResources.getString("Basic"));
-    game.getItems().add(languageResources.getString("Flip"));
-    game.getItems().add(languageResources.getString("Blast"));
-    game.setOnAction(e -> gameType = translateToEnglish(game.getValue()));
-
-    Button stackCards = new Button(languageResources.getString("NoStack"));
-    stackCards.setOnAction(e -> stack(stackCards));
-
-    Button setGame = new Button(languageResources.getString("GameParameters"));
-    setGame.setOnAction(e -> setGameHandler(points));
-
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
@@ -93,7 +77,7 @@ public class SplashScreen implements GameScreen {
     loadExisting.setOnAction(e -> controller.loadExistingFile());
 
     root.getChildren()
-        .addAll(points, game, stackCards, setGame, new Separator(), loadNew, loadExisting);
+        .addAll(loadNew, loadExisting);
 
     return root;
   }
@@ -209,6 +193,22 @@ public class SplashScreen implements GameScreen {
     VBox table = new VBox();
     table.getStyleClass().add("vbox");
 
+    TextField points = new TextField();
+    points.setPromptText(languageResources.getString("PointsInput"));
+
+    ChoiceBox<String> game = new ChoiceBox<>();
+    game.setValue(languageResources.getString("GameHeader"));
+    game.getItems().add(languageResources.getString("Basic"));
+    game.getItems().add(languageResources.getString("Flip"));
+    game.getItems().add(languageResources.getString("Blast"));
+    game.setOnAction(e -> gameType = translateToEnglish(game.getValue()));
+
+    Button stackCards = new Button(languageResources.getString("NoStack"));
+    stackCards.setOnAction(e -> stack(stackCards));
+
+    Button setGame = new Button(languageResources.getString("GameParameters"));
+    setGame.setOnAction(e -> setGameHandler(points));
+
     TextField nameInput = new TextField();
     nameInput.setPromptText(languageResources.getString("NameInput"));
 
@@ -220,8 +220,8 @@ public class SplashScreen implements GameScreen {
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
 
-    table.getChildren().addAll(nameInput, playerTypeInput, addPlayer, new Separator(),
-        initialPlayers.getDisplayableItem());
+    table.getChildren().addAll(points, game, stackCards, new Separator(),
+            nameInput, playerTypeInput, addPlayer, new Separator(), initialPlayers.getDisplayableItem(), setGame);
 
     return table;
   }
