@@ -25,6 +25,7 @@ public class DeckDisplayTest extends DukeApplicationTest {
   public void start(Stage stage) {
     CardDisplay.initializeCards();
     controller = new UnoController(stage);
+    controller.setLanguage("English");
     controller.createSplashScreen("English");
     controller.loadFile("data/configuration_files/Test Files/validNewFile1.json");
     Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
