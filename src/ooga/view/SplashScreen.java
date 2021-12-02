@@ -30,7 +30,7 @@ public class SplashScreen implements GameScreen {
 
   private boolean stackable;
   private String gameType;
-  private Map<String, String> players;
+  private Map<String, String> playerMap;
 
   SplashScreenController controller;
 
@@ -39,7 +39,7 @@ public class SplashScreen implements GameScreen {
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     initializeTable();
     rows = new ArrayList<>();
-    players = new HashMap<>();
+    playerMap = new HashMap<>();
   }
 
   public Scene setScene() {
@@ -99,16 +99,6 @@ public class SplashScreen implements GameScreen {
   }
 
   private void setGameHandler(TextField points) {
-    Map<String, String> playerMap = new HashMap<>();
-    int rows = initialPlayers.getNumRows();
-    for (int i = 1; i < rows; i++) {
-      Text currentNameNode = (Text) initialPlayers.getCell(0, i);
-      String currentName = currentNameNode.getText();
-      Text currentTypeNode = (Text) initialPlayers.getCell(1, i);
-      String currentType = currentTypeNode.getText();
-      playerMap.put(currentName, currentType);
-    }
-
     try{
       int pointsToWin = Integer.parseInt(points.getText());
       boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin, stackable);
@@ -172,35 +162,47 @@ public class SplashScreen implements GameScreen {
   }
 
   private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {
-
     String name = nameInput.getText();
     String playerType = playerTypeInput.getValue();
     if (playerType == "Human" || playerType == "CPU") {
-      nameInput.clear();
+      if(!playerMap.containsKey(name)){
+        if(playerMap.size() < 11){
+          nameInput.clear();
+          Button deleteButton = new Button("-");
+          deleteButton.getStyleClass().add("delete-button");
+          rows.add(deleteButton);
 
-      Button deleteButton = new Button("-");
-      deleteButton.getStyleClass().add("delete-button");
-      rows.add(deleteButton);
+          int currentRow = initialPlayers.getNumRows();
+          deleteButton.setOnAction(e -> {
+            delete(currentRow);
+            for (int i = currentRow - 1; i < rows.size(); i++) {
+              int finalI = i;
+              rows.get(i).setOnAction(var -> delete(finalI + 1));
+            }
+          });
 
-      int currentRow = initialPlayers.getNumRows();
-      deleteButton.setOnAction(e -> {
-        delete(currentRow);
-        for (int i = currentRow - 1; i < rows.size(); i++) {
-          int finalI = i;
-          rows.get(i).setOnAction(var -> delete(finalI + 1));
+          initialPlayers.addRow();
+          initialPlayers.setCell(0, initialPlayers.getNumRows() - 1, new Text(name));
+          initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
+          initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
+          playerMap.put(name, playerType);
         }
-      });
-
-      initialPlayers.addRow();
-      initialPlayers.setCell(0, initialPlayers.getNumRows() - 1, new Text(name));
-      initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
-      initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
+        else{
+          showError("Maximum Number of Players Reached");
+        }
+      }
+      else{
+        showError("Duplicated Names Not Permitted");
+      }
     } else {
       showError("Please Select Player Type");
     }
   }
 
   private void delete(int currentRow) {
+    Text currentNameNode = (Text) initialPlayers.getCell(0, currentRow);
+    String currentName = currentNameNode.getText();
+    playerMap.remove(currentName);
     initialPlayers.deleteRow(currentRow);
     rows.remove(currentRow - 1);
   }
