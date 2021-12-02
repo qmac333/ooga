@@ -140,7 +140,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     // FIXME: Add in stacking logic
     if(impendingDraw > myDeck.getNumCards()){
-
+      myDiscardPile.copyOver(myDeck);
     }
     Player player = myPlayers.get(currentPlayer);
     player.playCard();

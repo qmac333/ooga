@@ -47,11 +47,11 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
     public void copyOver(CardPileInterface other) {
         Collection<CardInterface> intermediary = new ArrayList<CardInterface>();
         intermediary.addAll(pile);
-        other.placeOnTop(intermediary);
+
         pile.clear();
 
         Collections.shuffle((List<?>) intermediary);
-
+        other.placeOnTop(intermediary);
     }
 
     private void addFromCollection(Collection<CardInterface> cardGroup){
