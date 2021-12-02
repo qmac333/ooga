@@ -22,7 +22,7 @@ public class SplashScreen implements GameScreen {
   private static double CELL_HEIGHT = 30;
   private static double CELL_WIDTH = 100;
 
-  protected ResourceBundle languageResources;
+  private ResourceBundle languageResources;
 
   private Table initialPlayers;
   private List<Button> rows;
@@ -84,14 +84,14 @@ public class SplashScreen implements GameScreen {
       int pointsToWin = Integer.parseInt(points.getText());
       boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin, stackable);
       if(successfulSetup){
-        readyIndicator.setText("Game Parameters Set (Manual)");
+        readyIndicator.setText(languageResources.getString("SetParametersManual"));
       }
       else{
-        showError("Please Input Valid Values For All Game Parameters (Game Type, Players, Points, Stackable)");
+        showError(languageResources.getString("ValidValues"));
       }
     }
     catch(NumberFormatException e){
-      showError("Invalid Points Value");
+      showError(languageResources.getString("InvalidPoints"));
     }
   }
 
@@ -113,10 +113,10 @@ public class SplashScreen implements GameScreen {
     if (selectedFile != null) {
       boolean successfulLoad = controller.loadFile(selectedFile.getAbsolutePath());
       if(successfulLoad){
-        readyIndicator.setText("Game Parameters Set (Loaded File)");
+        readyIndicator.setText(languageResources.getString("SetParametersFile"));
       }
       else{
-        showError("Unrecognized File Format");
+        showError(languageResources.getString("BadFileFormat"));
       }
     }
   }
@@ -138,7 +138,7 @@ public class SplashScreen implements GameScreen {
   private void playNewGame(){
     boolean successfulPlay = controller.playNewGame();
     if(!successfulPlay){
-      showError("Please Load A Configuration File Or Manually Input Parameters");
+      showError(languageResources.getString("PlayButtonEarly"));
     }
   }
 
@@ -169,14 +169,14 @@ public class SplashScreen implements GameScreen {
           playerMap.put(name, playerType);
         }
         else{
-          showError("Maximum Number of Players Reached");
+          showError(languageResources.getString("MaxPlayers"));
         }
       }
       else{
-        showError("Duplicated Names Not Permitted");
+        showError(languageResources.getString("DuplicateName"));
       }
     } else {
-      showError("Please Select Player Type");
+      showError(languageResources.getString("SelectType"));
     }
   }
 

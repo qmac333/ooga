@@ -19,7 +19,7 @@ public class UnoDisplay implements GameScreen {
 
   public static final String BACK_BUTTON_CSS = "BackButton";
 
-  protected ResourceBundle languageResources;
+  private ResourceBundle languageResources;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -52,8 +52,8 @@ public class UnoDisplay implements GameScreen {
     myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());
 
     this.turnDisplay = new TurnInfoDisplay(controller);
-    this.handListDisplay = new HandListDisplay(controller);
-    this.deckDisplay = new DeckDisplay(controller);
+    this.handListDisplay = new HandListDisplay(controller, language);
+    this.deckDisplay = new DeckDisplay(controller, language);
 
     createScene();
   }
