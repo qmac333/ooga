@@ -2,6 +2,7 @@ package ooga.view;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -20,6 +21,8 @@ public class HandListDisplay implements DisplayableItem {
 
   private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
 
+  private ResourceBundle languageResources;
+
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
   private FlowPane handList;
@@ -32,8 +35,9 @@ public class HandListDisplay implements DisplayableItem {
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public HandListDisplay(UnoDisplayController controller) {
+  public HandListDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
+    languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     gameState = controller.getGameState();
     handList = new FlowPane();
     handList.setAlignment(Pos.CENTER);
@@ -70,9 +74,9 @@ public class HandListDisplay implements DisplayableItem {
 
   public String wildPopUp() {
     ChoiceDialog<String> dialog = new ChoiceDialog<>(WILDCOLORS[0], WILDCOLORS);
-    dialog.setTitle("Wild Card Color");
+    dialog.setTitle(languageResources.getString("WildCardColor"));
     dialog.setHeaderText(null);
-    dialog.setContentText("Choose the color you want to use:");
+    dialog.setContentText(languageResources.getString("ChooseColor"));
     dialog.getDialogPane().getButtonTypes().clear();
     ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(ok);
@@ -92,14 +96,13 @@ public class HandListDisplay implements DisplayableItem {
     for (int i = 0; i < numCards; i++) {
       list.add(i);
     }
-    dialog.setTitle("Select Card");
+    dialog.setTitle(languageResources.getString("SelectCard"));
     dialog.setHeaderText(null);
-    dialog.setContentText("Choose the index of the card you want to play." +
-            "\nThe leftmost card is at index 0, and the index of each card to the right goes up by 1.");
+    dialog.setContentText(languageResources.getString("ChooseCard"));
     dialog.getDialogPane().getButtonTypes().clear();
-    ButtonType draw = new ButtonType("Draw", ButtonBar.ButtonData.LEFT);
-    ButtonType playUno = new ButtonType("Play Card AND Call Uno", ButtonBar.ButtonData.FINISH);
-    ButtonType play = new ButtonType("Play Card", ButtonBar.ButtonData.OK_DONE);
+    ButtonType draw = new ButtonType(languageResources.getString("Draw"), ButtonBar.ButtonData.LEFT);
+    ButtonType playUno = new ButtonType(languageResources.getString("PlayAndUno"), ButtonBar.ButtonData.FINISH);
+    ButtonType play = new ButtonType(languageResources.getString("PlayCard"), ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(draw, playUno, play);
 
     dialog.setResultConverter((ButtonType type) -> {

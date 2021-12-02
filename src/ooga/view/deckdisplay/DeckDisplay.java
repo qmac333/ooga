@@ -17,6 +17,8 @@ import ooga.util.Config;
 import ooga.view.CardDisplay;
 import ooga.view.DisplayableItem;
 
+import java.util.ResourceBundle;
+
 /**
  * Class for displaying the deck and discard pile.
  */
@@ -28,6 +30,8 @@ public class DeckDisplay implements DisplayableItem {
   private UnoDisplayController controller;
   private HBox displayedItem;
 
+  private ResourceBundle languageResources;
+
   private VBox deckDisplay;
   private VBox discardPileDisplay;
 
@@ -37,8 +41,9 @@ public class DeckDisplay implements DisplayableItem {
   // deck display
   private Text numCardsDeckText;
 
-  public DeckDisplay(UnoDisplayController controller) {
+  public DeckDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
+    languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     displayedItem = new HBox();
     displayedItem.getStyleClass().add("deck_main_display");
 
@@ -93,7 +98,8 @@ public class DeckDisplay implements DisplayableItem {
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
         topDiscard.getMyColor());
     card.getCard().setId(DISCARD_PILE_CSS);
-    colorText.setText(String.format("Card Color: %s", topDiscard.getMyColor().toUpperCase()));
+    colorText.setText(String.format("%s %s", languageResources.getString("CardColor"),
+            topDiscard.getMyColor().toUpperCase()));
     discardPileDisplay.getChildren().addAll(card.getCard(), colorText);
   }
 
