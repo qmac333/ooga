@@ -35,6 +35,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private Map<String, String> currentPlayerMap;
   private int currentPointsToWin;
   private boolean currentStackable;
+  private String language;
 
   /**
    * initializes data structures for the UnoController
@@ -84,7 +85,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   @Override
   public boolean playNewGame() {
     if(model != null){
-      unoDisplay = new UnoDisplay(this);
+      unoDisplay = new UnoDisplay(this, language);
       showScreen(unoDisplay);
       splashScreen = null;
       return true;
@@ -207,6 +208,14 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   public UnoDisplay getUnoDisplay(){
     return unoDisplay;
+  }
+
+  /**
+   * Sets the language for the game
+   * @param language new language for the game
+   */
+  public void setLanguage(String language) {
+    this.language = language;
   }
 
   /**

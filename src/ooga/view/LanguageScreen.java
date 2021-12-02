@@ -44,7 +44,10 @@ public class LanguageScreen implements GameScreen {
     language.setValue("Language");
     language.getItems().add("English");
     language.getItems().add("Spanish");
-    language.setOnAction(e -> controller.createSplashScreen(language.getValue()));
+    language.setOnAction(e -> {
+      controller.setLanguage(language.getValue());
+      controller.createSplashScreen(language.getValue());
+    });
 
     hbox.getChildren().addAll(checkForUpdates, language);
 
