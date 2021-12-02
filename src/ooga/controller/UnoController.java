@@ -20,7 +20,7 @@ import com.squareup.moshi.Moshi;
 import java.nio.file.Files;
 
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
-  private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configurationfiles").toAbsolutePath().normalize().toString();
+  private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files").toAbsolutePath().normalize().toString();
 
   private Stage stage;
   private LanguageScreen languageScreen;
@@ -112,7 +112,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     catch (IOException | JsonDataException e){
       // TODO: this
       System.out.println(e.getMessage());
-      e.printStackTrace();
     }
     return false;
   }
@@ -149,7 +148,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     }
     catch (IOException e){
       // TODO: this
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
     return false;
   }

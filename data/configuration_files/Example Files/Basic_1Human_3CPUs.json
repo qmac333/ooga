@@ -1,0 +1,6 @@
+{
+  "Version" : "Basic",
+  "Players" : {"Drew" : "Human", "Will Long" : "CPU", "Quentin_2023" :  "CPU", "Andrew S." :  "CPU"},
+  "Points" : 100,
+  "Stackable" : false
+}

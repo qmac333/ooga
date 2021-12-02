@@ -14,13 +14,13 @@ import java.util.Map;
 
 public class UnoControllerTest extends DukeApplicationTest {
     private UnoController controller;
-    private static final String VALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile1.json").toAbsolutePath().normalize().toString();
-    private static final String VALID_NEW_FILE_2_PATH = Paths.get(".", "\\data\\configurationfiles\\validNewFile2.json").toAbsolutePath().normalize().toString();
-    private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configurationfiles\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
+    private static final String VALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\validNewFile1.json").toAbsolutePath().normalize().toString();
+    private static final String VALID_NEW_FILE_2_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\validNewFile2.json").toAbsolutePath().normalize().toString();
+    private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
     private static final String SAVE_FILENAME_1 = "jUnitTest_savingAfterLoadingNewFile";
     private static final String SAVE_FILENAME_2 = "jUnitTest_savingAfterManuallySettingParameters";
     private static final String SAVE_FILENAME_3 ="jUnitTest_loadingFileAfterSavingFile";
-    private static final String SAVE_FILENAME_3_PATH = Paths.get(".", "\\data\\configurationfiles\\" + SAVE_FILENAME_3 + ".json").toAbsolutePath().normalize().toString();
+    private static final String SAVE_FILENAME_3_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME_3 + ".json").toAbsolutePath().normalize().toString();
 
     @Override
     public void start(Stage stage){

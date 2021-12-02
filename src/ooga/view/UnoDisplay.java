@@ -116,7 +116,7 @@ public class UnoDisplay implements GameScreen {
   private void saveFile(){
     TextInputDialog inputPopup = new TextInputDialog();
     inputPopup.setTitle("Save File");
-    inputPopup.setHeaderText("File Destination: /data/configurationfiles");
+    inputPopup.setHeaderText("File Destination: /data/configuration_files/Save Files");
     inputPopup.setContentText("Filename:");
     inputPopup.showAndWait();
     String filename = inputPopup.getResult();
