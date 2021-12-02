@@ -79,6 +79,12 @@ public interface GameStateViewInterface {
    */
   void createDeck(Map<String, Supplier<String>> map);
 
+  /**
+   * Allows the model to set a variable if uno is chosen by the user
+   * @param called whether uno was called by clicking a button in the display
+   */
+  void setCalledUno(boolean called);
+
   @Deprecated
   void createPlayers(Supplier<Integer> integerSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 }

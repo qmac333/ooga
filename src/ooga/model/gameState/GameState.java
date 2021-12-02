@@ -37,6 +37,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private int[] playerPoints;
   private boolean stackable;
   private final int pointsToWin;
+  private boolean calledUno;
 
   private boolean uno;
   private final static int NUM_CARDS_PER_PLAYER = 7;
@@ -177,6 +178,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
+  public void setCalledUno(boolean uno) {
+    calledUno = uno;
+  }
+
+  @Override
   public void flipCards() {
     for (Player p : myPlayers){
       p.flipHand();
@@ -197,7 +203,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       // FIXME: Create correct draw methods in the draw rules (Draw till color, Draw till blast)
       return new ArrayList<>();
     }
-    return myDrawRule.forcedDraw(this, impendingDraw);
+    int oldDraw = impendingDraw;
+    impendingDraw = 0;
+    return myDrawRule.forcedDraw(this, oldDraw);
   }
 
   @Override

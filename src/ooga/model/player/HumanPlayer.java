@@ -14,7 +14,11 @@ public class HumanPlayer extends Player {
     int index = -1;
     index = super.getMyIntegerSupplier().get();
     try {
-      getMyHand().play(index, super.getMyGame(), this);
+      if (index < 0){
+        super.addCards(getMyGame().noPlayDraw());
+      } else {
+        getMyHand().play(index, super.getMyGame(), this);
+      }
     } catch (Exception e){
       e.printStackTrace();
     }

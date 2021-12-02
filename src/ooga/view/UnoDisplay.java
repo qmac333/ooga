@@ -1,6 +1,7 @@
 package ooga.view;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +19,8 @@ public class UnoDisplay implements GameScreen {
 
   public static final String BACK_BUTTON_CSS = "BackButton";
 
+  protected ResourceBundle languageResources;
+
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
   private HandListDisplay handListDisplay;
@@ -32,8 +35,9 @@ public class UnoDisplay implements GameScreen {
    *
    * @param controller a variable that provides access to controller methods
    */
-  public UnoDisplay(UnoDisplayController controller) {
+  public UnoDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
+    languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
 
     controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
     // send suppliers down to the model
@@ -68,7 +72,7 @@ public class UnoDisplay implements GameScreen {
     VBox center = new VBox();
     center.getStyleClass().add("main_display_center_panel");
 
-    Button goButton = new Button("Play Turn");
+    Button goButton = new Button(languageResources.getString("PlayTurn"));
     goButton.getStyleClass().add("main_display_button");
     goButton.setOnAction(e -> playGame());
     center.getChildren()
@@ -79,13 +83,13 @@ public class UnoDisplay implements GameScreen {
     VBox left = new VBox();
     left.getStyleClass().add("main_display_left_panel");
 
-    Button button = new Button("Back");
+    Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
     button.setId(BACK_BUTTON_CSS);
     button.setOnAction(e -> controller.backButtonHandler());
     left.getChildren().add(button);
 
-    Button saveButton = new Button("Save");
+    Button saveButton = new Button(languageResources.getString("Save"));
     saveButton.getStyleClass().add("main_display_button");
     saveButton.setOnAction(e -> saveFile());
     left.getChildren().add(saveButton);
@@ -117,13 +121,13 @@ public class UnoDisplay implements GameScreen {
     TextInputDialog inputPopup = new TextInputDialog();
     inputPopup.setTitle("Save File");
     inputPopup.setHeaderText("File Destination: /data/configuration_files/Save Files");
-    inputPopup.setContentText("Filename:");
+    inputPopup.setContentText(languageResources.getString("FileName"));
     inputPopup.showAndWait();
     String filename = inputPopup.getResult();
     if(filename != null){
       boolean successfulSave = controller.saveCurrentFile(filename);
       if(!successfulSave){
-        showError("Invalid File Name");
+        showError(languageResources.getString("InvalidFile"));
       }
     }
   }
