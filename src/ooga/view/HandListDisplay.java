@@ -24,7 +24,6 @@ public class HandListDisplay implements DisplayableItem {
   private UnoDisplayController controller;
   private FlowPane handList;
   private List<ViewCardInterface> currentCards;
-  private boolean calledUno;
 
 
   /**
@@ -127,9 +126,5 @@ public class HandListDisplay implements DisplayableItem {
     }
 
     return dialog.getSelectedItem();
-  }
-
-  public boolean getCalledUno() {
-    return calledUno;
   }
 }
