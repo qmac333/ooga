@@ -10,6 +10,7 @@ import ooga.model.deck.CardPile;
 import ooga.model.deck.CardPileViewInterface;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
+import ooga.model.hand.Hand;
 import ooga.model.player.Player;
 
 import ooga.model.rules.RuleInterface;
@@ -21,8 +22,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       "ooga.model.gameState.GameStateResources");
 
   private int currentPlayer;
-  private final List<Player> myPlayers;
-  private final CardPile myDiscardPile;
+  private List<Player> myPlayers;
+  private CardPile myDiscardPile;
   private CardPile myDeck;
 
   private int impendingDraw;
@@ -80,6 +81,37 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayers = new ArrayList<>();
     myDiscardPile = new CardPile();
     currentPlayer = 0;
+  }
+
+  /**
+   * Used by the Load File feature
+   * @param currentPlayer
+   * @param myHands
+   * @param myDiscardPile
+   * @param myDeck
+   * @param impendingDraw
+   * @param skipNext
+   * @param skipEveryone
+   * @param order
+   * @param playerPoints
+   * @param uno
+   */
+  public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile, CardPile myDeck,
+                               int impendingDraw, boolean skipNext, boolean skipEveryone, int order, int[] playerPoints,
+                               boolean uno){
+    this.currentPlayer = currentPlayer;
+    this.myDiscardPile = myDiscardPile;
+    this.myDeck = myDeck;
+    this.impendingDraw = impendingDraw;
+    this.skipNext = skipNext;
+    this.skipEveryone = skipEveryone;
+    this.order = order;
+    this.playerPoints = playerPoints;
+    this.uno = uno;
+
+    for(int i = 0; i < myPlayers.size(); i++){
+      myPlayers.get(i).loadHand(myHands.get(i));
+    }
   }
 
   @Override
@@ -232,6 +264,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
+   * Used by the Save File feature
    * @return initial game parameter - version
    */
   public String getVersion() {
@@ -239,6 +272,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
+   * Used by the Save File feature
    * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
@@ -246,6 +280,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
+   * Used by the Save File feature
    * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
@@ -253,6 +288,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
+   * Used by the Save File feature
    * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
@@ -272,6 +308,74 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition4 = (stackable == other.getStackable());
 
     return condition1 && condition2 && condition3 && condition4;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - list of each Players' Hands
+   */
+  public List<Hand> getMyHands() {
+    List<Hand> myHands = new ArrayList<>();
+    for(Player player : myPlayers){
+      myHands.add(player.getMyHand());
+    }
+    return myHands;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - discard pile
+   */
+  public CardPile getMyDiscardPile() {
+    return myDiscardPile;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - deck
+   */
+  public CardPile getMyDeck() {
+    return myDeck;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - impending draw number
+   */
+  public int getImpendingDraw() {
+    return impendingDraw;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - boolean indicating skip next player
+   */
+  public boolean getSkipNext() {
+    return skipNext;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - boolean indicating skip every player
+   */
+  public boolean getSkipEveryone() {
+    return skipEveryone;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - array of players' points
+   */
+  public int[] getPlayerPoints() {
+    return playerPoints;
+  }
+
+  /**
+   * Used by the Save File feature
+   * @return game in progress parameter - boolean indicating UNO has been reached
+   */
+  public boolean getUno() {
+    return uno;
   }
 
   // Creates the list of players based on the map that's passed into the constructor
