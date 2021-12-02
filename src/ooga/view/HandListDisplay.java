@@ -1,11 +1,8 @@
 package ooga.view;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,14 +10,11 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
-import ooga.util.Config;
 
 public class HandListDisplay implements DisplayableItem {
 
@@ -30,6 +24,7 @@ public class HandListDisplay implements DisplayableItem {
   private UnoDisplayController controller;
   private FlowPane handList;
   private List<ViewCardInterface> currentCards;
+  private boolean calledUno;
 
 
   /**
@@ -100,11 +95,13 @@ public class HandListDisplay implements DisplayableItem {
     }
     dialog.setTitle("Select Card");
     dialog.setHeaderText(null);
-    dialog.setContentText("Choose the index of the card you want to play.\nThe leftmost card is at index 0, and the index of each card to the right goes up by 1.");
+    dialog.setContentText("Choose the index of the card you want to play." +
+            "\nThe leftmost card is at index 0, and the index of each card to the right goes up by 1.");
     dialog.getDialogPane().getButtonTypes().clear();
     ButtonType draw = new ButtonType("Draw", ButtonBar.ButtonData.LEFT);
-    ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(draw, ok);
+    ButtonType playUno = new ButtonType("Play Card AND Call Uno", ButtonBar.ButtonData.FINISH);
+    ButtonType play = new ButtonType("Play Card", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(draw, playUno, play);
 
     dialog.setResultConverter((ButtonType type) -> {
       ButtonBar.ButtonData data = type == null ? null : type.getButtonData();
@@ -112,6 +109,10 @@ public class HandListDisplay implements DisplayableItem {
         return -1;
       }
       else if (data == ButtonBar.ButtonData.OK_DONE) {
+        return dialog.getSelectedItem();
+      }
+      else if (data == ButtonBar.ButtonData.FINISH) {
+        controller.getGameState().setCalledUno(true);
         return dialog.getSelectedItem();
       }
       else {
@@ -126,5 +127,9 @@ public class HandListDisplay implements DisplayableItem {
     }
 
     return dialog.getSelectedItem();
+  }
+
+  public boolean getCalledUno() {
+    return calledUno;
   }
 }

@@ -37,6 +37,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private int[] playerPoints;
   private boolean stackable;
   private final int pointsToWin;
+  private boolean calledUno;
 
   private boolean uno;
   private final static int NUM_CARDS_PER_PLAYER = 7;
@@ -174,6 +175,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addDraw(int drawAmount) {
     impendingDraw += drawAmount;
+  }
+
+  @Override
+  public void setCalledUno(boolean uno) {
+    calledUno = uno;
   }
 
   @Override

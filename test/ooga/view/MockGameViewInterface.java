@@ -48,6 +48,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public void setCalledUno(boolean uno) {
+
+  }
+
+  @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
     List<ViewCardInterface> ret = new ArrayList<>();
     ret.add(new NumberCard("blue", 0));
