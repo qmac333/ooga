@@ -13,7 +13,7 @@ import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
-import ooga.view.UnoDisplay;
+import ooga.view.maindisplay.UnoDisplay;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -181,6 +181,13 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public GameStateViewInterface getGameState() {
     return model;
   }
+
+  /**
+   * Gets the version of the Uno game that is currently being played.
+   * @return a string that is the type of the current Uno game being played
+   */
+  @Override
+  public String getGameVersion() { return "Basic"; }
 
   /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
