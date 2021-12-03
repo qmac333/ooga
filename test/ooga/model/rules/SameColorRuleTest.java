@@ -19,7 +19,7 @@ public class SameColorRuleTest {
 
   @Test
   public void completelyDifferentCardsDontWork(){
-    assertFalse(sameColorRule.canPlay(new WildDrawFourCard("red"), new DrawTwoCard("blue"), 0));
+    assertFalse(sameColorRule.canPlay(new SkipCard("red"), new DrawTwoCard("blue"), 0));
     assertFalse(sameColorRule.canPlay(new SkipCard("red"), new ReverseCard("blue"), 0));
   }
 

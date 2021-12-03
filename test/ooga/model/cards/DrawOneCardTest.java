@@ -26,7 +26,7 @@ public class DrawOneCardTest {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
     dc = new DrawOneCard("red");
-    player = new HumanPlayer("Paul", gameMocked, null, null);
+    player = new HumanPlayer("Paul", gameMocked);
   }
 
   @Test

@@ -35,14 +35,6 @@ public class UnoDisplay implements GameScreen {
   public UnoDisplay(UnoDisplayController controller) {
     this.controller = controller;
 
-    controller.getGameState().createDeck(Map.of("DrawFour", () -> sendColor(), "Wild", () -> sendColor()));
-    // send suppliers down to the model
-    try {
-      controller.getGameState().createPlayers(() -> playCard(), () -> sendColor());
-    } catch (Exception e) {
-      e.getMessage();
-    }
-
     unoDisplay = new BorderPane();
     myScene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());

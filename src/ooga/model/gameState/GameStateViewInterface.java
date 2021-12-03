@@ -71,14 +71,24 @@ public interface GameStateViewInterface {
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
+  @Deprecated
   void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 
   /**
    * Creates a deck of cards.
    * @param map contains function handlers as values that are called if a card in the map is played with the type being a key in the map.
    */
+  @Deprecated
   void createDeck(Map<String, Supplier<String>> map);
 
   @Deprecated
   void createPlayers(Supplier<Integer> integerSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+
+  /**
+   * Passes the suppliers to the players
+   *
+   * @param integerSupplier supplier to get card index
+   * @param stringSupplier supplier to get color
+   */
+  void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier);
 }

@@ -34,7 +34,8 @@ public class WildDrawTwoCardTest {
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
     wdt = new WildDrawTwoCard(null);
-    player = new HumanPlayer("Paul", mockedGameState, null, colorSupplier);
+    player = new HumanPlayer("Paul", mockedGameState);
+    player.setSuppliers(null, colorSupplier);
   }
 
   @Test

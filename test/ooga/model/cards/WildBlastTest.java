@@ -35,8 +35,10 @@ public class WildBlastTest {
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
     wbc = new WildBlastCard(null);
-    realPlayer = new HumanPlayer("Paul", gameState, null, colorSupplier);
-    mockedPlayer = new HumanPlayer("Paul", mockedGameState, null, colorSupplier);
+    realPlayer = new HumanPlayer("Paul", gameState);
+    mockedPlayer = new HumanPlayer("Paul", mockedGameState);
+    realPlayer.setSuppliers(null, colorSupplier);
+    mockedPlayer.setSuppliers(null, colorSupplier);
   }
 
   @Test
