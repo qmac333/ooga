@@ -99,4 +99,9 @@ public interface PlayerInterface {
    * @param color color to discard
    */
   void discardColor(String color);
+
+  /**
+   * @return The indexes in the players hand that they can play
+   */
+  Collection<Integer> getValidIndexes();
 }

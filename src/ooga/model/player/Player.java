@@ -160,6 +160,19 @@ public abstract class Player implements PlayerInterface {
     myStringSupplier = stringSupplier;
   }
 
+  @Override
+  public Collection<Integer> getValidIndexes(){
+    List<Integer> indexes = new ArrayList<>();
+    int currentIndex = 0;
+    for (CardInterface card : myHand){
+      if (myGame.canPlayCard(card)){
+        indexes.add(currentIndex);
+      }
+      currentIndex++;
+    }
+    return indexes;
+  }
+
   /**
    * @return hand held by player
    */
