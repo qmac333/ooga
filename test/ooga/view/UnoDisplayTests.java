@@ -1,6 +1,5 @@
 package ooga.view;
 
-import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.scene.Node;
@@ -8,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
 import ooga.controller.UnoController;
 import ooga.view.maindisplay.UnoDisplay;
 import org.junit.jupiter.api.Assertions;
@@ -44,8 +42,15 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Test
   public void testThemeImage() {
-    // check that the image is on the screen
     ImageView themeImage = lookup("#" + UnoDisplay.THEME_IMAGE_CSS).query();
+    try {
+      Image baseImage = new Image(new FileInputStream("data/images/logos/Basic.png"));
+      assertEquals(baseImage.getWidth(), themeImage.getImage().getWidth());
+      assertEquals(baseImage.getHeight(), themeImage.getImage().getHeight());
+    } catch (FileNotFoundException e) {
+      Assertions.fail();
+    }
+
   }
 
 
