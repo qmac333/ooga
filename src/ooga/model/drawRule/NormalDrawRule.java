@@ -8,11 +8,17 @@ import ooga.model.gameState.GameStateDrawInterface;
 
 public class NormalDrawRule implements DrawRuleInterface {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> noPlayDraw(GameStateDrawInterface game) {
     return List.of(game.getNextCard());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> forcedDraw(GameStateDrawInterface game, int amount) {
     List<CardInterface> drawn = new ArrayList<>();
@@ -22,8 +28,11 @@ public class NormalDrawRule implements DrawRuleInterface {
     return drawn;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setBlastProbability(double probability) {
-    // Do nothing
+    // Do nothing because there is no blaster involved
   }
 }

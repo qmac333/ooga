@@ -17,11 +17,17 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     myCards = new ArrayList<>();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void add(Collection<CardInterface> card) {
     myCards.addAll(card);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void play(int indexOfCard, GameStatePlayerInterface game)
@@ -35,6 +41,9 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     myCards.remove(indexOfCard);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void play(int indexOfCard, GameStatePlayerInterface game, PlayerInterface player)
       throws InvalidCardSelectionException {
@@ -47,6 +56,9 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     myCards.remove(indexOfCard);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void flip() {
     for (CardInterface card : myCards) {
@@ -54,17 +66,26 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int size() {
     return myCards.size();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @NotNull
   @Override
   public Iterator<CardInterface> iterator() {
     return new HandIterator();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> removeColor(String color){
     List<CardInterface> removed = new ArrayList<>();
@@ -77,6 +98,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     return removed;
   }
 
+  // Class used to allow us to iterate through the hand
   private class HandIterator implements Iterator<CardInterface> {
 
     private int position = 0;

@@ -14,12 +14,18 @@ public class FlipCard extends OneSidedCard {
     super(color, "Flip", 20);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.flipCards();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     player.flipGame();

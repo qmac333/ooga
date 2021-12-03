@@ -10,7 +10,7 @@ public interface GameStatePlayerInterface {
    *
    * @return card(s) from this draw
    */
-  public Collection<CardInterface> noPlayDraw();
+  Collection<CardInterface> noPlayDraw();
 
   /**
    * Returns Whether a card can be played
@@ -18,22 +18,22 @@ public interface GameStatePlayerInterface {
    * @param cardToPlay card in question
    * @return can or can't play
    */
-  public boolean canPlayCard(CardInterface cardToPlay);
+  boolean canPlayCard(CardInterface cardToPlay);
 
   /**
    * sets the lastCardThown member in the GameState
    */
-  public void discardCard(CardInterface c);
+  void discardCard(CardInterface c);
 
   /**
    * reverses the order of play
    */
-  public void reverseGamePlay();
+  void reverseGamePlay();
 
   /**
    * called by the Skip Action card to skip the next player
    */
-  public void skipNextPlayer();
+  void skipNextPlayer();
 
   /**
    * Skips everyone and returns to the current player
@@ -43,7 +43,7 @@ public interface GameStatePlayerInterface {
   /**
    * allows class calling this method to set the nextPlayerDrawTwo member to true
    */
-  public void addDraw(int drawAmount);
+  void addDraw(int drawAmount);
 
   /**
    * Flips everyone's hands

@@ -24,31 +24,22 @@ public interface CardInterface {
   /**
    * Has the player execute the action specified by the card
    *
-   * @param player
+   * @param player The player playing the card
    */
   void executeAction(PlayerInterface player);
 
-
   /**
-   * returns a card's type member
-   *
-   * @return
+   * @return the type of the card
    */
   String getType();
 
-
   /**
-   * returns a cards number
-   *
-   * @return
+   * @return the number of the card
    */
   int getNum();
 
-
   /**
-   * returns a card's color
-   *
-   * @return
+   * @return the color of the card
    */
   String getMyColor();
 

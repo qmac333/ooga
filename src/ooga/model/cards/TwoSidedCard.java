@@ -20,32 +20,50 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
     activeSide = 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     myCards.get(activeSide).executeAction(game);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     myCards.get(activeSide).executeAction(player);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getType() {
     return myCards.get(activeSide).getType();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getNum() {
     return myCards.get(activeSide).getNum();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getMyColor() {
     return myCards.get(activeSide).getMyColor();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void flip() {
     activeSide++;

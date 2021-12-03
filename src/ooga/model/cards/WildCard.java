@@ -9,6 +9,9 @@ public class WildCard extends OneSidedCard {
     super("Black", "Wild", 50);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
@@ -16,6 +19,9 @@ public class WildCard extends OneSidedCard {
     super.setCardColor("Red");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     super.setCardColor(player.getColor());

@@ -9,12 +9,18 @@ public class StackRule implements RuleInterface {
   private final ResourceBundle ruleResources = ResourceBundle.getBundle(
       "ooga.model.rules.RulesInformation");
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
     if (draw <= 0)

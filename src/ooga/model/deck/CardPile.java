@@ -13,26 +13,41 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         pile = new Stack<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void placeOnTop(CardInterface c) {
         pile.push(c);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNumCards() {
         return pile.size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void placeOnTop(Collection<CardInterface> cards){
         addFromCollection(cards);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OneSidedCard lastCardPushed() {
         return (OneSidedCard) pile.peek();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardInterface popTopCard() {
         try{
@@ -43,6 +58,9 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void copyOver(CardPileInterface other) {
         Collection<CardInterface> intermediary = new ArrayList<CardInterface>();
@@ -53,6 +71,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         Collections.shuffle((List<?>) intermediary);
         other.placeOnTop(intermediary);
     }
+
 
     private void addFromCollection(Collection<CardInterface> cardGroup){
         for(CardInterface c : cardGroup){

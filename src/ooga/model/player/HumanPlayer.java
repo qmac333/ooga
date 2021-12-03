@@ -9,6 +9,9 @@ public class HumanPlayer extends Player {
     super(name, game);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void playCard() {
     int index = -1;
@@ -24,6 +27,9 @@ public class HumanPlayer extends Player {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getColor(){
     return super.getMyStringSupplier().get();

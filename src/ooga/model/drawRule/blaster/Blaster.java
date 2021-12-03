@@ -14,6 +14,9 @@ public class Blaster implements BlasterInterface {
     myProbability = probability;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> insert(Collection<CardInterface> card) {
     myCards.addAll(card);
@@ -27,6 +30,9 @@ public class Blaster implements BlasterInterface {
     return blasted;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setProbabilityOfBlast(double probability) {
     myProbability = probability;

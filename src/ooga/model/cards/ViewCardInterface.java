@@ -12,7 +12,6 @@ public interface ViewCardInterface {
    */
   String getType();
 
-
   /**
    * returns a cards number
    *
@@ -20,12 +19,10 @@ public interface ViewCardInterface {
    */
   int getNum();
 
-
   /**
    * returns a card's color
    *
    * @return
    */
   String getMyColor();
-
 }

@@ -16,6 +16,9 @@ public class WildDrawTwoCard extends OneSidedCard {
     super("Black", "WildDrawTwo", 50);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
@@ -23,6 +26,9 @@ public class WildDrawTwoCard extends OneSidedCard {
     super.setCardColor("Red");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     player.enforceDraw(DRAW_AMOUNT);

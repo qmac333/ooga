@@ -9,6 +9,9 @@ public class WildRule implements RuleInterface {
   private final ResourceBundle ruleResources = ResourceBundle.getBundle(
       "ooga.model.rules.RulesInformation");
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
@@ -16,6 +19,9 @@ public class WildRule implements RuleInterface {
         .anyMatch(c -> c.equals(cardToPlay.getType()));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
     if (draw != 0)

@@ -9,12 +9,18 @@ public class ReverseCard extends OneSidedCard {
     super(color, "Reverse", 20);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.reverseGamePlay();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     player.reverseGame();

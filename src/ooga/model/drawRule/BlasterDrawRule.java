@@ -16,11 +16,17 @@ public class BlasterDrawRule implements DrawRuleInterface{
     myBlaster = new Blaster(DEFAULT_BLASTER_PROBABILITY);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> noPlayDraw(GameStateDrawInterface game) {
     return myBlaster.insert(List.of(game.getNextCard()));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> forcedDraw(GameStateDrawInterface game, int amount) {
     List<CardInterface> cardsToInsert = new ArrayList<>();
@@ -30,6 +36,9 @@ public class BlasterDrawRule implements DrawRuleInterface{
     return myBlaster.insert(cardsToInsert);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setBlastProbability(double probability) {
     myBlaster.setProbabilityOfBlast(probability);
