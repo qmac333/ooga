@@ -27,6 +27,11 @@ public class MockController implements UnoDisplayController {
     return mock;
   }
 
+  @Override
+  public String getGameVersion() {
+    return null;
+  }
+
   public void addPlayer() {
     mock.addPlayer();
   }

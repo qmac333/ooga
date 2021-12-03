@@ -1,12 +1,18 @@
 package ooga.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import ooga.view.maindisplay.UnoDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UnoDisplayTests extends DukeApplicationTest {
 
@@ -23,7 +29,6 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Test
   public void testBack() {
-    pause(500);
     Button backButton = lookup("#" + UnoDisplay.BACK_BUTTON_CSS).query();
     clickOn(backButton);
 
@@ -33,18 +38,21 @@ public class UnoDisplayTests extends DukeApplicationTest {
     catch (Exception e) {
       Assertions.fail();
     }
-
-
-
-
   }
 
-  private void pause(double millis) {
-    long init = System.currentTimeMillis();
-    while (System.currentTimeMillis() < init + millis) {
-      // spin
+  @Test
+  public void testThemeImage() {
+    ImageView themeImage = lookup("#" + UnoDisplay.THEME_IMAGE_CSS).query();
+    try {
+      Image baseImage = new Image(new FileInputStream("data/images/logos/Basic.png"));
+      assertEquals(baseImage.getWidth(), themeImage.getImage().getWidth());
+      assertEquals(baseImage.getHeight(), themeImage.getImage().getHeight());
+    } catch (FileNotFoundException e) {
+      Assertions.fail();
     }
+
   }
+
 
 
 }

@@ -13,4 +13,6 @@ public interface UnoDisplayController {
 
   GameStateViewInterface getGameState();
 
+  String getGameVersion();
+
 }
