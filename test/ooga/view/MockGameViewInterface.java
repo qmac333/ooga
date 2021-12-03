@@ -3,6 +3,7 @@ package ooga.view;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -92,6 +93,16 @@ public class MockGameViewInterface implements GameStateViewInterface {
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
 
+  }
+
+  @Override
+  public boolean userPicksCard() {
+    return false;
+  }
+
+  @Override
+  public Collection<Integer> getValidIndexes() {
+    return null;
   }
 
   @Override
