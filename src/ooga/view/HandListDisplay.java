@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -52,9 +53,16 @@ public class HandListDisplay implements DisplayableItem {
     handList.getChildren().clear();
     currentCards = gameState.getCurrentPlayerCards();
     Collection<Integer> validCards = gameState.getValidIndexes();
-    for (ViewCardInterface cardProps : currentCards) {
-      CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
-          cardProps.getType(), cardProps.getMyColor());
+    for (int i=0; i< currentCards.size(); i++) {
+      CardDisplay cardMock;;
+      if (validCards.contains(i)) {
+        cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
+                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), true);
+      }
+      else {
+        cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
+                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), false);
+      }
       VBox cardBox = new VBox();
       cardBox.getStyleClass().add("hand_list_card_box");
 
