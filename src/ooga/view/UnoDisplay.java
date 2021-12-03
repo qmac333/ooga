@@ -110,7 +110,7 @@ public class UnoDisplay implements GameScreen {
     render();
   }
 
-  private void render() {
+  public void render() {
     deckDisplay.update();
     handListDisplay.update();
     turnDisplay.update();
