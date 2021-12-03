@@ -10,7 +10,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
     private Stack<CardInterface> pile;
 
     public CardPile(){
-        pile = new Stack<CardInterface>();
+        pile = new Stack<>();
     }
 
     @Override
@@ -23,6 +23,7 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         return pile.size();
     }
 
+    @Override
     public void placeOnTop(Collection<CardInterface> cards){
         addFromCollection(cards);
     }
@@ -46,10 +47,11 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
     public void copyOver(CardPileInterface other) {
         Collection<CardInterface> intermediary = new ArrayList<CardInterface>();
         intermediary.addAll(pile);
+
         pile.clear();
 
         Collections.shuffle((List<?>) intermediary);
-
+        other.placeOnTop(intermediary);
     }
 
     private void addFromCollection(Collection<CardInterface> cardGroup){
