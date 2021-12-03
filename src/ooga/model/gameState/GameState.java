@@ -520,6 +520,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  @Override
+  public boolean userPicksCard() {
+    String currentPlayerName = myPlayers.get(currentPlayer).getName();
+    return playerMap.get(currentPlayerName).equals("Human");
+  }
+
+  @Override
+  public Collection<Integer> getValidIndexes() {
+    return myPlayers.get(currentPlayer).getValidIndexes();
+  }
+
 
   private DrawRuleInterface createDrawRule()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

@@ -1,6 +1,7 @@
 package ooga.model.gameState;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -111,4 +112,14 @@ public interface GameStateViewInterface {
    * @param stringSupplier supplier to get color
    */
   void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier);
+
+  /**
+   * @return true if we need the user to pick a card
+   */
+  boolean userPicksCard();
+
+  /**
+   * @return the indexes of cards that can be played by the user
+   */
+  Collection<Integer> getValidIndexes();
 }
