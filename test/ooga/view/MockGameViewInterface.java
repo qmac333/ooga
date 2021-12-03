@@ -94,6 +94,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
 
   }
 
+  @Override
+  public boolean getEndGame() {
+    return false;
+  }
+
   public void addPlayer() {
     cardCounts.add(5);
     playerNames.add("Drew");

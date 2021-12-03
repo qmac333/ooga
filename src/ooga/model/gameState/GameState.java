@@ -169,6 +169,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addPlayer(Player p) {
     myPlayers.add(p);
+    List<Integer> points = new ArrayList<Integer>();
+    for(int i : playerPoints){
+      points.add(i);
+    }
+    points.add(0);
+    playerPoints = new int[points.size()];
+    for(int i = 0; i < points.size(); i++){
+      playerPoints[i] = points.get(i);
+    }
+
   }
 
   @Override
