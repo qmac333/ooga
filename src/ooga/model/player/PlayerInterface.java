@@ -2,6 +2,7 @@ package ooga.model.player;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 
@@ -16,6 +17,14 @@ public interface PlayerInterface {
    * whether the player is automated or not
    */
   public void playCard();
+
+  /**
+   * Sets the player classes suppliers
+   *
+   * @param integerSupplier supplier to get card index
+   * @param stringSupplier supplier to get color
+   */
+  void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier);
 
   /**
    * add a list of cards to a player's hand, specifically at the end

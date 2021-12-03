@@ -12,8 +12,8 @@ public class TwoSidedDeckTest {
 
     @Test
     public void initializeTwoSidedDeckTest(){
-        UnoDeck twoSidedCardsDeck = new UnoDeck("TwoSided", new HashMap<>());
-        UnoDeck normalDeck = new UnoDeck("Basic", new HashMap<>());
+        UnoDeck twoSidedCardsDeck = new UnoDeck("TwoSided");
+        UnoDeck normalDeck = new UnoDeck("Basic");
 
         assertTrue(twoSidedCardsDeck.getNumCards() > normalDeck.getNumCards());
     }

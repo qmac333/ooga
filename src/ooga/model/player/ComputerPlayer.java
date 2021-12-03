@@ -11,8 +11,8 @@ import ooga.model.gameState.GameStatePlayerInterface;
  */
 public class ComputerPlayer extends Player {
 
-  public ComputerPlayer(String name, GameStatePlayerInterface game, Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
-    super(name, game, integerSupplier, stringSupplier);
+  public ComputerPlayer(String name, GameStatePlayerInterface game) {
+    super(name, game);
   }
 
   @Override

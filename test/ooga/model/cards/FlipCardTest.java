@@ -28,7 +28,7 @@ public class FlipCardTest {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
     fc = new FlipCard("red");
-    player = new HumanPlayer("Paul", gameMocked, null, null);
+    player = new HumanPlayer("Paul", gameMocked);
   }
 
   @Test

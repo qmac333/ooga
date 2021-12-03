@@ -18,7 +18,7 @@ public class DiscardColorCardTest {
   @BeforeEach
   void start() {
     gameState = new GameState();
-    player = new HumanPlayer("Paul", gameState, null, null);
+    player = new HumanPlayer("Paul", gameState);
     dcc = new DiscardColorCard("Red");
   }
 
