@@ -28,6 +28,7 @@ public class UnoDisplay implements GameScreen {
 
   private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
   public static final String BACK_BUTTON_CSS = "BackButton";
+  public static final String THEME_IMAGE_CSS = "ThemeImage";
 
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
@@ -94,6 +95,7 @@ public class UnoDisplay implements GameScreen {
         THEME_IMAGES_FILEPATH + themeImageResources.getString(controller.getGameVersion());
     try {
       ImageView themeImage = new ImageView(new Image(new FileInputStream(themeImagePath)));
+      themeImage.setId(THEME_IMAGE_CSS);
       themeImage.setFitHeight(THEME_IMAGE_HEIGHT);
       themeImage.setFitWidth(THEME_IMAGE_WIDTH);
       left.getChildren().add(themeImage);
