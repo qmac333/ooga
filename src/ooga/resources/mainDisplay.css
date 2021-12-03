@@ -50,6 +50,16 @@
   -fx-spacing: 10px;
 }
 
+.hand_list_button_panel {
+  -fx-alignment: center;
+  -fx-spacing: 5px;
+}
+
+.hand_list_main_display {
+  -fx-alignment: center;
+  -fx-spacing: 15px;
+}
+
 
 .hbox {
   -fx-spacing: 20;

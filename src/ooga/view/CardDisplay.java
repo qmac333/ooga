@@ -61,10 +61,10 @@ public class CardDisplay {
     highlight.opacityProperty().set(0.5);
 
     String loadFileString;
-    if (type.equals("Number")) {
-      loadFileString = String.valueOf(number);
-    } else if (!humanPlayer) {
+    if (!humanPlayer) {
       loadFileString = LOGO;
+    } else if (type.equals("Number")) {
+      loadFileString = String.valueOf(number);
     } else {
       loadFileString = type;
     }
