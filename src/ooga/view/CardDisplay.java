@@ -39,16 +39,19 @@ public class CardDisplay {
    * Creates a display for the top side of a card.
    */
   public CardDisplay() {
-    this(String.valueOf(-1), "Top", "Black");
+    this(String.valueOf(-1), "Top", "Black", false);
 
   }
 
-  public CardDisplay(String number, String type, String color) {
+  public CardDisplay(String number, String type, String color, boolean valid) {
     cardDisplay = new StackPane();
     Rectangle base = new Rectangle(CARD_WIDTH + CARD_OFFSET, CARD_HEIGHT + CARD_OFFSET);
     base.setFill(DEFAULT_COLOR);
     Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
     card.setFill(COLORS.get(color));
+    Rectangle highlight = new Rectangle(CARD_WIDTH + 3*CARD_OFFSET, CARD_HEIGHT + 3*CARD_OFFSET);
+    highlight.setFill(Color.YELLOW);
+    highlight.opacityProperty().set(0.5);
 
     String loadFileString;
     if (type.equals("Number")) {
@@ -63,6 +66,9 @@ public class CardDisplay {
     imageView.setFitWidth(CARD_HEIGHT / 2);
 
     cardDisplay.getChildren().addAll(base, card, imageView);
+    if (valid) {
+      cardDisplay.getChildren().add(highlight);
+    }
   }
 
   public Parent getCard() {

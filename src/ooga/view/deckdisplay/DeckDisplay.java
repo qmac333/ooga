@@ -96,7 +96,7 @@ public class DeckDisplay implements DisplayableItem {
     ViewCardInterface topDiscard = controller.getGameState().getDiscardPile().lastCardPushed();
     // return a displayable instance of that card, add to the display
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
-        topDiscard.getMyColor());
+        topDiscard.getMyColor(), false);
     card.getCard().setId(DISCARD_PILE_CSS);
     colorText.setText(String.format("%s %s", languageResources.getString("CardColor"),
             topDiscard.getMyColor().toUpperCase()));
