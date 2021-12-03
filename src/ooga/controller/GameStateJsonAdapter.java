@@ -71,16 +71,17 @@ public class GameStateJsonAdapter {
     }
 
     private List<CardInterface> cardPileToList(CardPile pile){
+        Stack<CardInterface> copiedStack = (Stack<CardInterface>) pile.getStack().clone();
         List<CardInterface> cardList = new ArrayList<>();
         for(int i = 0; i < pile.getNumCards(); i++){
-            cardList.add(pile.popTopCard());
+            cardList.add(copiedStack.pop());
         }
         return cardList;
     }
 
     private CardPile cardListToPile(List<CardInterface> cardList){
         CardPile pile = new CardPile();
-        for(int i = 0; i < cardList.size(); i++){
+        for(int i = cardList.size() - 1; i > -1; i--){
             pile.placeOnTop(cardList.get(i));
         }
         return pile;

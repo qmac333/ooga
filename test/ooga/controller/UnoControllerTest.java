@@ -17,11 +17,14 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String VALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\validNewFile1.json").toAbsolutePath().normalize().toString();
     private static final String VALID_NEW_FILE_2_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\validNewFile2.json").toAbsolutePath().normalize().toString();
     private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
+    private static final String BASIC_4CPUs_PATH = Paths.get(".", "\\data\\configuration_files\\Example Files\\Basic_4CPUs.json").toAbsolutePath().normalize().toString();
     private static final String SAVE_FILENAME_1 = "jUnitTest_savingAfterLoadingNewFile";
     private static final String SAVE_FILENAME_2 = "jUnitTest_savingAfterManuallySettingParameters";
     private static final String SAVE_FILENAME_3 ="jUnitTest_loadingFileAfterSavingFile";
+    private static final String SAVE_FILENAME_4 ="jUnitTest_reloadingAndPlayingGameInProgress";
     private static final String INVALID_SAVE_FILENAME_1 = "/this.won't/work/";
     private static final String SAVE_FILENAME_3_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME_3 + ".json").toAbsolutePath().normalize().toString();
+    private static final String SAVE_FILENAME_4_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME_4 + ".json").toAbsolutePath().normalize().toString();
 
     @Override
     public void start(Stage stage){
@@ -169,7 +172,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void playingNewGameAfterLoadingNewFile(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
     }
@@ -178,7 +180,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void playingNewGameAfterLoadingNewInvalidFile(){
         CardDisplay.initializeCards();
         assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNull(controller.getUnoDisplay());
     }
@@ -194,7 +195,6 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 778;
         boolean stackable = true;
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
     }
@@ -214,7 +214,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void usingBackButtonAfterPlayingNewGame(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         runAsJFXAction(() -> controller.backButtonHandler());
@@ -227,7 +226,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void savingAfterLoadingNewFile(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_1));
@@ -244,7 +242,6 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 778;
         boolean stackable = true;
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_2));
@@ -254,7 +251,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void savingUsingInvalidFilename(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertFalse(controller.saveCurrentFile(INVALID_SAVE_FILENAME_1));
@@ -264,7 +260,6 @@ public class UnoControllerTest extends DukeApplicationTest {
     void loadingFileAfterSavingFile(){
         CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.setLanguage("English"));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_3));
@@ -272,7 +267,25 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.loadFile(SAVE_FILENAME_3_PATH));
     }
 
+    @Test
+    void reloadingAndPlayingGameInProgress(){
+        CardDisplay.initializeCards();
+        assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_4));
+        for(int i = 0; i < 10; i++){
+            controller.getModel().playTurn();
+        }
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_4));
+        runAsJFXAction(() -> controller.backButtonHandler());
+        assertTrue(controller.loadFile(SAVE_FILENAME_4_PATH));
+        for(int i = 0; i < 10; i++){
+            controller.getModel().playTurn();
+        }
+    }
 
-    // TODO: Save file testing!
-    // TODO: Load existing file testing!
+
+    // TODO: Figure out why card color says black initially for reloaded game where the first card of discard pile is wild card
+    // TODO: Check model after loading game in progress (similar to earlier tests)
 }

@@ -35,7 +35,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private Map<String, String> currentPlayerMap;
   private int currentPointsToWin;
   private boolean currentStackable;
-  private String language;
+  private String language = "English";
 
   /**
    * initializes data structures for the UnoController

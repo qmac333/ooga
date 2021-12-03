@@ -60,4 +60,11 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         }
     }
 
+    /**
+     * Used by the Save File feature
+     * @return the Stack of Cards
+     */
+    public Stack<CardInterface> getStack(){
+        return pile;
+    }
 }
