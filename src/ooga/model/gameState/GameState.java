@@ -21,6 +21,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
       "ooga.model.gameState.GameStateResources");
+  private ResourceBundle ruleResources;
 
   private int currentPlayer;
   private List<Player> myPlayers;
@@ -58,6 +59,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myDeck = new UnoDeck(version);
     currentPlayer = 0;
     this.playerMap = playerMap;
+    this.version = gameStateResources.getString(version);
+    this.stackable = stackable;
+
+    ruleResources = ResourceBundle.getBundle(
+        String.format(gameStateResources.getString("RulesBase"), version));
 
     try {
       myRules = createRules();
@@ -66,10 +72,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    this.version = version;
-    this.playerMap = playerMap;
-    this.stackable = stackable;
 
     uno = false;
     endGame = false;
@@ -91,6 +93,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Load File feature
+   *
    * @param currentPlayer
    * @param myHands
    * @param myDiscardPile
@@ -102,9 +105,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @param playerPoints
    * @param uno
    */
-  public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile, CardPile myDeck,
-                               int impendingDraw, boolean skipNext, boolean skipEveryone, int order, int[] playerPoints,
-                               boolean uno){
+  public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile,
+      CardPile myDeck,
+      int impendingDraw, boolean skipNext, boolean skipEveryone, int order, int[] playerPoints,
+      boolean uno) {
     this.currentPlayer = currentPlayer;
     this.myDiscardPile = myDiscardPile;
     this.myDeck = myDeck;
@@ -115,7 +119,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.playerPoints = playerPoints;
     this.uno = uno;
 
-    for(int i = 0; i < myPlayers.size(); i++){
+    for (int i = 0; i < myPlayers.size(); i++) {
       myPlayers.get(i).loadHand(myHands.get(i));
     }
   }
@@ -196,7 +200,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * {@inheritDoc}
    */
   @Override
-  public void skipEveryone(){
+  public void skipEveryone() {
     skipEveryone = true;
   }
 
@@ -206,7 +210,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
-    if(impendingDraw > myDeck.getNumCards()){
+    if (impendingDraw > myDeck.getNumCards()) {
       myDiscardPile.copyOver(myDeck);
     }
     Player player = myPlayers.get(currentPlayer);
@@ -219,7 +223,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       playerPoints[currentPlayer] += totalNumPoints;
       uno = false;
     }
-    if(playerPoints[currentPlayer] >= pointsToWin){
+    if (playerPoints[currentPlayer] >= pointsToWin) {
       endGame = true;
     }
     loadNextPlayer();
@@ -240,12 +244,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void addPlayer(Player p) {
     myPlayers.add(p);
     List<Integer> points = new ArrayList<Integer>();
-    for(int i : playerPoints){
+    for (int i : playerPoints) {
       points.add(i);
     }
     points.add(0);
     playerPoints = new int[points.size()];
-    for(int i = 0; i < points.size(); i++){
+    for (int i = 0; i < points.size(); i++) {
       playerPoints[i] = points.get(i);
     }
 
@@ -288,7 +292,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void flipCards() {
-    for (Player p : myPlayers){
+    for (Player p : myPlayers) {
       p.flipHand();
     }
   }
@@ -306,11 +310,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public Collection<CardInterface> noPlayDraw() {
-    if (impendingDraw == 0){
+    if (impendingDraw == 0) {
       return myDrawRule.noPlayDraw(this);
     }
-    if (impendingDraw < 0){
-      if (impendingDraw == -1){
+    if (impendingDraw < 0) {
+      if (impendingDraw == -1) {
         return myDrawRule.drawUntilBlast(this);
       }
       return myDrawRule.drawUntilColor(this, myDiscardPile.lastCardPushed().getMyColor());
@@ -339,10 +343,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private void loadNextPlayer() {
     int boostedCurrentPlayer = currentPlayer + myPlayers.size();
-    if (skipNext){
+    if (skipNext) {
       currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
       skipNext = false;
-    } else if (skipEveryone){
+    } else if (skipEveryone) {
       skipEveryone = false;
     } else {
       currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
@@ -351,6 +355,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return initial game parameter - version
    */
   public String getVersion() {
@@ -359,6 +364,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
@@ -367,6 +373,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
@@ -375,6 +382,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
@@ -382,7 +390,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
+   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES
+   * ONLY
    *
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal
@@ -398,11 +407,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - list of each Players' Hands
    */
   public List<Hand> getMyHands() {
     List<Hand> myHands = new ArrayList<>();
-    for(Player player : myPlayers){
+    for (Player player : myPlayers) {
       myHands.add(player.getMyHand());
     }
     return myHands;
@@ -410,6 +420,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - discard pile
    */
   public CardPile getMyDiscardPile() {
@@ -418,6 +429,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - deck
    */
   public CardPile getMyDeck() {
@@ -426,6 +438,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - impending draw number
    */
   public int getImpendingDraw() {
@@ -434,6 +447,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - boolean indicating skip next player
    */
   public boolean getSkipNext() {
@@ -442,6 +456,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - boolean indicating skip every player
    */
   public boolean getSkipEveryone() {
@@ -450,6 +465,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - array of players' points
    */
   public int[] getPlayerPoints() {
@@ -458,6 +474,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
+   *
    * @return game in progress parameter - boolean indicating UNO has been reached
    */
   public boolean getUno() {
@@ -474,7 +491,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
           String.format(gameStateResources.getString("PlayerClassBase"),
               gameStateResources.getString(playerMap.get(name))));
       Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          GameStatePlayerInterface.class, Supplier.class, Supplier.class).newInstance(name, this, integerSupplier, stringSupplier);
+              GameStatePlayerInterface.class, Supplier.class, Supplier.class)
+          .newInstance(name, this, integerSupplier, stringSupplier);
       myPlayers.add(player);
     }
     dealCards();
@@ -506,7 +524,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
           String.format(gameStateResources.getString("PlayerClassBase"),
               gameStateResources.getString(playerMap.get(name))));
       Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          GameStatePlayerInterface.class, Supplier.class, Supplier.class).newInstance(name, this, integerSupplier, null);
+              GameStatePlayerInterface.class, Supplier.class, Supplier.class)
+          .newInstance(name, this, integerSupplier, null);
       myPlayers.add(player);
     }
     dealCards();
@@ -515,7 +534,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
-    for (PlayerInterface p : myPlayers){
+    for (PlayerInterface p : myPlayers) {
       p.setSuppliers(integerSupplier, stringSupplier);
     }
   }
@@ -534,17 +553,21 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private DrawRuleInterface createDrawRule()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    Class<?> clazz = Class.forName(String.format(gameStateResources.getString("DrawRuleBase"),
-        gameStateResources.getString("DrawRule")));
+    Class<?> clazz = Class.forName(String.format(ruleResources.getString("DrawRuleBase"),
+        ruleResources.getString("DrawRule")));
     return (DrawRuleInterface) clazz.getDeclaredConstructor().newInstance();
   }
 
   private List<RuleInterface> createRules()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    String base = gameStateResources.getString("PlayRulesBase");
+    String base = ruleResources.getString("PlayRulesBase");
     List<RuleInterface> ret = new ArrayList<>();
-    for (String rule : gameStateResources.getString("PlayRules").split(",")) {
+    for (String rule : ruleResources.getString("PlayRules").split(",")) {
       Class<?> clazz = Class.forName(String.format(base, rule));
+      ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
+    }
+    if (stackable){
+      Class<?> clazz = Class.forName(String.format(base, ruleResources.getString("StackingRule")));
       ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
     }
     return ret;
@@ -564,7 +587,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * {@inheritDoc}
    */
   @Deprecated
-  public void createDeck(Map<String, Supplier<String>> map){
+  public void createDeck(Map<String, Supplier<String>> map) {
     // Do nothing
   }
 
