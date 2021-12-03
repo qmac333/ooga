@@ -2,6 +2,7 @@ package ooga.model.drawRule;
 
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
+import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateDrawInterface;
 
 public interface DrawRuleInterface {
@@ -22,6 +23,23 @@ public interface DrawRuleInterface {
    * @return the card(s) that are drawn as a result
    */
   Collection<CardInterface> forcedDraw(GameStateDrawInterface game, int amount);
+
+  /**
+   * Forces the player to draw until the blaster goes off
+   *
+   * @param game Game we draw from
+   * @return cards that are eventually ejected
+   */
+  Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game);
+
+  /**
+   * Draws until we get a card that matches the color of the top card on the discard pile
+   *
+   * @param game  Game that we are drawing from
+   * @param color Color we need to match
+   * @return resulting cards
+   */
+  Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String color);
 
   /**
    * Sets the probability of the blaster if any

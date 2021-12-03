@@ -310,8 +310,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       return myDrawRule.noPlayDraw(this);
     }
     if (impendingDraw < 0){
-      // FIXME: Create correct draw methods in the draw rules (Draw till color, Draw till blast)
-      return new ArrayList<>();
+      if (impendingDraw == -1){
+        return myDrawRule.drawUntilBlast(this);
+      }
+      return myDrawRule.drawUntilColor(this, myDiscardPile.lastCardPushed().getMyColor());
     }
     int oldDraw = impendingDraw;
     impendingDraw = 0;

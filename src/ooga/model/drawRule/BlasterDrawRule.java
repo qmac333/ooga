@@ -36,6 +36,27 @@ public class BlasterDrawRule implements DrawRuleInterface{
     return myBlaster.insert(cardsToInsert);
   }
 
+  @Override
+  public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game) {
+    Collection<CardInterface> ejected;
+    do {
+      ejected = myBlaster.insert(List.of(game.getNextCard()));
+    } while (ejected.isEmpty());
+
+    return ejected;
+  }
+
+  @Override
+  public Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String colorToMatch) {
+    Collection<CardInterface> cardsToInsert = new ArrayList<>();
+    CardInterface drawn;
+    do {
+      drawn = game.getNextCard();
+      cardsToInsert.add(drawn);
+    } while (!drawn.getMyColor().equals(colorToMatch));
+    return myBlaster.insert(cardsToInsert);
+  }
+
   /**
    * {@inheritDoc}
    */

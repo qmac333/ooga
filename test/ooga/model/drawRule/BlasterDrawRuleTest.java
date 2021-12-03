@@ -1,6 +1,5 @@
 package ooga.model.drawRule;
 
-import java.util.function.Supplier;
 import ooga.model.cards.SkipCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Assertions;
@@ -55,5 +54,17 @@ public class BlasterDrawRuleTest {
     myRule.setBlastProbability(1);
     Assertions.assertEquals(8, myRule.noPlayDraw(game).size());
     Assertions.assertEquals(5, myRule.forcedDraw(game, 5).size());
+  }
+
+  @Test
+  public void whenBlasterProbIs1ItGivesUsOneCardForDrawTillBlast(){
+    myRule.setBlastProbability(1);
+    Assertions.assertEquals(1, myRule.drawUntilBlast(game).size());
+  }
+
+  @Test
+  public void waitsToInsertUntilColorIsDrawn(){
+    myRule.setBlastProbability(1);
+    Assertions.assertEquals(1, myRule.drawUntilColor(game, "red").size());
   }
 }
