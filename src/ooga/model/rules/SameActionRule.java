@@ -4,6 +4,9 @@ import ooga.model.cards.CardInterface;
 
 public class SameActionRule implements RuleInterface {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
@@ -11,6 +14,9 @@ public class SameActionRule implements RuleInterface {
         .equals("Number");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
     if (draw != 0)

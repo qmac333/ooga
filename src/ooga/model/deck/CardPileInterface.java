@@ -16,34 +16,34 @@ public interface CardPileInterface {
     /**
      * pushes card to the top of a pile of cards
      */
-    public void placeOnTop(CardInterface c);
+    void placeOnTop(CardInterface c);
 
     /**
      * merges a collection of cards into pile
      * @param c
      */
-    public void placeOnTop(Collection<CardInterface> c);
+    void placeOnTop(Collection<CardInterface> c);
 
     /**
      * gets the number of cards in a pile
      */
-    public int getNumCards();
+    int getNumCards();
 
 
     /**
      * allows caller to see the card at the top of a
      * pile of cards
      */
-    public OneSidedCard lastCardPushed();
+    OneSidedCard lastCardPushed();
 
     /**
      * removes a card from the top of a pile of cards
      */
-    public CardInterface popTopCard();
+    CardInterface popTopCard();
 
     /**
      * removes all the cards from one CardPile and adds them to other,
      * emptying the first one in the process
      */
-    public void copyOver(CardPileInterface other);
+    void copyOver(CardPileInterface other);
 }

@@ -9,12 +9,18 @@ public class NumberCard extends OneSidedCard {
     super(color, "Number", num);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.discardCard(this);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     // Do nothing

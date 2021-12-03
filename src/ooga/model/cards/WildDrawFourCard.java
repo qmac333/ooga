@@ -11,6 +11,9 @@ public class WildDrawFourCard extends OneSidedCard {
     super("Black", "WildDrawFour", 50);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
@@ -18,6 +21,9 @@ public class WildDrawFourCard extends OneSidedCard {
     super.setCardColor("Red");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     player.enforceDraw(DRAW_AMOUNT);

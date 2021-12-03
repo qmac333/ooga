@@ -15,6 +15,9 @@ public class ComputerPlayer extends Player {
     super(name, game);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void playCard() {
     int position = 0;
@@ -33,6 +36,9 @@ public class ComputerPlayer extends Player {
     super.addCards(game.noPlayDraw());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getColor(){
     // FIXME: Figure out how to make better choice

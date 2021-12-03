@@ -28,38 +28,38 @@ public interface GameStateViewInterface {
   /**
    * return an integer corresponding to the direction of gameplay (CLOCKWISE vs COUNTERCLOCKWISE)
    */
-  public int getGameplayDirection();
+  int getGameplayDirection();
 
   /**
    * returns the player index whose turn it is to play
    *
    * @return index of the current player
    */
-  public int getCurrentPlayer();
+  int getCurrentPlayer();
 
   /**
    * Returns a list of the player's cards to display
    * @return a list of cards in the player's hand
    */
-  public List<ViewCardInterface> getCurrentPlayerCards();
+  List<ViewCardInterface> getCurrentPlayerCards();
 
   /**
    * Gets read-only access to the deck.
    * @return an interface that provides access to the deck
    */
-  public CardPileViewInterface getDeck();
+  CardPileViewInterface getDeck();
 
   /**
    * Gets read-only access to attributesof the discard pile.
    * @return an interface that provides access to the discard pile.
    */
-  public CardPileViewInterface getDiscardPile();
+  CardPileViewInterface getDiscardPile();
 
 
   /**
    * Plays a turn of the game.
    */
-  public void playTurn();
+  void playTurn();
 
   /**
    * Pass in a handler that can be called by the model to select a card to play for a human player.
@@ -84,7 +84,7 @@ public interface GameStateViewInterface {
   /**
    * allows class calling this method to determine whether the end of the game has been reached
    */
-  public boolean getEndGame();
+  boolean getEndGame();
 
   /**
    * Allows the model to set a variable if uno is chosen by the user
@@ -92,6 +92,15 @@ public interface GameStateViewInterface {
    */
   void setCalledUno(boolean called);
 
+  /**
+   * Creates the players and passes them the correct Integer supplier
+   * @param integerSupplier supplier to give them index of card to play
+   * @throws ClassNotFoundException for reflection
+   * @throws NoSuchMethodException for reflection
+   * @throws InvocationTargetException for reflection
+   * @throws InstantiationException for reflection
+   * @throws IllegalAccessException
+   */
   @Deprecated
   void createPlayers(Supplier<Integer> integerSupplier) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 

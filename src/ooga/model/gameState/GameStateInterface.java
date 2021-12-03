@@ -12,56 +12,56 @@ public interface GameStateInterface {
   /**
    * makes the currentPlayer member play its turn
    */
-  public void playTurn();
+  void playTurn();
 
   /**
    * sets the lastCardThown member in the GameState
    */
-  public void discardCard(CardInterface c);
+  void discardCard(CardInterface c);
 
   /**
    * gets the tpye of the lastCardThrown
    */
-  public String getLastCardThrownType();
+  String getLastCardThrownType();
 
   /**
    * reverses the order of play
    */
-  public void reverseGamePlay();
+  void reverseGamePlay();
 
   /**
    * called by the Skip Action card to skip the next player
    */
-  public void skipNextPlayer();
+  void skipNextPlayer();
 
   /**
    * adds a player to the game
    */
-  public void addPlayer(Player p);
+  void addPlayer(Player p);
 
   /**
    * returns the player index whose turn it is to play
    *
    * @return index of the current player
    */
-  public int getCurrentPlayer();
+  int getCurrentPlayer();
 
 
   /**
    * allows class calling this method to set the nextPlayerDrawTwo member to true
    */
-  public void addDraw(int drawAmount);
+  void addDraw(int drawAmount);
 
   /**
    * Gets the next card from the deck
    *
    * @return card at the top of the deck
    */
-  public CardInterface getNextCard();
+  CardInterface getNextCard();
 
   /**
    * returns the order of play as an integer
    * @return order member
    */
-  public int getOrder();
+  int getOrder();
 }

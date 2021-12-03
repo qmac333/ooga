@@ -16,12 +16,18 @@ public class DrawFiveCard extends OneSidedCard {
     super(color, "DrawFive", 20);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.addDraw(DRAW_AMOUNT);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player){
     player.enforceDraw(DRAW_AMOUNT);

@@ -10,14 +10,14 @@ public interface CardPileViewInterface {
   /**
    * gets the number of cards in a pile
    */
-  public int getNumCards();
+  int getNumCards();
 
 
   /**
    * allows caller to see the card at the top of a
    * pile of cards
    */
-  public OneSidedCard lastCardPushed();
+  OneSidedCard lastCardPushed();
 
 
 }

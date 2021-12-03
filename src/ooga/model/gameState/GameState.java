@@ -120,6 +120,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<String> getPlayerNames() {
     List<String> result = new ArrayList<>();
@@ -129,6 +132,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Integer> getCardCounts() {
     List<Integer> result = new ArrayList<>();
@@ -138,42 +144,65 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CardPileViewInterface getDeck() {
     return myDeck;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CardPileViewInterface getDiscardPile() {
     return myDiscardPile;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void discardCard(CardInterface c) {
     myDiscardPile.placeOnTop(c);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String getLastCardThrownType() {
     return myDiscardPile.lastCardPushed().getType();
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void reverseGamePlay() {
     order *= -1;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void skipNextPlayer() {
     skipNext = true;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void skipEveryone(){
     skipEveryone = true;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
@@ -196,12 +225,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     loadNextPlayer();
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getGameplayDirection() {
     return order;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void addPlayer(Player p) {
     myPlayers.add(p);
@@ -217,26 +251,41 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getCurrentPlayer() {
     return currentPlayer;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
     return myPlayers.get(currentPlayer).getViewCards();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void addDraw(int drawAmount) {
     impendingDraw += drawAmount;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setCalledUno(boolean unoCalled) {
     uno = unoCalled;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void flipCards() {
     for (Player p : myPlayers){
@@ -244,11 +293,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CardInterface getNextCard() {
     return myDeck.popTopCard();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> noPlayDraw() {
     if (impendingDraw == 0){
@@ -263,12 +318,18 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return myDrawRule.forcedDraw(this, oldDraw);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlayCard(CardInterface cardToPlay) {
     return myRules.stream()
         .anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay, impendingDraw));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getOrder() {
     return order;
@@ -486,11 +547,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Deprecated
   public void createDeck(Map<String, Supplier<String>> map){
     // Do nothing
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean getEndGame() {
     return endGame;

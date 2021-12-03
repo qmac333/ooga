@@ -4,6 +4,9 @@ import ooga.model.cards.CardInterface;
 
 public class SameNumberRule implements RuleInterface {
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
@@ -13,6 +16,9 @@ public class SameNumberRule implements RuleInterface {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
     if (draw != 0)

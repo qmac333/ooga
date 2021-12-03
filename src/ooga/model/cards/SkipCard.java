@@ -9,12 +9,18 @@ public class SkipCard extends OneSidedCard {
     super(color, "Skip", 20);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
     game.skipNextPlayer();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void executeAction(PlayerInterface player) {
     player.skipNextPlayer();
