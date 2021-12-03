@@ -21,6 +21,11 @@ public class CardInterfaceAdapter {
             case "Reverse" : return new ReverseCard(cardColor);
             case "Skip" : return new SkipCard(cardColor);
             case "SkipEveryone" : return new SkipEveryoneCard(cardColor);
+            case "WildBlast" : return new WildBlastCard(cardColor);
+            case "Wild" : return new WildCard(cardColor);
+            case "WildDrawColor" : return new WildDrawColorCard(cardColor);
+            case "WildDrawFour" : return new WildDrawFourCard(cardColor);
+            case "WildDrawTwo" : return new WildDrawTwoCard(cardColor);
             default: return new NumberCard(cardColor, cardNumber);
         }
     }
