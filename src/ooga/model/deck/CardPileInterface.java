@@ -4,6 +4,8 @@ package ooga.model.deck;
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 
+import java.util.Collection;
+
 /**
  * Interface which describes the functionality of both the Uno card deck and the discard pile.
  * Will include methods for easy access to both structures without giving up the data structure
@@ -15,6 +17,12 @@ public interface CardPileInterface {
      * pushes card to the top of a pile of cards
      */
     public void placeOnTop(CardInterface c);
+
+    /**
+     * merges a collection of cards into pile
+     * @param c
+     */
+    public void placeOnTop(Collection<CardInterface> c);
 
     /**
      * gets the number of cards in a pile

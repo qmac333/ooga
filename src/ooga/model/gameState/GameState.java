@@ -38,9 +38,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private int[] playerPoints;
   private boolean stackable;
   private final int pointsToWin;
-  private boolean calledUno;
+
 
   private boolean uno;
+  private boolean endGame;
   private final static int NUM_CARDS_PER_PLAYER = 7;
 
 
@@ -67,6 +68,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
 
     uno = false;
+    endGame = false;
     playerPoints = new int[myPlayers.size()];
   }
 
@@ -171,6 +173,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
+    if(impendingDraw > myDeck.getNumCards()){
+      myDiscardPile.copyOver(myDeck);
+    }
     Player player = myPlayers.get(currentPlayer);
     player.playCard();
     if (uno) {
@@ -181,8 +186,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       playerPoints[currentPlayer] += totalNumPoints;
       uno = false;
     }
+    if(playerPoints[currentPlayer] >= pointsToWin){
+      endGame = true;
+    }
     loadNextPlayer();
   }
+
 
   @Override
   public int getGameplayDirection() {
@@ -192,6 +201,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addPlayer(Player p) {
     myPlayers.add(p);
+    List<Integer> points = new ArrayList<Integer>();
+    for(int i : playerPoints){
+      points.add(i);
+    }
+    points.add(0);
+    playerPoints = new int[points.size()];
+    for(int i = 0; i < points.size(); i++){
+      playerPoints[i] = points.get(i);
+    }
+
   }
 
   @Override
@@ -210,8 +229,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   @Override
-  public void setCalledUno(boolean uno) {
-    calledUno = uno;
+  public void setCalledUno(boolean unoCalled) {
+    uno = unoCalled;
   }
 
   @Override
@@ -442,5 +461,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   public void createDeck(Map<String, Supplier<String>> map){
     myDeck = new UnoDeck(version, map);
+  }
+
+  @Override
+  public boolean getEndGame() {
+    return endGame;
   }
 }
