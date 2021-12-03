@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import ooga.model.gameState.GameState;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,5 +30,11 @@ public class NormalDrawRuleTest {
     assertEquals(2, normalDrawRule.forcedDraw(game, 2).size());
     assertEquals(5, normalDrawRule.forcedDraw(game, 5).size());
     assertEquals(1, normalDrawRule.forcedDraw(game, 1).size());
+  }
+
+  @Test
+  public void whenBlasterProbIs1ItGivesUsOneCardForDrawTillBlast(){
+    normalDrawRule.setBlastProbability(1);
+    Assertions.assertEquals(1, normalDrawRule.drawUntilBlast(game).size());
   }
 }
