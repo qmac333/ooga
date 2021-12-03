@@ -17,12 +17,10 @@ public abstract class Player implements PlayerInterface {
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
 
-  public Player(String name, GameStatePlayerInterface game, Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
+  public Player(String name, GameStatePlayerInterface game) {
     myName = name;
     myGame = game;
     myHand = new Hand();
-    myIntegerSupplier = integerSupplier;
-    myStringSupplier = stringSupplier;
   }
 
   @Override
@@ -104,6 +102,12 @@ public abstract class Player implements PlayerInterface {
 
   public void loadHand(Hand hand){
     myHand = hand;
+  }
+
+  @Override
+  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier){
+    myIntegerSupplier = integerSupplier;
+    myStringSupplier = stringSupplier;
   }
 
   public Hand getMyHand() {

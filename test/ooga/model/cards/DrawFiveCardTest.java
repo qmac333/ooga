@@ -26,7 +26,7 @@ public class DrawFiveCardTest {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
     dfc = new DrawFiveCard("red");
-    player = new HumanPlayer("Paul", gameMocked, null, null);
+    player = new HumanPlayer("Paul", gameMocked);
   }
 
   @Test

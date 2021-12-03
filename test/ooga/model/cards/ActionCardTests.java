@@ -28,7 +28,8 @@ public class ActionCardTests extends DukeApplicationTest {
     game = new GameState("Basic", new HashMap<>(), 100, false);
     colorSupplier = mock(Supplier.class);
     when(colorSupplier.get()).thenReturn("red");
-    player = new HumanPlayer("Paul", game, null, colorSupplier);
+    player = new HumanPlayer("Paul", game);
+    player.setSuppliers(null, colorSupplier);
   }
 
   @Test

@@ -90,6 +90,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
+
+  }
+
+  @Override
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }

@@ -13,6 +13,7 @@ import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.hand.Hand;
 import ooga.model.player.Player;
 
+import ooga.model.player.PlayerInterface;
 import ooga.model.rules.RuleInterface;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
@@ -54,11 +55,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
     myDiscardPile = new CardPile();
+    myDeck = new UnoDeck(version);
     currentPlayer = 0;
+    this.playerMap = playerMap;
 
     try {
       myRules = createRules();
       myDrawRule = createDrawRule();
+      createPlayers();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -399,6 +403,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   // Creates the list of players based on the map that's passed into the constructor
   @Override
+  @Deprecated
   public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     for (String name : playerMap.keySet()) {
@@ -412,6 +417,21 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     dealCards();
     myDiscardPile.placeOnTop(myDeck.popTopCard());
   }
+
+  private void createPlayers()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    for (String name : playerMap.keySet()) {
+      Class<?> playerClass = Class.forName(
+          String.format(gameStateResources.getString("PlayerClassBase"),
+              gameStateResources.getString(playerMap.get(name))));
+      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
+          GameStatePlayerInterface.class).newInstance(name, this);
+      myPlayers.add(player);
+    }
+    dealCards();
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
+  }
+
 
   // Creates the list of players based on the map that's passed into the constructor
   @Override
@@ -428,6 +448,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
     dealCards();
     myDiscardPile.placeOnTop(myDeck.popTopCard());
+  }
+
+  @Override
+  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
+    for (PlayerInterface p : myPlayers){
+      p.setSuppliers(integerSupplier, stringSupplier);
+    }
   }
 
 
@@ -459,8 +486,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
   }
 
+  @Deprecated
   public void createDeck(Map<String, Supplier<String>> map){
-    myDeck = new UnoDeck(version, map);
+    // Do nothing
   }
 
   @Override

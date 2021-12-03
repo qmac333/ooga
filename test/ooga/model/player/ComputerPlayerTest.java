@@ -26,7 +26,7 @@ public class ComputerPlayerTest {
   @BeforeEach
   public void setUp(){
     gameState = Mockito.mock(GameState.class);
-    myPlayer = new ComputerPlayer("Paul", gameState, null, null);
+    myPlayer = new ComputerPlayer("Paul", gameState);
   }
 
   @Test

@@ -17,8 +17,6 @@ public class NormalDrawRuleTest {
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     normalDrawRule = new NormalDrawRule();
     game = new GameState("Basic", new HashMap<>(), 100, false);
-    game.createDeck(new HashMap<>());
-    game.createPlayers(null, null);
   }
 
   @Test

@@ -11,13 +11,13 @@ public class UnoDeck extends CardPile{
 
     private CardFactory myCardFactory;
 
-    public UnoDeck(String version, Map<String, Supplier<String>> map){
+    public UnoDeck(String version){
         myCardFactory = new CardFactory();
-        createDeck(version, map);
+        createDeck(version);
     }
 
 
-    private void createDeck(String version, Map<String, Supplier<String>> map){
+    private void createDeck(String version){
         ResourceBundle deckProperties = ResourceBundle.getBundle(
                 "ooga.model.gameState." + version + "Deck");
 
@@ -46,13 +46,13 @@ public class UnoDeck extends CardPile{
         }
         List<CardInterface> cards = new ArrayList<CardInterface>();
 
-        createCardsFromData(colors, numActionCards, actionCards, cards, map);
-        createCardsFromData(colors, numNumberCards, numberCards, cards, map);
-        createCardsFromData(colors, numWildCards, wildCards, cards, map);
+        createCardsFromData(colors, numActionCards, actionCards, cards);
+        createCardsFromData(colors, numNumberCards, numberCards, cards);
+        createCardsFromData(colors, numWildCards, wildCards, cards);
         if(numTwoSidedCards != -1){
             createCardsFromData(colors, numTwoSidedCards,
                     twoSidedCardFronts, twoSidedCardBacks,
-                    cards, map);
+                    cards);
         }
         Collections.shuffle(cards);
 
@@ -63,9 +63,7 @@ public class UnoDeck extends CardPile{
     private void createCardsFromData(List<String> colorList,
                                      int numCards,
                                      List<String> cardTypeList,
-                                     List<CardInterface> deckList,
-                                     Map<String,
-                                             Supplier<String>> map){
+                                     List<CardInterface> deckList){
 
         for(String type : cardTypeList){
             for(int i = 0; i < numCards; i++){
@@ -83,9 +81,7 @@ public class UnoDeck extends CardPile{
                                      int numCards,
                                      List<String> cardFronts,
                                      List<String> cardBacks,
-                                     List<CardInterface> deckList,
-                                     Map<String,
-                                             Supplier<String>> map){
+                                     List<CardInterface> deckList){
         String type1;
         String type2;
         for(int i = 0; i < cardFronts.size(); i++){

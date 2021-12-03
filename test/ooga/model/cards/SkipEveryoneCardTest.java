@@ -32,8 +32,8 @@ public class SkipEveryoneCardTest {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
     sec = new SkipEveryoneCard("red");
-    mockedPlayer = new HumanPlayer("Paul", gameMocked, null, null);
-    realPlayer = new HumanPlayer("Paul", realGame, null, null);
+    mockedPlayer = new HumanPlayer("Paul", gameMocked);
+    realPlayer = new HumanPlayer("Paul", realGame);
   }
 
   @Test
