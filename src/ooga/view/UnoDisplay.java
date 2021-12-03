@@ -38,6 +38,7 @@ public class UnoDisplay implements GameScreen {
   public UnoDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    controller.getGameState().setSuppliers(() -> playCard(), () -> sendColor());
 
     unoDisplay = new BorderPane();
     myScene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
