@@ -30,6 +30,9 @@ public class HandListDisplay implements DisplayableItem {
   private FlowPane handList;
   private List<ViewCardInterface> currentCards;
 
+  private Runnable endTurn;
+  private int selectedIndex;
+
 
   /**
    * Initialize a class that creates the display for an UNO hand.
@@ -37,41 +40,52 @@ public class HandListDisplay implements DisplayableItem {
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public HandListDisplay(UnoDisplayController controller, String language) {
+  public HandListDisplay(UnoDisplayController controller, Runnable endTurn, String language) {
     this.controller = controller;
+    this.endTurn = endTurn;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     gameState = controller.getGameState();
     handList = new FlowPane();
     handList.setAlignment(Pos.CENTER);
 
     currentCards = gameState.getCurrentPlayerCards();
+    selectedIndex = 0;
 
   }
 
   public void update() {
-    int indexCounter = 0;
     handList.getChildren().clear();
     currentCards = gameState.getCurrentPlayerCards();
     Collection<Integer> validCards = gameState.getValidIndexes();
     for (int i=0; i< currentCards.size(); i++) {
-      CardDisplay cardMock;;
-      if (validCards.contains(i)) {
+      CardDisplay cardMock;
+      if (validCards.contains(i) && gameState.userPicksCard()) {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), true);
+                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), true, gameState.userPicksCard());
       }
       else {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), false);
+                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), false, gameState.userPicksCard());
       }
       VBox cardBox = new VBox();
       cardBox.getStyleClass().add("hand_list_card_box");
 
       Node card = cardMock.getCard();
-      Text index = new Text(String.valueOf(indexCounter));
-      index.getStyleClass().add("text");
-      cardBox.getChildren().addAll(index, card);
+      cardBox.getChildren().add(card);
+      int cardIndex = i;
+
+      if (validCards.contains(cardIndex)) {
+        cardBox.setOnMousePressed(e -> {
+          selectedIndex = cardIndex;
+          gameState.playTurn();
+          endTurn.run(); // update the rest of the display
+        });
+      }
+      else {
+        cardBox.setOnMousePressed(e -> System.out.println("Not a valid card."));
+      }
+
       handList.getChildren().add(cardBox);
-      indexCounter++;
     }
   }
 
@@ -96,6 +110,8 @@ public class HandListDisplay implements DisplayableItem {
   }
 
   public int selectCard() {
+    return selectedIndex;
+    /**
     int numCards = gameState.getCurrentPlayerCards().size();
     if (numCards == 0) {
       return -1; // TODO: determine what happens in model when a player wins
@@ -139,5 +155,6 @@ public class HandListDisplay implements DisplayableItem {
     }
 
     return dialog.getSelectedItem();
+     */
   }
 }

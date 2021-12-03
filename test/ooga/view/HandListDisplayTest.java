@@ -16,7 +16,7 @@ public class HandListDisplayTest extends DukeApplicationTest {
     public void start(Stage stage) {
         CardDisplay.initializeCards();
         controller = new MockController();
-        display = new HandListDisplay(controller, "English");
+        display = new HandListDisplay(controller, null, "English");
         Group root = new Group();
         root.getChildren().add(display.getDisplayableItem());
         Scene scene = new Scene(root, 500, 500);

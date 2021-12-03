@@ -68,7 +68,7 @@ public class UnoDisplay implements GameScreen {
     myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());
 
     this.turnDisplay = new TurnInfoDisplay(controller);
-    this.handListDisplay = new HandListDisplay(controller, language);
+    this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
     this.deckDisplay = new DeckDisplay(controller, language);
 
     createScene();
@@ -90,7 +90,7 @@ public class UnoDisplay implements GameScreen {
 
     playTurnButton = new Button(languageResources.getString("PlayTurn"));
     playTurnButton.getStyleClass().add("main_display_button");
-    playTurnButton.setOnAction(e -> playGame());
+    playTurnButton.setOnAction(e -> playComputerTurn());
 
     // center panel
     VBox center = new VBox();
@@ -143,11 +143,17 @@ public class UnoDisplay implements GameScreen {
     changeInteractiveInput();
   }
 
-  private void playGame() {
+  private void playComputerTurn() {
     controller.getGameState().playTurn();
+    finishTurn();
+  }
+
+  private void finishTurn() {
     render();
     changeInteractiveInput();
   }
+
+
 
   public void render() {
     deckDisplay.update();
