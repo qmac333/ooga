@@ -11,7 +11,9 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
 import ooga.util.Config;
 import ooga.view.GameScreen;
@@ -41,6 +43,12 @@ public class UnoDisplay implements GameScreen {
   private Scene myScene;
 
   private BorderPane unoDisplay;
+  private Pane centerPanel;
+  private int centerPanelBaseNodes; // record the base number of nodes in center panel without prompting for user input
+
+
+  private Button playTurnButton; // for playing computer's turn
+  private Text cardSelectText;
 
   /**
    * initializes data structures and saves the given controller
@@ -76,16 +84,23 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void createScene() {
+
+    cardSelectText = new Text(languageResources.getString("ChooseCard"));
+    cardSelectText.getStyleClass().add("text");
+
+    playTurnButton = new Button(languageResources.getString("PlayTurn"));
+    playTurnButton.getStyleClass().add("main_display_button");
+    playTurnButton.setOnAction(e -> playGame());
+
     // center panel
     VBox center = new VBox();
     center.getStyleClass().add("main_display_center_panel");
 
-    Button goButton = new Button(languageResources.getString("PlayTurn"));
-    goButton.getStyleClass().add("main_display_button");
-    goButton.setOnAction(e -> playGame());
     center.getChildren()
-        .addAll(deckDisplay.getDisplayableItem(), goButton, handListDisplay.getDisplayableItem());
+        .addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
+    centerPanelBaseNodes = center.getChildren().size();
     unoDisplay.setCenter(center);
+    centerPanel = center;
 
     // left panel
     VBox left = new VBox();
@@ -125,11 +140,13 @@ public class UnoDisplay implements GameScreen {
     unoDisplay.setRight(right);
 
     render();
+    changeInteractiveInput();
   }
 
   private void playGame() {
     controller.getGameState().playTurn();
     render();
+    changeInteractiveInput();
   }
 
   public void render() {
@@ -137,6 +154,20 @@ public class UnoDisplay implements GameScreen {
     handListDisplay.update();
     turnDisplay.update();
 
+  }
+
+  private void changeInteractiveInput() {
+    // remove any interactive input already on the screen
+    if (centerPanel.getChildren().size() > centerPanelBaseNodes ) {
+      centerPanel.getChildren().remove(centerPanelBaseNodes, centerPanel.getChildren().size());
+    }
+
+    if (controller.getGameState().userPicksCard()) { // player needs to select card
+      centerPanel.getChildren().add(cardSelectText);
+    }
+    else {
+      centerPanel.getChildren().add(playTurnButton);
+    }
   }
 
   private void saveFile() {

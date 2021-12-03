@@ -3,6 +3,7 @@ package ooga.view;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Collection;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -50,6 +51,7 @@ public class HandListDisplay implements DisplayableItem {
     int indexCounter = 0;
     handList.getChildren().clear();
     currentCards = gameState.getCurrentPlayerCards();
+    Collection<Integer> validCards = gameState.getValidIndexes();
     for (ViewCardInterface cardProps : currentCards) {
       CardDisplay cardMock = new CardDisplay(String.valueOf(cardProps.getNum()),
           cardProps.getType(), cardProps.getMyColor());
