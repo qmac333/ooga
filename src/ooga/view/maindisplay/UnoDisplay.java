@@ -11,7 +11,9 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
 import ooga.util.Config;
 import ooga.view.GameScreen;
@@ -26,9 +28,12 @@ public class UnoDisplay implements GameScreen {
   private static final double THEME_IMAGE_WIDTH = 150;
   private static final double THEME_IMAGE_HEIGHT = 150;
 
+  private static final int INTERACTIVE_NODES_INDEX = 1;
+
   private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
   public static final String BACK_BUTTON_CSS = "BackButton";
   public static final String THEME_IMAGE_CSS = "ThemeImage";
+  public static final String PLAY_TURN_BUTTON_CSS = "PlayTurn";
 
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
@@ -41,6 +46,12 @@ public class UnoDisplay implements GameScreen {
   private Scene myScene;
 
   private BorderPane unoDisplay;
+  private Pane centerPanel;
+  private int centerPanelBaseNodes; // record the base number of nodes in center panel without prompting for user input
+
+
+  private Button playTurnButton; // for playing computer's turn
+  private Text cardSelectText;
 
   /**
    * initializes data structures and saves the given controller
@@ -60,7 +71,7 @@ public class UnoDisplay implements GameScreen {
     myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());
 
     this.turnDisplay = new TurnInfoDisplay(controller);
-    this.handListDisplay = new HandListDisplay(controller, language);
+    this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
     this.deckDisplay = new DeckDisplay(controller, language);
 
     createScene();
@@ -76,16 +87,24 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void createScene() {
+
+    cardSelectText = new Text();
+    cardSelectText.getStyleClass().add("text");
+
+    playTurnButton = new Button(languageResources.getString("PlayTurn"));
+    playTurnButton.getStyleClass().add("main_display_button");
+    playTurnButton.setId(PLAY_TURN_BUTTON_CSS);
+    playTurnButton.setOnAction(e -> playComputerTurn());
+
     // center panel
     VBox center = new VBox();
     center.getStyleClass().add("main_display_center_panel");
 
-    Button goButton = new Button(languageResources.getString("PlayTurn"));
-    goButton.getStyleClass().add("main_display_button");
-    goButton.setOnAction(e -> playGame());
     center.getChildren()
-        .addAll(deckDisplay.getDisplayableItem(), goButton, handListDisplay.getDisplayableItem());
+        .addAll(deckDisplay.getDisplayableItem(), handListDisplay.getDisplayableItem());
+    centerPanelBaseNodes = center.getChildren().size();
     unoDisplay.setCenter(center);
+    centerPanel = center;
 
     // left panel
     VBox left = new VBox();
@@ -125,18 +144,53 @@ public class UnoDisplay implements GameScreen {
     unoDisplay.setRight(right);
 
     render();
+    changeInteractiveInput();
   }
 
-  private void playGame() {
+  private void playComputerTurn() {
     controller.getGameState().playTurn();
-    render();
+    finishTurn();
   }
+
+  private void finishTurn() {
+    render();
+    changeInteractiveInput();
+  }
+
+
 
   public void render() {
     deckDisplay.update();
     handListDisplay.update();
     turnDisplay.update();
 
+  }
+
+  private void changeInteractiveInput() {
+    // remove any interactive input already on the screen
+    if (centerPanel.getChildren().size() > centerPanelBaseNodes ) {
+      centerPanel.getChildren().remove(INTERACTIVE_NODES_INDEX, centerPanel.getChildren().size() - centerPanelBaseNodes + 1);
+    }
+
+    if (controller.getGameState().userPicksCard()) { // player needs to select card
+      setPromptText();
+      centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, cardSelectText);
+    }
+    else {
+      centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, playTurnButton);
+    }
+  }
+
+  private void setPromptText() {
+    String lookup = "";
+    // can't play a card: prompt the user to click the draw button
+    if (controller.getGameState().getValidIndexes().size() == 0) {
+      lookup = "MustDraw";
+    }
+    else {
+      lookup = "ChooseCard";
+    }
+    cardSelectText.setText(languageResources.getString(lookup));
   }
 
   private void saveFile() {

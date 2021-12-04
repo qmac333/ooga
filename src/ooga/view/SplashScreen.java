@@ -49,6 +49,7 @@ public class SplashScreen implements GameScreen {
     borderPane.setBottom(addBottomNode());
     borderPane.setRight(createRightNode());
 
+
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
         .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
