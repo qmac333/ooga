@@ -47,4 +47,12 @@ public interface CardInterface {
    * Flips the card
    */
   void flip();
+
+  /**
+   * Checks to see if two CardInterfaces are equal - TESTING PURPOSES ONLY
+   * @param other the CardInterface to compare this to
+   * @return boolean indicating equality
+   */
+  @Override
+  boolean equals(Object other);
 }

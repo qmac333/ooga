@@ -69,4 +69,13 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
     activeSide++;
     activeSide = activeSide % 2;
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean equals(Object other){
+    // TODO
+    return false;
+  }
 }

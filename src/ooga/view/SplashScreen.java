@@ -137,13 +137,16 @@ public class SplashScreen implements GameScreen {
   }
 
   private void playNewGame(){
-    boolean successfulPlay = controller.playNewGame();
+    // TODO: create Mod dropdown (with default value of "Traditional") and retrieve value from that dropdown right here before passing it controller.playNewGame()
+    String mod = "Traditional";
+    boolean successfulPlay = controller.playNewGame(mod);
     if(!successfulPlay){
       showError(languageResources.getString("PlayButtonEarly"));
     }
   }
 
   private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {
+    // TODO: Error checking, restrict name to be 15 characters long maximum
     String name = nameInput.getText();
     String playerType = playerTypeInput.getValue();
     if (playerType == "Human" || playerType == "CPU") {

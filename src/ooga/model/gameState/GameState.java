@@ -8,6 +8,7 @@ import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
 import ooga.model.deck.CardPileViewInterface;
+import ooga.model.deck.DeckWrapper;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.hand.Hand;
@@ -25,8 +26,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private int currentPlayer;
   private List<Player> myPlayers;
-  private CardPile myDiscardPile;
-  private CardPile myDeck;
+
+  private DeckWrapper cardContainer;
+
 
   private int impendingDraw;
   private boolean skipNext;
@@ -55,8 +57,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new CardPile();
-    myDeck = new UnoDeck(version);
+
+    cardContainer = new DeckWrapper(new UnoDeck(version), new CardPile());
     currentPlayer = 0;
     this.playerMap = playerMap;
     this.version = gameStateResources.getString(version);
@@ -87,7 +89,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = 100;
     myPlayers = new ArrayList<>();
-    myDiscardPile = new CardPile();
+    cardContainer = new DeckWrapper(new UnoDeck("Basic"), new CardPile());
+
     currentPlayer = 0;
   }
 
@@ -110,8 +113,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       int impendingDraw, boolean skipNext, boolean skipEveryone, int order, int[] playerPoints,
       boolean uno) {
     this.currentPlayer = currentPlayer;
-    this.myDiscardPile = myDiscardPile;
-    this.myDeck = myDeck;
+    UnoDeck newDeck = new UnoDeck(version);
+    newDeck.setPile(myDeck.getStack());
+    this.cardContainer = new DeckWrapper(newDeck, myDiscardPile);
     this.impendingDraw = impendingDraw;
     this.skipNext = skipNext;
     this.skipEveryone = skipEveryone;
@@ -153,7 +157,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public CardPileViewInterface getDeck() {
-    return myDeck;
+    return (CardPileViewInterface) cardContainer.getDeck();
   }
 
   /**
@@ -161,7 +165,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public CardPileViewInterface getDiscardPile() {
-    return myDiscardPile;
+    return (CardPileViewInterface) cardContainer.getDiscardPile();
   }
 
   /**
@@ -169,7 +173,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void discardCard(CardInterface c) {
-    myDiscardPile.placeOnTop(c);
+    cardContainer.discard(c);
   }
 
   /**
@@ -177,7 +181,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public String getLastCardThrownType() {
-    return myDiscardPile.lastCardPushed().getType();
+    return cardContainer.getLastCard().getType();
   }
 
   /**
@@ -210,9 +214,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     // FIXME: Add in stacking logic
-    if (impendingDraw > myDeck.getNumCards()) {
-      myDiscardPile.copyOver(myDeck);
-    }
+
     Player player = myPlayers.get(currentPlayer);
     player.playCard();
     if (uno) {
@@ -304,7 +306,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public CardInterface getNextCard() {
-    return myDeck.popTopCard();
+    return cardContainer.getTopCard();
   }
 
   /**
@@ -319,7 +321,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       if (impendingDraw == -1) {
         return myDrawRule.drawUntilBlast(this);
       }
-      return myDrawRule.drawUntilColor(this, myDiscardPile.lastCardPushed().getMyColor());
+      return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
     }
     int oldDraw = impendingDraw;
     impendingDraw = 0;
@@ -332,7 +334,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public boolean canPlayCard(CardInterface cardToPlay) {
     return myRules.stream()
-        .anyMatch(rule -> rule.canPlay(myDiscardPile.lastCardPushed(), cardToPlay, impendingDraw));
+        .anyMatch(rule -> rule.canPlay(cardContainer.peekTopDiscard(), cardToPlay, impendingDraw));
   }
 
   /**
@@ -357,7 +359,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - version
    */
   public String getVersion() {
@@ -366,7 +367,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
@@ -375,7 +375,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
@@ -384,7 +383,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
@@ -393,7 +391,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - list of each Players' Hands
    */
   public List<Hand> getMyHands() {
@@ -406,25 +403,22 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - discard pile
    */
   public CardPile getMyDiscardPile() {
-    return myDiscardPile;
+    return (CardPile) cardContainer.getDiscardPile();
   }
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - deck
    */
   public CardPile getMyDeck() {
-    return myDeck;
+    return (CardPile) cardContainer.getDeck();
   }
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - impending draw number
    */
   public int getImpendingDraw() {
@@ -433,7 +427,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating skip next player
    */
   public boolean getSkipNext() {
@@ -442,7 +435,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating skip every player
    */
   public boolean getSkipEveryone() {
@@ -451,7 +443,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - array of players' points
    */
   public int[] getPlayerPoints() {
@@ -460,7 +451,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating UNO has been reached
    */
   public boolean getUno() {
@@ -468,8 +458,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
-   *
+   * Checks whether two GameState objects have the same initial parameters - TESTING PURPOSES ONLY
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal
    */
@@ -480,6 +469,33 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition4 = (stackable == other.getStackable());
 
     return condition1 && condition2 && condition3 && condition4;
+  }
+
+  /**
+   * Checks whether two GameState objects have the same game in progress parameters - TESTING PURPOSES ONLY
+   * @param other GameState object to compare this object with
+   * @return boolean indicating whether the GameState's are equal
+   */
+  public boolean compareGameInProgressParameters(GameState other){
+    boolean condition1 = compareInitialParameters(other);
+    boolean condition2 = comparePlayerHands(other);
+    boolean condition3 = other.getMyDeck().getStack().equals(this.getMyDeck().getStack());
+    boolean condition4 = other.getMyDiscardPile().getStack().equals(this.getMyDiscardPile().getStack());
+
+    return condition1 && condition2 && condition3 && condition4;
+  }
+
+  private boolean comparePlayerHands(GameState other){
+    for(int i = 0; i < myPlayers.size(); i++){
+      Hand thisHand = this.getMyHands().get(i);
+      List<CardInterface> thisHandCards = thisHand.getMyCards();
+      Hand otherHand = other.getMyHands().get(i);
+      List<CardInterface> otherHandCards = otherHand.getMyCards();
+      if(!thisHandCards.equals(otherHandCards)){
+        return false;
+      }
+    }
+    return true;
   }
 
   // Creates the list of players based on the map that's passed into the constructor
@@ -497,7 +513,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
     dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+    cardContainer.discard(cardContainer.getTopCard());
   }
 
   private void createPlayers()
@@ -511,7 +527,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
     dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+    cardContainer.discard(cardContainer.getTopCard());
   }
 
 
@@ -530,7 +546,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       myPlayers.add(player);
     }
     dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+    cardContainer.discard(cardContainer.getTopCard());
   }
 
   @Override
@@ -578,7 +594,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
       for (Player myPlayer : myPlayers) {
-        CardInterface newCard = myDeck.popTopCard();
+        CardInterface newCard = cardContainer.getTopCard();
         myPlayer.addCards(List.of(newCard));
       }
     }

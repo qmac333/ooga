@@ -98,6 +98,14 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     return removed;
   }
 
+  /**
+   * Used to compare two Hands - TESTING PURPOSES ONLY
+   * @return list of cards
+   */
+  public List<CardInterface> getMyCards() {
+    return myCards;
+  }
+
   // Class used to allow us to iterate through the hand
   private class HandIterator implements Iterator<CardInterface> {
 

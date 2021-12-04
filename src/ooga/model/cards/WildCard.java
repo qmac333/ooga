@@ -6,7 +6,7 @@ import ooga.model.player.PlayerInterface;
 public class WildCard extends OneSidedCard {
 
   public WildCard(String color) {
-    super("Black", "Wild", 50);
+    super(color, "Wild", 50);
   }
 
   /**

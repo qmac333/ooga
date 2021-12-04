@@ -13,7 +13,7 @@ public class WildDrawTwoCard extends OneSidedCard {
   private final int DRAW_AMOUNT = 2;
 
   public WildDrawTwoCard(String color) {
-    super("Black", "WildDrawTwo", 50);
+    super(color, "WildDrawTwo", 50);
   }
 
   /**
