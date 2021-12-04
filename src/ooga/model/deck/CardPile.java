@@ -72,6 +72,11 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         other.placeOnTop(intermediary);
     }
 
+    @Override
+    public void setPile(Stack<CardInterface> p) {
+        pile = p;
+    }
+
 
     private void addFromCollection(Collection<CardInterface> cardGroup){
         for(CardInterface c : cardGroup){
