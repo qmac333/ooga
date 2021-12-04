@@ -33,13 +33,6 @@ public class GameStateJson {
     private GameStateJson(){
     }
 
-    public GameStateJson(String version, Map<String, String> playerMap, int points, boolean stackable){
-        this.version = version;
-        this.playerMap = playerMap;
-        this.points = points;
-        this.stackable = stackable;
-    }
-
     public GameStateJson(String version, Map<String, String> playerMap, int points, boolean stackable, int currentPlayer,
                          List<Hand> myHands, List<CardInterface> myDiscardPile, List<CardInterface> myDeck, int impendingDraw, boolean skipNext,
                          boolean skipEveryone, int order, int[] playerPoints, boolean uno){

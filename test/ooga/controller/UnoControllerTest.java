@@ -29,6 +29,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Override
     public void start(Stage stage){
         controller = new UnoController(stage);
+        CardDisplay.initializeCards();
     }
 
     @Test
@@ -41,6 +42,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     void creatingSplashScreen(){
         runAsJFXAction(() -> controller.createSplashScreen("English"));
         assertNotNull(controller.getSplashScreen());
+        controller.setLanguage("Spanish");
     }
 
     @Test
@@ -170,7 +172,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void playingNewGameAfterLoadingNewFile(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
@@ -178,7 +179,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void playingNewGameAfterLoadingNewInvalidFile(){
-        CardDisplay.initializeCards();
         assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNull(controller.getUnoDisplay());
@@ -186,7 +186,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void playingNewGameAfterManuallySettingParameters(){
-        CardDisplay.initializeCards();
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("player1", "Human");
@@ -212,7 +211,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void usingBackButtonAfterPlayingNewGame(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
@@ -224,7 +222,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void savingAfterLoadingNewFile(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
@@ -233,7 +230,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void savingAfterManuallySettingParameters(){
-        CardDisplay.initializeCards();
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("player1", "Human");
@@ -249,7 +245,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void savingUsingInvalidFilename(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
@@ -258,7 +253,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void loadingFileAfterSavingFile(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
@@ -269,7 +263,6 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void reloadingAndPlayingGameInProgress(){
-        CardDisplay.initializeCards();
         assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());

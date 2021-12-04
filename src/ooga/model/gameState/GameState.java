@@ -390,22 +390,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES
-   * ONLY
-   *
-   * @param other GameState object to compare this object with
-   * @return boolean indicating whether the initial parameters are equal
-   */
-  public boolean compareInitialParameters(GameState other) {
-    boolean condition1 = version.equals(other.getVersion());
-    boolean condition2 = playerMap.equals(other.getPlayerMap());
-    boolean condition3 = (pointsToWin == other.getPointsToWin());
-    boolean condition4 = (stackable == other.getStackable());
-
-    return condition1 && condition2 && condition3 && condition4;
-  }
-
-  /**
    * Used by the Save File feature
    *
    * @return game in progress parameter - list of each Players' Hands
@@ -479,6 +463,21 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public boolean getUno() {
     return uno;
+  }
+
+  /**
+   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
+   *
+   * @param other GameState object to compare this object with
+   * @return boolean indicating whether the initial parameters are equal
+   */
+  public boolean compareInitialParameters(GameState other) {
+    boolean condition1 = version.equals(other.getVersion());
+    boolean condition2 = playerMap.equals(other.getPlayerMap());
+    boolean condition3 = (pointsToWin == other.getPointsToWin());
+    boolean condition4 = (stackable == other.getStackable());
+
+    return condition1 && condition2 && condition3 && condition4;
   }
 
   // Creates the list of players based on the map that's passed into the constructor
