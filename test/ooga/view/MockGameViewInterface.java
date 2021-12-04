@@ -1,7 +1,11 @@
 package ooga.view;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
@@ -50,16 +54,6 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
-  public boolean userPicksCard() {
-    return true;
-  }
-
-  @Override
-  public Collection<Integer> getValidIndexes() {
-    return null;
-  }
-
-  @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
     List<ViewCardInterface> ret = new ArrayList<>();
     ret.add(new NumberCard("blue", 0));
@@ -99,6 +93,16 @@ public class MockGameViewInterface implements GameStateViewInterface {
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
 
+  }
+
+  @Override
+  public boolean userPicksCard() {
+    return false;
+  }
+
+  @Override
+  public Collection<Integer> getValidIndexes() {
+    return null;
   }
 
   @Override
