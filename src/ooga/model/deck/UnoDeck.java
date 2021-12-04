@@ -10,16 +10,18 @@ import ooga.model.cards.TwoSidedCard;
 public class UnoDeck extends CardPile{
 
     private CardFactory myCardFactory;
+    private String deckVersion;
 
     public UnoDeck(String version){
+        deckVersion = version;
         myCardFactory = new CardFactory();
-        createDeck(version);
+        createDeck();
     }
 
 
-    private void createDeck(String version){
+    private void createDeck(){
         ResourceBundle deckProperties = ResourceBundle.getBundle(
-                "ooga.model.gameState." + version + "Deck");
+                "ooga.model.gameState." + deckVersion + "Deck");
 
         List<String> colors = List.of(deckProperties.getString("Colors").split(","));
         List<String> actionCards = List.of(deckProperties.getString("ActionCards").split(","));

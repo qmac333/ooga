@@ -21,4 +21,41 @@ public interface DeckWrapperInterface {
      * @param card
      */
     public void discard(CardInterface card);
+
+
+    /**
+     * returns the deck of cards
+     * @return
+     */
+    public CardPileInterface getDeck();
+
+
+    /**
+     * returns the discard pile
+     * @return
+     */
+    public CardPileInterface getDiscardPile();
+
+
+    /**
+     * returns the last card thrown
+     * @return
+     */
+    public CardInterface getLastCard();
+
+    /**
+     * returns the top card of the deck
+     * @return
+     */
+    public CardInterface getTopCard();
+
+
+    /**
+     * allows class calling to peek the top of the discard pile
+     * @return
+     */
+    public CardInterface peekTopDiscard();
+
 }
+
+

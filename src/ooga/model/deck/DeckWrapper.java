@@ -25,4 +25,29 @@ public class DeckWrapper implements DeckWrapperInterface{
     public void discard(CardInterface card) {
         myDiscardPile.placeOnTop(card);
     }
+
+    @Override
+    public CardPileInterface getDeck() {
+        return myDeck;
+    }
+
+    @Override
+    public CardPileInterface getDiscardPile() {
+        return myDiscardPile;
+    }
+
+    @Override
+    public CardInterface getLastCard() {
+        return myDiscardPile.lastCardPushed();
+    }
+
+    @Override
+    public CardInterface getTopCard() {
+        return myDeck.popTopCard();
+    }
+
+    @Override
+    public CardInterface peekTopDiscard() {
+        return myDiscardPile.lastCardPushed();
+    }
 }

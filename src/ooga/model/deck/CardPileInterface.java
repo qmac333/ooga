@@ -5,6 +5,7 @@ import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 
 import java.util.Collection;
+import java.util.Stack;
 
 /**
  * Interface which describes the functionality of both the Uno card deck and the discard pile.
@@ -34,7 +35,7 @@ public interface CardPileInterface {
      * allows caller to see the card at the top of a
      * pile of cards
      */
-    OneSidedCard lastCardPushed();
+    CardInterface lastCardPushed();
 
     /**
      * removes a card from the top of a pile of cards
@@ -46,4 +47,11 @@ public interface CardPileInterface {
      * emptying the first one in the process
      */
     void copyOver(CardPileInterface other);
+
+
+    /**
+     * sets the pile the a new Stack
+     * @param p
+     */
+    public void setPile(Stack<CardInterface> p);
 }
