@@ -169,7 +169,6 @@ public class UnoDisplay implements GameScreen {
   private void changeInteractiveInput() {
     // remove any interactive input already on the screen
     if (centerPanel.getChildren().size() > centerPanelBaseNodes ) {
-      System.out.println("Remove");
       centerPanel.getChildren().remove(INTERACTIVE_NODES_INDEX, centerPanel.getChildren().size() - centerPanelBaseNodes + 1);
     }
 
