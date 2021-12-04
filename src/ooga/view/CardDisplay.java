@@ -24,10 +24,10 @@ public class CardDisplay {
   private static final String LOGO = "Logo";
 
   private static final Map<String, Color> COLORS = Map.of(
-      "blue", Color.BLUE,
-      "red", Color.RED,
-      "green", Color.GREEN,
-      "yellow", Color.YELLOW
+      "Blue", Color.BLUE,
+      "Red", Color.RED,
+      "Green", Color.GREEN,
+      "Yellow", Color.YELLOW
   );
 
   private static Color DEFAULT_COLOR = Color.BLACK;
