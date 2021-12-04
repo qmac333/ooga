@@ -355,7 +355,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - version
    */
   public String getVersion() {
@@ -364,7 +363,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
@@ -373,7 +371,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - points required to win
    */
   public int getPointsToWin() {
@@ -382,7 +379,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return initial game parameter - boolean indicating stackable
    */
   public boolean getStackable() {
@@ -391,7 +387,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - list of each Players' Hands
    */
   public List<Hand> getMyHands() {
@@ -404,7 +399,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - discard pile
    */
   public CardPile getMyDiscardPile() {
@@ -413,7 +407,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - deck
    */
   public CardPile getMyDeck() {
@@ -422,7 +415,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - impending draw number
    */
   public int getImpendingDraw() {
@@ -431,7 +423,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating skip next player
    */
   public boolean getSkipNext() {
@@ -440,7 +431,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating skip every player
    */
   public boolean getSkipEveryone() {
@@ -449,7 +439,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - array of players' points
    */
   public int[] getPlayerPoints() {
@@ -458,7 +447,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   /**
    * Used by the Save File feature
-   *
    * @return game in progress parameter - boolean indicating UNO has been reached
    */
   public boolean getUno() {
@@ -466,8 +454,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
-   *
+   * Checks whether two GameState objects have the same initial parameters - TESTING PURPOSES ONLY
    * @param other GameState object to compare this object with
    * @return boolean indicating whether the initial parameters are equal
    */
@@ -478,6 +465,33 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition4 = (stackable == other.getStackable());
 
     return condition1 && condition2 && condition3 && condition4;
+  }
+
+  /**
+   * Checks whether two GameState objects have the same game in progress parameters - TESTING PURPOSES ONLY
+   * @param other GameState object to compare this object with
+   * @return boolean indicating whether the GameState's are equal
+   */
+  public boolean compareGameInProgressParameters(GameState other){
+    boolean condition1 = compareInitialParameters(other);
+    boolean condition2 = comparePlayerHands(other);
+    boolean condition3 = other.getMyDeck().getStack().equals(myDeck.getStack());
+    boolean condition4 = other.getMyDiscardPile().getStack().equals(myDiscardPile.getStack());
+
+    return condition1 && condition2 && condition3;
+  }
+
+  private boolean comparePlayerHands(GameState other){
+    for(int i = 0; i < myPlayers.size(); i++){
+      Hand thisHand = this.getMyHands().get(i);
+      List<CardInterface> thisHandCards = thisHand.getMyCards();
+      Hand otherHand = other.getMyHands().get(i);
+      List<CardInterface> otherHandCards = otherHand.getMyCards();
+      if(!thisHandCards.equals(otherHandCards)){
+        return false;
+      }
+    }
+    return true;
   }
 
   // Creates the list of players based on the map that's passed into the constructor

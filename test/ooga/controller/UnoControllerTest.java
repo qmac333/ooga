@@ -278,6 +278,22 @@ public class UnoControllerTest extends DukeApplicationTest {
         }
     }
 
+    @Test
+    void checkingModelAfterReloadingAndPlayingGameInProgress(){
+        assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_4));
+        for(int i = 0; i < 10; i++){
+            controller.getModel().playTurn();
+        }
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME_4));
+        GameState expected = controller.getModel();
+        runAsJFXAction(() -> controller.backButtonHandler());
+        assertTrue(controller.loadFile(SAVE_FILENAME_4_PATH));
+        assertTrue(controller.getModel().compareGameInProgressParameters(expected));
+    }
+
 
     // TODO: Figure out why card color says black initially for reloaded game where the first card of discard pile is wild card
     // TODO: Check model after loading game in progress (similar to earlier tests)
