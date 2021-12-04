@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -153,11 +154,24 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void finishTurn() {
+    checkWinner();
     render();
     changeInteractiveInput();
+
   }
 
+  // checks if the current player has won, and if so to restart the game
+  private void checkWinner() {
+    int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
+    String playerName = controller.getGameState().getPlayerNames().get(currentPlayerIndex);
+    int numPoints = 0; //TODO: determine points
 
+    if (controller.getGameState().getEndGame()) {
+      String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
+      showMessage(alertString, AlertType.INFORMATION);
+      // TODO: reset the game
+    }
+  }
 
   public void render() {
     deckDisplay.update();
@@ -203,7 +217,7 @@ public class UnoDisplay implements GameScreen {
     if (filename != null) {
       boolean successfulSave = controller.saveCurrentFile(filename);
       if (!successfulSave) {
-        showError(languageResources.getString("InvalidFile"));
+        showMessage(languageResources.getString("InvalidFile"), AlertType.ERROR);
       }
     }
   }
@@ -225,8 +239,8 @@ public class UnoDisplay implements GameScreen {
   }
 
   // displays alert/error message to the user
-  private void showError(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
+  private void showMessage(String alertMessage, AlertType type) {
+    Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
     alert.show();
   }
