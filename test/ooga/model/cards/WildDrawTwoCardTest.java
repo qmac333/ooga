@@ -2,14 +2,19 @@ package ooga.model.cards;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,6 +23,7 @@ public class WildDrawTwoCardTest {
 
   WildDrawTwoCard wdt;
   Player player;
+  PlayerGroup group;
 
   @Mock
   Supplier colorSupplier;
@@ -28,13 +34,15 @@ public class WildDrawTwoCardTest {
   GameState gameState;
 
   @BeforeEach
-  void start() {
+  void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     colorSupplier = mock(Supplier.class);
     when(colorSupplier.get()).thenReturn("red");
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
-    wdt = new WildDrawTwoCard(null);
-    player = new HumanPlayer("Paul", mockedGameState);
+    group = new PlayerGroup(new HashMap<>(), mockedGameState);
+    wdt = new WildDrawTwoCard("Black");
+    player = new HumanPlayer("Paul", group);
     player.setSuppliers(null, colorSupplier);
   }
 

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.PlayerGroupInterface;
 import ooga.model.player.PlayerInterface;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,14 +46,14 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
    * {@inheritDoc}
    */
   @Override
-  public void play(int indexOfCard, GameStatePlayerInterface game, PlayerInterface player)
+  public void play(int indexOfCard, PlayerGroupInterface group, PlayerInterface player)
       throws InvalidCardSelectionException {
     if (indexOfCard >= myCards.size()) {
       throw new InvalidCardSelectionException(
           String.format("Input index: %d is too large", indexOfCard));
     }
     myCards.get(indexOfCard).executeAction(player);
-    game.discardCard(myCards.get(indexOfCard));
+    group.discardCard(myCards.get(indexOfCard));
     myCards.remove(indexOfCard);
   }
 

@@ -11,6 +11,7 @@ import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
 import ooga.model.gameState.GameStateViewInterface;
+import ooga.model.player.ViewPlayerInterface;
 
 public class MockGameViewInterface implements GameStateViewInterface {
 
@@ -27,15 +28,9 @@ public class MockGameViewInterface implements GameStateViewInterface {
     playerNames.addAll(Arrays.asList("Quentin", "Andrew", "Will"));
   }
 
-
   @Override
-  public List<String> getPlayerNames() {
-    return playerNames;
-  }
-
-  @Override
-  public List<Integer> getCardCounts() {
-    return cardCounts;
+  public List<ViewPlayerInterface> getPlayers() {
+    return null;
   }
 
   @Override
