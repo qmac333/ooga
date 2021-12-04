@@ -48,7 +48,7 @@ public class UnoDeck extends CardPile{
 
         createCardsFromData(colors, numActionCards, actionCards, cards);
         createCardsFromData(colors, numNumberCards, numberCards, cards);
-        createCardsFromData(colors, numWildCards, wildCards, cards);
+        createCardsFromData(List.of("Black"), numWildCards, wildCards, cards);
         if(numTwoSidedCards != -1){
             createCardsFromData(colors, numTwoSidedCards,
                     twoSidedCardFronts, twoSidedCardBacks,
