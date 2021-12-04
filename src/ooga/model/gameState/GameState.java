@@ -478,7 +478,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition3 = other.getMyDeck().getStack().equals(myDeck.getStack());
     boolean condition4 = other.getMyDiscardPile().getStack().equals(myDiscardPile.getStack());
 
-    return condition1 && condition2 && condition3;
+    return condition1 && condition2 && condition3 && condition4;
   }
 
   private boolean comparePlayerHands(GameState other){
