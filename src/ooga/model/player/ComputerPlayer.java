@@ -1,8 +1,6 @@
 package ooga.model.player;
 
-import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
-import ooga.model.gameState.GameStatePlayerInterface;
 
 /**
  * @author Paul Truitt
@@ -11,8 +9,8 @@ import ooga.model.gameState.GameStatePlayerInterface;
  */
 public class ComputerPlayer extends Player {
 
-  public ComputerPlayer(String name, GameStatePlayerInterface game) {
-    super(name, game);
+  public ComputerPlayer(String name, PlayerGroupInterface group) {
+    super(name, group);
   }
 
   /**
@@ -21,11 +19,11 @@ public class ComputerPlayer extends Player {
   @Override
   public void playCard() {
     int position = 0;
-    GameStatePlayerInterface game = super.getMyGame();
+    PlayerGroupInterface group = super.getMyGroup();
     for (CardInterface card : super.getMyHand()) {
-      if (game.canPlayCard(card)) {
+      if (group.canPlayCard(card)) {
         try {
-          super.getMyHand().play(position, game, this);
+          super.getMyHand().play(position, group, this);
         } catch (Exception e){
           e.printStackTrace();
         }
@@ -33,7 +31,7 @@ public class ComputerPlayer extends Player {
       }
       position++;
     }
-    super.addCards(game.noPlayDraw());
+    super.addCards(group.noPlayDraw());
   }
 
   /**

@@ -1,10 +1,13 @@
 package ooga.model.cards;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerGroup;
+import ooga.model.player.PlayerGroupInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -17,18 +20,21 @@ import static org.mockito.Mockito.when;
 
 public class ActionCardTests extends DukeApplicationTest {
 
-  GameState game;
+  PlayerGroupInterface group;
   Player player;
+  GameState game;
 
   @Mock
   Supplier colorSupplier;
 
   @BeforeEach
-  public void start() {
-    game = new GameState("Basic", new HashMap<>(), 100, false);
+  public void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    game = new GameState();
+    group = new PlayerGroup(new HashMap<>(), game);
     colorSupplier = mock(Supplier.class);
     when(colorSupplier.get()).thenReturn("red");
-    player = new HumanPlayer("Paul", game);
+    player = new HumanPlayer("Paul", group);
     player.setSuppliers(null, colorSupplier);
   }
 
@@ -53,7 +59,7 @@ public class ActionCardTests extends DukeApplicationTest {
 
     OneSidedCard rc = new ReverseCard("red");
     rc.executeAction(player);
-    assertEquals(-1, game.getOrder());
+    assertEquals(-1, group.getMyOrder());
   }
 
   @Test

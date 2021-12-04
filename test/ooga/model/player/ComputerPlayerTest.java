@@ -4,7 +4,6 @@ import java.util.List;
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.SkipCard;
-import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,14 +18,14 @@ public class ComputerPlayerTest {
   ComputerPlayer myPlayer;
 
   @Mock
-  GameState gameState;
+  PlayerGroupInterface mockGroup;
 
   CardInterface cardToPlay;
 
   @BeforeEach
   public void setUp(){
-    gameState = Mockito.mock(GameState.class);
-    myPlayer = new ComputerPlayer("Paul", gameState);
+    mockGroup = Mockito.mock(PlayerGroup.class);
+    myPlayer = new ComputerPlayer("Paul", mockGroup);
   }
 
   @Test
@@ -34,7 +33,7 @@ public class ComputerPlayerTest {
     // GIVEN a player is asked to play with an empty hand
     myPlayer.playCard();
     // THEN they draw
-    verify(gameState, times(1)).noPlayDraw();
+    verify(mockGroup, times(1)).noPlayDraw();
   }
 
   @Test
@@ -42,10 +41,10 @@ public class ComputerPlayerTest {
     // GIVEN the player is asked to play when they don't have a rule abiding card
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));
-    when(gameState.canPlayCard(any(OneSidedCard.class))).thenReturn(false);
+    when(mockGroup.canPlayCard(any(OneSidedCard.class))).thenReturn(false);
     myPlayer.playCard();
     // THEN they draw
-    verify(gameState, times(1)).noPlayDraw();
+    verify(mockGroup, times(1)).noPlayDraw();
   }
 
   @Test
@@ -53,11 +52,11 @@ public class ComputerPlayerTest {
     // GIVEN the player has a card they can play
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));
-    when(gameState.canPlayCard(any(OneSidedCard.class))).thenReturn(true);
+    when(mockGroup.canPlayCard(any(OneSidedCard.class))).thenReturn(true);
     myPlayer.playCard();
     // THEN the card's action is performed
-    verify(gameState, times(1)).skipNextPlayer();
+    verify(mockGroup, times(1)).skipNextPlayer();
     // AND they don't draw
-    verify(gameState, times(0)).getNextCard();
+    verify(mockGroup, times(0)).noPlayDraw();
   }
 }

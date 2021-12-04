@@ -6,10 +6,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.function.Supplier;
 import ooga.model.gameState.GameState;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,6 +21,7 @@ public class WildDrawColorCardTest {
 
   WildDrawColorCard wdcc;
   Player mockedPlayer;
+  PlayerGroup group;
 
   @Mock
   Supplier colorSupplier;
@@ -28,13 +32,15 @@ public class WildDrawColorCardTest {
   GameState gameState;
 
   @BeforeEach
-  void start() {
+  void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     colorSupplier = mock(Supplier.class);
     when(colorSupplier.get()).thenReturn("red");
     mockedGameState = mock(GameState.class);
     gameState = new GameState();
-    wdcc = new WildDrawColorCard(null);
-    mockedPlayer = new HumanPlayer("Paul", mockedGameState);
+    wdcc = new WildDrawColorCard("Black");
+    group = new PlayerGroup(new HashMap<>(), mockedGameState);
+    mockedPlayer = new HumanPlayer("Paul", group);
     mockedPlayer.setSuppliers(null, colorSupplier);
   }
 
@@ -42,7 +48,6 @@ public class WildDrawColorCardTest {
   void correctDefaultValues() {
     assertEquals("WildDrawColor", wdcc.getType());
     assertEquals(60, wdcc.getNum());
-    assertEquals("Black", wdcc.getMyColor());
   }
 
   @Test

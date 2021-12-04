@@ -7,24 +7,19 @@ import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
+import ooga.model.player.ViewPlayerInterface;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.
  */
 public interface GameStateViewInterface {
 
-  public static final int CLOCKWISE = 0;
-  public static final int COUNTERCLOCKWISE = 1;
-
   /**
-   * @return a unmodifiable list of all player names
+   * Returns all players in a view friendly way
+   *
+   * @return The players
    */
-  List<String> getPlayerNames();
-
-  /**
-   * @return an unmodifiable list of card counts in each player's hand
-   */
-  List<Integer> getCardCounts();
+  List<ViewPlayerInterface> getPlayers();
 
   /**
    * return an integer corresponding to the direction of gameplay (CLOCKWISE vs COUNTERCLOCKWISE)
@@ -122,10 +117,4 @@ public interface GameStateViewInterface {
    * @return the indexes of cards that can be played by the user
    */
   Collection<Integer> getValidIndexes();
-
-  /**
-   * @return the number of points for each player
-   * TODO: must fix in GameState, need some way to get number of points as an unmodifiable value
-   */
-  int[] getPlayerPoints();
 }

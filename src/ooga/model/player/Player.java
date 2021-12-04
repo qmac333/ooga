@@ -6,21 +6,22 @@ import java.util.List;
 import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
-import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
 
-public abstract class Player implements PlayerInterface {
+public abstract class Player implements PlayerInterface, ViewPlayerInterface {
 
   private Hand myHand;
   private String myName;
-  private GameStatePlayerInterface myGame;
+  private PlayerGroupInterface myGroup;
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
+  private int myPoints;
 
-  public Player(String name, GameStatePlayerInterface game) {
+  public Player(String name, PlayerGroupInterface group) {
     myName = name;
-    myGame = game;
+    myGroup = group;
     myHand = new Hand();
+    myPoints = 0;
   }
 
   /**
@@ -81,7 +82,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void flipHand(){
+  public void flipHand() {
     myHand.flip();
   }
 
@@ -95,50 +96,50 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void flipGame(){
-    myGame.flipCards();
+  public void flipGame() {
+    myGroup.flipGame();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void reverseGame(){
-    myGame.reverseGamePlay();
+  public void reverseGame() {
+    myGroup.reverseOrder();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void skipNextPlayer(){
-    myGame.skipNextPlayer();
+  public void skipNextPlayer() {
+    myGroup.skipNextPlayer();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void skipEveryone(){
-    myGame.skipEveryone();
+  public void skipEveryone() {
+    myGroup.skipEveryone();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void enforceDraw(int drawAmount){
-    myGame.addDraw(drawAmount);
+  public void enforceDraw(int drawAmount) {
+    myGroup.enforceDraw(drawAmount);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void discardColor(String color){
+  public void discardColor(String color) {
     Collection<CardInterface> cards = myHand.removeColor(color);
-    for (CardInterface card : cards){
-      myGame.discardCard(card);
+    for (CardInterface card : cards) {
+      myGroup.discardCard(card);
     }
   }
 
@@ -147,7 +148,8 @@ public abstract class Player implements PlayerInterface {
    *
    * @param hand Hand to give the player
    */
-  public void loadHand(Hand hand){
+  @Override
+  public void loadHand(Hand hand) {
     myHand = hand;
   }
 
@@ -155,17 +157,33 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier){
+  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
     myIntegerSupplier = integerSupplier;
     myStringSupplier = stringSupplier;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public Collection<Integer> getValidIndexes(){
+  public int getPoints() {
+    return myPoints;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void awardPoints(int amount) {
+    myPoints += amount;
+  }
+
+  @Override
+  public Collection<Integer> getValidIndexes() {
     List<Integer> indexes = new ArrayList<>();
     int currentIndex = 0;
-    for (CardInterface card : myHand){
-      if (myGame.canPlayCard(card)){
+    for (CardInterface card : myHand) {
+      if (myGroup.canPlayCard(card)) {
         indexes.add(currentIndex);
       }
       currentIndex++;
@@ -176,22 +194,23 @@ public abstract class Player implements PlayerInterface {
   /**
    * @return hand held by player
    */
+  @Override
   public Hand getMyHand() {
     return myHand;
   }
 
   // Returns the players Game
-  protected GameStatePlayerInterface getMyGame() {
-    return myGame;
+  protected PlayerGroupInterface getMyGroup() {
+    return myGroup;
   }
 
   // Returns supplier used to get Hand index
-  protected Supplier<Integer> getMyIntegerSupplier(){
+  protected Supplier<Integer> getMyIntegerSupplier() {
     return myIntegerSupplier;
   }
 
   // Returns supplier used to get Color
-  protected Supplier<String> getMyStringSupplier(){
+  protected Supplier<String> getMyStringSupplier() {
     return myStringSupplier;
   }
 }

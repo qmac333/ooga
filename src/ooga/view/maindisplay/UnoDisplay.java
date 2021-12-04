@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
+import ooga.model.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.view.GameScreen;
 import ooga.view.HandListDisplay;
@@ -163,8 +164,9 @@ public class UnoDisplay implements GameScreen {
   // checks if the current player has won, and if so to restart the game
   private void checkWinner() {
     int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
-    String playerName = controller.getGameState().getPlayerNames().get(currentPlayerIndex);
-    int numPoints = controller.getGameState().getPlayerPoints()[currentPlayerIndex];
+    ViewPlayerInterface currentPlayer = controller.getGameState().getPlayers().get(currentPlayerIndex);
+    String playerName = currentPlayer.getName();
+    int numPoints = currentPlayer.getPoints();
 
     if (controller.getGameState().getEndGame()) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);

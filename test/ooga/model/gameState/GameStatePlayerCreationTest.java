@@ -3,8 +3,11 @@ package ooga.model.gameState;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import ooga.model.player.ViewPlayerInterface;
 import org.junit.jupiter.api.Test;
 
 public class GameStatePlayerCreationTest {
@@ -15,7 +18,7 @@ public class GameStatePlayerCreationTest {
     // GIVEN we start a game with an empty map
     gameState = new GameState("Basic", new HashMap<>(), 100, false);
     // THEN we have an empty set of names
-    assertEquals(0, gameState.getPlayerNames().size());
+    assertEquals(0, gameState.getPlayers().size());
   }
 
   @Test
@@ -26,7 +29,7 @@ public class GameStatePlayerCreationTest {
     map.put("Paul", "CPU");
     gameState = new GameState("Basic", map, 100, false);
     // THEN we have one name
-    assertEquals(1, gameState.getPlayerNames().size());
+    assertEquals(1, gameState.getPlayers().size());
   }
 
   @Test
@@ -38,10 +41,15 @@ public class GameStatePlayerCreationTest {
     map.put("Will", "Human");
     map.put("Drew", "Human");
     gameState = new GameState("Basic", map, 100, false);
+    List<ViewPlayerInterface> players = gameState.getPlayers();
+    List<String> names = new ArrayList<>();
+    for (ViewPlayerInterface player : players){
+      names.add(player.getName());
+    }
     // THEN we will have three names returned with correct names
-    assertEquals(3, gameState.getPlayerNames().size());
-    assertTrue(gameState.getPlayerNames().contains("Paul"));
-    assertTrue(gameState.getPlayerNames().contains("Will"));
-    assertTrue(gameState.getPlayerNames().contains("Drew"));
+    assertEquals(3, gameState.getPlayers().size());
+    assertTrue(names.contains("Paul"));
+    assertTrue(names.contains("Will"));
+    assertTrue(names.contains("Drew"));
   }
 }
