@@ -67,7 +67,7 @@ public class DeckDisplayTest extends DukeApplicationTest {
   public void checkDiscardPileImage() {
     display = controller.getUnoDisplay();
     // find the card on top of the discard pile
-    controller.getModel().discardCard(new NumberCard("red", 9));
+    controller.getModel().discardCard(new NumberCard("Red", 9));
     runAsJFXAction(() -> display.render());
 
     Parent viewCardVisual = lookup("#" + DeckDisplay.DISCARD_PILE_CSS).query();
