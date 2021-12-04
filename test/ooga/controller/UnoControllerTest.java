@@ -50,11 +50,15 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void loadingNewFile(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
     }
 
     @Test
     void loadingNewInvalidFile(){
         assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
     }
 
     @Test
@@ -103,6 +107,8 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 778;
         boolean stackable = true;
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNotNull(controller.getUnoDisplay());
     }
 
     @Test
@@ -112,6 +118,8 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 9;
         boolean stackable = false;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
     }
 
     @Test
@@ -123,6 +131,8 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 99;
         boolean stackable = true;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
     }
 
     @Test
@@ -135,6 +145,8 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = -1;
         boolean stackable = false;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        runAsJFXAction(() -> controller.playNewGame());
+        assertNull(controller.getUnoDisplay());
     }
 
     @Test
@@ -152,57 +164,8 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    void checkingModelObjectAfterManuallySettingInvalidGameParameters(){
-        String version = null;
-        Map<String, String> playerMap = new HashMap<>();
-        int pointsToWin = -1;
-        boolean stackable = false;
-        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        assertNull(controller.getModel());
-    }
-
-    @Test
     void playingNewGameBeforeLoadingFileOrManuallySettingParameters(){
         assertFalse(controller.playNewGame());
-    }
-
-    @Test
-    void playingNewGameAfterLoadingNewFile(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
-        assertNotNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void playingNewGameAfterLoadingNewInvalidFile(){
-        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
-        assertNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void playingNewGameAfterManuallySettingParameters(){
-        String version = "Basic";
-        Map<String, String> playerMap = new HashMap<>();
-        playerMap.put("player1", "Human");
-        playerMap.put("Player 2", "Human");
-        playerMap.put("Player3", "CPU");
-        int pointsToWin = 778;
-        boolean stackable = true;
-        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
-        assertNotNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void playingNewGameAfterManuallySettingInvalidParameters(){
-        String version = null;
-        Map<String, String> playerMap = new HashMap<>();
-        int pointsToWin = -1;
-        boolean stackable = false;
-        assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
-        assertNull(controller.getUnoDisplay());
     }
 
     @Test
