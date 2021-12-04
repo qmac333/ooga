@@ -32,12 +32,9 @@ public class GameStateJsonAdapter {
             CardPile myDeck = cardListToPile(myDeckList);
 
             int impendingDraw = myGameStateJson.getImpendingDraw();
-            boolean skipNext = myGameStateJson.getSkipNext();
-            boolean skipEveryone = myGameStateJson.getSkipEveryone();
             int order = myGameStateJson.getOrder();
-            boolean uno = myGameStateJson.getUno();
-            myGameState.loadExistingGame(currentPlayer, myHands, myDiscardPile, myDeck, impendingDraw, skipNext,
-                    skipEveryone, order, uno);
+            myGameState.loadExistingGame(currentPlayer, myHands, myDiscardPile, myDeck, impendingDraw,
+                    order);
         }
         return myGameState;
     }
@@ -58,13 +55,10 @@ public class GameStateJsonAdapter {
         List<CardInterface> myDeckList = cardPileToList(myDeck);
 
         int impendingDraw = myGameState.getImpendingDraw();
-        boolean skipNext = myGameState.getSkipNext();
-        boolean skipEveryone = myGameState.getSkipEveryone();
         int order = myGameState.getOrder();
-        boolean uno = myGameState.getUno();
 
         GameStateJson myGameStateJson = new GameStateJson(version, playerMap, points, stackable, currentPlayer, myHands,
-                myDiscardList, myDeckList, impendingDraw, skipNext, skipEveryone, order, uno);
+                myDiscardList, myDeckList, impendingDraw, order);
         return myGameStateJson;
     }
 

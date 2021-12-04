@@ -2,10 +2,14 @@ package ooga.model.cards;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
 import ooga.model.gameState.GameState;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerGroup;
+import ooga.model.player.PlayerGroupInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +18,14 @@ public class DiscardColorCardTest {
   Player player;
   DiscardColorCard dcc;
   GameState gameState;
+  PlayerGroupInterface group;
 
   @BeforeEach
-  void start() {
+  void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     gameState = new GameState();
-    player = new HumanPlayer("Paul", gameState);
+    group = new PlayerGroup(new HashMap<>(), gameState);
+    player = new HumanPlayer("Paul", group);
     dcc = new DiscardColorCard("Red");
   }
 

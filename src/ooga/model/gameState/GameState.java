@@ -15,7 +15,7 @@ import ooga.model.player.Player;
 
 import ooga.model.player.PlayerGroup;
 import ooga.model.player.PlayerGroupInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.ViewPlayerInterface;
 import ooga.model.rules.RuleInterface;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
@@ -51,7 +51,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myDeck = new UnoDeck(version);
     this.version = gameStateResources.getString(version);
     this.stackable = stackable;
-    myPlayerGroup = new PlayerGroup(playerMap, this);
+    try {
+      myPlayerGroup = new PlayerGroup(playerMap, this);
+    } catch(Exception e){
+      e.printStackTrace();
+    }
 
     ruleResources = ResourceBundle.getBundle(
         String.format(gameStateResources.getString("RulesBase"), version));
@@ -59,11 +63,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     try {
       myRules = createRules();
       myDrawRule = createDrawRule();
-      createPlayers();
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    myPlayerGroup.dealCards(myDeck, NUM_CARDS_PER_PLAYER);
+    myDiscardPile.placeOnTop(myDeck.popTopCard());
     uno = false;
     endGame = false;
   }
@@ -75,7 +79,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     this.pointsToWin = 100;
     myDiscardPile = new CardPile();
-    myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
+    try {
+      myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
+    } catch (Exception e){
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -86,43 +94,26 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @param myDiscardPile
    * @param myDeck
    * @param impendingDraw
-   * @param skipNext
-   * @param skipEveryone
    * @param order
-   * @param uno
    */
   public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile,
-      CardPile myDeck,
-      int impendingDraw, boolean skipNext, boolean skipEveryone, int order,
-      boolean uno) {
-    this.currentPlayer = currentPlayer;
+      CardPile myDeck, int impendingDraw, int order) {
     this.myDiscardPile = myDiscardPile;
     this.myDeck = myDeck;
     this.impendingDraw = impendingDraw;
-    this.skipNext = skipNext;
-    this.skipEveryone = skipEveryone;
-    this.order = order;
+    myPlayerGroup.setOrder(order);
     this.uno = uno;
-
-    for (int i = 0; i < myPlayers.size(); i++) {
-      myPlayers.get(i).loadHand(myHands.get(i));
-    }
+    myPlayerGroup.loadHands(myHands);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public List<String> getPlayerNames() {
-    return myPlayerGroup.getNames();
+  public List<ViewPlayerInterface> getPlayers() {
+    return myPlayerGroup.getViewPlayers();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public List<Integer> getCardCounts() {
-    return myPlayerGroup.getHandSizes();
+  public int getGameplayDirection() {
+    return myPlayerGroup.getMyOrder();
   }
 
   /**
@@ -162,7 +153,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void reverseGamePlay() {
-    order *= -1;
+    // Do Nothing, Deprecated
   }
 
   /**
@@ -170,7 +161,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void skipNextPlayer() {
-    skipNext = true;
+    // Do Nothing, Deprecated
   }
 
   /**
@@ -178,7 +169,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void skipEveryone() {
-    skipEveryone = true;
+    // Do Nothing, Deprecated
   }
 
   /**
@@ -186,16 +177,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void playTurn() {
-    // FIXME: Make a deck thing that will work
-
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int getGameplayDirection() {
-    return order;
+    myPlayerGroup.playTurn();
   }
 
   /**
@@ -203,7 +185,15 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void addPlayer(Player p) {
-    myPlayers.add(p);
+    myPlayerGroup.addPlayer(p);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int getOrder() {
+    return 0; // Deprecated
   }
 
   /**
@@ -211,7 +201,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public int getCurrentPlayer() {
-    return currentPlayer;
+    return myPlayerGroup.getCurrentPlayer();
   }
 
   /**
@@ -219,7 +209,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
-    return myPlayers.get(currentPlayer).getViewCards();
+    return myPlayerGroup.getCurrentPlayerCards();
   }
 
   /**
@@ -243,9 +233,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void flipCards() {
-    for (Player p : myPlayers) {
-      p.flipHand();
-    }
+    // Do Nothing (Deprecated)
   }
 
   /**
@@ -285,14 +273,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int getOrder() {
-    return order;
-  }
-
-  /**
    * Used by the Save File feature
    *
    * @return initial game parameter - version
@@ -307,7 +287,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @return initial game parameter - map of player names to player type (human or CPU)
    */
   public Map<String, String> getPlayerMap() {
-    return playerMap;
+    return myPlayerGroup.getPlayerMap();
   }
 
   /**
@@ -334,11 +314,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @return game in progress parameter - list of each Players' Hands
    */
   public List<Hand> getMyHands() {
-    List<Hand> myHands = new ArrayList<>();
-    for (Player player : myPlayers) {
-      myHands.add(player.getMyHand());
-    }
-    return myHands;
+    return myPlayerGroup.getHands();
   }
 
   /**
@@ -369,33 +345,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   /**
-   * Used by the Save File feature
-   *
-   * @return game in progress parameter - boolean indicating skip next player
-   */
-  public boolean getSkipNext() {
-    return skipNext;
-  }
-
-  /**
-   * Used by the Save File feature
-   *
-   * @return game in progress parameter - boolean indicating skip every player
-   */
-  public boolean getSkipEveryone() {
-    return skipEveryone;
-  }
-
-  /**
-   * Used by the Save File feature
-   *
-   * @return game in progress parameter - boolean indicating UNO has been reached
-   */
-  public boolean getUno() {
-    return uno;
-  }
-
-  /**
    * Checks whether two GameState objects have the same initial parameters - FOR TESTING PURPOSES ONLY
    *
    * @param other GameState object to compare this object with
@@ -403,7 +352,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public boolean compareInitialParameters(GameState other) {
     boolean condition1 = version.equals(other.getVersion());
-    boolean condition2 = playerMap.equals(other.getPlayerMap());
+    boolean condition2 = myPlayerGroup.getPlayerMap().equals(other.getPlayerMap());
     boolean condition3 = (pointsToWin == other.getPointsToWin());
     boolean condition4 = (stackable == other.getStackable());
 
@@ -415,31 +364,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Deprecated
   public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    for (String name : playerMap.keySet()) {
-      Class<?> playerClass = Class.forName(
-          String.format(gameStateResources.getString("PlayerClassBase"),
-              gameStateResources.getString(playerMap.get(name))));
-      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-              GameStatePlayerInterface.class, Supplier.class, Supplier.class)
-          .newInstance(name, this, integerSupplier, stringSupplier);
-      myPlayers.add(player);
-    }
-    dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
-  }
-
-  private void createPlayers()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    for (String name : playerMap.keySet()) {
-      Class<?> playerClass = Class.forName(
-          String.format(gameStateResources.getString("PlayerClassBase"),
-              gameStateResources.getString(playerMap.get(name))));
-      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          GameStatePlayerInterface.class).newInstance(name, this);
-      myPlayers.add(player);
-    }
-    dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+    // Do Nothing, Deprecated
   }
 
 
@@ -448,35 +373,22 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Deprecated
   public void createPlayers(Supplier<Integer> integerSupplier)
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    for (String name : playerMap.keySet()) {
-      Class<?> playerClass = Class.forName(
-          String.format(gameStateResources.getString("PlayerClassBase"),
-              gameStateResources.getString(playerMap.get(name))));
-      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-              GameStatePlayerInterface.class, Supplier.class, Supplier.class)
-          .newInstance(name, this, integerSupplier, null);
-      myPlayers.add(player);
-    }
-    dealCards();
-    myDiscardPile.placeOnTop(myDeck.popTopCard());
+    // Do Nothing, Deprecated
   }
 
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
-    for (PlayerInterface p : myPlayers) {
-      p.setSuppliers(integerSupplier, stringSupplier);
-    }
+    myPlayerGroup.setSuppliers(integerSupplier, stringSupplier);
   }
 
   @Override
   public boolean userPicksCard() {
-    String currentPlayerName = myPlayers.get(currentPlayer).getName();
-    return playerMap.get(currentPlayerName).equals("Human");
+    return myPlayerGroup.userPicksCard();
   }
 
   @Override
   public Collection<Integer> getValidIndexes() {
-    return myPlayers.get(currentPlayer).getValidIndexes();
+    return myPlayerGroup.getCurrentPlayerValidIndexes();
   }
 
 
@@ -500,15 +412,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       ret.add((RuleInterface) clazz.getDeclaredConstructor().newInstance());
     }
     return ret;
-  }
-
-  private void dealCards() {
-    for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
-      for (Player myPlayer : myPlayers) {
-        CardInterface newCard = myDeck.popTopCard();
-        myPlayer.addCards(List.of(newCard));
-      }
-    }
   }
 
   /**

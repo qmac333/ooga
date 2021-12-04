@@ -6,21 +6,20 @@ import java.util.List;
 import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
-import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
 
-public abstract class Player implements PlayerInterface {
+public abstract class Player implements PlayerInterface, ViewPlayerInterface {
 
   private Hand myHand;
   private String myName;
-  private GameStatePlayerInterface myGame;
+  private PlayerGroupInterface myGroup;
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
   private int myPoints;
 
-  public Player(String name, GameStatePlayerInterface game) {
+  public Player(String name, PlayerGroupInterface group) {
     myName = name;
-    myGame = game;
+    myGroup = group;
     myHand = new Hand();
     myPoints = 0;
   }
@@ -98,7 +97,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public void flipGame() {
-    myGame.flipCards();
+    myGroup.flipGame();
   }
 
   /**
@@ -106,7 +105,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public void reverseGame() {
-    myGame.reverseGamePlay();
+    myGroup.reverseOrder();
   }
 
   /**
@@ -114,7 +113,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public void skipNextPlayer() {
-    myGame.skipNextPlayer();
+    myGroup.skipNextPlayer();
   }
 
   /**
@@ -122,7 +121,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public void skipEveryone() {
-    myGame.skipEveryone();
+    myGroup.skipEveryone();
   }
 
   /**
@@ -130,7 +129,7 @@ public abstract class Player implements PlayerInterface {
    */
   @Override
   public void enforceDraw(int drawAmount) {
-    myGame.addDraw(drawAmount);
+    myGroup.enforceDraw(drawAmount);
   }
 
   /**
@@ -140,7 +139,7 @@ public abstract class Player implements PlayerInterface {
   public void discardColor(String color) {
     Collection<CardInterface> cards = myHand.removeColor(color);
     for (CardInterface card : cards) {
-      myGame.discardCard(card);
+      myGroup.discardCard(card);
     }
   }
 
@@ -149,6 +148,7 @@ public abstract class Player implements PlayerInterface {
    *
    * @param hand Hand to give the player
    */
+  @Override
   public void loadHand(Hand hand) {
     myHand = hand;
   }
@@ -183,7 +183,7 @@ public abstract class Player implements PlayerInterface {
     List<Integer> indexes = new ArrayList<>();
     int currentIndex = 0;
     for (CardInterface card : myHand) {
-      if (myGame.canPlayCard(card)) {
+      if (myGroup.canPlayCard(card)) {
         indexes.add(currentIndex);
       }
       currentIndex++;
@@ -194,13 +194,14 @@ public abstract class Player implements PlayerInterface {
   /**
    * @return hand held by player
    */
+  @Override
   public Hand getMyHand() {
     return myHand;
   }
 
   // Returns the players Game
-  protected GameStatePlayerInterface getMyGame() {
-    return myGame;
+  protected PlayerGroupInterface getMyGroup() {
+    return myGroup;
   }
 
   // Returns supplier used to get Hand index

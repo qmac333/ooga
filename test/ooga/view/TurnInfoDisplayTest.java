@@ -49,14 +49,4 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     ImageView arrow = lookup("#" + TurnInfoDisplay.ARROW_CSS).query();
     assertEquals(90, arrow.getRotate()); // arrow is pointing down
   }
-
-  @Test
-  public void reverseDirection() {
-    controller.getModel().reverseGamePlay();
-    runAsJFXAction(() -> controller.getUnoDisplay().render());
-    ImageView arrow = lookup("#" + TurnInfoDisplay.ARROW_CSS).query();
-    assertEquals(-90, arrow.getRotate()); // arrow is pointing down
-  }
-
-
 }

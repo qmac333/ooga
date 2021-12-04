@@ -5,8 +5,8 @@ import ooga.model.gameState.GameStatePlayerInterface;
 
 public class HumanPlayer extends Player {
 
-  public HumanPlayer(String name, GameStatePlayerInterface game) {
-    super(name, game);
+  public HumanPlayer(String name, PlayerGroupInterface group) {
+    super(name, group);
   }
 
   /**
@@ -18,9 +18,9 @@ public class HumanPlayer extends Player {
     index = super.getMyIntegerSupplier().get();
     try {
       if (index < 0){
-        super.addCards(getMyGame().noPlayDraw());
+        super.addCards(getMyGroup().noPlayDraw());
       } else {
-        getMyHand().play(index, super.getMyGame(), this);
+        getMyHand().play(index, super.getMyGroup(), this);
       }
     } catch (Exception e){
       e.printStackTrace();

@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ooga.controller.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
+import ooga.model.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.util.TurnInfoChanges;
 import ooga.view.table.Table;
@@ -74,7 +75,7 @@ public class TurnInfoDisplay implements DisplayableItem {
   }
 
   private void initializeTable() {
-    playerTable = new Table(gameState.getPlayerNames().size(), 2, CELL_WIDTH, CELL_HEIGHT,
+    playerTable = new Table(gameState.getPlayers().size(), 2, CELL_WIDTH, CELL_HEIGHT,
         "TurnInfo");
     displayableItem.getChildren().add(playerTable.getDisplayableItem());
   }
@@ -106,19 +107,19 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   // ASSUME that players can be added, and not deleted
   private void playersChangeHandler() {
-    List<String> players = gameState.getPlayerNames();
+    List<ViewPlayerInterface> players = gameState.getPlayers();
     for (int i = 0; i < players.size(); i++) {
       if (i >= playerTable.getNumRows()) {
         playerTable.addRow();
       }
-      playerTable.setCell(0, i, new Text(players.get(i)));
+      playerTable.setCell(0, i, new Text(players.get(i).getName()));
     }
   }
 
   private void numCardsChangeHandler() {
-    List<Integer> counts = gameState.getCardCounts();
-    for (int i = 0; i < counts.size(); i++) {
-      playerTable.setCell(1, i, new Text(String.valueOf(counts.get(i))));
+    List<ViewPlayerInterface> players = gameState.getPlayers();
+    for (int i = 0; i < players.size(); i++) {
+      playerTable.setCell(1, i, new Text(String.valueOf(players.get(i).getHandSize())));
     }
   }
 

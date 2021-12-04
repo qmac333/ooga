@@ -2,12 +2,16 @@ package ooga.model.cards;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import ooga.model.gameState.GameState;
 import ooga.model.player.HumanPlayer;
 import ooga.model.player.Player;
+import ooga.model.player.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,23 +27,30 @@ public class SkipEveryoneCardTest {
   SkipEveryoneCard sec;
   Player mockedPlayer;
   Player realPlayer;
+  PlayerGroup realGroup;
+
+  @Mock
+  PlayerGroup mockedGroup;
 
   @Mock
   GameState gameMocked;
 
   @BeforeEach
-  void start() {
+  void start()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     gameMocked = mock(GameState.class);
     realGame = new GameState();
+    realGroup = new PlayerGroup(new HashMap<>(), realGame);
+    mockedGroup = mock(PlayerGroup.class);
     sec = new SkipEveryoneCard("red");
-    mockedPlayer = new HumanPlayer("Paul", gameMocked);
-    realPlayer = new HumanPlayer("Paul", realGame);
+    mockedPlayer = new HumanPlayer("Paul", mockedGroup);
+    realPlayer = new HumanPlayer("Paul", realGroup);
   }
 
   @Test
-  void callsTheFlipMethodInTheGame() {
+  void callsSkipEveryoneInTheGroup() {
     sec.executeAction(mockedPlayer);
-    verify(gameMocked, times(1)).skipEveryone();
+    verify(mockedGroup, times(1)).skipEveryone();
   }
 
   @Test

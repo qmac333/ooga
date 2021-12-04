@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
+import ooga.model.hand.Hand;
 
 /**
  * Interface implemented by Players in a game.  Interacts with the GameState and Cards.
@@ -116,4 +117,19 @@ public interface PlayerInterface {
    * @return the amount of points the player has
    */
   int getPoints();
+
+  /**
+   * @return Player's Hand
+   *
+   * Used for Saving
+   */
+  Hand getMyHand();
+
+  /**
+   * Loads in a players hand
+   * @param hand Hand to load
+   *
+   * Used for loading
+   */
+  void loadHand(Hand hand);
 }
