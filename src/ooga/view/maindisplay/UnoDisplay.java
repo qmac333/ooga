@@ -28,6 +28,8 @@ public class UnoDisplay implements GameScreen {
   private static final double THEME_IMAGE_WIDTH = 150;
   private static final double THEME_IMAGE_HEIGHT = 150;
 
+  private static final int INTERACTIVE_NODES_INDEX = 1;
+
   private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
   public static final String BACK_BUTTON_CSS = "BackButton";
   public static final String THEME_IMAGE_CSS = "ThemeImage";
@@ -167,15 +169,16 @@ public class UnoDisplay implements GameScreen {
   private void changeInteractiveInput() {
     // remove any interactive input already on the screen
     if (centerPanel.getChildren().size() > centerPanelBaseNodes ) {
-      centerPanel.getChildren().remove(centerPanelBaseNodes, centerPanel.getChildren().size());
+      System.out.println("Remove");
+      centerPanel.getChildren().remove(INTERACTIVE_NODES_INDEX, centerPanel.getChildren().size() - centerPanelBaseNodes + 1);
     }
 
     if (controller.getGameState().userPicksCard()) { // player needs to select card
       setPromptText();
-      centerPanel.getChildren().add(cardSelectText);
+      centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, cardSelectText);
     }
     else {
-      centerPanel.getChildren().add(playTurnButton);
+      centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, playTurnButton);
     }
   }
 

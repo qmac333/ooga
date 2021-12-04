@@ -20,7 +20,7 @@
 
 .main_display_center_panel {
   -fx-alignment: bottom-center;
-  -fx-spacing: 75px;
+  -fx-spacing: 30px;
 }
 
 .main_display_left_panel {
@@ -61,7 +61,7 @@
 
 .hand_list_main_display {
   -fx-alignment: center;
-  -fx-spacing: 15px;
+  -fx-spacing: 8px;
 }
 
 .hand_list_button_draw_required {
