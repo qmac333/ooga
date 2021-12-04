@@ -15,4 +15,6 @@ public interface UnoDisplayController {
 
   String getGameVersion();
 
+  String getMod();
+
 }

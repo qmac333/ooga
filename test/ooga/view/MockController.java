@@ -29,7 +29,12 @@ public class MockController implements UnoDisplayController {
 
   @Override
   public String getGameVersion() {
-    return null;
+    return "";
+  }
+
+  @Override
+  public String getMod(){
+    return "";
   }
 
   public void addPlayer() {

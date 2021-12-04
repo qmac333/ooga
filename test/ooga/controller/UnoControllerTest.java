@@ -50,14 +50,14 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void loadingNewFile(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
     }
 
     @Test
     void loadingNewInvalidFile(){
         assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNull(controller.getUnoDisplay());
     }
 
@@ -107,7 +107,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 778;
         boolean stackable = true;
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
     }
 
@@ -118,7 +118,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 9;
         boolean stackable = false;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNull(controller.getUnoDisplay());
     }
 
@@ -131,7 +131,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 99;
         boolean stackable = true;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNull(controller.getUnoDisplay());
     }
 
@@ -145,7 +145,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = -1;
         boolean stackable = false;
         assertFalse(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNull(controller.getUnoDisplay());
     }
 
@@ -165,13 +165,13 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void playingNewGameBeforeLoadingFileOrManuallySettingParameters(){
-        assertFalse(controller.playNewGame());
+        assertFalse(controller.playNewGame("Traditional"));
     }
 
     @Test
     void usingBackButtonAfterPlayingNewGame(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         runAsJFXAction(() -> controller.backButtonHandler());
         assertNull(controller.getModel());
@@ -182,7 +182,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void savingAfterLoadingNewFile(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
     }
@@ -197,7 +197,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 778;
         boolean stackable = true;
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
     }
@@ -205,7 +205,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void savingUsingInvalidFilename(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertFalse(controller.saveCurrentFile(INVALID_SAVE_FILENAME));
     }
@@ -213,7 +213,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void loadingFileAfterSavingFile(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         runAsJFXAction(() -> controller.backButtonHandler());
@@ -223,7 +223,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void reloadingAndPlayingGameInProgress(){
         assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         for(int i = 0; i < 10; i++){
@@ -240,7 +240,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     @Test
     void checkingModelAfterReloadingAndPlayingGameInProgress(){
         assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         for(int i = 0; i < 10; i++){

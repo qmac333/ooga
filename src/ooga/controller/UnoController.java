@@ -32,9 +32,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private GameState model;
 
   private String currentVersion;
-  private Map<String, String> currentPlayerMap;
-  private int currentPointsToWin;
-  private boolean currentStackable;
+  private String currentMod;
   private String language = "English";
 
   /**
@@ -67,12 +65,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   @Override
   public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin > 0){
-      currentPointsToWin = pointsToWin;
       currentVersion = version;
-      currentPlayerMap = playerMap;
-      currentStackable = stackable;
-
-      model = new GameState(currentVersion, currentPlayerMap, currentPointsToWin, currentStackable);
+      model = new GameState(version, playerMap, pointsToWin, stackable);
       return true;
     }
     return false;
@@ -81,10 +75,12 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * Creates a new game display and shows it to the user
    * @return boolean indicating successful creation of a new game
+   * @param mod
    */
   @Override
-  public boolean playNewGame() {
+  public boolean playNewGame(String mod) {
     if(model != null){
+      currentMod = mod;
       unoDisplay = new UnoDisplay(this, language);
       showScreen(unoDisplay);
       splashScreen = null;
@@ -103,6 +99,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     try{
       String json = getFileContent(filepath);
       model = jsonAdapter.fromJson(json);
+      currentVersion = model.getVersion();
       return true;
     }
     catch (IOException | JsonDataException e){
@@ -183,11 +180,20 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Gets the version of the Uno game that is currently being played.
-   * @return a string that is the type of the current Uno game being played
+   * Gets the version of the UNO game that is currently being played.
+   * @return String representing the version
    */
   @Override
-  public String getGameVersion() { return "Basic"; }
+  public String getGameVersion() { return currentVersion; }
+
+  /**
+   * Gets the Mod of the UNO game that is currently being played.
+   * @return String representing the mod
+   */
+  @Override
+  public String getMod(){
+    return currentMod;
+  }
 
   /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY

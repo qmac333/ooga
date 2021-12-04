@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public interface SplashScreenController {
 
-  boolean playNewGame();
+  boolean playNewGame(String mod);
 
   boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable);
 
