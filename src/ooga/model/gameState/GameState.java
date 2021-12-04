@@ -226,7 +226,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     if (playerPoints[currentPlayer] >= pointsToWin) {
       endGame = true;
     }
-    loadNextPlayer();
+    else {
+      loadNextPlayer();
+    }
   }
 
   /**

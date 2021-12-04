@@ -47,7 +47,7 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void pressingBackButton(){
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertNotNull(controller.getLanguageScreen());
     }
 
@@ -214,7 +214,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertNull(controller.getModel());
         assertNull(controller.getUnoDisplay());
     }
@@ -257,7 +257,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         runAsJFXAction(() -> controller.playNewGame());
         assertNotNull(controller.getUnoDisplay());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_3));
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_3_PATH));
     }
 
@@ -271,7 +271,7 @@ public class UnoControllerTest extends DukeApplicationTest {
             controller.getModel().playTurn();
         }
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME_4));
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_4_PATH));
         for(int i = 0; i < 10; i++){
             controller.getModel().playTurn();

@@ -128,7 +128,7 @@ public class UnoDisplay implements GameScreen {
     Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
     button.setId(BACK_BUTTON_CSS);
-    button.setOnAction(e -> controller.backButtonHandler());
+    button.setOnAction(e -> controller.toSplashScreen());
     left.getChildren().add(button);
 
     Button saveButton = new Button(languageResources.getString("Save"));
@@ -154,9 +154,9 @@ public class UnoDisplay implements GameScreen {
   }
 
   private void finishTurn() {
-    checkWinner();
     render();
     changeInteractiveInput();
+    checkWinner();
 
   }
 
@@ -169,7 +169,8 @@ public class UnoDisplay implements GameScreen {
     if (controller.getGameState().getEndGame()) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
       showMessage(alertString, AlertType.INFORMATION);
-      // TODO: reset the game
+      controller.toSplashScreen();
+
     }
   }
 
@@ -242,7 +243,7 @@ public class UnoDisplay implements GameScreen {
   private void showMessage(String alertMessage, AlertType type) {
     Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
-    alert.show();
+    alert.showAndWait();
   }
 
 }
