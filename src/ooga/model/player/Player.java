@@ -16,11 +16,13 @@ public abstract class Player implements PlayerInterface {
   private GameStatePlayerInterface myGame;
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
+  private int myPoints;
 
   public Player(String name, GameStatePlayerInterface game) {
     myName = name;
     myGame = game;
     myHand = new Hand();
+    myPoints = 0;
   }
 
   /**
@@ -81,7 +83,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void flipHand(){
+  public void flipHand() {
     myHand.flip();
   }
 
@@ -95,7 +97,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void flipGame(){
+  public void flipGame() {
     myGame.flipCards();
   }
 
@@ -103,7 +105,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void reverseGame(){
+  public void reverseGame() {
     myGame.reverseGamePlay();
   }
 
@@ -111,7 +113,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void skipNextPlayer(){
+  public void skipNextPlayer() {
     myGame.skipNextPlayer();
   }
 
@@ -119,7 +121,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void skipEveryone(){
+  public void skipEveryone() {
     myGame.skipEveryone();
   }
 
@@ -127,7 +129,7 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void enforceDraw(int drawAmount){
+  public void enforceDraw(int drawAmount) {
     myGame.addDraw(drawAmount);
   }
 
@@ -135,9 +137,9 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void discardColor(String color){
+  public void discardColor(String color) {
     Collection<CardInterface> cards = myHand.removeColor(color);
-    for (CardInterface card : cards){
+    for (CardInterface card : cards) {
       myGame.discardCard(card);
     }
   }
@@ -147,7 +149,7 @@ public abstract class Player implements PlayerInterface {
    *
    * @param hand Hand to give the player
    */
-  public void loadHand(Hand hand){
+  public void loadHand(Hand hand) {
     myHand = hand;
   }
 
@@ -155,17 +157,33 @@ public abstract class Player implements PlayerInterface {
    * {@inheritDoc}
    */
   @Override
-  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier){
+  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
     myIntegerSupplier = integerSupplier;
     myStringSupplier = stringSupplier;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public Collection<Integer> getValidIndexes(){
+  public int getPoints() {
+    return myPoints;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void awardPoints(int amount) {
+    myPoints += amount;
+  }
+
+  @Override
+  public Collection<Integer> getValidIndexes() {
     List<Integer> indexes = new ArrayList<>();
     int currentIndex = 0;
-    for (CardInterface card : myHand){
-      if (myGame.canPlayCard(card)){
+    for (CardInterface card : myHand) {
+      if (myGame.canPlayCard(card)) {
         indexes.add(currentIndex);
       }
       currentIndex++;
@@ -186,12 +204,12 @@ public abstract class Player implements PlayerInterface {
   }
 
   // Returns supplier used to get Hand index
-  protected Supplier<Integer> getMyIntegerSupplier(){
+  protected Supplier<Integer> getMyIntegerSupplier() {
     return myIntegerSupplier;
   }
 
   // Returns supplier used to get Color
-  protected Supplier<String> getMyStringSupplier(){
+  protected Supplier<String> getMyStringSupplier() {
     return myStringSupplier;
   }
 }

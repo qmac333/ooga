@@ -26,7 +26,6 @@ public class GameStateJson {
     private boolean skipNext = false;
     private boolean skipEveryone = false;
     private int order = -1;
-    private int[] playerPoints = null;
     private boolean uno = false;
 
     @SuppressWarnings("unused")
@@ -35,7 +34,7 @@ public class GameStateJson {
 
     public GameStateJson(String version, Map<String, String> playerMap, int points, boolean stackable, int currentPlayer,
                          List<Hand> myHands, List<CardInterface> myDiscardPile, List<CardInterface> myDeck, int impendingDraw, boolean skipNext,
-                         boolean skipEveryone, int order, int[] playerPoints, boolean uno){
+                         boolean skipEveryone, int order, boolean uno){
         this.version = version;
         this.playerMap = playerMap;
         this.points = points;
@@ -49,7 +48,6 @@ public class GameStateJson {
         this.skipNext = skipNext;
         this.skipEveryone = skipEveryone;
         this.order = order;
-        this.playerPoints = playerPoints;
         this.uno = uno;
     }
 
@@ -99,10 +97,6 @@ public class GameStateJson {
 
     public int getOrder() {
         return order;
-    }
-
-    public int[] getPlayerPoints() {
-        return playerPoints;
     }
 
     public boolean getUno() {

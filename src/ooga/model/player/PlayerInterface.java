@@ -104,4 +104,16 @@ public interface PlayerInterface {
    * @return The indexes in the players hand that they can play
    */
   Collection<Integer> getValidIndexes();
+
+  /**
+   * Gives points to the player
+   *
+   * @param amount Number of points to give
+   */
+  void awardPoints(int amount);
+
+  /**
+   * @return the amount of points the player has
+   */
+  int getPoints();
 }

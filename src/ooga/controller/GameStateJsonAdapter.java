@@ -35,10 +35,9 @@ public class GameStateJsonAdapter {
             boolean skipNext = myGameStateJson.getSkipNext();
             boolean skipEveryone = myGameStateJson.getSkipEveryone();
             int order = myGameStateJson.getOrder();
-            int[] playerPoints = myGameStateJson.getPlayerPoints();
             boolean uno = myGameStateJson.getUno();
             myGameState.loadExistingGame(currentPlayer, myHands, myDiscardPile, myDeck, impendingDraw, skipNext,
-                    skipEveryone, order, playerPoints, uno);
+                    skipEveryone, order, uno);
         }
         return myGameState;
     }
@@ -62,11 +61,10 @@ public class GameStateJsonAdapter {
         boolean skipNext = myGameState.getSkipNext();
         boolean skipEveryone = myGameState.getSkipEveryone();
         int order = myGameState.getOrder();
-        int[] playerPoints = myGameState.getPlayerPoints();
         boolean uno = myGameState.getUno();
 
         GameStateJson myGameStateJson = new GameStateJson(version, playerMap, points, stackable, currentPlayer, myHands,
-                myDiscardList, myDeckList, impendingDraw, skipNext, skipEveryone, order, playerPoints, uno);
+                myDiscardList, myDeckList, impendingDraw, skipNext, skipEveryone, order, uno);
         return myGameStateJson;
     }
 

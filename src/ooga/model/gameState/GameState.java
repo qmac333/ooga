@@ -13,6 +13,8 @@ import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.hand.Hand;
 import ooga.model.player.Player;
 
+import ooga.model.player.PlayerGroup;
+import ooga.model.player.PlayerGroupInterface;
 import ooga.model.player.PlayerInterface;
 import ooga.model.rules.RuleInterface;
 
@@ -23,23 +25,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       "ooga.model.gameState.GameStateResources");
   private ResourceBundle ruleResources;
 
-  private int currentPlayer;
-  private List<Player> myPlayers;
   private CardPile myDiscardPile;
   private CardPile myDeck;
 
   private int impendingDraw;
-  private boolean skipNext;
-  private boolean skipEveryone;
-  private int order;
 
   private String version;
   private List<RuleInterface> myRules;
   private DrawRuleInterface myDrawRule;
-  private Map<String, String> playerMap;
-  private int[] playerPoints;
   private boolean stackable;
   private final int pointsToWin;
+  private PlayerGroupInterface myPlayerGroup;
 
 
   private boolean uno;
@@ -49,18 +45,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
-    order = 1;
-    skipNext = false;
-    skipEveryone = false;
     impendingDraw = 0;
     this.pointsToWin = pointsToWin;
-    myPlayers = new ArrayList<>();
     myDiscardPile = new CardPile();
     myDeck = new UnoDeck(version);
-    currentPlayer = 0;
-    this.playerMap = playerMap;
     this.version = gameStateResources.getString(version);
     this.stackable = stackable;
+    myPlayerGroup = new PlayerGroup(playerMap, this);
 
     ruleResources = ResourceBundle.getBundle(
         String.format(gameStateResources.getString("RulesBase"), version));
@@ -75,20 +66,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
     uno = false;
     endGame = false;
-    playerPoints = new int[myPlayers.size()];
   }
 
   /**
    * Default constructor for mocking purposes
    */
   public GameState() {
-    order = 1;
-    skipNext = false;
     impendingDraw = 0;
     this.pointsToWin = 100;
-    myPlayers = new ArrayList<>();
     myDiscardPile = new CardPile();
-    currentPlayer = 0;
+    myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
   }
 
   /**
@@ -102,12 +89,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @param skipNext
    * @param skipEveryone
    * @param order
-   * @param playerPoints
    * @param uno
    */
   public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile,
       CardPile myDeck,
-      int impendingDraw, boolean skipNext, boolean skipEveryone, int order, int[] playerPoints,
+      int impendingDraw, boolean skipNext, boolean skipEveryone, int order,
       boolean uno) {
     this.currentPlayer = currentPlayer;
     this.myDiscardPile = myDiscardPile;
@@ -116,7 +102,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.skipNext = skipNext;
     this.skipEveryone = skipEveryone;
     this.order = order;
-    this.playerPoints = playerPoints;
     this.uno = uno;
 
     for (int i = 0; i < myPlayers.size(); i++) {
@@ -129,11 +114,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public List<String> getPlayerNames() {
-    List<String> result = new ArrayList<>();
-    for (Player p : myPlayers) {
-      result.add(p.getName());
-    }
-    return result;
+    return myPlayerGroup.getNames();
   }
 
   /**
@@ -141,11 +122,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public List<Integer> getCardCounts() {
-    List<Integer> result = new ArrayList<>();
-    for (Player p : myPlayers) {
-      result.add(p.getHandSize());
-    }
-    return result;
+    return myPlayerGroup.getHandSizes();
   }
 
   /**
@@ -209,24 +186,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void playTurn() {
-    // FIXME: Add in stacking logic
-    if (impendingDraw > myDeck.getNumCards()) {
-      myDiscardPile.copyOver(myDeck);
-    }
-    Player player = myPlayers.get(currentPlayer);
-    player.playCard();
-    if (uno) {
-      int totalNumPoints = 0;
-      for (Player p : myPlayers) {
-        totalNumPoints += p.getNumPoints();
-      }
-      playerPoints[currentPlayer] += totalNumPoints;
-      uno = false;
-    }
-    if (playerPoints[currentPlayer] >= pointsToWin) {
-      endGame = true;
-    }
-    loadNextPlayer();
+    // FIXME: Make a deck thing that will work
+
   }
 
   /**
@@ -243,16 +204,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addPlayer(Player p) {
     myPlayers.add(p);
-    List<Integer> points = new ArrayList<Integer>();
-    for (int i : playerPoints) {
-      points.add(i);
-    }
-    points.add(0);
-    playerPoints = new int[points.size()];
-    for (int i = 0; i < points.size(); i++) {
-      playerPoints[i] = points.get(i);
-    }
-
   }
 
   /**
@@ -339,18 +290,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public int getOrder() {
     return order;
-  }
-
-  private void loadNextPlayer() {
-    int boostedCurrentPlayer = currentPlayer + myPlayers.size();
-    if (skipNext) {
-      currentPlayer = (boostedCurrentPlayer + 2 * order) % myPlayers.size();
-      skipNext = false;
-    } else if (skipEveryone) {
-      skipEveryone = false;
-    } else {
-      currentPlayer = (boostedCurrentPlayer + order) % myPlayers.size();
-    }
   }
 
   /**
@@ -445,15 +384,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public boolean getSkipEveryone() {
     return skipEveryone;
-  }
-
-  /**
-   * Used by the Save File feature
-   *
-   * @return game in progress parameter - array of players' points
-   */
-  public int[] getPlayerPoints() {
-    return playerPoints;
   }
 
   /**
@@ -573,7 +503,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private void dealCards() {
-
     for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
       for (Player myPlayer : myPlayers) {
         CardInterface newCard = myDeck.popTopCard();
