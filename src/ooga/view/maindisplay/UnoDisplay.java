@@ -31,6 +31,7 @@ public class UnoDisplay implements GameScreen {
   private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
   public static final String BACK_BUTTON_CSS = "BackButton";
   public static final String THEME_IMAGE_CSS = "ThemeImage";
+  public static final String PLAY_TURN_BUTTON_CSS = "PlayTurn";
 
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
@@ -85,11 +86,12 @@ public class UnoDisplay implements GameScreen {
 
   private void createScene() {
 
-    cardSelectText = new Text(languageResources.getString("ChooseCard"));
+    cardSelectText = new Text();
     cardSelectText.getStyleClass().add("text");
 
     playTurnButton = new Button(languageResources.getString("PlayTurn"));
     playTurnButton.getStyleClass().add("main_display_button");
+    playTurnButton.setId(PLAY_TURN_BUTTON_CSS);
     playTurnButton.setOnAction(e -> playComputerTurn());
 
     // center panel
@@ -169,11 +171,24 @@ public class UnoDisplay implements GameScreen {
     }
 
     if (controller.getGameState().userPicksCard()) { // player needs to select card
+      setPromptText();
       centerPanel.getChildren().add(cardSelectText);
     }
     else {
       centerPanel.getChildren().add(playTurnButton);
     }
+  }
+
+  private void setPromptText() {
+    String lookup = "";
+    // can't play a card: prompt the user to click the draw button
+    if (controller.getGameState().getValidIndexes().size() == 0) {
+      lookup = "MustDraw";
+    }
+    else {
+      lookup = "ChooseCard";
+    }
+    cardSelectText.setText(languageResources.getString(lookup));
   }
 
   private void saveFile() {

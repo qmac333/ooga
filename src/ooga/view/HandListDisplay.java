@@ -35,6 +35,8 @@ public class HandListDisplay implements DisplayableItem {
   private FlowPane handList;
   private List<ViewCardInterface> currentCards;
 
+  private Button drawButton;
+
   private Runnable endTurn;
   private int selectedIndex;
 
@@ -72,11 +74,13 @@ public class HandListDisplay implements DisplayableItem {
     buttonPanel = new HBox();
     buttonPanel.getStyleClass().add("hand_list_button_panel");
 
-    Button drawButton = new Button(languageResources.getString("Draw"));
+    drawButton = new Button(languageResources.getString("Draw"));
     drawButton.setOnMouseClicked(e -> playTurn(-1));
+    drawButton.getStyleClass().add("hand_list_button");
 
     Button unoButton = new Button(languageResources.getString("PlayAndUno"));
     unoButton.setOnMouseClicked(e -> controller.getGameState().setCalledUno(true));
+    unoButton.getStyleClass().add("hand_list_button");
 
     buttonPanel.getChildren().addAll(drawButton, unoButton);
   }
@@ -120,6 +124,13 @@ public class HandListDisplay implements DisplayableItem {
 
     if (gameState.userPicksCard()) {
       displayableItem.getChildren().add(0, buttonPanel);
+      drawButton.getStyleClass().clear();
+      if (gameState.getValidIndexes().size() == 0) {
+        drawButton.getStyleClass().add("hand_list_button_draw_required");
+      }
+      else {
+        drawButton.getStyleClass().add("hand_list_button");
+      }
     }
 
   }
