@@ -106,6 +106,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public int[] getPlayerPoints() {
+    return new int[0];
+  }
+
+  @Override
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }

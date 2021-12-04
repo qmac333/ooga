@@ -164,7 +164,7 @@ public class UnoDisplay implements GameScreen {
   private void checkWinner() {
     int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
     String playerName = controller.getGameState().getPlayerNames().get(currentPlayerIndex);
-    int numPoints = 0; //TODO: determine points
+    int numPoints = controller.getGameState().getPlayerPoints()[currentPlayerIndex];
 
     if (controller.getGameState().getEndGame()) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);

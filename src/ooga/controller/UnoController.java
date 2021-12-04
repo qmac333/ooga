@@ -83,6 +83,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    * @return boolean indicating successful creation of a new game
    */
   @Override
+  // TODO: must pass in mod
   public boolean playNewGame() {
     if(model != null){
       unoDisplay = new UnoDisplay(this, language);
