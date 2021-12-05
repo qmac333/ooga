@@ -53,7 +53,6 @@ public class SplashScreen implements GameScreen {
     borderPane.setBottom(addBottomNode());
     borderPane.setRight(createRightNode());
 
-
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
         .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
@@ -85,17 +84,16 @@ public class SplashScreen implements GameScreen {
   }
 
   private void setGameHandler(TextField points) {
-    try{
+    try {
       int pointsToWin = Integer.parseInt(points.getText());
-      boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin, stackable);
-      if(successfulSetup){
+      boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin,
+          stackable);
+      if (successfulSetup) {
         readyIndicator.setText(languageResources.getString("SetParametersManual"));
-      }
-      else{
+      } else {
         showError(languageResources.getString("ValidValues"));
       }
-    }
-    catch(NumberFormatException e){
+    } catch (NumberFormatException e) {
       showError(languageResources.getString("InvalidPoints"));
     }
   }
@@ -117,10 +115,9 @@ public class SplashScreen implements GameScreen {
     File selectedFile = fileChooser.showOpenDialog(null);
     if (selectedFile != null) {
       boolean successfulLoad = controller.loadFile(selectedFile.getAbsolutePath());
-      if(successfulLoad){
+      if (successfulLoad) {
         readyIndicator.setText(languageResources.getString("SetParametersFile"));
-      }
-      else{
+      } else {
         showError(languageResources.getString("BadFileFormat"));
       }
     }
@@ -140,11 +137,11 @@ public class SplashScreen implements GameScreen {
     return root;
   }
 
-  private void playNewGame(){
+  private void playNewGame() {
     // TODO: create Mod dropdown (with default value of "Traditional") and retrieve value from that dropdown right here before passing it controller.playNewGame()
     String mod = "Traditional";
     boolean successfulPlay = controller.playNewGame(mod);
-    if(!successfulPlay){
+    if (!successfulPlay) {
       showError(languageResources.getString("PlayButtonEarly"));
     }
   }
@@ -154,17 +151,15 @@ public class SplashScreen implements GameScreen {
     String name = nameInput.getText();
     String playerType = playerTypeInput.getValue();
     if (playerType == "Human" || playerType == "CPU") {
-      if(!playerMap.containsKey(name)){
-        if(playerMap.size() < 11){
+      if (!playerMap.containsKey(name)) {
+        if (playerMap.size() < 11) {
           nameInput.clear();
           playerTable.getItems().add(new Player(name, playerType));
           playerMap.put(name, playerType);
-        }
-        else{
+        } else {
           showError(languageResources.getString("MaxPlayers"));
         }
-      }
-      else{
+      } else {
         showError(languageResources.getString("DuplicateName"));
       }
     } else {
@@ -204,7 +199,7 @@ public class SplashScreen implements GameScreen {
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
 
     table.getChildren().addAll(points, game, stackCards, new Separator(),
-            nameInput, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
+        nameInput, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
 
     return table;
   }
@@ -214,8 +209,10 @@ public class SplashScreen implements GameScreen {
     tableDisplay.getStyleClass().add("vbox");
     playerTable = new TableView<>();
     playerTable.setEditable(true);
-    TableColumn<Player, String> playerNameCol = new TableColumn<>(languageResources.getString("TableHeaderLeft"));
-    TableColumn<Player, String> playerTypeCol = new TableColumn<>(languageResources.getString("TableHeaderMiddle"));
+    TableColumn<Player, String> playerNameCol = new TableColumn<>(
+        languageResources.getString("TableHeaderLeft"));
+    TableColumn<Player, String> playerTypeCol = new TableColumn<>(
+        languageResources.getString("TableHeaderMiddle"));
     playerNameCol.setMinWidth(150);
     playerTypeCol.setMinWidth(150);
     playerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -225,11 +222,11 @@ public class SplashScreen implements GameScreen {
     Button deleteButton = new Button(languageResources.getString("Delete"));
     deleteButton.getStyleClass().add("delete-button");
     deleteButton.setOnMousePressed(e -> {
-        Player selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
-        if (selectedPlayer != null) {
-          playerTable.getItems().remove(selectedPlayer);
-          playerMap.remove(selectedPlayer.getName());
-        }
+      Player selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
+      if (selectedPlayer != null) {
+        playerTable.getItems().remove(selectedPlayer);
+        playerMap.remove(selectedPlayer.getName());
+      }
     });
 
     tableDisplay.getChildren().addAll(playerTable, deleteButton);
