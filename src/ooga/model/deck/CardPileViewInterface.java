@@ -18,6 +18,4 @@ public interface CardPileViewInterface {
    * pile of cards
    */
   OneSidedCard lastCardPushed();
-
-
 }

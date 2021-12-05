@@ -13,49 +13,47 @@ public interface DeckWrapperInterface {
      * Method meant for GameState to draw a card for a player.
      * @return the card on the top of the deck
      */
-    public CardInterface draw();
-
+    CardInterface draw();
 
     /**
      * Places card in the discard pile.
      * @param card
      */
-    public void discard(CardInterface card);
+    void discard(CardInterface card);
 
 
     /**
      * returns the deck of cards
      * @return
      */
-    public CardPileInterface getDeck();
+    CardPileInterface getDeck();
 
 
     /**
      * returns the discard pile
      * @return
      */
-    public CardPileInterface getDiscardPile();
+    CardPileInterface getDiscardPile();
 
 
     /**
      * returns the last card thrown
      * @return
      */
-    public CardInterface getLastCard();
+    CardInterface getLastCard();
 
     /**
      * returns the top card of the deck
      * @return
      */
-    public CardInterface getTopCard();
+    CardInterface getTopCard();
 
 
     /**
      * allows class calling to peek the top of the discard pile
      * @return
      */
-    public CardInterface peekTopDiscard();
-
+    CardInterface peekTopDiscard();
 }
 
 

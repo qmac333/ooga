@@ -36,6 +36,9 @@ public class BlasterDrawRule implements DrawRuleInterface{
     return myBlaster.insert(cardsToInsert);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game) {
     Collection<CardInterface> ejected;
@@ -46,6 +49,9 @@ public class BlasterDrawRule implements DrawRuleInterface{
     return ejected;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String colorToMatch) {
     Collection<CardInterface> cardsToInsert = new ArrayList<>();

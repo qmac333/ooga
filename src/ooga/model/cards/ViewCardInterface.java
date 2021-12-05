@@ -6,23 +6,17 @@ package ooga.model.cards;
 public interface ViewCardInterface {
 
   /**
-   * returns a card's type member
-   *
-   * @return
+   * @return The type of the Card
    */
   String getType();
 
   /**
-   * returns a cards number
-   *
-   * @return
+   * @return The number of the card
    */
   int getNum();
 
   /**
-   * returns a card's color
-   *
-   * @return
+   * @return The color of the card
    */
   String getMyColor();
 }
