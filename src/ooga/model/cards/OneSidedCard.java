@@ -64,11 +64,6 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
     // Do Nothing
   }
 
-  // Sets the color of the card to whatever is specified
-  protected void setCardColor(String color) {
-    myColor = color;
-  }
-
   /**
    * {@inheritDoc}
    */
@@ -79,5 +74,10 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
     boolean condition2 = (this.getNum() == otherCard.getNum());
     boolean condition3 = this.getType().equals(otherCard.getType());
     return condition1 && condition2 && condition3;
+  }
+
+  // Sets the color of the card to whatever is specified
+  protected void setCardColor(String color) {
+    myColor = color;
   }
 }

@@ -15,8 +15,7 @@ public class WildCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    // FIXME: Once we have the interface figured out
-    super.setCardColor("Red");
+    // Do Nothing, Deprecated
   }
 
   /**

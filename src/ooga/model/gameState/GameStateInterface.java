@@ -20,7 +20,7 @@ public interface GameStateInterface {
   void discardCard(CardInterface c);
 
   /**
-   * gets the tpye of the lastCardThrown
+   * gets the type of the lastCardThrown
    */
   String getLastCardThrownType();
 

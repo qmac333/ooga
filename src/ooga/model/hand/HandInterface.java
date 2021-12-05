@@ -1,7 +1,6 @@
 package ooga.model.hand;
 
 import java.util.Collection;
-import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.PlayerGroupInterface;

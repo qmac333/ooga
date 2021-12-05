@@ -53,5 +53,5 @@ public interface CardPileInterface {
      * sets the pile the a new Stack
      * @param p
      */
-    public void setPile(Stack<CardInterface> p);
+    void setPile(Stack<CardInterface> p);
 }

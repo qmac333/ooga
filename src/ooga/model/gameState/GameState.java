@@ -24,10 +24,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
       "ooga.model.gameState.GameStateResources");
-  private ResourceBundle ruleResources;
 
-  private int currentPlayer;
-  private List<Player> myPlayers;
+  private ResourceBundle ruleResources;
 
   private DeckWrapper cardContainer;
   private int impendingDraw;
@@ -39,11 +37,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private final int pointsToWin;
   private PlayerGroupInterface myPlayerGroup;
 
-
-  private boolean uno;
   private boolean endGame;
   private final static int NUM_CARDS_PER_PLAYER = 7;
-
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -69,7 +64,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
     myPlayerGroup.dealCards(cardContainer, NUM_CARDS_PER_PLAYER);
     cardContainer.discard(cardContainer.draw());
-    uno = false;
     endGame = false;
   }
 
@@ -98,13 +92,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile,
       CardPile myDeck, int impendingDraw, int order) {
-    this.currentPlayer = currentPlayer;
+    myPlayerGroup.setCurrent(currentPlayer);
     UnoDeck newDeck = new UnoDeck(version);
     newDeck.setPile(myDeck.getStack());
     this.cardContainer = new DeckWrapper(newDeck, myDiscardPile);
     this.impendingDraw = impendingDraw;
     myPlayerGroup.setOrder(order);
-    this.uno = uno;
     myPlayerGroup.loadHands(myHands);
   }
 
@@ -220,14 +213,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void addDraw(int drawAmount) {
     impendingDraw += drawAmount;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setCalledUno(boolean unoCalled) {
-    uno = unoCalled;
   }
 
   /**
@@ -367,21 +352,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return condition1 && condition2 && condition3 && condition4;
   }
 
-  private boolean comparePlayerHands(GameState other){
-    List<Hand> hands = myPlayerGroup.getHands();
-    for(int i = 0; i < hands.size(); i++){
-      Hand thisHand = this.getMyHands().get(i);
-      List<CardInterface> thisHandCards = thisHand.getMyCards();
-      Hand otherHand = other.getMyHands().get(i);
-      List<CardInterface> otherHandCards = otherHand.getMyCards();
-      if(!thisHandCards.equals(otherHandCards)){
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // Creates the list of players based on the map that's passed into the constructor
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
@@ -389,8 +362,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     // Do Nothing, Deprecate
   }
 
-
-  // Creates the list of players based on the map that's passed into the constructor
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @Deprecated
   public void createPlayers(Supplier<Integer> integerSupplier)
@@ -398,21 +372,45 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     // Do Nothing, Deprecated
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
     myPlayerGroup.setSuppliers(integerSupplier, stringSupplier);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean userPicksCard() {
     return myPlayerGroup.userPicksCard();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<Integer> getValidIndexes() {
     return myPlayerGroup.getCurrentPlayerValidIndexes();
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Deprecated
+  public void createDeck(Map<String, Supplier<String>> map) {
+    // Do nothing
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean getEndGame() {
+    return endGame;
+  }
 
   private DrawRuleInterface createDrawRule()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -436,19 +434,17 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return ret;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Deprecated
-  public void createDeck(Map<String, Supplier<String>> map) {
-    // Do nothing
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean getEndGame() {
-    return endGame;
+  private boolean comparePlayerHands(GameState other){
+    List<Hand> hands = myPlayerGroup.getHands();
+    for(int i = 0; i < hands.size(); i++){
+      Hand thisHand = this.getMyHands().get(i);
+      List<CardInterface> thisHandCards = thisHand.getMyCards();
+      Hand otherHand = other.getMyHands().get(i);
+      List<CardInterface> otherHandCards = otherHand.getMyCards();
+      if(!thisHandCards.equals(otherHandCards)){
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -72,6 +72,17 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         other.placeOnTop(intermediary);
     }
 
+    /**
+     * Used by the Save File feature
+     * @return the Stack of Cards
+     */
+    public Stack<CardInterface> getStack(){
+        return pile;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPile(Stack<CardInterface> p) {
         pile = p;
@@ -82,13 +93,5 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
         for(CardInterface c : cardGroup){
             this.placeOnTop(c);
         }
-    }
-
-    /**
-     * Used by the Save File feature
-     * @return the Stack of Cards
-     */
-    public Stack<CardInterface> getStack(){
-        return pile;
     }
 }

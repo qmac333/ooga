@@ -12,6 +12,9 @@ public class DeckWrapper implements DeckWrapperInterface{
         myDiscardPile = discard;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardInterface draw() {
         CardInterface newCard = myDeck.popTopCard();
@@ -21,31 +24,49 @@ public class DeckWrapper implements DeckWrapperInterface{
         return newCard;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void discard(CardInterface card) {
         myDiscardPile.placeOnTop(card);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardPileInterface getDeck() {
         return myDeck;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardPileInterface getDiscardPile() {
         return myDiscardPile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardInterface getLastCard() {
         return myDiscardPile.lastCardPushed();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardInterface getTopCard() {
         return myDeck.popTopCard();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CardInterface peekTopDiscard() {
         return myDiscardPile.lastCardPushed();

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
-import ooga.model.deck.CardPile;
 import ooga.model.deck.DeckWrapperInterface;
 import ooga.model.hand.Hand;
 
@@ -93,23 +92,17 @@ public interface PlayerGroupInterface {
   void addPlayer(PlayerInterface player);
 
   /**
-   * @return Index of Player whose turn it is
-   * <p>
-   * For saving
+   * @return Index of Player whose turn it is (Needed for saving)
    */
   int getCurrentPlayer();
 
   /**
-   * @return Map of Player Name to their Type
-   * <p>
-   * For saving
+   * @return Map of Player Name to their Type (Needed for saving)
    */
   Map<String, String> getPlayerMap();
 
   /**
-   * @return A list of all the hands
-   * <p>
-   * For saving purposes
+   * @return A list of all the hands (Needed for saving)
    */
   List<Hand> getHands();
 
@@ -127,13 +120,18 @@ public interface PlayerGroupInterface {
   void dealCards(DeckWrapperInterface deck, int cardsPerPlayer);
 
   /**
-   * Sets which order the game is moving
+   * Sets which order the game is moving (Needed For loading)
    *
    * @param order Order of the game
-   *              <p>
-   *              Needed for loading existing game
    */
   void setOrder(int order);
+
+  /**
+   * Sets which player to start at (For Loading)
+   *
+   * @param player Index of player to start at
+   */
+  void setCurrent(int player);
 
   /**
    * Loads all the hands into the players
