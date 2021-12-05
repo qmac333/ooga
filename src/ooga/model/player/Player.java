@@ -199,6 +199,11 @@ public abstract class Player implements PlayerInterface, ViewPlayerInterface {
     return myHand;
   }
 
+  @Override
+  public void dumpCards(){
+    myHand = new Hand();
+  }
+
   // Returns the players Game
   protected PlayerGroupInterface getMyGroup() {
     return myGroup;

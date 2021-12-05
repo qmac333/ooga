@@ -24,6 +24,7 @@ public class PlayerGroup implements PlayerGroupInterface {
   private boolean skipEveryone;
   private GameStatePlayerInterface myGame;
   private Map<String, String> myPlayerMap;
+  private boolean unoCalled;
 
   private List<PlayerInterface> myPlayers;
 
@@ -36,6 +37,7 @@ public class PlayerGroup implements PlayerGroupInterface {
     myGame = game;
     myPlayerMap = playerMap;
     myPlayers = new ArrayList<>();
+    unoCalled = false;
     createPlayers();
   }
 
@@ -100,7 +102,7 @@ public class PlayerGroup implements PlayerGroupInterface {
   @Override
   public void playTurn() {
     myPlayers.get(myCurrentPlayer).playCard();
-    loadNextPlayer();
+    checkUno();
   }
 
   @Override
@@ -175,7 +177,13 @@ public class PlayerGroup implements PlayerGroupInterface {
     return myGame.noPlayDraw();
   }
 
-  private void loadNextPlayer(){
+  @Override
+  public void setUnoCalled(boolean called) {
+    unoCalled = called;
+  }
+
+  @Override
+  public void loadNextPlayer(){
     int boostedCurrentPlayer = myCurrentPlayer + myPlayers.size();
     if (skipNext) {
       myCurrentPlayer = (boostedCurrentPlayer + 2 * myOrder) % myPlayers.size();
@@ -184,6 +192,27 @@ public class PlayerGroup implements PlayerGroupInterface {
       skipEveryone = false;
     } else {
       myCurrentPlayer = (boostedCurrentPlayer + myOrder) % myPlayers.size();
+    }
+  }
+
+  @Override
+  public void countAndAwardPoints() {
+    int totalPoints = 0;
+    for (PlayerInterface p : myPlayers){
+      totalPoints += p.getNumPoints();
+    }
+    myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
+  }
+
+  @Override
+  public boolean currentPlayerExceeds(int threshold) {
+    return myPlayers.get(myCurrentPlayer).getPoints() >= threshold;
+  }
+
+  @Override
+  public void dumpCards() {
+    for (PlayerInterface p : myPlayers){
+      p.dumpCards();
     }
   }
 
@@ -197,5 +226,22 @@ public class PlayerGroup implements PlayerGroupInterface {
           PlayerGroupInterface.class).newInstance(name, this);
       myPlayers.add(player);
     }
+  }
+
+  private void checkUno(){
+    if (myPlayers.get(myCurrentPlayer).getHandSize() == 1){
+      if (!unoCalled){
+        myPlayers.get(myCurrentPlayer).addCards(myGame.getUnoPunishment());
+      }
+    }
+    unoCalled = false;
+  }
+
+  private boolean checkHandOver(){
+    if (myPlayers.get(myCurrentPlayer).getHandSize() == 0){
+
+      return true;
+    }
+    return false;
   }
 }

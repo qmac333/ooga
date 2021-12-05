@@ -132,4 +132,9 @@ public interface PlayerInterface {
    * Used for loading
    */
   void loadHand(Hand hand);
+
+  /**
+   * Removes all cards from the players hand
+   */
+  void dumpCards();
 }
