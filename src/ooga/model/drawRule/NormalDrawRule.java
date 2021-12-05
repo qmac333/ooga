@@ -28,11 +28,17 @@ public class NormalDrawRule implements DrawRuleInterface {
     return drawn;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game) {
     return List.of(game.getNextCard());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String color) {
     Collection<CardInterface> cardsDrawn = new ArrayList<>();

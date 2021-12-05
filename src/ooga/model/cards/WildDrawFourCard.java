@@ -17,8 +17,7 @@ public class WildDrawFourCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.addDraw(DRAW_AMOUNT);
-    super.setCardColor("Red");
+    // Do Nothing, Deprecated
   }
 
   /**

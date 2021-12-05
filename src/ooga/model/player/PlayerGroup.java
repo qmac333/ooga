@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
-import ooga.model.deck.CardPile;
-import ooga.model.deck.DeckWrapper;
 import ooga.model.deck.DeckWrapperInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
@@ -153,6 +151,11 @@ public class PlayerGroup implements PlayerGroupInterface {
   @Override
   public void setOrder(int order) {
     myOrder = order;
+  }
+
+  @Override
+  public void setCurrent(int player) {
+    myCurrentPlayer = player;
   }
 
   @Override

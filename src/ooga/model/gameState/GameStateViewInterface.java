@@ -83,12 +83,6 @@ public interface GameStateViewInterface {
   boolean getEndGame();
 
   /**
-   * Allows the model to set a variable if uno is chosen by the user
-   * @param called whether uno was called by clicking a button in the display
-   */
-  void setCalledUno(boolean called);
-
-  /**
    * Creates the players and passes them the correct Integer supplier
    * @param integerSupplier supplier to give them index of card to play
    * @throws ClassNotFoundException for reflection
