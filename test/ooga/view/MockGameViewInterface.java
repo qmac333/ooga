@@ -96,6 +96,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public void setCalledUno(boolean uno) {
+
+  }
+
+  @Override
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }
