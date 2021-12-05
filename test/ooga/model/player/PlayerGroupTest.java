@@ -65,8 +65,8 @@ public class PlayerGroupTest {
     // THEN the current player is 0
     assertEquals(0, group.getCurrentPlayer());
     // AND WHEN we take two turns
-    group.playTurn();
-    group.playTurn();
+    group.loadNextPlayer();
+    group.loadNextPlayer();
     // THEN the current player is 2
     assertEquals(2, group.getCurrentPlayer());
   }
@@ -79,7 +79,7 @@ public class PlayerGroupTest {
     group.addPlayer(new ComputerPlayer("Player3", group));
     // WHEN we change direction
     group.reverseOrder();
-    group.playTurn();
+    group.loadNextPlayer();
     // THEN the next player is two
     assertEquals(2, group.getCurrentPlayer());
   }
@@ -92,12 +92,12 @@ public class PlayerGroupTest {
     group.addPlayer(new ComputerPlayer("Player3", group));
     // WHEN we skip right away
     group.skipNextPlayer();
-    group.playTurn();
+    group.loadNextPlayer();
     // THEN the next player is two
     assertEquals(2, group.getCurrentPlayer());
     // AND WHEN we skip again
     group.skipNextPlayer();
-    group.playTurn();
+    group.loadNextPlayer();
     // THEN it's now to player 1
     assertEquals(1, group.getCurrentPlayer());
   }
@@ -110,7 +110,7 @@ public class PlayerGroupTest {
     group.addPlayer(new ComputerPlayer("Player3", group));
     // WHEN we skip everyone
     group.skipEveryone();
-    group.playTurn();
+    group.loadNextPlayer();
     // THEN the next player is still 0
     assertEquals(0, group.getCurrentPlayer());
   }
