@@ -75,8 +75,6 @@ public class UnoDisplay implements GameScreen {
     this.turnDisplay = new TurnInfoDisplay(controller, language);
     this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
     this.deckDisplay = new DeckDisplay(controller, language);
-
-    createScene();
   }
 
   /**
@@ -85,10 +83,13 @@ public class UnoDisplay implements GameScreen {
    * @return the current scene that we are displaying
    */
   public Scene setScene() {
+    createScene();
+    render();
+    changeInteractiveInput();
     return myScene;
   }
 
-  private void createScene() {
+  protected void createScene() {
 
     cardSelectText = new Text();
     cardSelectText.getStyleClass().add("text");
@@ -144,9 +145,6 @@ public class UnoDisplay implements GameScreen {
     right.getStyleClass().add("main_display_right_panel");
     right.getChildren().add(turnDisplay.getDisplayableItem());
     unoDisplay.setRight(right);
-
-    render();
-    changeInteractiveInput();
   }
 
   private void playComputerTurn() {
@@ -246,6 +244,10 @@ public class UnoDisplay implements GameScreen {
     Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
     alert.showAndWait();
+  }
+
+  protected BorderPane getUnoDisplay() {
+    return unoDisplay;
   }
 
 }

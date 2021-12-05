@@ -101,6 +101,14 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+<<<<<<< HEAD
+=======
+  public List<ViewCardInterface> getBlasterCards() {
+    return null;
+  }
+
+  @Override
+>>>>>>> quentin
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }
