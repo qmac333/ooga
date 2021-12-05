@@ -1,10 +1,14 @@
 package ooga.view;
 
+import java.util.List;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import ooga.model.player.ViewPlayerInterface;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -29,19 +33,14 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
   @Test
   public void checkInitTable() {
-    TurnInfoDisplay display = new TurnInfoDisplay(controller);
-    display.update();
-    // Initial table will be a 3 x 2 table
-
-    String[][] expected = {{"Andrew", "7"}, {"Drew", "7"}, {"Quentin", "7"}};
-
-
-    for (int i = 0; i < MockGameViewInterface.NUM_PLAYERS; i++) {
-      for (int j = 0; j < 2; j++) {
-        Text text = (Text) display.getTable().getCell(j, i);
-        assertEquals(expected[i][j], text.getText());
-      }
-    }
+    TableView<ViewPlayerInterface> playerTable = lookup("#" + TurnInfoDisplay.PLAYER_TABLE_CSS).query();
+    List<ViewPlayerInterface> players = playerTable.getItems();
+    assertEquals("Andrew", players.get(0).getName());
+    assertEquals(7, players.get(0).getHandSize());
+    assertEquals("Drew", players.get(1).getName());
+    assertEquals(7, players.get(1).getHandSize());
+    assertEquals("Quentin", players.get(2).getName());
+    assertEquals(7, players.get(2).getHandSize());
   }
 
   @Test

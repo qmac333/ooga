@@ -208,7 +208,7 @@ public class SplashScreen implements GameScreen {
     tableDisplay = new VBox();
     tableDisplay.getStyleClass().add("vbox");
     playerTable = new TableView<>();
-    playerTable.setEditable(true);
+
     TableColumn<Player, String> playerNameCol = new TableColumn<>(
         languageResources.getString("TableHeaderLeft"));
     TableColumn<Player, String> playerTypeCol = new TableColumn<>(
