@@ -1,7 +1,11 @@
 package ooga.view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -24,9 +28,10 @@ public class SplashScreen implements GameScreen {
 
   private ResourceBundle languageResources;
 
-  private Table initialPlayers;
-  private List<Button> rows;
+  private VBox tableDisplay;
   private Text readyIndicator;
+
+  private TableView<Player> playerTable;
 
   private boolean stackable;
   private String gameType;
@@ -38,7 +43,6 @@ public class SplashScreen implements GameScreen {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     initializeTable();
-    rows = new ArrayList<>();
     playerMap = new HashMap<>();
   }
 
@@ -153,23 +157,7 @@ public class SplashScreen implements GameScreen {
       if(!playerMap.containsKey(name)){
         if(playerMap.size() < 11){
           nameInput.clear();
-          Button deleteButton = new Button("-");
-          deleteButton.getStyleClass().add("delete-button");
-          rows.add(deleteButton);
-
-          int currentRow = initialPlayers.getNumRows();
-          deleteButton.setOnAction(e -> {
-            delete(currentRow);
-            for (int i = currentRow - 1; i < rows.size(); i++) {
-              int finalI = i;
-              rows.get(i).setOnAction(var -> delete(finalI + 1));
-            }
-          });
-
-          initialPlayers.addRow();
-          initialPlayers.setCell(0, initialPlayers.getNumRows() - 1, new Text(name));
-          initialPlayers.setCell(1, initialPlayers.getNumRows() - 1, new Text(playerType));
-          initialPlayers.setCell(2, initialPlayers.getNumRows() - 1, deleteButton);
+          playerTable.getItems().add(new Player(name, playerType));
           playerMap.put(name, playerType);
         }
         else{
@@ -182,14 +170,6 @@ public class SplashScreen implements GameScreen {
     } else {
       showError(languageResources.getString("SelectType"));
     }
-  }
-
-  private void delete(int currentRow) {
-    Text currentNameNode = (Text) initialPlayers.getCell(0, currentRow);
-    String currentName = currentNameNode.getText();
-    playerMap.remove(currentName);
-    initialPlayers.deleteRow(currentRow);
-    rows.remove(currentRow - 1);
   }
 
   private VBox createRightNode() {
@@ -224,20 +204,35 @@ public class SplashScreen implements GameScreen {
     addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
 
     table.getChildren().addAll(points, game, stackCards, new Separator(),
-            nameInput, playerTypeInput, addPlayer, new Separator(), initialPlayers.getDisplayableItem(), setGame);
+            nameInput, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
 
     return table;
   }
 
   private void initializeTable() {
-    initialPlayers = new Table(1, 3, CELL_WIDTH, CELL_HEIGHT, "CreatePlayers");
-    initialPlayers.setCell(0, 0, new Text(languageResources.getString("TableHeaderLeft")));
-    initialPlayers.setCell(1, 0, new Text(languageResources.getString("TableHeaderMiddle")));
-    initialPlayers.setCell(2, 0, new Text(languageResources.getString("TableHeaderRight")));
-  }
+    tableDisplay = new VBox();
+    tableDisplay.getStyleClass().add("vbox");
+    playerTable = new TableView<>();
+    playerTable.setEditable(true);
+    TableColumn<Player, String> playerNameCol = new TableColumn<>(languageResources.getString("TableHeaderLeft"));
+    TableColumn<Player, String> playerTypeCol = new TableColumn<>(languageResources.getString("TableHeaderMiddle"));
+    playerNameCol.setMinWidth(150);
+    playerTypeCol.setMinWidth(150);
+    playerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    playerTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+    playerTable.getColumns().addAll(playerNameCol, playerTypeCol);
 
-  private void initDynamicView() {
+    Button deleteButton = new Button(languageResources.getString("Delete"));
+    deleteButton.getStyleClass().add("delete-button");
+    deleteButton.setOnMousePressed(e -> {
+        Player selectedPlayer = playerTable.getSelectionModel().getSelectedItem();
+        if (selectedPlayer != null) {
+          playerTable.getItems().remove(selectedPlayer);
+          playerMap.remove(selectedPlayer.getName());
+        }
+    });
 
+    tableDisplay.getChildren().addAll(playerTable, deleteButton);
   }
 
   private String translateToEnglish(String value) {
@@ -254,6 +249,28 @@ public class SplashScreen implements GameScreen {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
     alert.show();
+  }
+
+  public class Player {
+
+    private String playerType;
+    private String name;
+
+    public Player(String name, String type) {
+      playerType = type;
+      this.name = name;
+
+    }
+
+    public String getType() {
+      return playerType;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+
   }
 
 }

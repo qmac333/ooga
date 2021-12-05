@@ -11,15 +11,15 @@
 }
 
 .delete-button {
-    -fx-pref-width: 20px;
-    -fx-pref-height: 5px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 10px;
     -fx-text-fill: ghostwhite;
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 10pt;
     -fx-background-color: darkred;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
-    -fx-padding: 0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 2;
 }
 
 .vbox {
