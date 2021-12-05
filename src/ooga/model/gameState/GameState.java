@@ -37,6 +37,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private final int pointsToWin;
   private PlayerGroupInterface myPlayerGroup;
 
+  private boolean uno;
   private boolean endGame;
   private final static int NUM_CARDS_PER_PLAYER = 7;
 
@@ -410,6 +411,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public boolean getEndGame() {
     return endGame;
+  }
+
+  public void setCalledUno(boolean uno) {
+    this.uno = uno;
   }
 
   private DrawRuleInterface createDrawRule()
