@@ -79,7 +79,7 @@ public class HandListDisplay implements DisplayableItem {
     drawButton.getStyleClass().add("hand_list_button");
 
     Button unoButton = new Button(languageResources.getString("CallUno"));
-//    unoButton.setOnMouseClicked(e -> controller.getGameState().setCalledUno(true));
+    unoButton.setOnMouseClicked(e -> controller.getGameState().setCalledUno(true));
     unoButton.getStyleClass().add("hand_list_button");
 
     buttonPanel.getChildren().addAll(drawButton, unoButton);
