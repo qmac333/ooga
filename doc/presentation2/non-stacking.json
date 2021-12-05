@@ -1,0 +1,6 @@
+{
+  "Version" : "Basic",
+  "Players" : {"Andrew" : "Human", "Drew" : "Human"},
+  "Points" : 500,
+  "Stackable" : false
+}
