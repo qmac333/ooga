@@ -111,4 +111,10 @@ public interface GameStateViewInterface {
    * @return the indexes of cards that can be played by the user
    */
   Collection<Integer> getValidIndexes();
+
+  /**
+   * Sets an instance variable in gameState representing the user calling uno
+   * @param uno whether the user has called uno
+   */
+  void setCalledUno(boolean uno);
 }

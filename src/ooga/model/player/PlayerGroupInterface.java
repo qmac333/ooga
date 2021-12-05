@@ -155,4 +155,22 @@ public interface PlayerGroupInterface {
    * @return The cards returned by the draw
    */
   Collection<CardInterface> noPlayDraw();
+
+  /**
+   * Sets whether uno has been called
+   *
+   * @param called True/False
+   */
+  void setUnoCalled(boolean called);
+
+  /**
+   * Changes current player to the next one we need
+   */
+  void loadNextPlayer();
+
+  void countAndAwardPoints();
+
+  boolean currentPlayerExceeds(int threshold);
+
+  void dumpCards();
 }

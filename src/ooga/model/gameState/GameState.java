@@ -173,6 +173,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     myPlayerGroup.playTurn();
+    if (myPlayerGroup.getCurrentPlayerCards().size() == 0){
+      myPlayerGroup.countAndAwardPoints();
+      endGame = myPlayerGroup.currentPlayerExceeds(pointsToWin);
+      myPlayerGroup.dumpCards();
+      cardContainer = new DeckWrapper(new UnoDeck(version), new CardPile());
+      cardContainer.discard(cardContainer.getTopCard());
+      myPlayerGroup.dealCards(cardContainer, NUM_CARDS_PER_PLAYER);
+    } else{
+      myPlayerGroup.loadNextPlayer();
+    }
   }
 
   /**
@@ -221,6 +231,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void flipCards() {
     // Do Nothing (Deprecated)
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Collection<CardInterface> getUnoPunishment() {
+    return myDrawRule.forcedDraw(this, 2);
   }
 
   /**
@@ -410,6 +428,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public boolean getEndGame() {
     return endGame;
+  }
+
+  public void setCalledUno(boolean uno) {
+    myPlayerGroup.setUnoCalled(uno);
   }
 
   private DrawRuleInterface createDrawRule()

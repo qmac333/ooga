@@ -49,4 +49,9 @@ public interface GameStatePlayerInterface {
    * Flips everyone's hands
    */
   void flipCards();
+
+  /**
+   * @return Cards that result from performing the uno punishment
+   */
+  Collection<CardInterface> getUnoPunishment();
 }
