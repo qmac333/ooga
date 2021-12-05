@@ -109,6 +109,9 @@ public class HandListDisplay implements DisplayableItem {
       if (gameState.userPicksCard()) {
         if (validCards.contains(cardIndex)) {
           cardBox.setOnMousePressed(e -> {
+            if (false) { // TODO: replace conditional with a getter from GameState that says whether the player forgot to call Uno
+              showError(languageResources.getString("MissedUno"));
+            }
             playTurn(cardIndex);
           });
         }
@@ -169,7 +172,7 @@ public class HandListDisplay implements DisplayableItem {
   private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
-    alert.show();
+    alert.showAndWait();
   }
 
 }

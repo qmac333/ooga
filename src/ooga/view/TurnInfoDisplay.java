@@ -5,45 +5,48 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import javafx.util.Duration;
+import javax.swing.text.View;
 import ooga.controller.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.model.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.util.TurnInfoChanges;
+import ooga.view.SplashScreen.Player;
 import ooga.view.table.Table;
 
 public class TurnInfoDisplay implements DisplayableItem {
 
   public static String ARROW_CSS = "GameplayDirection";
-
-  private static double CELL_HEIGHT = 30;
-  private static double CELL_WIDTH = 70;
-
+  public static String PLAYER_TABLE_CSS = "PlayerTable";
   private static double ARROW_HEIGHT = 50;
   private static double ARROW_WIDTH = 50;
 
-
-  private static Color HIGHLIGHT_COLOR = Color.YELLOW;
-
   private GameStateViewInterface gameState;
+  private ResourceBundle languageResources;
 
-  private Table playerTable;
+  private TableView<ViewPlayerInterface> playerTable;
   private ImageView directionArrow;
   private HBox displayableItem;
 
-  private int prevCurrentPlayer;
+  private String currentPlayer;
 
 
   /**
@@ -53,12 +56,14 @@ public class TurnInfoDisplay implements DisplayableItem {
    * @param controller is a reference to the controller object to pass the consumer through to the
    *                   model
    */
-  public TurnInfoDisplay(UnoDisplayController controller) {
+  public TurnInfoDisplay(UnoDisplayController controller, String language) {
     gameState = controller.getGameState();
-    prevCurrentPlayer = 0;
+    languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
 
     displayableItem = new HBox();
     displayableItem.getStyleClass().add("turn_info_main_display");
+
+    currentPlayer = "";
 
     initializeDirection();
     initializeTable();
@@ -70,14 +75,44 @@ public class TurnInfoDisplay implements DisplayableItem {
     return displayableItem;
   }
 
-  public Table getTable() {
-    return playerTable;
-  }
-
   private void initializeTable() {
-    playerTable = new Table(gameState.getPlayers().size(), 2, CELL_WIDTH, CELL_HEIGHT,
-        "TurnInfo");
-    displayableItem.getChildren().add(playerTable.getDisplayableItem());
+    playerTable = new TableView<>();
+    playerTable.setId(PLAYER_TABLE_CSS);
+    playerTable.setSelectionModel(null);
+    playerTable.setMaxSize(200, 300);
+
+    TableColumn<ViewPlayerInterface, String> playerNameCol = new TableColumn<>(
+        languageResources.getString("TurnDisplayNameHeader"));
+    TableColumn<ViewPlayerInterface, Integer> playerCardsCol = new TableColumn<>(
+        languageResources.getString("TurnDisplayCardsHeader"));
+    TableColumn<ViewPlayerInterface, Integer> playerPointsCol = new TableColumn<>(
+        languageResources.getString("TurnDisplayPointsHeader"));
+
+    playerNameCol.setMinWidth(100);
+    playerCardsCol.setMinWidth(50);
+    playerPointsCol.setMinWidth(50);
+    playerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    playerCardsCol.setCellValueFactory(new PropertyValueFactory<>("handSize"));
+    playerPointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
+
+    playerTable.getColumns().addAll(playerNameCol, playerCardsCol, playerPointsCol);
+
+    playerTable.setRowFactory(
+        param -> new TableRow<ViewPlayerInterface>() {
+          @Override
+          protected void updateItem(ViewPlayerInterface player, boolean empty) {
+            super.updateItem(player, empty);
+            if ((!empty) && currentPlayer.equals(player.getName())) {
+              setStyle("-fx-background-color: yellow");
+            }
+            else {
+              setStyle("");
+            }
+          }
+
+        });
+
+    displayableItem.getChildren().add(playerTable);
   }
 
   private void initializeDirection() {
@@ -99,38 +134,20 @@ public class TurnInfoDisplay implements DisplayableItem {
   }
 
   public void update() {
-    playersChangeHandler();
-    numCardsChangeHandler();
-    currentPlayerChangeHandler();
+    tableChangeHandler();
     newDirectionChangeHandler();
   }
 
-  // ASSUME that players can be added, and not deleted
-  private void playersChangeHandler() {
+  private void tableChangeHandler() {
+
+    int currentPlayerIndex = gameState.getCurrentPlayer();
+    currentPlayer = gameState.getPlayers().get(currentPlayerIndex).getName();
+
+
+    playerTable.getItems().clear();
     List<ViewPlayerInterface> players = gameState.getPlayers();
-    for (int i = 0; i < players.size(); i++) {
-      if (i >= playerTable.getNumRows()) {
-        playerTable.addRow();
-      }
-      playerTable.setCell(0, i, new Text(players.get(i).getName()));
-    }
-  }
+    playerTable.getItems().addAll(players);
 
-  private void numCardsChangeHandler() {
-    List<ViewPlayerInterface> players = gameState.getPlayers();
-    for (int i = 0; i < players.size(); i++) {
-      playerTable.setCell(1, i, new Text(String.valueOf(players.get(i).getHandSize())));
-    }
-  }
-
-  private void currentPlayerChangeHandler() {
-
-    int currentPlayer = gameState.getCurrentPlayer();
-    for (int i = 0; i < playerTable.getNumCols(); i++) {
-      playerTable.setColor(i, prevCurrentPlayer, Table.DEFAULT_COLOR);
-      playerTable.setColor(i, currentPlayer, HIGHLIGHT_COLOR);
-    }
-    prevCurrentPlayer = currentPlayer;
   }
 
   private void newDirectionChangeHandler() {

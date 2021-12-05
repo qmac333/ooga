@@ -72,7 +72,7 @@ public class UnoDisplay implements GameScreen {
     myScene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());
 
-    this.turnDisplay = new TurnInfoDisplay(controller);
+    this.turnDisplay = new TurnInfoDisplay(controller, language);
     this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
     this.deckDisplay = new DeckDisplay(controller, language);
 
