@@ -117,4 +117,10 @@ public interface GameStateViewInterface {
    * @param uno whether the user has called uno
    */
   void setCalledUno(boolean uno);
+
+  /**
+   * Returns a list of the cards in the blaster to display
+   * @return a list of cards in the blaster
+   */
+  List<ViewCardInterface> getBlasterCards();
 }

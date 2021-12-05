@@ -101,8 +101,8 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
-  public void setCalledUno(boolean uno) {
-
+  public List<ViewCardInterface> getBlasterCards() {
+    return null;
   }
 
   @Override

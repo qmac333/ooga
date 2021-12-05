@@ -19,6 +19,8 @@ import ooga.model.player.PlayerGroupInterface;
 import ooga.model.player.ViewPlayerInterface;
 import ooga.model.rules.RuleInterface;
 
+import javax.swing.text.View;
+
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
 
@@ -370,6 +372,47 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return condition1 && condition2 && condition3 && condition4;
   }
 
+  public List<ViewCardInterface> getBlasterCards() {
+    List<ViewCardInterface> list = new ArrayList<>();
+    ViewCardInterface v1 = new ViewCardInterface() {
+      @Override
+      public String getType() {
+        return "Number";
+      }
+
+      @Override
+      public int getNum() {
+        return 0;
+      }
+
+      @Override
+      public String getMyColor() {
+        return "Red";
+      }
+    };
+
+    ViewCardInterface v2 = new ViewCardInterface() {
+      @Override
+      public String getType() {
+        return "Number";
+      }
+
+      @Override
+      public int getNum() {
+        return 5;
+      }
+
+      @Override
+      public String getMyColor() {
+        return "Blue";
+      }
+    };
+
+    list.add(v1);
+    list.add(v2);
+    return list;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -469,4 +512,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
     return true;
   }
+
+
 }
