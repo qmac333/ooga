@@ -164,7 +164,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   // TODO: Rename function to a verb - standard convention
   @Override
-  public void backButtonHandler() {
+  public void toSplashScreen() {
     unoDisplay = null;
     model = null;
     start();

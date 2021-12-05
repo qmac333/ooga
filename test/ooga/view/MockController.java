@@ -18,7 +18,7 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
-  public void backButtonHandler() {
+  public void toSplashScreen() {
 
   }
 

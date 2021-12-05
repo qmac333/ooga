@@ -106,13 +106,15 @@ public class HandListDisplay implements DisplayableItem {
       cardBox.getChildren().add(card);
       int cardIndex = i;
 
-      if (validCards.contains(cardIndex)) {
-        cardBox.setOnMousePressed(e -> {
-          playTurn(cardIndex);
-        });
-      }
-      else {
-        cardBox.setOnMousePressed(e -> showError(languageResources.getString("InvalidCardClicked")));
+      if (gameState.userPicksCard()) {
+        if (validCards.contains(cardIndex)) {
+          cardBox.setOnMousePressed(e -> {
+            playTurn(cardIndex);
+          });
+        }
+        else {
+          cardBox.setOnMousePressed(e -> showError(languageResources.getString("InvalidCardClicked")));
+        }
       }
 
       handList.getChildren().add(cardBox);

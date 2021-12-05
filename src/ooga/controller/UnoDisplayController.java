@@ -9,7 +9,7 @@ public interface UnoDisplayController {
 
   boolean saveCurrentFile(String filename);
 
-  void backButtonHandler();
+  void toSplashScreen();
 
   GameStateViewInterface getGameState();
 

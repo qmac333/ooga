@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
+import ooga.model.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.view.GameScreen;
 import ooga.view.HandListDisplay;
@@ -127,7 +129,7 @@ public class UnoDisplay implements GameScreen {
     Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
     button.setId(BACK_BUTTON_CSS);
-    button.setOnAction(e -> controller.backButtonHandler());
+    button.setOnAction(e -> controller.toSplashScreen());
     left.getChildren().add(button);
 
     Button saveButton = new Button(languageResources.getString("Save"));
@@ -155,9 +157,24 @@ public class UnoDisplay implements GameScreen {
   private void finishTurn() {
     render();
     changeInteractiveInput();
+    checkWinner();
+
   }
 
+  // checks if the current player has won, and if so to restart the game
+  private void checkWinner() {
+    int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
+    ViewPlayerInterface currentPlayer = controller.getGameState().getPlayers().get(currentPlayerIndex);
+    String playerName = currentPlayer.getName();
+    int numPoints = currentPlayer.getPoints();
 
+    //if (controller.getGameState().getEndGame()) {
+    if (controller.getGameState().getCurrentPlayerCards().size() == 0) {
+      String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
+      showMessage(alertString, AlertType.INFORMATION);
+      controller.toSplashScreen();
+    }
+  }
 
   public void render() {
     deckDisplay.update();
@@ -203,7 +220,7 @@ public class UnoDisplay implements GameScreen {
     if (filename != null) {
       boolean successfulSave = controller.saveCurrentFile(filename);
       if (!successfulSave) {
-        showError(languageResources.getString("InvalidFile"));
+        showMessage(languageResources.getString("InvalidFile"), AlertType.ERROR);
       }
     }
   }
@@ -225,10 +242,10 @@ public class UnoDisplay implements GameScreen {
   }
 
   // displays alert/error message to the user
-  private void showError(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
+  private void showMessage(String alertMessage, AlertType type) {
+    Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
-    alert.show();
+    alert.showAndWait();
   }
 
 }

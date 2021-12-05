@@ -43,7 +43,7 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void pressingBackButton(){
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertNotNull(controller.getLanguageScreen());
     }
 
@@ -173,7 +173,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertNull(controller.getModel());
         assertNull(controller.getUnoDisplay());
     }
@@ -215,9 +215,11 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         runAsJFXAction(() -> controller.playNewGame("Traditional"));
         assertNotNull(controller.getUnoDisplay());
+
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
+
     }
 
     @Test
@@ -229,9 +231,11 @@ public class UnoControllerTest extends DukeApplicationTest {
         for(int i = 0; i < 10; i++){
             controller.getModel().playTurn();
         }
+
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
+
         for(int i = 0; i < 10; i++){
             controller.getModel().playTurn();
         }
@@ -248,7 +252,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         }
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         GameState expected = controller.getModel();
-        runAsJFXAction(() -> controller.backButtonHandler());
+        runAsJFXAction(() -> controller.toSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
         assertTrue(controller.getModel().compareGameInProgressParameters(expected));
         for(int i = 0; i < 10; i++){
