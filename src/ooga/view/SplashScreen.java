@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -14,11 +16,14 @@ import ooga.util.Config;
 import ooga.view.table.Table;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 public class SplashScreen implements GameScreen {
 
   private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
+
+  private static final String UNO_LOGO = "./data/images/logos/Basic.png";
 
   public static final String PLAY_CSS_ID = "PlayButton";
   public static final String LOAD_NEW_GAME_CSS = "LoadNewGame";
@@ -52,6 +57,16 @@ public class SplashScreen implements GameScreen {
     borderPane.setLeft(addLeftNode());
     borderPane.setBottom(addBottomNode());
     borderPane.setRight(createRightNode());
+    try {
+      Image image = new Image(new FileInputStream(UNO_LOGO));
+      ImageView imageView = new ImageView(image);
+      imageView.setFitHeight(300);
+      imageView.setFitWidth(300);
+      borderPane.setCenter(imageView);
+    } catch(Exception e) {
+      // TODO: Logging for errors when file for image is not found
+      System.out.println("Uno Logo Image not found");
+    }
 
     Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()

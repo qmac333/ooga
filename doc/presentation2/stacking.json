@@ -1,6 +1,6 @@
 {
-  "Version" : "Basic",
-  "Players" : {"Andrew" : "Human", "Drew" : "Human"},
-  "Points" : 500,
-  "Stackable" : true
+  "version" : "Basic",
+  "playerMap" : {"Andrew" : "Human", "Quentin" :  "Human"},
+  "points" : 500,
+  "stackable" : true
 }
