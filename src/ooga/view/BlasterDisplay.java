@@ -4,11 +4,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class BlasterDisplay implements DisplayableItem {
@@ -19,18 +21,20 @@ public class BlasterDisplay implements DisplayableItem {
     private Pane displayableItem;
     private List<ViewCardInterface> blasterCards;
 
+    private ResourceBundle languageResources;
+
+
     /**
      * Initialize a class that creates the blaster.
      *
      * @param controller is a reference to the controller object to pass the consumer through to the
      *                   model
      */
-    public BlasterDisplay(UnoDisplayController controller) {
+    public BlasterDisplay(UnoDisplayController controller, String language) {
         this.controller = controller;
+        languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
         createBlasterCardsDisplay();
-        displayableItem = new VBox();
-        displayableItem.getChildren().add(blasterCardsDisplay);
-        displayableItem.getStyleClass().add("hand_list_main_display");
+        initializeDisplayable();
         gameState = controller.getGameState();
 
         blasterCards = gameState.getBlasterCards();
@@ -58,5 +62,14 @@ public class BlasterDisplay implements DisplayableItem {
     private void createBlasterCardsDisplay() {
         blasterCardsDisplay = new FlowPane();
         blasterCardsDisplay.getStyleClass().add("blaster_card_flowpane");
+    }
+
+    private void initializeDisplayable() {
+        displayableItem = new VBox();
+        Text blasterText = new Text(languageResources.getString("CardsBlaster"));
+        blasterText.getStyleClass().add("blaster_text");
+        displayableItem.getChildren().add(blasterText);
+        displayableItem.getChildren().add(blasterCardsDisplay);
+        displayableItem.getStyleClass().add("hand_list_main_display");
     }
 }

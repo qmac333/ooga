@@ -89,6 +89,16 @@
   -fx-padding: 15;
 }
 
+.blaster_text {
+  -fx-font: 35pt Tahoma;
+  -fx-fill: linear-gradient(to left, violet, indigo, green, blue, yellow, orange, red);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
+  -fx-stroke: black;
+  -fx-stroke-width: 1;
+  -fx-font-smoothing-type: lcd;
+  -fx-alignment: center;
+}
+
 
 .hbox {
   -fx-spacing: 20;
