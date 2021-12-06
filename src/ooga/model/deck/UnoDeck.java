@@ -39,6 +39,7 @@ public class UnoDeck extends CardPile{
         try{
             twoSidedCardFronts = List.of(deckProperties.getString("TwoSidedCardFronts").split(","));
             twoSidedCardBacks = List.of(deckProperties.getString("TwoSidedCardBacks").split(","));
+            Collections.shuffle(twoSidedCardBacks);
             numTwoSidedCards = Integer.parseInt(deckProperties.getString("NumberOfTwoSided"));
         }
         catch(MissingResourceException e){
