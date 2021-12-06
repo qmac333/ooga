@@ -50,6 +50,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private boolean endGame;
   private final int cardPerPlayer;
 
+  public boolean loadedGameInProgress = false; // Used by UnoController
+
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
     impendingDraw = 0;
@@ -104,6 +106,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public void loadExistingGame(int currentPlayer, List<Hand> myHands, CardPile myDiscardPile,
       CardPile myDeck, int impendingDraw, int order) {
+    loadedGameInProgress = true;
     myPlayerGroup.setCurrent(currentPlayer);
     UnoDeck newDeck = new UnoDeck(version);
     newDeck.setPile(myDeck.getStack());

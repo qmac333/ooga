@@ -23,4 +23,6 @@ public interface SplashScreenController {
 
   boolean getStackable();
 
+  boolean getLoadedGameInProgress();
+
 }

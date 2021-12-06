@@ -237,6 +237,14 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
+   * @return boolean indicating whether a game in progress was loaded through a configuration file
+   */
+  @Override
+  public boolean getLoadedGameInProgress(){
+    return model.loadedGameInProgress;
+  }
+
+  /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
    */
   public LanguageScreen getLanguageScreen(){

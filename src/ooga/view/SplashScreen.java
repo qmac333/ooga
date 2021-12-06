@@ -43,7 +43,8 @@ public class SplashScreen implements GameScreen {
   private ResourceBundle languageResources;
 
   private VBox tableDisplay;
-  private Text readyIndicator;
+  private Text parametersIndicator;
+  private Text newGameIndicator;
 
   private TextField nameTextField;
   private TextField pointsTextField;
@@ -185,7 +186,8 @@ public class SplashScreen implements GameScreen {
       boolean successfulSetup = controller.setGameParameters(gameType, playerMap, pointsToWin,
           stackable);
       if (successfulSetup) {
-        readyIndicator.setText(languageResources.getString("SetParametersManual"));
+        parametersIndicator.setText(languageResources.getString("ManualParameters"));
+        newGameIndicator.setText(languageResources.getString("NewGame"));
       } else {
         showError(languageResources.getString("ValidValues"));
       }
@@ -212,7 +214,13 @@ public class SplashScreen implements GameScreen {
     if (selectedFile != null) {
       boolean successfulLoad = controller.loadFile(selectedFile.getAbsolutePath());
       if (successfulLoad) {
-        readyIndicator.setText(languageResources.getString("SetParametersFile"));
+        parametersIndicator.setText(languageResources.getString("LoadedParameters"));
+        if(controller.getLoadedGameInProgress()){
+          newGameIndicator.setText(languageResources.getString("InProgressGame"));
+        }
+        else{
+          newGameIndicator.setText(languageResources.getString("NewGame"));
+        }
         updateParameters();
       } else {
         showError(languageResources.getString("BadFileFormat"));
@@ -246,10 +254,12 @@ public class SplashScreen implements GameScreen {
     playButton.setId(PLAY_CSS_ID);
     playButton.setOnAction(e -> playNewGame());
 
-    readyIndicator = new Text("");
-    readyIndicator.getStyleClass().add("ready-indicator");
+    newGameIndicator = new Text("");
+    newGameIndicator.getStyleClass().add("ready-indicator");
+    parametersIndicator = new Text("");
+    parametersIndicator.getStyleClass().add("ready-indicator");
 
-    root.getChildren().addAll(readyIndicator, playButton);
+    root.getChildren().addAll(newGameIndicator, parametersIndicator, playButton);
     return root;
   }
 
