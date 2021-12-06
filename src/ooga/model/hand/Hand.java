@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Hand implements Iterable<CardInterface>, HandInterface {
 
-  private static final String BUNDLE_PATH = "ooga.model.hand.HandResources";
+  private static final String BUNDLE_PATH = "ooga.model.hand.resources.HandResources";
   private static final String TOO_LARGE = "InvalidInput";
 
   private static final ResourceBundle handResources = ResourceBundle.getBundle(BUNDLE_PATH);
