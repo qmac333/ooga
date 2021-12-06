@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
@@ -11,6 +12,11 @@ import ooga.model.player.player.PlayerCardInterface;
 import org.jetbrains.annotations.NotNull;
 
 public class Hand implements Iterable<CardInterface>, HandInterface {
+
+  private static final String BUNDLE_PATH = "ooga.model.hand.HandResources";
+  private static final String TOO_LARGE = "InvalidInput";
+
+  private static final ResourceBundle handResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   private final List<CardInterface> myCards;
 
@@ -33,13 +39,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
   @Deprecated
   public void play(int indexOfCard, GameStatePlayerInterface game)
       throws InvalidCardSelectionException {
-    if (indexOfCard >= myCards.size()) {
-      throw new InvalidCardSelectionException(
-          String.format("Input index: %d is too large", indexOfCard));
-    }
-    myCards.get(indexOfCard).executeAction(game);
-    game.discardCard(myCards.get(indexOfCard));
-    myCards.remove(indexOfCard);
+    // Do Nothing
   }
 
   /**
@@ -50,7 +50,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
       throws InvalidCardSelectionException {
     if (indexOfCard >= myCards.size()) {
       throw new InvalidCardSelectionException(
-          String.format("Input index: %d is too large", indexOfCard));
+          String.format(handResources.getString(TOO_LARGE), indexOfCard));
     }
     myCards.get(indexOfCard).executeAction(player);
     group.discardCard(myCards.get(indexOfCard));
