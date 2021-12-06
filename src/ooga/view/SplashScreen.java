@@ -25,12 +25,16 @@ public class SplashScreen implements GameScreen {
 
   private static final String LIGHT_MODE_FNAME = "splashScreen";
   private static final String DARK_MODE_FNAME = "splashScreenDark";
+  private static final String SPRING_FNAME = "splashScreenSpring";
+  private static final String FALL_FNAME = "splashScreenFall";
   private static final String UNC_FNAME = "splashScreenUnc";
   private static final String DUKE_FNAME = "splashScreenDuke";
   private static final String MAIN_LIGHT_MODE = "mainDisplay";
   private static final String MAIN_DARK_MODE = "mainDisplayDark";
   private static final String MAIN_UNC = "mainDisplayUnc";
   private static final String MAIN_DUKE = "mainDisplayDuke";
+  private static final String MAIN_SPRING = "mainDisplaySpring";
+  private static final String MAIN_FALL = "mainDisplayFall";
 
   private static final String UNO_LOGO = "./data/images/logos/Basic.png";
 
@@ -54,6 +58,7 @@ public class SplashScreen implements GameScreen {
   private Scene scene;
   private boolean dark;
   private boolean unc;
+  private boolean springColors;
 
   SplashScreenController controller;
 
@@ -109,13 +114,33 @@ public class SplashScreen implements GameScreen {
     Button schoolColors = new Button(languageResources.getString("UNC"));
     schoolColors.setOnAction(e -> changeSchool(schoolColors));
 
+    Button seasonColors = new Button(languageResources.getString("SpringColors"));
+    seasonColors.setOnAction(e -> changeFontSize(seasonColors));
+
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
 
-    root.getChildren().addAll(darkMode, schoolColors, new Separator(), loadNew);
+    root.getChildren().addAll(darkMode, schoolColors, seasonColors, new Separator(), loadNew);
 
     return root;
+  }
+
+  private void changeFontSize(Button button) {
+    springColors = !springColors;
+    if (springColors) {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, SPRING_FNAME)).toExternalForm());
+      button.setText(languageResources.getString("FallColors"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_SPRING));
+    } else {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, FALL_FNAME)).toExternalForm());
+      button.setText(languageResources.getString("SpringColors"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_FALL));
+    }
   }
 
   private void changeSchool(Button button) {
@@ -126,12 +151,14 @@ public class SplashScreen implements GameScreen {
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, UNC_FNAME)).toExternalForm());
       button.setText(languageResources.getString("Duke"));
       controller.setColorTheme(String.format(CSS_STYLE, MAIN_UNC));
+
     } else {
       scene.getStylesheets().clear();
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, DUKE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("UNC"));
       controller.setColorTheme(String.format(CSS_STYLE, MAIN_DUKE));
+
     }
   }
 

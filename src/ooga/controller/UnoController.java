@@ -234,12 +234,11 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     this.language = language;
   }
 
-
+  @Override
   /**
    * Sets the color theme for the game
    * @param cssFile the css file the game will use
    */
-  @Override
   public void setColorTheme(String cssFile) {
     colorTheme = cssFile;
   }
