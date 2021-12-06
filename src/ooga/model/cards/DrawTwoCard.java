@@ -1,15 +1,20 @@
 package ooga.model.cards;
 
-import ooga.model.cards.OneSidedCard;
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.player.PlayerCardInterface;
 
 public class DrawTwoCard extends OneSidedCard {
 
-  private final int DRAW_AMOUNT = 2;
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
+  private static final String TYPE = "DrawTwoType";
+  private static final String NUMBER = "DrawTwoNumber";
+  private static final String DRAW_AMOUNT = "DrawTwoDrawAmount";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 
   public DrawTwoCard(String color) {
-    super(color, "DrawTwo", 20);
+    super(color, cardResources.getString(TYPE), Integer.parseInt(cardResources.getString(NUMBER)));
   }
 
   /**
@@ -18,7 +23,7 @@ public class DrawTwoCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.addDraw(DRAW_AMOUNT);
+    game.addDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
   }
 
   /**
@@ -26,6 +31,6 @@ public class DrawTwoCard extends OneSidedCard {
    */
   @Override
   public void executeAction(PlayerCardInterface player) {
-    player.enforceDraw(DRAW_AMOUNT);
+    player.enforceDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
   }
 }

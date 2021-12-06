@@ -1,13 +1,18 @@
 package ooga.model.cards;
 
-import ooga.model.cards.OneSidedCard;
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.player.PlayerCardInterface;
 
 public class NumberCard extends OneSidedCard {
 
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
+  private static final String TYPE = "NumberType";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
+
   public NumberCard(String color, int num) {
-    super(color, "Number", num);
+    super(color, cardResources.getString(TYPE), num);
   }
 
   /**
