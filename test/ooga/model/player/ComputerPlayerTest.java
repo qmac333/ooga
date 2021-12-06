@@ -3,7 +3,10 @@ package ooga.model.player;
 import java.util.List;
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.SkipCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.player.player.ComputerPlayer;
+import ooga.model.player.playerGroup.PlayerGroup;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +21,7 @@ public class ComputerPlayerTest {
   ComputerPlayer myPlayer;
 
   @Mock
-  PlayerGroupInterface mockGroup;
+  PlayerGroupPlayerInterface mockGroup;
 
   CardInterface cardToPlay;
 

@@ -2,10 +2,11 @@ package ooga.model.cards;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import ooga.model.cards.individualCards.FlipCard;
 import ooga.model.gameState.GameState;
-import ooga.model.player.HumanPlayer;
-import ooga.model.player.Player;
-import ooga.model.player.PlayerGroup;
+import ooga.model.player.player.HumanPlayer;
+import ooga.model.player.player.Player;
+import ooga.model.player.playerGroup.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

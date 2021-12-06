@@ -1,7 +1,8 @@
-package ooga.model.cards;
+package ooga.model.cards.individualCards;
 
+import ooga.model.cards.OneSidedCard;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card that lets the user pick a color and then have the next player draw until the draw a card of
@@ -30,7 +31,7 @@ public class WildDrawColorCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
+  public void executeAction(PlayerCardInterface player) {
     player.enforceDraw(DRAW_AMOUNT);
     super.setCardColor(player.getColor());
   }

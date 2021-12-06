@@ -1,7 +1,7 @@
 package ooga.model;
 
 import ooga.model.cards.OneSidedCard;
-import ooga.model.cards.NumberCard;
+import ooga.model.cards.individualCards.NumberCard;
 
 
 /**

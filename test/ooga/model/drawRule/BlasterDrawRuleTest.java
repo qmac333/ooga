@@ -1,6 +1,6 @@
 package ooga.model.drawRule;
 
-import ooga.model.cards.SkipCard;
+import ooga.model.cards.individualCards.SkipCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

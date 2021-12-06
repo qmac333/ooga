@@ -1,18 +1,18 @@
 package ooga.model.rules;
 
-import ooga.model.cards.DrawFiveCard;
-import ooga.model.cards.DrawOneCard;
-import ooga.model.cards.DrawTwoCard;
-import ooga.model.cards.FlipCard;
-import ooga.model.cards.NumberCard;
-import ooga.model.cards.ReverseCard;
-import ooga.model.cards.SkipCard;
-import ooga.model.cards.SkipEveryoneCard;
-import ooga.model.cards.WildBlastCard;
-import ooga.model.cards.WildCard;
-import ooga.model.cards.WildDrawColorCard;
-import ooga.model.cards.WildDrawFourCard;
-import ooga.model.cards.WildDrawTwoCard;
+import ooga.model.cards.individualCards.DrawFiveCard;
+import ooga.model.cards.individualCards.DrawOneCard;
+import ooga.model.cards.individualCards.DrawTwoCard;
+import ooga.model.cards.individualCards.FlipCard;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.ReverseCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.cards.individualCards.SkipEveryoneCard;
+import ooga.model.cards.individualCards.WildBlastCard;
+import ooga.model.cards.individualCards.WildCard;
+import ooga.model.cards.individualCards.WildDrawColorCard;
+import ooga.model.cards.individualCards.WildDrawFourCard;
+import ooga.model.cards.individualCards.WildDrawTwoCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

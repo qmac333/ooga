@@ -3,9 +3,9 @@ package ooga.model.drawRule;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import ooga.model.cards.NumberCard;
-import ooga.model.cards.ReverseCard;
-import ooga.model.cards.SkipCard;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.ReverseCard;
+import ooga.model.cards.individualCards.SkipCard;
 import ooga.model.drawRule.blaster.Blaster;
 import org.junit.jupiter.api.Test;
 

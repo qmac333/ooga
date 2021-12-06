@@ -1,11 +1,10 @@
-package ooga.model.player;
+package ooga.model.player.player;
 
-import java.util.function.Supplier;
-import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
 public class HumanPlayer extends Player {
 
-  public HumanPlayer(String name, PlayerGroupInterface group) {
+  public HumanPlayer(String name, PlayerGroupPlayerInterface group) {
     super(name, group);
   }
 

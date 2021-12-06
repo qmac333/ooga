@@ -1,6 +1,7 @@
-package ooga.model.player;
+package ooga.model.player.player;
 
 import ooga.model.cards.CardInterface;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
 /**
  * @author Paul Truitt
@@ -9,7 +10,7 @@ import ooga.model.cards.CardInterface;
  */
 public class ComputerPlayer extends Player {
 
-  public ComputerPlayer(String name, PlayerGroupInterface group) {
+  public ComputerPlayer(String name, PlayerGroupPlayerInterface group) {
     super(name, group);
   }
 
@@ -19,7 +20,7 @@ public class ComputerPlayer extends Player {
   @Override
   public void playCard() {
     int position = 0;
-    PlayerGroupInterface group = super.getMyGroup();
+    PlayerGroupPlayerInterface group = super.getMyGroup();
     for (CardInterface card : super.getMyHand()) {
       if (group.canPlayCard(card)) {
         try {

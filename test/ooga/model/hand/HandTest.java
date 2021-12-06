@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.NumberCard;
-import ooga.model.cards.ReverseCard;
-import ooga.model.cards.SkipCard;
-import ooga.model.cards.WildCard;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.ReverseCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.cards.individualCards.WildCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

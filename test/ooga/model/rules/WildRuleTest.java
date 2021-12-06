@@ -2,11 +2,11 @@ package ooga.model.rules;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ooga.model.cards.WildDrawFourCard;
-import ooga.model.cards.NumberCard;
-import ooga.model.cards.ReverseCard;
-import ooga.model.cards.SkipCard;
-import ooga.model.cards.WildCard;
+import ooga.model.cards.individualCards.WildDrawFourCard;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.ReverseCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.cards.individualCards.WildCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

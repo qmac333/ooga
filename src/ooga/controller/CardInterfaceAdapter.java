@@ -2,7 +2,21 @@ package ooga.controller;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
-import ooga.model.cards.*;
+import ooga.model.cards.CardInterface;
+import ooga.model.cards.individualCards.DiscardColorCard;
+import ooga.model.cards.individualCards.DrawFiveCard;
+import ooga.model.cards.individualCards.DrawOneCard;
+import ooga.model.cards.individualCards.DrawTwoCard;
+import ooga.model.cards.individualCards.FlipCard;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.ReverseCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.cards.individualCards.SkipEveryoneCard;
+import ooga.model.cards.individualCards.WildBlastCard;
+import ooga.model.cards.individualCards.WildCard;
+import ooga.model.cards.individualCards.WildDrawColorCard;
+import ooga.model.cards.individualCards.WildDrawFourCard;
+import ooga.model.cards.individualCards.WildDrawTwoCard;
 
 public class CardInterfaceAdapter {
     @FromJson

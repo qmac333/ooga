@@ -2,7 +2,9 @@ package ooga.model.cards;
 
 import static org.mockito.Mockito.mock;
 
-import ooga.model.player.HumanPlayer;
+import ooga.model.cards.individualCards.NumberCard;
+import ooga.model.cards.individualCards.SkipCard;
+import ooga.model.player.player.HumanPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

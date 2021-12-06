@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.model.cards.NumberCard;
+import ooga.model.cards.individualCards.NumberCard;
 import ooga.view.deckdisplay.DeckDisplay;
 import ooga.view.maindisplay.UnoDisplay;
 import org.junit.jupiter.api.Assertions;

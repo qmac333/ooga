@@ -1,7 +1,8 @@
-package ooga.model.cards;
+package ooga.model.cards.individualCards;
 
+import ooga.model.cards.OneSidedCard;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 public class ReverseCard extends OneSidedCard {
 
@@ -22,7 +23,7 @@ public class ReverseCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
+  public void executeAction(PlayerCardInterface player) {
     player.reverseGame();
   }
 }

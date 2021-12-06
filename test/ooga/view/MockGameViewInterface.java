@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import ooga.model.cards.NumberCard;
+import ooga.model.cards.individualCards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
 import ooga.model.gameState.GameStateViewInterface;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 
 public class MockGameViewInterface implements GameStateViewInterface {
 

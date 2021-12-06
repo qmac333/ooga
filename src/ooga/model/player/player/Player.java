@@ -1,4 +1,4 @@
-package ooga.model.player;
+package ooga.model.player.player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,17 +7,19 @@ import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.hand.Hand;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
-public abstract class Player implements PlayerInterface, ViewPlayerInterface {
+public abstract class Player implements PlayerCardInterface, ViewPlayerInterface,
+    PlayerGameInterface {
 
   private Hand myHand;
   private String myName;
-  private PlayerGroupInterface myGroup;
+  private PlayerGroupPlayerInterface myGroup;
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
   private int myPoints;
 
-  public Player(String name, PlayerGroupInterface group) {
+  public Player(String name, PlayerGroupPlayerInterface group) {
     myName = name;
     myGroup = group;
     myHand = new Hand();
@@ -205,7 +207,7 @@ public abstract class Player implements PlayerInterface, ViewPlayerInterface {
   }
 
   // Returns the players Game
-  protected PlayerGroupInterface getMyGroup() {
+  protected PlayerGroupPlayerInterface getMyGroup() {
     return myGroup;
   }
 

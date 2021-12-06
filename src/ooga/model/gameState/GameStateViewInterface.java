@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.

@@ -1,6 +1,7 @@
 package ooga.model.cards;
 
 import java.util.HashMap;
+import ooga.model.cards.individualCards.NumberCard;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
