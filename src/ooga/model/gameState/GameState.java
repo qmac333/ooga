@@ -27,7 +27,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
 
   private static final String BUNDLE_PATH = "ooga.model.gameState.resources.GameStateResources";
-  private static final String RULES_PATH = "RulesBase";
   private static final String CARDS_PER_PLAYER = "CardsPerPlayer";
   private static final String POINTS_TO_WIN = "DefaultPointsToWin";
   private static final String GAME_TYPE = "DefaultGameType";
@@ -191,7 +190,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
     if (player.getHandSize() == 0) {
       myPlayerGroup.countAndAwardPoints();
-      endGame = player.getNumPoints() >= pointsToWin;
+      endGame = player.getPoints() >= pointsToWin;
       for (PlayerGameInterface p : myPlayerGroup) {
         p.dumpCards();
       }
@@ -404,6 +403,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   public Collection<ViewCardInterface> getBlasterCards() {
     return myDrawRule.getBlasterCards();
+  }
+
+  @Override
+  public boolean blasterWentOff() {
+    return myDrawRule.blasted();
   }
 
   /**
