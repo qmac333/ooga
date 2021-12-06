@@ -13,7 +13,7 @@ import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
 import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
-import ooga.view.maindisplay.UnoDisplay;
+import ooga.view.maindisplay.BasicUnoDisplay;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -21,11 +21,12 @@ import java.nio.file.Files;
 
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
   private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files").toAbsolutePath().normalize().toString();
+  private static final String DISPLAY = "ooga.view.maindisplay.%sUnoDisplay";
 
   private Stage stage;
   private LanguageScreen languageScreen;
   private SplashScreen splashScreen;
-  private UnoDisplay unoDisplay;
+  private BasicUnoDisplay unoDisplay;
 
   private Moshi moshi;
   private JsonAdapter<GameState> jsonAdapter;
@@ -82,7 +83,15 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean playNewGame(String mod) {
     if(model != null){
       currentMod = mod;
-      unoDisplay = new UnoDisplay(this, language, colorTheme);
+      String version = String.format(DISPLAY, currentVersion);
+      try {
+        unoDisplay = (BasicUnoDisplay) Class.forName(version).getConstructor(UnoDisplayController.class, String.class, String.class).
+                newInstance(this, language, colorTheme);
+      } catch(Exception e) {
+        e.printStackTrace();
+//        System.out.println("Reflection didn't work");
+      }
+
       showScreen(unoDisplay);
       splashScreen = null;
       return true;
@@ -220,7 +229,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * @return the UnoDisplay object - FOR TESTING PURPOSES ONLY
    */
-  public UnoDisplay getUnoDisplay(){
+  public BasicUnoDisplay getUnoDisplay(){
     return unoDisplay;
   }
 

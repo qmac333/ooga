@@ -3,11 +3,11 @@ package ooga.view.maindisplay;
 import ooga.controller.UnoDisplayController;
 import ooga.view.BlasterDisplay;
 
-public class BlasterUnoDisplay extends UnoDisplay {
+public class BlastUnoDisplay extends BasicUnoDisplay {
 
     private BlasterDisplay blasterDisplay;
 
-    public BlasterUnoDisplay(UnoDisplayController controller, String language, String cssFile) {
+    public BlastUnoDisplay(UnoDisplayController controller, String language, String cssFile) {
         super(controller, language, cssFile);
         this.blasterDisplay = new BlasterDisplay(controller, language);
     }
