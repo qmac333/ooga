@@ -114,6 +114,9 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin > 0){
       currentVersion = version;
+      currentPlayerMap = playerMap;
+      currentPoints = pointsToWin;
+      currentStackable = stackable;
       model = new GameState(version, playerMap, pointsToWin, stackable);
       return true;
     }
