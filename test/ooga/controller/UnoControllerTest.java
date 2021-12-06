@@ -58,6 +58,10 @@ public class UnoControllerTest extends DukeApplicationTest {
         GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
 
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.getGameVersion().equals(version));
+        assertTrue(controller.getPlayerMap().equals(playerMap));
+        assertTrue(controller.getPoints() == pointsToWin);
+        assertTrue(controller.getStackable() == stackable);
         assertTrue(playNewGame());
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
@@ -97,6 +101,10 @@ public class UnoControllerTest extends DukeApplicationTest {
         boolean stackable = true;
 
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
+        assertTrue(controller.getGameVersion().equals(version));
+        assertTrue(controller.getPlayerMap().equals(playerMap));
+        assertTrue(controller.getPoints() == pointsToWin);
+        assertTrue(controller.getStackable() == stackable);
         controller.setColorThemeFilepath(DEFAULT_COLOR_THEME_PATH);
         assertTrue(playNewGame());
         GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
