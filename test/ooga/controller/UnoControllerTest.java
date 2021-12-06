@@ -19,12 +19,16 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String INVALID_NEW_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\invalidNewFile1.json").toAbsolutePath().normalize().toString();
     private static final String INVALID_GAME_IN_PROGRESS_FILE_1_PATH = Paths.get(".", "\\data\\configuration_files\\Test Files\\invalidGameInProgressFile1.json").toAbsolutePath().normalize().toString();
     private static final String BASIC_4CPUs_PATH = Paths.get(".", "\\data\\configuration_files\\Example Files\\Basic_4CPUs.json").toAbsolutePath().normalize().toString();
+    private static final String BLAST_4CPUs_PATH = Paths.get(".", "\\data\\configuration_files\\Example Files\\Blast_4CPUs.json").toAbsolutePath().normalize().toString();
+    private static final String FLIP_4CPUs_PATH = Paths.get(".", "\\data\\configuration_files\\Example Files\\Flip_4CPUs.json").toAbsolutePath().normalize().toString();
+
     private static final String SAVE_FILENAME = "jUnitTest_SaveFile";
     private static final String INVALID_SAVE_FILENAME = "/this.won't/work/";
     private static final String SAVE_FILENAME_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME + ".json").toAbsolutePath().normalize().toString();
     private static final String DEFAULT_COLOR_THEME_PATH = "/ooga/resources/mainDisplay.css";
 
     private static final String DEFAULT_LANGUAGE = "English";
+
 
     @Override
     public void start(Stage stage){
@@ -44,6 +48,11 @@ public class UnoControllerTest extends DukeApplicationTest {
         runAsJFXAction(() -> controller.createSplashScreen(DEFAULT_LANGUAGE));
         assertNotNull(controller.getSplashScreen());
         controller.setColorThemeFilepath(DEFAULT_COLOR_THEME_PATH);
+    }
+
+    private boolean playNewGame(){
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
+        return controller.getUnoDisplay() != null;
     }
 
     @Test
@@ -186,9 +195,8 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertFalse(playNewGame());
     }
 
-    @Test
-    void checkingModelAfterReloadingAndPlayingGameInProgress(){
-        assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
+    private void reloadingAndPlayingGameInProgress(String loadFilepath){
+        assertTrue(controller.loadFile(loadFilepath));
         assertTrue(playNewGame());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         simulateGame(10);
@@ -201,14 +209,24 @@ public class UnoControllerTest extends DukeApplicationTest {
         assertFalse(controller.getModel().compareGameInProgressParameters(expected));
     }
 
-    private boolean playNewGame(){
-        runAsJFXAction(() -> controller.playNewGame("Traditional"));
-        return controller.getUnoDisplay() != null;
-    }
-
     private void simulateGame(int numTurns){
         for(int i = 0; i < numTurns; i++){
             controller.getModel().playTurn();
         }
+    }
+
+    @Test
+    void reloadingAndPlayingGameInProgress_Basic(){
+        reloadingAndPlayingGameInProgress(BASIC_4CPUs_PATH);
+    }
+
+    @Test
+    void reloadingAndPlayingGameInProgress_Blast(){
+        reloadingAndPlayingGameInProgress(BLAST_4CPUs_PATH);
+    }
+
+    @Test
+    void reloadingAndPlayingGameInProgress_Flip(){
+        reloadingAndPlayingGameInProgress(FLIP_4CPUs_PATH);
     }
 }

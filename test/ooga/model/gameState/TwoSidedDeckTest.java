@@ -15,6 +15,6 @@ public class TwoSidedDeckTest {
         UnoDeck twoSidedCardsDeck = new UnoDeck("Flip");
         UnoDeck normalDeck = new UnoDeck("Basic");
 
-        assertTrue(twoSidedCardsDeck.getNumCards() > normalDeck.getNumCards());
+        assertTrue(twoSidedCardsDeck.getNumCards() == normalDeck.getNumCards());
     }
 }

@@ -1,4 +1,4 @@
-package ooga.controller.moshi;
+package ooga.controller.moshiParsing;
 import ooga.model.cards.CardInterface;
 import ooga.model.hand.Hand;
 

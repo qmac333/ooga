@@ -7,6 +7,7 @@ import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
 import ooga.model.cards.WildCard;
+import ooga.model.rules.individualRules.WildRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
