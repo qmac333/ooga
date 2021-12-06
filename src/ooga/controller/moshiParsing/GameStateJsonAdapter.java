@@ -1,8 +1,7 @@
-package ooga.controller.moshi;
+package ooga.controller.moshiParsing;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
-import ooga.controller.moshi.GameStateJson;
 import ooga.model.cards.CardInterface;
 import ooga.model.deck.CardPile;
 import ooga.model.gameState.GameState;
