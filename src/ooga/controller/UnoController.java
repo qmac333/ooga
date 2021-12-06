@@ -1,5 +1,8 @@
 package ooga.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,9 +10,15 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import com.squareup.moshi.JsonDataException;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
+import ooga.view.CardDisplay;
 import ooga.view.GameScreen;
 import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
@@ -21,6 +30,7 @@ import java.nio.file.Files;
 
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
   private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files").toAbsolutePath().normalize().toString();
+  private static final String REQUIRED_MOD_FILEPATH = Paths.get(".", "\\data\\mods\\RequiredImages.txt").toAbsolutePath().normalize().toString();
 
   private Stage stage;
   private LanguageScreen languageScreen;
@@ -81,6 +91,11 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean playNewGame(String mod) {
     if(model != null){
       currentMod = mod;
+
+      if (!validateMod()) {
+        return false;
+      };
+
       unoDisplay = new UnoDisplay(this, language);
       showScreen(unoDisplay);
       splashScreen = null;
@@ -238,5 +253,35 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private void showScreen(GameScreen screen) {
     stage.setScene(screen.setScene());
     stage.show();
+  }
+
+  /**
+   * Validates that a selected mod has all required images.
+   * @return true if the mod can be played, else return false
+   */
+  private boolean validateMod() {
+    Scanner requiredImages;
+    ResourceBundle modImages;
+    try {
+      requiredImages = new Scanner(new File(REQUIRED_MOD_FILEPATH));
+      modImages = ResourceBundle.getBundle("ooga.resources.mods." + currentMod);
+    }
+    catch (Exception e) {
+      return false;
+    }
+
+    while (requiredImages.hasNextLine()) {
+      String line = requiredImages.nextLine();
+      try {
+        ImageIO.read(new FileInputStream(modImages.getString(line)));
+      } catch (Exception e) {
+        return false;
+      }
+    }
+
+    // now, initialize all images
+    CardDisplay.initializeCards(modImages);
+    return true;
+
   }
 }
