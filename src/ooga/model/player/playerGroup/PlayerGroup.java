@@ -10,6 +10,9 @@ import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
+import ooga.model.instanceCreation.ReflectionErrorException;
+import ooga.model.instanceCreation.ReflectionHandler;
+import ooga.model.instanceCreation.ReflectionHandlerInterface;
 import ooga.model.player.player.PlayerGameInterface;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +38,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   private final List<PlayerGameInterface> myPlayers;
 
   public PlayerGroup(Map<String, String> playerMap, GameStatePlayerInterface game)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws ReflectionErrorException {
     myOrder = Integer.parseInt(playerResources.getString(STARTING_ORDER));
     myCurrentPlayer = 0;
     skipNext = false;
@@ -172,16 +175,11 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
   }
 
-  private void createPlayers()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+  private void createPlayers() throws ReflectionErrorException {
+    ReflectionHandlerInterface reflectionHandlerInterface = new ReflectionHandler();
     for (String name : myPlayerMap.keySet()) {
-      Class<?> playerClass = Class.forName(
-          String.format(playerResources.getString(PLAYER_BASE),
-              playerResources.getString(myPlayerMap.get(name))));
-      PlayerGameInterface player = (PlayerGameInterface) playerClass.getDeclaredConstructor(
-          String.class,
-          PlayerGroupPlayerInterface.class).newInstance(name, this);
-      myPlayers.add(player);
+      myPlayers.add(reflectionHandlerInterface.getPlayer(name, this,
+          playerResources.getString(myPlayerMap.get(name))));
     }
   }
 

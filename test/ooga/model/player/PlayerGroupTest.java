@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ooga.model.gameState.GameState;
+import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.player.ComputerPlayer;
 import ooga.model.player.playerGroup.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class PlayerGroupTest {
 
   @BeforeEach
   void start()
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ReflectionErrorException {
     gameState = mock(GameState.class);
     group = new PlayerGroup(new HashMap<>(), gameState);
     when(gameState.noPlayDraw()).thenReturn(new ArrayList<>());
