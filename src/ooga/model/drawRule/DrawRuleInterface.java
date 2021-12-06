@@ -52,4 +52,9 @@ public interface DrawRuleInterface {
    * @param probability desired probability
    */
   void setBlastProbability(double probability);
+
+  /**
+   * @return Whether the blaster went off
+   */
+  boolean blasted();
 }

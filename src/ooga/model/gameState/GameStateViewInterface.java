@@ -123,4 +123,9 @@ public interface GameStateViewInterface {
    * @return a list of cards in the blaster
    */
   Collection<ViewCardInterface> getBlasterCards();
+
+  /**
+   * @return Whether the blaster went off
+   */
+  boolean blasterWentOff();
 }

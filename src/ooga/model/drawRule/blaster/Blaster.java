@@ -10,6 +10,7 @@ import ooga.model.cards.ViewCardInterface;
 public class Blaster implements BlasterInterface {
   List<CardInterface> myCards;
   private double myProbability;
+  private boolean wentOff;
 
   public Blaster(double probability){
     myCards = new ArrayList<>();
@@ -29,6 +30,9 @@ public class Blaster implements BlasterInterface {
     } else{
       blasted = new ArrayList<>();
     }
+    if (blasted.isEmpty()){
+      wentOff = true;
+    }
     return blasted;
   }
 
@@ -43,5 +47,12 @@ public class Blaster implements BlasterInterface {
   @Override
   public Collection<ViewCardInterface> getCards() {
     return myCards.stream().map((CardInterface c)-> (ViewCardInterface) c).collect(Collectors.toList());
+  }
+
+  @Override
+  public boolean blasted() {
+    boolean ret = wentOff;
+    wentOff = false;
+    return ret;
   }
 }

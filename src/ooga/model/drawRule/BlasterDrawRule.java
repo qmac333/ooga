@@ -72,6 +72,9 @@ public class BlasterDrawRule implements DrawRuleInterface {
     return myBlaster.insert(cardsToInsert);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<ViewCardInterface> getBlasterCards() {
     return myBlaster.getCards();
@@ -83,5 +86,13 @@ public class BlasterDrawRule implements DrawRuleInterface {
   @Override
   public void setBlastProbability(double probability) {
     myBlaster.setProbabilityOfBlast(probability);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean blasted() {
+    return myBlaster.blasted();
   }
 }

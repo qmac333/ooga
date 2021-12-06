@@ -166,8 +166,7 @@ public class BasicUnoDisplay implements GameScreen {
     String playerName = currentPlayer.getName();
     int numPoints = currentPlayer.getPoints();
 
-    //if (controller.getGameState().getEndGame()) {
-    if (controller.getGameState().getCurrentPlayerCards().size() == 0) {
+    if (controller.getGameState().getEndGame()) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
       showMessage(alertString, AlertType.INFORMATION);
       controller.returnToSplashScreen();

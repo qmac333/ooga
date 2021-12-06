@@ -66,4 +66,12 @@ public class NormalDrawRule implements DrawRuleInterface {
   public void setBlastProbability(double probability) {
     // Do nothing because there is no blaster involved
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean blasted() {
+    return false; // Blaster never goes off in Normal Draw Rule
+  }
 }

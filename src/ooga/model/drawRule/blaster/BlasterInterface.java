@@ -28,4 +28,9 @@ public interface BlasterInterface {
    * @return View safe version of all cards in the blaster
    */
   Collection<ViewCardInterface> getCards();
+
+  /**
+   * @return If the blaster just went off
+   */
+  boolean blasted();
 }
