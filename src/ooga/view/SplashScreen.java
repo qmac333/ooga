@@ -25,8 +25,12 @@ public class SplashScreen implements GameScreen {
 
   private static final String LIGHT_MODE_FNAME = "splashScreen";
   private static final String DARK_MODE_FNAME = "splashScreenDark";
+  private static final String UNC_FNAME = "splashScreenUnc";
+  private static final String DUKE_FNAME = "splashScreenDuke";
   private static final String MAIN_LIGHT_MODE = "mainDisplay";
   private static final String MAIN_DARK_MODE = "mainDisplayDark";
+  private static final String MAIN_UNC = "mainDisplayUnc";
+  private static final String MAIN_DUKE = "mainDisplayDuke";
 
   private static final String UNO_LOGO = "./data/images/logos/Basic.png";
 
@@ -49,6 +53,7 @@ public class SplashScreen implements GameScreen {
 
   private Scene scene;
   private boolean dark;
+  private boolean unc;
 
   SplashScreenController controller;
 
@@ -101,13 +106,33 @@ public class SplashScreen implements GameScreen {
     Button darkMode = new Button(languageResources.getString("DarkMode"));
     darkMode.setOnAction(e -> changeColorMode(darkMode));
 
+    Button schoolColors = new Button(languageResources.getString("UNC"));
+    schoolColors.setOnAction(e -> changeSchool(schoolColors));
+
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
 
-    root.getChildren().addAll(darkMode, new Separator(), loadNew);
+    root.getChildren().addAll(darkMode, schoolColors, new Separator(), loadNew);
 
     return root;
+  }
+
+  private void changeSchool(Button button) {
+    unc = !unc;
+    if (unc) {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, UNC_FNAME)).toExternalForm());
+      button.setText(languageResources.getString("Duke"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_UNC));
+    } else {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, DUKE_FNAME)).toExternalForm());
+      button.setText(languageResources.getString("UNC"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_DUKE));
+    }
   }
 
   private void changeColorMode(Button button) {
@@ -172,6 +197,7 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("hbox");
 
     Button playButton = new Button(languageResources.getString("Play"));
+    playButton.getStyleClass().add("play-button");
     playButton.setId(PLAY_CSS_ID);
     playButton.setOnAction(e -> playNewGame());
 
