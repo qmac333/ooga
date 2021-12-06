@@ -1,0 +1,74 @@
+.button {
+    -fx-text-fill: black;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-background-color: #4B9CD3;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+}
+
+.play-button {
+    -fx-text-fill: black;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-background-color: ghostwhite;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+}
+
+.delete-button {
+    -fx-pref-width: 100px;
+    -fx-pref-height: 10px;
+    -fx-text-fill: black;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-background-color: #4B9CD3;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 2;
+}
+
+.vbox {
+    -fx-padding: 15px;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.hbox {
+    -fx-background-color: #4B9CD3;
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+.choice-box {
+    -fx-background-color: #4B9CD3;
+    -fx-mark-color: orange;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 20px;
+    -fx-background-radius: 10;
+}
+
+.choice-box > .label {
+    -fx-text-fill: black;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 10pt;
+    -fx-alignment: center;
+}
+
+.text-title {
+    -fx-font-smoothing-type: lcd;
+    -fx-fill: black;
+    -fx-font-size: 15pt;
+    -fx-font-family: "Arial Black";
+    -fx-alignment: center;
+}
+
+.ready-indicator {
+    -fx-fill: black;
+}

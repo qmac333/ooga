@@ -2,10 +2,7 @@ package ooga.model.deck;
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import ooga.model.CardFactory;
+import ooga.model.instanceCreation.CardFactory;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.TwoSidedCard;

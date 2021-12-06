@@ -1,7 +1,8 @@
 package ooga.model.cards;
 
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card that makes the next player draw 5 cards
@@ -10,10 +11,15 @@ import ooga.model.player.PlayerInterface;
  */
 public class DrawFiveCard extends OneSidedCard {
 
-  private final int DRAW_AMOUNT = 5;
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.DrawFiveResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 
   public DrawFiveCard(String color) {
-    super(color, "DrawFive", 20);
+    super(color, cardResources.getString(TYPE), Integer.parseInt(cardResources.getString(NUMBER)));
   }
 
   /**
@@ -22,14 +28,14 @@ public class DrawFiveCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.addDraw(DRAW_AMOUNT);
+    game.addDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player){
-    player.enforceDraw(DRAW_AMOUNT);
+  public void executeAction(PlayerCardInterface player) {
+    player.enforceDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
   }
 }

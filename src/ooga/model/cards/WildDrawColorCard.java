@@ -1,7 +1,8 @@
 package ooga.model.cards;
 
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card that lets the user pick a color and then have the next player draw until the draw a card of
@@ -11,10 +12,15 @@ import ooga.model.player.PlayerInterface;
  */
 public class WildDrawColorCard extends OneSidedCard {
 
-  private final int DRAW_AMOUNT = -2;
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildDrawColorResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 
   public WildDrawColorCard(String color) {
-    super(color, "WildDrawColor", 60);
+    super(color, cardResources.getString(TYPE), Integer.parseInt(cardResources.getString(NUMBER)));
   }
 
   /**
@@ -30,8 +36,8 @@ public class WildDrawColorCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
-    player.enforceDraw(DRAW_AMOUNT);
+  public void executeAction(PlayerCardInterface player) {
+    player.enforceDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
     super.setCardColor(player.getColor());
   }
 }

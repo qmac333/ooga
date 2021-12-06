@@ -1,12 +1,19 @@
 package ooga.model.cards;
 
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 public class DiscardColorCard extends OneSidedCard {
 
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.DiscardColorResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
+
   public DiscardColorCard(String color) {
-    super(color, "DiscardColor", 20);
+    super(color, cardResources.getString(TYPE), Integer.parseInt(cardResources.getString(NUMBER)));
   }
 
   /**
@@ -22,7 +29,7 @@ public class DiscardColorCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
+  public void executeAction(PlayerCardInterface player) {
     player.discardColor(super.getMyColor());
   }
 }

@@ -3,8 +3,8 @@ package ooga.model.hand;
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerGroupInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 public interface HandInterface {
 
@@ -33,7 +33,7 @@ public interface HandInterface {
    * @param player player playing it
    * @throws InvalidCardSelectionException if the card is unplayable
    */
-  void play(int indexOfCard, PlayerGroupInterface group, PlayerInterface player) throws InvalidCardSelectionException;
+  void play(int indexOfCard, PlayerGroupPlayerInterface group, PlayerCardInterface player) throws InvalidCardSelectionException;
 
   /**
    * Flips all the cards in the hand

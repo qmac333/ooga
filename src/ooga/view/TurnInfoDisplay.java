@@ -2,14 +2,8 @@ package ooga.view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -18,19 +12,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.util.Callback;
-import javafx.util.Duration;
-import javax.swing.text.View;
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
-import ooga.model.player.ViewPlayerInterface;
-import ooga.util.Config;
-import ooga.util.TurnInfoChanges;
-import ooga.view.SplashScreen.Player;
-import ooga.view.table.Table;
+import ooga.model.player.player.ViewPlayerInterface;
 
 public class TurnInfoDisplay implements DisplayableItem {
 

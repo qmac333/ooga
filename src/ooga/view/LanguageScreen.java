@@ -6,7 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import ooga.controller.LanguageScreenController;
+import ooga.controller.interfaces.LanguageScreenController;
 import ooga.util.Config;
 
 public class LanguageScreen implements GameScreen {

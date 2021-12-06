@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 
 /**
  * An interface that allows the view to interact with the game state, but in a read-only way.
@@ -117,4 +117,10 @@ public interface GameStateViewInterface {
    * @param uno whether the user has called uno
    */
   void setCalledUno(boolean uno);
+
+  /**
+   * Returns a list of the cards in the blaster to display
+   * @return a list of cards in the blaster
+   */
+  Collection<ViewCardInterface> getBlasterCards();
 }

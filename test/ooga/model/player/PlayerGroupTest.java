@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ooga.model.gameState.GameState;
+import ooga.model.instanceCreation.ReflectionErrorException;
+import ooga.model.player.player.ComputerPlayer;
+import ooga.model.player.playerGroup.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,7 +25,7 @@ public class PlayerGroupTest {
 
   @BeforeEach
   void start()
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ReflectionErrorException {
     gameState = mock(GameState.class);
     group = new PlayerGroup(new HashMap<>(), gameState);
     when(gameState.noPlayDraw()).thenReturn(new ArrayList<>());
@@ -63,12 +66,12 @@ public class PlayerGroupTest {
     group.addPlayer(new ComputerPlayer("Player2", group));
     group.addPlayer(new ComputerPlayer("Player3", group));
     // THEN the current player is 0
-    assertEquals(0, group.getCurrentPlayer());
+    assertEquals(0, group.getCurrentPlayerIndex());
     // AND WHEN we take two turns
     group.loadNextPlayer();
     group.loadNextPlayer();
     // THEN the current player is 2
-    assertEquals(2, group.getCurrentPlayer());
+    assertEquals(2, group.getCurrentPlayerIndex());
   }
 
   @Test
@@ -81,7 +84,7 @@ public class PlayerGroupTest {
     group.reverseOrder();
     group.loadNextPlayer();
     // THEN the next player is two
-    assertEquals(2, group.getCurrentPlayer());
+    assertEquals(2, group.getCurrentPlayerIndex());
   }
 
   @Test
@@ -94,12 +97,12 @@ public class PlayerGroupTest {
     group.skipNextPlayer();
     group.loadNextPlayer();
     // THEN the next player is two
-    assertEquals(2, group.getCurrentPlayer());
+    assertEquals(2, group.getCurrentPlayerIndex());
     // AND WHEN we skip again
     group.skipNextPlayer();
     group.loadNextPlayer();
     // THEN it's now to player 1
-    assertEquals(1, group.getCurrentPlayer());
+    assertEquals(1, group.getCurrentPlayerIndex());
   }
 
   @Test
@@ -112,6 +115,6 @@ public class PlayerGroupTest {
     group.skipEveryone();
     group.loadNextPlayer();
     // THEN the next player is still 0
-    assertEquals(0, group.getCurrentPlayer());
+    assertEquals(0, group.getCurrentPlayerIndex());
   }
 }

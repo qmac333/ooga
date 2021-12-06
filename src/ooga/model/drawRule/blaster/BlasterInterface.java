@@ -2,6 +2,7 @@ package ooga.model.drawRule.blaster;
 
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 
 /**
  * Interface for the blaster object for the Uno Blast Version
@@ -22,4 +23,9 @@ public interface BlasterInterface {
    * @param probability desired for change
    */
   void setProbabilityOfBlast(double probability);
+
+  /**
+   * @return View safe version of all cards in the blaster
+   */
+  Collection<ViewCardInterface> getCards();
 }

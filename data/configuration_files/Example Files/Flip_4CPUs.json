@@ -1,0 +1,6 @@
+{
+  "version" : "Flip",
+  "playerMap" : {"Comp1" : "CPU", "Comp2" : "CPU", "Comp3" :  "CPU", "Comp4" :  "CPU"},
+  "points" : 150,
+  "stackable" : false
+}

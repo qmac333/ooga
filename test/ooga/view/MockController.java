@@ -1,6 +1,6 @@
 package ooga.view;
 
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 
 public class MockController implements UnoDisplayController {
@@ -18,7 +18,7 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
-  public void toSplashScreen() {
+  public void returnToSplashScreen() {
 
   }
 
@@ -29,11 +29,6 @@ public class MockController implements UnoDisplayController {
 
   @Override
   public String getGameVersion() {
-    return "";
-  }
-
-  @Override
-  public String getMod(){
     return "";
   }
 
