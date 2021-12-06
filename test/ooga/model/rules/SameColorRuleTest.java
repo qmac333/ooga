@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ooga.model.cards.DrawTwoCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
+import ooga.model.rules.individualRules.SameColorRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

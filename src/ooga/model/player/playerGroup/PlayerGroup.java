@@ -1,6 +1,5 @@
 package ooga.model.player.playerGroup;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,7 +10,6 @@ import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
 import ooga.model.instanceCreation.ReflectionErrorException;
-import ooga.model.instanceCreation.ReflectionHandler;
 import ooga.model.instanceCreation.ReflectionHandlerInterface;
 import ooga.model.player.player.PlayerGameInterface;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameInterface {
 
   private static final String BUNDLE_PATH = "ooga.model.player.playerGroup.PlayerGroupResources";
-  private static final String PLAYER_BASE = "PlayerClassBase";
   private static final String STARTING_ORDER = "StartingOrder";
   private static final String FLIP_ORDER = "FlipOrder";
   private static final String UNO = "UnoHandSize";
@@ -176,9 +173,8 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   }
 
   private void createPlayers() throws ReflectionErrorException {
-    ReflectionHandlerInterface reflectionHandlerInterface = new ReflectionHandler();
     for (String name : myPlayerMap.keySet()) {
-      myPlayers.add(reflectionHandlerInterface.getPlayer(name, this,
+      myPlayers.add(ReflectionHandlerInterface.getPlayer(name, this,
           playerResources.getString(myPlayerMap.get(name))));
     }
   }

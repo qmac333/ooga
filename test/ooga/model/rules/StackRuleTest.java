@@ -13,6 +13,7 @@ import ooga.model.cards.WildCard;
 import ooga.model.cards.WildDrawColorCard;
 import ooga.model.cards.WildDrawFourCard;
 import ooga.model.cards.WildDrawTwoCard;
+import ooga.model.rules.individualRules.StackRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
