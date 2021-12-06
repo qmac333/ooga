@@ -106,6 +106,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public boolean blasterWentOff() {
+    return false;
+  }
+
+  @Override
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }
