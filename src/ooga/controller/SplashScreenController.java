@@ -13,4 +13,6 @@ public interface SplashScreenController {
 
   boolean loadFile(String filepath);
 
+  void setColorTheme(String cssFile);
+
 }
