@@ -32,6 +32,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private GameState model;
 
   private String currentVersion;
+  private Map<String, String> currentPlayerMap;
+  private int currentPoints;
+  private boolean currentStackable;
+
   private String language = "English";
   private String colorThemeFilepath = "/ooga/resources/mainDisplay.css";
 
@@ -55,6 +59,37 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
+   * Sets the language for the game
+   * @param language new language for the game
+   */
+  @Override
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
+  /**
+   * Creates a new splash screen in the given language
+   * @param language desired language
+   */
+  @Override
+  public void createSplashScreen(String language) {
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this, language);
+    }
+    showScreen(splashScreen);
+    languageScreen = null;
+  }
+
+  /**
+   * Sets the color theme for the game
+   * @param cssFile the CSS filepath that UnoDisplay will use
+   */
+  @Override
+  public void setColorThemeFilepath(String cssFile) {
+    colorThemeFilepath = cssFile;
+  }
+
+  /**
    * Creates new model (GameState) object based on the input parameters provided
    * @param version **see GameState documentation**
    * @param playerMap **see GameState documentation**
@@ -66,22 +101,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin > 0){
       currentVersion = version;
-      model = new GameState(version, playerMap, pointsToWin, stackable);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Creates a new game display and shows it to the user
-   * @return boolean indicating successful creation of a new game
-   */
-  @Override
-  public boolean playNewGame() {
-    if(model != null){
-      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
-      showScreen(unoDisplay);
-      splashScreen = null;
+      currentPlayerMap = playerMap;
+      currentPoints = pointsToWin;
+      currentStackable = stackable;
+      model = new GameState(currentVersion, currentPlayerMap, currentPoints, currentStackable);
       return true;
     }
     return false;
@@ -98,6 +121,9 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       String json = getFileContent(filepath);
       model = jsonAdapter.fromJson(json);
       currentVersion = model.getVersion();
+      currentPlayerMap = model.getPlayerMap();
+      currentPoints = model.getPointsToWin();
+      currentStackable = model.getStackable();
       return true;
     }
     catch (IOException | JsonDataException e){
@@ -116,6 +142,31 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
+  }
+
+  /**
+   * Creates a new game display and shows it to the user
+   * @return boolean indicating successful creation of a new game
+   */
+  @Override
+  public boolean playNewGame() {
+    if(model != null){
+      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
+      showScreen(unoDisplay);
+      splashScreen = null;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns the user from the main Uno Game Screen to the initial Language Screen
+   */
+  @Override
+  public void returnToSplashScreen() {
+    unoDisplay = null;
+    model = null;
+    start();
   }
 
   /**
@@ -143,29 +194,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Creates a new splash screen in the given language
-   * @param language desired language
-   */
-  @Override
-  public void createSplashScreen(String language) {
-    if (splashScreen == null) {
-      splashScreen = new SplashScreen(this, language);
-    }
-    showScreen(splashScreen);
-    languageScreen = null;
-  }
-
-  /**
-   * Returns the user from the main Uno Game Screen to the initial Language Screen
-   */
-  @Override
-  public void returnToSplashScreen() {
-    unoDisplay = null;
-    model = null;
-    start();
-  }
-
-  /**
    * Provides the GameState interface to the view, giving it access to only the methods it needs
    * @return the GameStateViewInterface object
    */
@@ -175,11 +203,38 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Gets the version of the UNO game that is currently being played.
+   * Gets the version of the UNO game that is currently being played
    * @return String representing the version
    */
   @Override
   public String getGameVersion() { return currentVersion; }
+
+  /**
+   * Gets the map of player names to player type
+   * @return Map representing the players
+   */
+  @Override
+  public Map<String, String> getPlayerMap(){
+    return currentPlayerMap;
+  }
+
+  /**
+   * Gets points required to win the game
+   * @return int representing the points
+   */
+  @Override
+  public int getPoints(){
+    return currentPoints;
+  }
+
+  /**
+   * Gets the parameter indicating whether +4 and +2 cards can be stacked
+   * @return boolean representing stackability
+   */
+  @Override
+  public boolean getStackable(){
+    return currentStackable;
+  }
 
   /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
@@ -207,26 +262,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   public UnoDisplay getUnoDisplay(){
     return unoDisplay;
-  }
-
-
-  /**
-   * Sets the language for the game
-   * @param language new language for the game
-   */
-  @Override
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-
-  /**
-   * Sets the color theme for the game
-   * @param cssFile the CSS filepath that UnoDisplay will use
-   */
-  @Override
-  public void setColorThemeFilepath(String cssFile) {
-    colorThemeFilepath = cssFile;
   }
 
   /**
