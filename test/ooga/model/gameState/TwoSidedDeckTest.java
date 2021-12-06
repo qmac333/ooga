@@ -12,9 +12,9 @@ public class TwoSidedDeckTest {
 
     @Test
     public void initializeTwoSidedDeckTest(){
-        UnoDeck twoSidedCardsDeck = new UnoDeck("TwoSided");
+        UnoDeck twoSidedCardsDeck = new UnoDeck("Flip");
         UnoDeck normalDeck = new UnoDeck("Basic");
 
-        assertTrue(twoSidedCardsDeck.getNumCards() > normalDeck.getNumCards());
+        assertTrue(twoSidedCardsDeck.getNumCards() == normalDeck.getNumCards());
     }
 }

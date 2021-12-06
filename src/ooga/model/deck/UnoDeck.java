@@ -1,7 +1,10 @@
 package ooga.model.deck;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import ooga.model.CardFactory;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.OneSidedCard;
@@ -35,11 +38,16 @@ public class UnoDeck extends CardPile{
 
         List<String> twoSidedCardFronts;
         List<String> twoSidedCardBacks;
+        List<String> immutableTwoSidedCardBacks;
         int numTwoSidedCards;
         try{
             twoSidedCardFronts = List.of(deckProperties.getString("TwoSidedCardFronts").split(","));
-            twoSidedCardBacks = List.of(deckProperties.getString("TwoSidedCardBacks").split(","));
-            Collections.shuffle(twoSidedCardBacks);
+            immutableTwoSidedCardBacks = List.of(deckProperties.getString("TwoSidedCardBacks").split(","));
+            twoSidedCardBacks = new ArrayList<String>();
+            for(String card : immutableTwoSidedCardBacks){
+                twoSidedCardBacks.add(card);
+            }
+            Collections.shuffle((ArrayList) twoSidedCardBacks);
             numTwoSidedCards = Integer.parseInt(deckProperties.getString("NumberOfTwoSided"));
         }
         catch(MissingResourceException e){
