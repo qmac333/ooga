@@ -82,8 +82,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public GameState() {
     impendingDraw = 0;
-    this.pointsToWin = Integer.parseInt(POINTS_TO_WIN);
-    cardContainer = new DeckWrapper(new UnoDeck(GAME_TYPE), new CardPile());
+    this.pointsToWin = Integer.parseInt(gameStateResources.getString(POINTS_TO_WIN));
+    cardContainer = new DeckWrapper(new UnoDeck(gameStateResources.getString(GAME_TYPE)), new CardPile());
     cardPerPlayer = Integer.parseInt(gameStateResources.getString(CARDS_PER_PLAYER));
     try {
       myPlayerGroup = new PlayerGroup(new HashMap<>(), this);

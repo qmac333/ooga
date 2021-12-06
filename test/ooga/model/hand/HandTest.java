@@ -2,13 +2,20 @@ package ooga.model.hand;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import java.util.List;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.DrawOneCard;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
 import ooga.model.cards.WildCard;
 import ooga.model.gameState.GameState;
+import ooga.model.instanceCreation.ReflectionErrorException;
+import ooga.model.player.player.ComputerPlayer;
+import ooga.model.player.player.Player;
+import ooga.model.player.player.PlayerGameInterface;
+import ooga.model.player.playerGroup.PlayerGroup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,6 +28,9 @@ public class HandTest {
 
   Hand myHand;
 
+  Player p;
+  PlayerGroup pg;
+
   @Mock
   GameState myGame;
 
@@ -31,9 +41,11 @@ public class HandTest {
   WildCard card2;
 
   @BeforeEach
-  public void start() {
+  public void start() throws ReflectionErrorException {
     myHand = new Hand();
     myGame = Mockito.mock(GameState.class);
+    pg = new PlayerGroup(new HashMap<>(), myGame);
+    p = new ComputerPlayer("Paul", pg);
   }
 
   @Test
@@ -47,20 +59,20 @@ public class HandTest {
   @Test
   public void handSizeDecreasesOnPlay() throws InvalidCardSelectionException {
     myHand.add(List.of(new ReverseCard("red"), new NumberCard("red", 5)));
-    myHand.play(1, myGame);
+    myHand.play(1, pg, p);
     assertEquals(1, myHand.size());
   }
 
   @Test
   public void correctMethodCalledOnTheGame() throws InvalidCardSelectionException {
-    myHand.add(List.of(new SkipCard("red")));
-    myHand.play(0, myGame);
-    verify(myGame, times(1)).skipNextPlayer();
+    myHand.add(List.of(new DrawOneCard("red")));
+    myHand.play(0, pg, p);
+    verify(myGame, times(1)).addDraw(1);
   }
 
   @Test
   public void throwsExceptionsWhenHandTooSmall() {
-    assertThrows(InvalidCardSelectionException.class, () -> myHand.play(0, myGame));
+    assertThrows(InvalidCardSelectionException.class, () -> myHand.play(0, pg, p));
   }
 
   @Test
