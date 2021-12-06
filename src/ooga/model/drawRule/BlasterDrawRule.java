@@ -3,17 +3,25 @@ package ooga.model.drawRule;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.drawRule.blaster.Blaster;
 import ooga.model.drawRule.blaster.BlasterInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 
-public class BlasterDrawRule implements DrawRuleInterface{
-  private final double DEFAULT_BLASTER_PROBABILITY = 0.5;
+public class BlasterDrawRule implements DrawRuleInterface {
+
+  private static final String BUNDLE_PACKAGE = "ooga.model.drawRule.DrawRuleResources";
+  private static final String DEFAULT_BLASTER_PROBABILITY = "DefaultBlastProbability";
+
+  private static final ResourceBundle blastResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
+
   private final BlasterInterface myBlaster;
 
-  public BlasterDrawRule(){
-    myBlaster = new Blaster(DEFAULT_BLASTER_PROBABILITY);
+  public BlasterDrawRule() {
+    myBlaster = new Blaster(
+        Double.parseDouble(blastResources.getString(DEFAULT_BLASTER_PROBABILITY)));
   }
 
   /**
@@ -30,7 +38,7 @@ public class BlasterDrawRule implements DrawRuleInterface{
   @Override
   public Collection<CardInterface> forcedDraw(GameStateDrawInterface game, int amount) {
     List<CardInterface> cardsToInsert = new ArrayList<>();
-    for (int i = 0; i < amount; i++){
+    for (int i = 0; i < amount; i++) {
       cardsToInsert.add(game.getNextCard());
     }
     return myBlaster.insert(cardsToInsert);
@@ -53,7 +61,8 @@ public class BlasterDrawRule implements DrawRuleInterface{
    * {@inheritDoc}
    */
   @Override
-  public Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String colorToMatch) {
+  public Collection<CardInterface> drawUntilColor(GameStateDrawInterface game,
+      String colorToMatch) {
     Collection<CardInterface> cardsToInsert = new ArrayList<>();
     CardInterface drawn;
     do {
@@ -61,6 +70,11 @@ public class BlasterDrawRule implements DrawRuleInterface{
       cardsToInsert.add(drawn);
     } while (!drawn.getMyColor().equals(colorToMatch));
     return myBlaster.insert(cardsToInsert);
+  }
+
+  @Override
+  public Collection<ViewCardInterface> getBlasterCards() {
+    return myBlaster.getCards();
   }
 
   /**

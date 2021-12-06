@@ -6,8 +6,11 @@ import ooga.model.cards.CardInterface;
 
 public class StackRule implements RuleInterface {
 
-  private final ResourceBundle ruleResources = ResourceBundle.getBundle(
-      "ooga.model.rules.RulesInformation");
+  private final static String BUNDLE_PATH = "ooga.model.rules.RulesInformation";
+  private final static String STACKER = "Stacker";
+  private final static String SPLIT = "Divider";
+
+  private final ResourceBundle ruleResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   /**
    * {@inheritDoc}
@@ -23,10 +26,12 @@ public class StackRule implements RuleInterface {
    */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
-    if (draw <= 0)
+    if (draw <= 0) {
       return false;
+    }
 
-    List<String> stackers = List.of(ruleResources.getString("Stacker").split(","));
+    List<String> stackers = List.of(
+        ruleResources.getString(STACKER).split(ruleResources.getString(SPLIT)));
     return stackers.contains(cardToPlay.getType());
   }
 }

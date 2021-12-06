@@ -2,8 +2,7 @@ package ooga.model.cards;
 
 
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.Player;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * interface implemented by all Cards in a game. changes the GameState and/or player that holds the
@@ -26,7 +25,7 @@ public interface CardInterface {
    *
    * @param player The player playing the card
    */
-  void executeAction(PlayerInterface player);
+  void executeAction(PlayerCardInterface player);
 
   /**
    * @return the type of the card

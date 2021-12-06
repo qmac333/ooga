@@ -13,4 +13,14 @@ public interface SplashScreenController {
 
   boolean loadFile(String filepath);
 
+  void setColorThemeFilepath(String cssFile);
+
+  String getGameVersion();
+
+  Map<String, String> getPlayerMap();
+
+  int getPoints();
+
+  boolean getStackable();
+
 }

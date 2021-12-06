@@ -1,8 +1,14 @@
 package ooga.model.rules;
 
+import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
 
 public class SameNumberRule implements RuleInterface {
+
+  private final static String BUNDLE_PATH = "ooga.model.rules.RulesInformation";
+  private final static String NUMBER = "Number";
+
+  private final ResourceBundle ruleResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   /**
    * {@inheritDoc}
@@ -10,7 +16,7 @@ public class SameNumberRule implements RuleInterface {
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
-    if (cardToMatch.getType().equals("Number") && cardToPlay.getType().equals("Number")) {
+    if (cardToMatch.getType().equals(ruleResources.getString(NUMBER)) && cardToPlay.getType().equals(ruleResources.getString(NUMBER))) {
       return cardToMatch.getNum() == cardToPlay.getNum();
     }
     return false;
@@ -24,7 +30,7 @@ public class SameNumberRule implements RuleInterface {
     if (draw != 0)
       return false;
 
-    if (cardToMatch.getType().equals("Number") && cardToPlay.getType().equals("Number")) {
+    if (cardToMatch.getType().equals(ruleResources.getString(NUMBER)) && cardToPlay.getType().equals(ruleResources.getString(NUMBER))) {
       return cardToMatch.getNum() == cardToPlay.getNum();
     }
     return false;

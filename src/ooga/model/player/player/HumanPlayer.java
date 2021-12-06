@@ -1,11 +1,10 @@
-package ooga.model.player;
+package ooga.model.player.player;
 
-import java.util.function.Supplier;
-import ooga.model.gameState.GameStatePlayerInterface;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
 public class HumanPlayer extends Player {
 
-  public HumanPlayer(String name, PlayerGroupInterface group) {
+  public HumanPlayer(String name, PlayerGroupPlayerInterface group) {
     super(name, group);
   }
 
@@ -14,8 +13,7 @@ public class HumanPlayer extends Player {
    */
   @Override
   public void playCard() {
-    int index = -1;
-    index = super.getMyIntegerSupplier().get();
+    int index = super.getMyIntegerSupplier().get();
     try {
       if (index < 0){
         super.addCards(getMyGroup().noPlayDraw());

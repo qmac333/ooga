@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.UnoDisplayController;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.view.GameScreen;
 import ooga.view.HandListDisplay;
@@ -60,7 +60,7 @@ public class UnoDisplay implements GameScreen {
    *
    * @param controller a variable that provides access to controller methods
    */
-  public UnoDisplay(UnoDisplayController controller, String language) {
+  public UnoDisplay(UnoDisplayController controller, String language, String cssFile) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     themeImageResources = ResourceBundle.getBundle(
@@ -70,7 +70,7 @@ public class UnoDisplay implements GameScreen {
 
     unoDisplay = new BorderPane();
     myScene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-    myScene.getStylesheets().add(UnoDisplay.class.getResource(CSS_STYLE).toExternalForm());
+    myScene.getStylesheets().add(UnoDisplay.class.getResource(cssFile).toExternalForm());
 
     this.turnDisplay = new TurnInfoDisplay(controller, language);
     this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
@@ -130,7 +130,7 @@ public class UnoDisplay implements GameScreen {
     Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
     button.setId(BACK_BUTTON_CSS);
-    button.setOnAction(e -> controller.toSplashScreen());
+    button.setOnAction(e -> controller.returnToSplashScreen());
     left.getChildren().add(button);
 
     Button saveButton = new Button(languageResources.getString("Save"));
@@ -170,7 +170,7 @@ public class UnoDisplay implements GameScreen {
     if (controller.getGameState().getCurrentPlayerCards().size() == 0) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
       showMessage(alertString, AlertType.INFORMATION);
-      controller.toSplashScreen();
+      controller.returnToSplashScreen();
     }
   }
 

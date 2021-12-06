@@ -1,16 +1,13 @@
 package ooga.model.cards;
 
-import java.util.function.Supplier;
-import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.Player;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
 
-  private int myNum;
+  private final int myNum;
   private String myColor;
-  private String myType;
+  private final String myType;
 
 
   public OneSidedCard(String color, String type, int num) {
@@ -30,7 +27,7 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
    * {@inheritDoc}
    */
   @Override
-  public abstract void executeAction(PlayerInterface player);
+  public abstract void executeAction(PlayerCardInterface player);
 
   /**
    * {@inheritDoc}

@@ -1,7 +1,9 @@
 package ooga.view;
 
+import java.util.Collection;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -19,7 +21,7 @@ public class BlasterDisplay implements DisplayableItem {
     private UnoDisplayController controller;
     private FlowPane blasterCardsDisplay;
     private Pane displayableItem;
-    private List<ViewCardInterface> blasterCards;
+    private Collection<ViewCardInterface> blasterCards;
 
     private ResourceBundle languageResources;
 
@@ -71,5 +73,13 @@ public class BlasterDisplay implements DisplayableItem {
         displayableItem.getChildren().add(blasterText);
         displayableItem.getChildren().add(blasterCardsDisplay);
         displayableItem.getStyleClass().add("hand_list_main_display");
+    }
+
+    // displays alert/error message to the user
+    private void blasted(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(languageResources.getString("OhNo"));
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
     }
 }

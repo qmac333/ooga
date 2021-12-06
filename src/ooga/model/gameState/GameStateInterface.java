@@ -1,7 +1,7 @@
 package ooga.model.gameState;
 
 import ooga.model.cards.CardInterface;
-import ooga.model.player.Player;
+import ooga.model.player.player.Player;
 
 /**
  * Interface implemented by the GameState Class. Provides an API to be used by the Controller for
