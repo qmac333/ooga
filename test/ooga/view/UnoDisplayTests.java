@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.view.maindisplay.UnoDisplay;
+import ooga.view.maindisplay.BasicUnoDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -29,7 +29,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Test
   public void testBack() {
-    Button backButton = lookup("#" + UnoDisplay.BACK_BUTTON_CSS).query();
+    Button backButton = lookup("#" + BasicUnoDisplay.BACK_BUTTON_CSS).query();
     clickOn(backButton);
 
     try {
@@ -42,7 +42,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Test
   public void testThemeImage() {
-    ImageView themeImage = lookup("#" + UnoDisplay.THEME_IMAGE_CSS).query();
+    ImageView themeImage = lookup("#" + BasicUnoDisplay.THEME_IMAGE_CSS).query();
     try {
       Image baseImage = new Image(new FileInputStream("data/images/logos/Basic.png"));
       assertEquals(baseImage.getWidth(), themeImage.getImage().getWidth());
