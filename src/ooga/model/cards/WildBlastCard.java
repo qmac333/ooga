@@ -1,7 +1,8 @@
 package ooga.model.cards;
 
+import ooga.model.cards.OneSidedCard;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card that has the next player draw until they set off the blaster
@@ -30,7 +31,7 @@ public class WildBlastCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
+  public void executeAction(PlayerCardInterface player) {
     player.enforceDraw(DRAW_AMOUNT);
     super.setCardColor(player.getColor());
   }

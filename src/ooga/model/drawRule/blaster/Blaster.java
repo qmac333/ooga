@@ -3,7 +3,9 @@ package ooga.model.drawRule.blaster;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 
 public class Blaster implements BlasterInterface {
   List<CardInterface> myCards;
@@ -36,5 +38,10 @@ public class Blaster implements BlasterInterface {
   @Override
   public void setProbabilityOfBlast(double probability) {
     myProbability = probability;
+  }
+
+  @Override
+  public Collection<ViewCardInterface> getCards() {
+    return myCards.stream().map((CardInterface c)-> (ViewCardInterface) c).collect(Collectors.toList());
   }
 }

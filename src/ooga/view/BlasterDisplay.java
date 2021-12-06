@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.util.Collection;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
@@ -19,7 +20,7 @@ public class BlasterDisplay implements DisplayableItem {
     private UnoDisplayController controller;
     private FlowPane blasterCardsDisplay;
     private Pane displayableItem;
-    private List<ViewCardInterface> blasterCards;
+    private Collection<ViewCardInterface> blasterCards;
 
     private ResourceBundle languageResources;
 

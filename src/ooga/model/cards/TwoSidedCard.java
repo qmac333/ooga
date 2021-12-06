@@ -2,7 +2,7 @@ package ooga.model.cards;
 
 import java.util.List;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card for UnoFlip that holds two different normal cards inside of it. When it flips, the card that
@@ -33,7 +33,7 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player) {
+  public void executeAction(PlayerCardInterface player) {
     myCards.get(activeSide).executeAction(player);
   }
 

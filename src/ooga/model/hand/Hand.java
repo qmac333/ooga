@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerGroupInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 import org.jetbrains.annotations.NotNull;
 
 public class Hand implements Iterable<CardInterface>, HandInterface {
@@ -46,7 +46,7 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
    * {@inheritDoc}
    */
   @Override
-  public void play(int indexOfCard, PlayerGroupInterface group, PlayerInterface player)
+  public void play(int indexOfCard, PlayerGroupPlayerInterface group, PlayerCardInterface player)
       throws InvalidCardSelectionException {
     if (indexOfCard >= myCards.size()) {
       throw new InvalidCardSelectionException(

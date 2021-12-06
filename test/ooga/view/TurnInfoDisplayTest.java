@@ -2,13 +2,11 @@ package ooga.view;
 
 import java.util.List;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 

@@ -2,7 +2,7 @@ package ooga.model.drawRule;
 
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
-import ooga.model.gameState.GameState;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 
 public interface DrawRuleInterface {
@@ -40,6 +40,11 @@ public interface DrawRuleInterface {
    * @return resulting cards
    */
   Collection<CardInterface> drawUntilColor(GameStateDrawInterface game, String color);
+
+  /**
+   * @return View Approved version of all cards in the blaster
+   */
+  Collection<ViewCardInterface> getBlasterCards();
 
   /**
    * Sets the probability of the blaster if any

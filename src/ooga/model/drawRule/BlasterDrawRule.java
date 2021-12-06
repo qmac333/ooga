@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.drawRule.blaster.Blaster;
 import ooga.model.drawRule.blaster.BlasterInterface;
 import ooga.model.gameState.GameStateDrawInterface;
@@ -61,6 +62,11 @@ public class BlasterDrawRule implements DrawRuleInterface{
       cardsToInsert.add(drawn);
     } while (!drawn.getMyColor().equals(colorToMatch));
     return myBlaster.insert(cardsToInsert);
+  }
+
+  @Override
+  public Collection<ViewCardInterface> getBlasterCards() {
+    return myBlaster.getCards();
   }
 
   /**

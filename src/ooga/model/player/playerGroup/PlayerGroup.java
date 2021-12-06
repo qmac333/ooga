@@ -1,22 +1,22 @@
-package ooga.model.player;
+package ooga.model.player.playerGroup;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.ViewCardInterface;
-import ooga.model.deck.DeckWrapperInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
+import ooga.model.player.player.PlayerGameInterface;
+import org.jetbrains.annotations.NotNull;
 
-public class PlayerGroup implements PlayerGroupInterface {
+public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameInterface {
 
   private final ResourceBundle playerResources = ResourceBundle.getBundle(
-      "ooga.model.player.PlayerResources");
+      "ooga.model.player.playerGroup.PlayerResources");
 
   private int myCurrentPlayer;
   private int myOrder;
@@ -26,7 +26,7 @@ public class PlayerGroup implements PlayerGroupInterface {
   private Map<String, String> myPlayerMap;
   private boolean unoCalled;
 
-  private List<PlayerInterface> myPlayers;
+  private List<PlayerGameInterface> myPlayers;
 
   public PlayerGroup(Map<String, String> playerMap, GameStatePlayerInterface game)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -42,27 +42,13 @@ public class PlayerGroup implements PlayerGroupInterface {
   }
 
   @Override
-  public List<ViewPlayerInterface> getViewPlayers() {
-    List<ViewPlayerInterface> players = new ArrayList<>();
-    for (PlayerInterface p : myPlayers){
-      players.add((ViewPlayerInterface) p);
-    }
-    return players;
-  }
-
-  @Override
-  public Collection<Integer> getCurrentPlayerValidIndexes() {
-    return myPlayers.get(myCurrentPlayer).getValidIndexes();
+  public PlayerGameInterface getCurrentPlayer() {
+    return myPlayers.get(myCurrentPlayer);
   }
 
   @Override
   public void skipEveryone() {
     skipEveryone = true;
-  }
-
-  @Override
-  public List<ViewCardInterface> getCurrentPlayerCards() {
-    return myPlayers.get(myCurrentPlayer).getViewCards();
   }
 
   @Override
@@ -77,7 +63,7 @@ public class PlayerGroup implements PlayerGroupInterface {
 
   @Override
   public void flipGame() {
-    for (PlayerInterface player : myPlayers){
+    for (PlayerGameInterface player : myPlayers){
       player.flipHand();
     }
   }
@@ -93,13 +79,6 @@ public class PlayerGroup implements PlayerGroupInterface {
   }
 
   @Override
-  public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
-    for (PlayerInterface player : myPlayers){
-      player.setSuppliers(integerSupplier, stringSupplier);
-    }
-  }
-
-  @Override
   public void playTurn() {
     myPlayers.get(myCurrentPlayer).playCard();
     checkUno();
@@ -111,12 +90,12 @@ public class PlayerGroup implements PlayerGroupInterface {
   }
 
   @Override
-  public void addPlayer(PlayerInterface player) {
+  public void addPlayer(PlayerGameInterface player) {
     myPlayers.add(player);
   }
 
   @Override
-  public int getCurrentPlayer() {
+  public int getCurrentPlayerIndex() {
     return myCurrentPlayer;
   }
 
@@ -126,28 +105,9 @@ public class PlayerGroup implements PlayerGroupInterface {
   }
 
   @Override
-  public List<Hand> getHands() {
-    List<Hand> hands = new ArrayList<>();
-    for (PlayerInterface player : myPlayers){
-      hands.add(player.getMyHand());
-    }
-    return hands;
-  }
-
-  @Override
   public boolean userPicksCard() {
     String currentPlayerName = myPlayers.get(myCurrentPlayer).getName();
     return myPlayerMap.get(currentPlayerName).equals("Human");
-  }
-
-  @Override
-  public void dealCards(DeckWrapperInterface deck, int cardsPerPlayer) {
-    for (int i = 0; i < cardsPerPlayer; i++) {
-      for (PlayerInterface player : myPlayers) {
-        CardInterface newCard = deck.draw();
-        player.addCards(List.of(newCard));
-      }
-    }
   }
 
   @Override
@@ -198,22 +158,10 @@ public class PlayerGroup implements PlayerGroupInterface {
   @Override
   public void countAndAwardPoints() {
     int totalPoints = 0;
-    for (PlayerInterface p : myPlayers){
+    for (PlayerGameInterface p : myPlayers){
       totalPoints += p.getNumPoints();
     }
     myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
-  }
-
-  @Override
-  public boolean currentPlayerExceeds(int threshold) {
-    return myPlayers.get(myCurrentPlayer).getPoints() >= threshold;
-  }
-
-  @Override
-  public void dumpCards() {
-    for (PlayerInterface p : myPlayers){
-      p.dumpCards();
-    }
   }
 
   private void createPlayers()
@@ -222,8 +170,8 @@ public class PlayerGroup implements PlayerGroupInterface {
       Class<?> playerClass = Class.forName(
           String.format(playerResources.getString("PlayerClassBase"),
               playerResources.getString(myPlayerMap.get(name))));
-      Player player = (Player) playerClass.getDeclaredConstructor(String.class,
-          PlayerGroupInterface.class).newInstance(name, this);
+      PlayerGameInterface player = (PlayerGameInterface) playerClass.getDeclaredConstructor(String.class,
+          PlayerGroupPlayerInterface.class).newInstance(name, this);
       myPlayers.add(player);
     }
   }
@@ -237,11 +185,27 @@ public class PlayerGroup implements PlayerGroupInterface {
     unoCalled = false;
   }
 
-  private boolean checkHandOver(){
-    if (myPlayers.get(myCurrentPlayer).getHandSize() == 0){
+  @NotNull
+  @Override
+  public Iterator<PlayerGameInterface> iterator() {
+    return new PlayerGroupIterator();
+  }
 
-      return true;
+  private class PlayerGroupIterator implements Iterator<PlayerGameInterface> {
+
+    private int position = 0;
+
+    @Override
+    public boolean hasNext() {
+      return position < myPlayers.size();
     }
-    return false;
+
+    @Override
+    public PlayerGameInterface next() {
+      if (hasNext()) {
+        return myPlayers.get(position++);
+      }
+      return null;
+    }
   }
 }
