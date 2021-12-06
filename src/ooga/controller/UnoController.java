@@ -32,9 +32,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private GameState model;
 
   private String currentVersion;
-  private String currentMod;
   private String language = "English";
-  private String colorTheme = "/ooga/resources/mainDisplay.css";
+  private String colorThemeFilepath = "/ooga/resources/mainDisplay.css";
 
   /**
    * initializes data structures for the UnoController
@@ -76,13 +75,11 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * Creates a new game display and shows it to the user
    * @return boolean indicating successful creation of a new game
-   * @param mod
    */
   @Override
-  public boolean playNewGame(String mod) {
+  public boolean playNewGame() {
     if(model != null){
-      currentMod = mod;
-      unoDisplay = new UnoDisplay(this, language, colorTheme);
+      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
       showScreen(unoDisplay);
       splashScreen = null;
       return true;
@@ -104,7 +101,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       return true;
     }
     catch (IOException | JsonDataException e){
-      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
@@ -141,7 +137,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       }
     }
     catch (IOException e){
-      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
@@ -163,9 +158,8 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * Returns the user from the main Uno Game Screen to the initial Language Screen
    */
-  // TODO: Rename function to a verb - standard convention
   @Override
-  public void toSplashScreen() {
+  public void returnToSplashScreen() {
     unoDisplay = null;
     model = null;
     start();
@@ -186,15 +180,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   @Override
   public String getGameVersion() { return currentVersion; }
-
-  /**
-   * Gets the Mod of the UNO game that is currently being played.
-   * @return String representing the mod
-   */
-  @Override
-  public String getMod(){
-    return currentMod;
-  }
 
   /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
@@ -234,13 +219,14 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     this.language = language;
   }
 
-  @Override
+
   /**
    * Sets the color theme for the game
-   * @param cssFile the css file the game will use
+   * @param cssFile the CSS filepath that UnoDisplay will use
    */
-  public void setColorTheme(String cssFile) {
-    colorTheme = cssFile;
+  @Override
+  public void setColorThemeFilepath(String cssFile) {
+    colorThemeFilepath = cssFile;
   }
 
   /**

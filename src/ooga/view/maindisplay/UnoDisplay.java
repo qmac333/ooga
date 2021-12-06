@@ -130,7 +130,7 @@ public class UnoDisplay implements GameScreen {
     Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
     button.setId(BACK_BUTTON_CSS);
-    button.setOnAction(e -> controller.toSplashScreen());
+    button.setOnAction(e -> controller.returnToSplashScreen());
     left.getChildren().add(button);
 
     Button saveButton = new Button(languageResources.getString("Save"));
@@ -170,7 +170,7 @@ public class UnoDisplay implements GameScreen {
     if (controller.getGameState().getCurrentPlayerCards().size() == 0) {
       String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
       showMessage(alertString, AlertType.INFORMATION);
-      controller.toSplashScreen();
+      controller.returnToSplashScreen();
     }
   }
 

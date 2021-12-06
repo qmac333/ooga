@@ -22,9 +22,9 @@ public class UnoControllerTest extends DukeApplicationTest {
     private static final String SAVE_FILENAME = "jUnitTest_SaveFile";
     private static final String INVALID_SAVE_FILENAME = "/this.won't/work/";
     private static final String SAVE_FILENAME_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files\\" + SAVE_FILENAME + ".json").toAbsolutePath().normalize().toString();
+    private static final String DEFAULT_COLOR_THEME_PATH = "/ooga/resources/mainDisplay.css";
 
     private static final String DEFAULT_LANGUAGE = "English";
-    private static final String DEFAULT_MOD = "Traditional";
 
     @Override
     public void start(Stage stage){
@@ -33,35 +33,21 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    void creatingInitialMenuScreen(){
+    void creatingInitialMenuScreenAndChangingLanguage(){
         runAsJFXAction(() -> controller.start());
         assertNotNull(controller.getLanguageScreen());
+        controller.setLanguage(DEFAULT_LANGUAGE);
     }
 
     @Test
-    void creatingSplashScreenAndChangingLanguage(){
+    void creatingSplashScreenAndChangingColorTheme(){
         runAsJFXAction(() -> controller.createSplashScreen(DEFAULT_LANGUAGE));
         assertNotNull(controller.getSplashScreen());
-        controller.setLanguage("Spanish");
+        controller.setColorThemeFilepath(DEFAULT_COLOR_THEME_PATH);
     }
 
     @Test
     void loadingNewFile(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void loadingInvalidNewFile(){
-        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void checkingModelObjectAfterLoadingNewFile(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Andrew", "Human");
@@ -70,13 +56,20 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 500;
         boolean stackable = true;
         GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
+
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(playNewGame());
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
     @Test
-    void checkingModelObjectAfterLoadingTwoNewFilesInARow(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        assertTrue(controller.loadFile(VALID_NEW_FILE_2_PATH));
+    void loadingInvalidNewFile(){
+        assertFalse(controller.loadFile(INVALID_NEW_FILE_1_PATH));
+        assertFalse(playNewGame());
+    }
+
+    @Test
+    void loadingTwoNewFilesInARow(){
         String version = "Basic";
         Map<String, String> playerMap = new HashMap<>();
         playerMap.put("Jackson", "Human");
@@ -86,6 +79,10 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin = 70;
         boolean stackable = false;
         GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
+
+        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
+        assertTrue(controller.loadFile(VALID_NEW_FILE_2_PATH));
+        assertTrue(playNewGame());
         assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
@@ -98,9 +95,12 @@ public class UnoControllerTest extends DukeApplicationTest {
         playerMap.put("Player3", "CPU");
         int pointsToWin = 778;
         boolean stackable = true;
+
         assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
+        controller.setColorThemeFilepath(DEFAULT_COLOR_THEME_PATH);
+        assertTrue(playNewGame());
+        GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
+        assertTrue(expected.compareInitialParameters(controller.getModel()));
     }
 
     @Test
@@ -110,8 +110,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin1 = 9;
         boolean stackable1 = false;
         assertFalse(controller.setGameParameters(version1, playerMap1, pointsToWin1, stackable1));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNull(controller.getUnoDisplay());
+        assertFalse(playNewGame());
 
         String version2 = null;
         Map<String, String> playerMap2 = new HashMap<>();
@@ -120,8 +119,7 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin2 = 99;
         boolean stackable2 = true;
         assertFalse(controller.setGameParameters(version2, playerMap2, pointsToWin2, stackable2));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNull(controller.getUnoDisplay());
+        assertFalse(playNewGame());
 
         String version3 = "Basic";
         Map<String, String> playerMap3 = new HashMap<>();
@@ -131,125 +129,73 @@ public class UnoControllerTest extends DukeApplicationTest {
         int pointsToWin3 = -1;
         boolean stackable3 = false;
         assertFalse(controller.setGameParameters(version3, playerMap3, pointsToWin3, stackable3));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void checkingModelAfterManuallySettingGameParameters(){
-        String version = "Basic";
-        Map<String, String> playerMap = new HashMap<>();
-        playerMap.put("player1", "Human");
-        playerMap.put("Player 2", "Human");
-        playerMap.put("Player3", "CPU");
-        int pointsToWin = 778;
-        boolean stackable = true;
-        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        GameState expected = new GameState(version, playerMap, pointsToWin, stackable);
-        assertTrue(expected.compareInitialParameters(controller.getModel()));
+        assertFalse(playNewGame());
     }
 
     @Test
     void playingNewGameBeforeLoadingFileOrManuallySettingParameters(){
-        assertFalse(controller.playNewGame(DEFAULT_MOD));
+        assertFalse(controller.playNewGame());
     }
 
     @Test
-    void checkingModAfterPlayingNewGame(){
-        String expected = DEFAULT_MOD;
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
-        assertTrue(controller.getMod().equals(expected));
-    }
-
-    @Test
-    void usingBackButtonAfterPlayingNewGame(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
-        runAsJFXAction(() -> controller.toSplashScreen());
+    void returningToSplashScreenAfterPlayingNewGame(){
+        loadingNewFile();
+        runAsJFXAction(() -> controller.returnToSplashScreen());
         assertNull(controller.getModel());
         assertNull(controller.getUnoDisplay());
         assertNotNull(controller.getLanguageScreen());
     }
 
-
     @Test
     void savingAfterLoadingNewFile(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
+        loadingNewFile();
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
     }
 
     @Test
     void savingAfterManuallySettingParameters(){
-        String version = "Basic";
-        Map<String, String> playerMap = new HashMap<>();
-        playerMap.put("player1", "Human");
-        playerMap.put("Player 2", "Human");
-        playerMap.put("Player3", "CPU");
-        int pointsToWin = 778;
-        boolean stackable = true;
-        assertTrue(controller.setGameParameters(version, playerMap, pointsToWin, stackable));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
+        manuallySettingGameParameters();
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
     }
 
     @Test
     void savingUsingInvalidFilename(){
         assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
+        assertTrue(playNewGame());
         assertFalse(controller.saveCurrentFile(INVALID_SAVE_FILENAME));
     }
 
     @Test
-    void loadingFileAfterSavingFile(){
-        assertTrue(controller.loadFile(VALID_NEW_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
-        assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
-        runAsJFXAction(() -> controller.toSplashScreen());
+    void reloadingSavedFile(){
+        savingAfterLoadingNewFile();
+        runAsJFXAction(() -> controller.returnToSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
     }
 
     @Test
     void loadingInvalidGameInProgressFile(){
         assertFalse(controller.loadFile(INVALID_GAME_IN_PROGRESS_FILE_1_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNull(controller.getUnoDisplay());
-    }
-
-    @Test
-    void reloadingAndPlayingGameInProgress(){
-        assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
-        assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
-        simulateGame(10);
-        assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
-        runAsJFXAction(() -> controller.toSplashScreen());
-        assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
-        simulateGame(10);
+        assertFalse(playNewGame());
     }
 
     @Test
     void checkingModelAfterReloadingAndPlayingGameInProgress(){
         assertTrue(controller.loadFile(BASIC_4CPUs_PATH));
-        runAsJFXAction(() -> controller.playNewGame(DEFAULT_MOD));
-        assertNotNull(controller.getUnoDisplay());
+        assertTrue(playNewGame());
         assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         simulateGame(10);
-        assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
         GameState expected = controller.getModel();
-        runAsJFXAction(() -> controller.toSplashScreen());
+        assertTrue(controller.saveCurrentFile(SAVE_FILENAME));
+        runAsJFXAction(() -> controller.returnToSplashScreen());
         assertTrue(controller.loadFile(SAVE_FILENAME_PATH));
         assertTrue(controller.getModel().compareGameInProgressParameters(expected));
         simulateGame(10);
         assertFalse(controller.getModel().compareGameInProgressParameters(expected));
+    }
+
+    private boolean playNewGame(){
+        runAsJFXAction(() -> controller.playNewGame());
+        return controller.getUnoDisplay() != null;
     }
 
     private void simulateGame(int numTurns){

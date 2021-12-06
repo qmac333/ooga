@@ -7,12 +7,12 @@ import java.util.Map;
  */
 public interface SplashScreenController {
 
-  boolean playNewGame(String mod);
+  boolean playNewGame();
 
   boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable);
 
   boolean loadFile(String filepath);
 
-  void setColorTheme(String cssFile);
+  void setColorThemeFilepath(String cssFile);
 
 }

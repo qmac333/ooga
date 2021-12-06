@@ -18,7 +18,7 @@ public class MockController implements UnoDisplayController {
   }
 
   @Override
-  public void toSplashScreen() {
+  public void returnToSplashScreen() {
 
   }
 
@@ -29,11 +29,6 @@ public class MockController implements UnoDisplayController {
 
   @Override
   public String getGameVersion() {
-    return "";
-  }
-
-  @Override
-  public String getMod(){
     return "";
   }
 

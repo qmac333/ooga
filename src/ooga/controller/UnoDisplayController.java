@@ -9,12 +9,9 @@ public interface UnoDisplayController {
 
   boolean saveCurrentFile(String filename);
 
-  void toSplashScreen();
+  void returnToSplashScreen();
 
   GameStateViewInterface getGameState();
 
   String getGameVersion();
-
-  String getMod();
-
 }
