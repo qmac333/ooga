@@ -1,12 +1,13 @@
-package ooga.model.rules;
+package ooga.model.rules.individualRules;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
+import ooga.model.rules.RuleInterface;
 
 public class WildRule implements RuleInterface {
 
-  private final static String BUNDLE_PATH = "ooga.model.rules.RulesInformation";
+  private final static String BUNDLE_PATH = "ooga.model.rules.resources.RulesInformation";
   private final static String WILD = "Wild";
   private final static String SPLIT = "Divider";
 

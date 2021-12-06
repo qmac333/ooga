@@ -13,7 +13,6 @@ import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.hand.Hand;
 import ooga.model.instanceCreation.ReflectionErrorException;
-import ooga.model.instanceCreation.ReflectionHandler;
 import ooga.model.instanceCreation.ReflectionHandlerInterface;
 import ooga.model.player.player.Player;
 
@@ -85,8 +84,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public GameState() {
     impendingDraw = 0;
-    this.pointsToWin = Integer.parseInt(POINTS_TO_WIN);
-    cardContainer = new DeckWrapper(new UnoDeck(GAME_TYPE), new CardPile());
+    this.pointsToWin = Integer.parseInt(gameStateResources.getString(POINTS_TO_WIN));
+    cardContainer = new DeckWrapper(new UnoDeck(gameStateResources.getString(GAME_TYPE)), new CardPile());
     cardPerPlayer = Integer.parseInt(gameStateResources.getString(CARDS_PER_PLAYER));
     try {
       myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
@@ -477,8 +476,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private DrawRuleInterface createDrawRule() throws ReflectionErrorException {
-    ReflectionHandlerInterface ref = new ReflectionHandler();
-    return ref.getDrawRule(ruleResources.getString("DrawRule"));
+    return ReflectionHandlerInterface.getDrawRule(ruleResources.getString("DrawRule"));
   }
 
   private boolean comparePlayerHands(GameState other) {
