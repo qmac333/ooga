@@ -13,8 +13,7 @@ public class HumanPlayer extends Player {
    */
   @Override
   public void playCard() {
-    int index = -1;
-    index = super.getMyIntegerSupplier().get();
+    int index = super.getMyIntegerSupplier().get();
     try {
       if (index < 0){
         super.addCards(getMyGroup().noPlayDraw());

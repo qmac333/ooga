@@ -1,18 +1,24 @@
 package ooga.model.cards;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.player.PlayerCardInterface;
 
 /**
- * Card for UnoFlip that holds two different normal cards inside of it. When it flips, the card that
+ * Card for UnoFlip that holds two different normal cards inside it. When it flips, the card that
  * is being used switches
  *
  * @author Paul Truitt
  */
 public class TwoSidedCard implements CardInterface, ViewCardInterface {
 
-  private List<OneSidedCard> myCards;
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.TwoSidedResources";
+  private static final String SIDES = "NumberOfSides";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
+
+  private final List<OneSidedCard> myCards;
   private int activeSide;
 
   public TwoSidedCard(OneSidedCard sideOne, OneSidedCard sideTwo) {
@@ -67,14 +73,14 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
   @Override
   public void flip() {
     activeSide++;
-    activeSide = activeSide % 2;
+    activeSide = activeSide % Integer.parseInt(cardResources.getString(SIDES));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public boolean equals(Object other){
+  public boolean equals(Object other) {
     // TODO
     return false;
   }

@@ -15,22 +15,28 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameInterface {
 
-  private final ResourceBundle playerResources = ResourceBundle.getBundle(
-      "ooga.model.player.playerGroup.PlayerResources");
+  private static final String BUNDLE_PATH = "ooga.model.player.playerGroup.PlayerGroupResources";
+  private static final String PLAYER_BASE = "PlayerClassBase";
+  private static final String STARTING_ORDER = "StartingOrder";
+  private static final String FLIP_ORDER = "FlipOrder";
+  private static final String UNO = "UnoHandSize";
+  private static final String SKIP = "SkipNextAdder";
+
+  private static final ResourceBundle playerResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   private int myCurrentPlayer;
   private int myOrder;
   private boolean skipNext;
   private boolean skipEveryone;
-  private GameStatePlayerInterface myGame;
-  private Map<String, String> myPlayerMap;
+  private final GameStatePlayerInterface myGame;
+  private final Map<String, String> myPlayerMap;
   private boolean unoCalled;
 
-  private List<PlayerGameInterface> myPlayers;
+  private final List<PlayerGameInterface> myPlayers;
 
   public PlayerGroup(Map<String, String> playerMap, GameStatePlayerInterface game)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myOrder = 1;
+    myOrder = Integer.parseInt(playerResources.getString(STARTING_ORDER));
     myCurrentPlayer = 0;
     skipNext = false;
     skipEveryone = false;
@@ -58,12 +64,12 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
 
   @Override
   public void reverseOrder() {
-    myOrder *= -1;
+    myOrder *= Integer.parseInt(playerResources.getString(FLIP_ORDER));
   }
 
   @Override
   public void flipGame() {
-    for (PlayerGameInterface player : myPlayers){
+    for (PlayerGameInterface player : myPlayers) {
       player.flipHand();
     }
   }
@@ -122,7 +128,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
 
   @Override
   public void loadHands(List<Hand> handsToLoad) {
-    for (int i = 0; i < handsToLoad.size(); i++){
+    for (int i = 0; i < handsToLoad.size(); i++) {
       myPlayers.get(i).loadHand(handsToLoad.get(i));
     }
   }
@@ -143,10 +149,12 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   }
 
   @Override
-  public void loadNextPlayer(){
+  public void loadNextPlayer() {
     int boostedCurrentPlayer = myCurrentPlayer + myPlayers.size();
     if (skipNext) {
-      myCurrentPlayer = (boostedCurrentPlayer + 2 * myOrder) % myPlayers.size();
+      myCurrentPlayer =
+          (boostedCurrentPlayer + Integer.parseInt(playerResources.getString(SKIP)) * myOrder)
+              % myPlayers.size();
       skipNext = false;
     } else if (skipEveryone) {
       skipEveryone = false;
@@ -158,7 +166,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   @Override
   public void countAndAwardPoints() {
     int totalPoints = 0;
-    for (PlayerGameInterface p : myPlayers){
+    for (PlayerGameInterface p : myPlayers) {
       totalPoints += p.getNumPoints();
     }
     myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
@@ -168,17 +176,19 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     for (String name : myPlayerMap.keySet()) {
       Class<?> playerClass = Class.forName(
-          String.format(playerResources.getString("PlayerClassBase"),
+          String.format(playerResources.getString(PLAYER_BASE),
               playerResources.getString(myPlayerMap.get(name))));
-      PlayerGameInterface player = (PlayerGameInterface) playerClass.getDeclaredConstructor(String.class,
+      PlayerGameInterface player = (PlayerGameInterface) playerClass.getDeclaredConstructor(
+          String.class,
           PlayerGroupPlayerInterface.class).newInstance(name, this);
       myPlayers.add(player);
     }
   }
 
-  private void checkUno(){
-    if (myPlayers.get(myCurrentPlayer).getHandSize() == 1){
-      if (!unoCalled){
+  private void checkUno() {
+    if (myPlayers.get(myCurrentPlayer).getHandSize() == Integer.parseInt(
+        playerResources.getString(UNO))) {
+      if (!unoCalled) {
         myPlayers.get(myCurrentPlayer).addCards(myGame.getUnoPunishment());
       }
     }

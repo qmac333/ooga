@@ -1,6 +1,6 @@
 package ooga.model.cards;
 
-import ooga.model.cards.OneSidedCard;
+import java.util.ResourceBundle;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.player.player.PlayerCardInterface;
 
@@ -11,10 +11,15 @@ import ooga.model.player.player.PlayerCardInterface;
  */
 public class WildDrawTwoCard extends OneSidedCard {
 
-  private final int DRAW_AMOUNT = 2;
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildDrawTwoResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
+
+  private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 
   public WildDrawTwoCard(String color) {
-    super(color, "WildDrawTwo", 50);
+    super(color, cardResources.getString(TYPE), Integer.parseInt(cardResources.getString(NUMBER)));
   }
 
   /**
@@ -31,7 +36,7 @@ public class WildDrawTwoCard extends OneSidedCard {
    */
   @Override
   public void executeAction(PlayerCardInterface player) {
-    player.enforceDraw(DRAW_AMOUNT);
+    player.enforceDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
     super.setCardColor(player.getColor());
   }
 }
