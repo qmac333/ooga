@@ -1,4 +1,4 @@
-package ooga.controller.moshi;
+package ooga.controller.moshiParsing;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
