@@ -7,8 +7,8 @@ public class BlasterUnoDisplay extends UnoDisplay {
 
     private BlasterDisplay blasterDisplay;
 
-    public BlasterUnoDisplay(UnoDisplayController controller, String language) {
-        super(controller, language);
+    public BlasterUnoDisplay(UnoDisplayController controller, String language, String cssFile) {
+        super(controller, language, cssFile);
         this.blasterDisplay = new BlasterDisplay(controller, language);
     }
 

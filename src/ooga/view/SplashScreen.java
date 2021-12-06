@@ -21,9 +21,12 @@ import java.util.*;
 
 public class SplashScreen implements GameScreen {
 
-  private static final String CSS_STYLE_LIGHT = "/ooga/resources/splashScreen.css";
-  private static final String CSS_STYLE_DARK = "/ooga/resources/splashScreenDark.css";
+  private static final String CSS_STYLE = "/ooga/resources/%s.css";
 
+  private static final String LIGHT_MODE_FNAME = "splashScreen";
+  private static final String DARK_MODE_FNAME = "splashScreenDark";
+  private static final String MAIN_LIGHT_MODE = "mainDisplay";
+  private static final String MAIN_DARK_MODE = "mainDisplayDark";
 
   private static final String UNO_LOGO = "./data/images/logos/Basic.png";
 
@@ -75,7 +78,8 @@ public class SplashScreen implements GameScreen {
 
     scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
-        .add(SplashScreen.class.getResource(CSS_STYLE_LIGHT).toExternalForm());
+        .add(SplashScreen.class.getResource(String.format(CSS_STYLE, LIGHT_MODE_FNAME)).toExternalForm());
+    controller.setColorTheme(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
     return scene;
   }
 
@@ -111,13 +115,15 @@ public class SplashScreen implements GameScreen {
     if (dark) {
       scene.getStylesheets().clear();
       scene.getStylesheets()
-              .add(SplashScreen.class.getResource(CSS_STYLE_DARK).toExternalForm());
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, DARK_MODE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("LightMode"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_DARK_MODE));
     } else {
       scene.getStylesheets().clear();
       scene.getStylesheets()
-              .add(SplashScreen.class.getResource(CSS_STYLE_LIGHT).toExternalForm());
+              .add(SplashScreen.class.getResource(String.format(CSS_STYLE, LIGHT_MODE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("DarkMode"));
+      controller.setColorTheme(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
     }
   }
 
@@ -170,6 +176,7 @@ public class SplashScreen implements GameScreen {
     playButton.setOnAction(e -> playNewGame());
 
     readyIndicator = new Text("");
+    readyIndicator.getStyleClass().add("ready-indicator");
 
     root.getChildren().addAll(readyIndicator, playButton);
     return root;

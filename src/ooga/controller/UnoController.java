@@ -34,6 +34,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private String currentVersion;
   private String currentMod;
   private String language = "English";
+  private String colorTheme;
 
   /**
    * initializes data structures for the UnoController
@@ -81,7 +82,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean playNewGame(String mod) {
     if(model != null){
       currentMod = mod;
-      unoDisplay = new UnoDisplay(this, language);
+      unoDisplay = new UnoDisplay(this, language, colorTheme);
       showScreen(unoDisplay);
       splashScreen = null;
       return true;
@@ -223,12 +224,24 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     return unoDisplay;
   }
 
+
   /**
    * Sets the language for the game
    * @param language new language for the game
    */
+  @Override
   public void setLanguage(String language) {
     this.language = language;
+  }
+
+
+  /**
+   * Sets the color theme for the game
+   * @param cssFile the css file the game will use
+   */
+  @Override
+  public void setColorTheme(String cssFile) {
+    colorTheme = cssFile;
   }
 
   /**

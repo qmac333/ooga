@@ -1,0 +1,117 @@
+.text {
+    -fx-font-weight: BOLD;
+    -fx-font-family: Verdana;
+    -fx-font-style: normal;
+    -fx-font-size: 12 pt;
+}
+
+/** Main Display **/
+
+.main_display_button {
+    -fx-font-family: Verdana;
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+}
+
+#PlayTurn:hover {
+    -fx-background-color: gold;
+}
+
+.main_display_center_panel {
+    -fx-alignment: bottom-center;
+    -fx-spacing: 30px;
+}
+
+.main_display_left_panel {
+    -fx-alignment: center;
+    -fx-spacing: 30px
+}
+
+.main_display_right_panel {
+    -fx-alignment: center-left;
+}
+
+/** Deck Display */
+
+.deck_main_display {
+    -fx-spacing: 50px;
+    -fx-alignment: CENTER;
+}
+
+/** Turn Info Display */
+
+.turn_info_main_display {
+    -fx-spacing: 50px;
+}
+
+.turn_info_gameplay_direction_arrow {
+}
+
+/** Hand List Display */
+.hand_list_card_box {
+    -fx-alignment: center;
+    -fx-spacing: 10px;
+}
+
+.hand_list_button_panel {
+    -fx-alignment: center;
+    -fx-spacing: 5px;
+}
+
+.hand_list_main_display {
+    -fx-alignment: center;
+    -fx-spacing: 8px;
+}
+
+.hand_list_button_draw_required {
+    -fx-font-family: Verdana;
+    -fx-background-color: gold;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-font-size: 15px;
+}
+
+.hand_list_button {
+    -fx-font-family: Verdana;
+    -fx-background-color: gold;
+    -fx-border-color: brown;
+    -fx-border-radius: 5px;
+    -fx-font-size:15px;
+}
+
+.blaster_card_flowpane {
+    -fx-border-color: red;
+    -fx-alignment: center;
+    -fx-border-width: 10;
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-padding: 15;
+}
+
+.blaster_text {
+    -fx-font: 35pt Tahoma;
+    -fx-fill: linear-gradient(to left, violet, indigo, green, blue, yellow, orange, red);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
+    -fx-stroke: white;
+    -fx-stroke-width: 1;
+    -fx-font-smoothing-type: lcd;
+    -fx-alignment: center;
+}
+
+
+.hbox {
+    -fx-spacing: 20;
+    -fx-alignment: CENTER;
+}
+
+.vbox {
+    -fx-spacing: 20;
+    -fx-alignment: CENTER;
+}
+
+.root{
+    -fx-background-color: darkslategray;
+    -fx-background-position: center center;
+}
