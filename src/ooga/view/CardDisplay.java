@@ -109,11 +109,24 @@ public class CardDisplay {
     return cardDisplay;
   }
 
+
+  @Deprecated
   public static void initializeCards() {
     try {
       IMAGES = new HashMap<>();
       for (String key : imageResources.keySet()) {
         IMAGES.put(key, new Image(new FileInputStream(imageResources.getString(key))));
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  public static void initializeCards(ResourceBundle resources) {
+    try {
+      IMAGES = new HashMap<>();
+      for (String key : resources.keySet()) {
+        IMAGES.put(key, new Image(new FileInputStream(resources.getString(key))));
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
