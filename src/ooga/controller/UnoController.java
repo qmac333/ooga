@@ -34,7 +34,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private String currentVersion;
   private String currentMod;
   private String language = "English";
-  private String colorTheme;
+  private String colorTheme = "/ooga/resources/mainDisplay.css";
 
   /**
    * initializes data structures for the UnoController
