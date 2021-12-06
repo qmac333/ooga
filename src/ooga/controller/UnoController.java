@@ -8,6 +8,11 @@ import java.util.Map;
 
 import com.squareup.moshi.JsonDataException;
 import javafx.stage.Stage;
+import ooga.controller.interfaces.LanguageScreenController;
+import ooga.controller.interfaces.SplashScreenController;
+import ooga.controller.interfaces.UnoDisplayController;
+import ooga.controller.moshi.CardInterfaceAdapter;
+import ooga.controller.moshi.GameStateJsonAdapter;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.GameScreen;
@@ -102,7 +107,10 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public boolean setGameParameters(String version, Map<String, String> playerMap, int pointsToWin, boolean stackable){
     if(version != null && playerMap.size() > 0 && pointsToWin > 0){
       currentVersion = version;
-      model = new GameState(version, playerMap, pointsToWin, stackable);
+      currentPlayerMap = playerMap;
+      currentPoints = pointsToWin;
+      currentStackable = stackable;
+      model = new GameState(currentVersion, currentPlayerMap, currentPoints, currentStackable);
       return true;
     }
     return false;

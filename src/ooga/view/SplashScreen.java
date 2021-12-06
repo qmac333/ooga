@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import ooga.controller.SplashScreenController;
+import ooga.controller.interfaces.SplashScreenController;
 import ooga.util.Config;
 
 import java.io.File;

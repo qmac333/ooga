@@ -1,19 +1,12 @@
 package ooga.view.deckdisplay;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
-import ooga.util.Config;
 import ooga.view.CardDisplay;
 import ooga.view.DisplayableItem;
 

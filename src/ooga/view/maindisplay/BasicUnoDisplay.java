@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.player.player.ViewPlayerInterface;
 import ooga.util.Config;
 import ooga.view.GameScreen;

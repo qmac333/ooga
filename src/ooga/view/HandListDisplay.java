@@ -2,11 +2,8 @@ package ooga.view;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Collection;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -18,7 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateViewInterface;
 
