@@ -36,7 +36,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private Map<String, String> currentPlayerMap;
   private int currentPoints;
   private boolean currentStackable;
-
+  private String currentMod;
   private String language = "English";
   private String colorThemeFilepath = "/ooga/resources/mainDisplay.css";
 
@@ -111,19 +111,16 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * Creates a new game display and shows it to the user
    * @return boolean indicating successful creation of a new game
-   * @param mod
    */
   @Override
-  public boolean playNewGame(String mod) {
+  public boolean playNewGame() {
     if(model != null){
-      currentMod = mod;
       String version = String.format(DISPLAY, currentVersion);
       try {
         unoDisplay = (BasicUnoDisplay) Class.forName(version).getConstructor(UnoDisplayController.class, String.class, String.class).
-                newInstance(this, language, colorTheme);
+                newInstance(this, language, colorThemeFilepath);
       } catch(Exception e) {
         e.printStackTrace();
-//        System.out.println("Reflection didn't work");
       }
 
       showScreen(unoDisplay);
@@ -165,21 +162,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
-  }
-
-  /**
-   * Creates a new game display and shows it to the user
-   * @return boolean indicating successful creation of a new game
-   */
-  @Override
-  public boolean playNewGame() {
-    if(model != null){
-      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
-      showScreen(unoDisplay);
-      splashScreen = null;
-      return true;
-    }
-    return false;
   }
 
   /**
