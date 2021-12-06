@@ -23,7 +23,7 @@ import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
 import ooga.view.deckdisplay.DeckDisplay;
 
-public class UnoDisplay implements GameScreen {
+public class BasicUnoDisplay implements GameScreen {
 
   private static final String THEME_IMAGES_FILEPATH = "./data/images/logos/";
 
@@ -60,7 +60,7 @@ public class UnoDisplay implements GameScreen {
    *
    * @param controller a variable that provides access to controller methods
    */
-  public UnoDisplay(UnoDisplayController controller, String language, String cssFile) {
+  public BasicUnoDisplay(UnoDisplayController controller, String language, String cssFile) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     themeImageResources = ResourceBundle.getBundle(
@@ -70,7 +70,7 @@ public class UnoDisplay implements GameScreen {
 
     unoDisplay = new BorderPane();
     myScene = new Scene(unoDisplay, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
-    myScene.getStylesheets().add(UnoDisplay.class.getResource(cssFile).toExternalForm());
+    myScene.getStylesheets().add(BasicUnoDisplay.class.getResource(cssFile).toExternalForm());
 
     this.turnDisplay = new TurnInfoDisplay(controller, language);
     this.handListDisplay = new HandListDisplay(controller, () -> finishTurn(), language);
