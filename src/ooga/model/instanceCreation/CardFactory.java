@@ -1,4 +1,4 @@
-package ooga.model;
+package ooga.model.instanceCreation;
 
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.NumberCard;

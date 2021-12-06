@@ -1,6 +1,6 @@
 package ooga.model.cards;
 
-import ooga.model.CardFactory;
+import ooga.model.instanceCreation.CardFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
