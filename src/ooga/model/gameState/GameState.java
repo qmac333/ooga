@@ -23,8 +23,13 @@ import ooga.model.rules.RuleInterface;
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
 
-  private final ResourceBundle gameStateResources = ResourceBundle.getBundle(
-      "ooga.model.gameState.GameStateResources");
+  private static final String BUNDLE_PATH = "ooga.model.gameState.GameStateResources";
+  private static final String RULES_PATH = "RulesBase";
+  private static final String CARDS_PER_PLAYER = "CardsPerPlayer";
+  private static final String POINTS_TO_WIN = "DefaultPointsToWin";
+  private static final String GAME_TYPE = "DefaultGameType";
+
+  private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   private ResourceBundle ruleResources;
 
@@ -39,7 +44,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private PlayerGroupGameInterface myPlayerGroup;
 
   private boolean endGame;
-  private final static int NUM_CARDS_PER_PLAYER = 7;
+  private final int cardPerPlayer;
 
   public GameState(String version, Map<String, String> playerMap, int pointsToWin,
       boolean stackable) {
@@ -47,6 +52,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.pointsToWin = pointsToWin;
     cardContainer = new DeckWrapper(new UnoDeck(version), new CardPile());
     this.version = gameStateResources.getString(version);
+    cardPerPlayer = Integer.parseInt(gameStateResources.getString(CARDS_PER_PLAYER));
     this.stackable = stackable;
     try {
       myPlayerGroup = new PlayerGroup(playerMap, this);
@@ -55,7 +61,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     }
 
     ruleResources = ResourceBundle.getBundle(
-        String.format(gameStateResources.getString("RulesBase"), version));
+        String.format(gameStateResources.getString(RULES_PATH), version));
 
     try {
       myRules = createRules();
@@ -73,8 +79,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   public GameState() {
     impendingDraw = 0;
-    this.pointsToWin = 100;
-    cardContainer = new DeckWrapper(new UnoDeck("Basic"), new CardPile());
+    this.pointsToWin = Integer.parseInt(POINTS_TO_WIN);
+    cardContainer = new DeckWrapper(new UnoDeck(GAME_TYPE), new CardPile());
+    cardPerPlayer = Integer.parseInt(gameStateResources.getString(CARDS_PER_PLAYER));
     try {
       myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
     } catch (Exception e){
@@ -489,7 +496,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private void dealCards(){
-    for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
+    for (int i = 0; i < cardPerPlayer; i++) {
       for (PlayerGameInterface player : myPlayerGroup) {
         CardInterface newCard = cardContainer.draw();
         player.addCards(List.of(newCard));
