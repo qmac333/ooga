@@ -21,7 +21,9 @@ import java.util.*;
 
 public class SplashScreen implements GameScreen {
 
-  private static final String CSS_STYLE = "/ooga/resources/splashScreen.css";
+  private static final String CSS_STYLE_LIGHT = "/ooga/resources/splashScreen.css";
+  private static final String CSS_STYLE_DARK = "/ooga/resources/splashScreenDark.css";
+
 
   private static final String UNO_LOGO = "./data/images/logos/Basic.png";
 
@@ -41,6 +43,9 @@ public class SplashScreen implements GameScreen {
   private boolean stackable;
   private String gameType;
   private Map<String, String> playerMap;
+
+  private Scene scene;
+  private boolean dark;
 
   SplashScreenController controller;
 
@@ -68,9 +73,9 @@ public class SplashScreen implements GameScreen {
       System.out.println("Uno Logo Image not found");
     }
 
-    Scene scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+    scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
-        .add(SplashScreen.class.getResource(CSS_STYLE).toExternalForm());
+        .add(SplashScreen.class.getResource(CSS_STYLE_LIGHT).toExternalForm());
     return scene;
   }
 
@@ -89,13 +94,31 @@ public class SplashScreen implements GameScreen {
     VBox root = new VBox();
     root.getStyleClass().add("vbox");
 
+    Button darkMode = new Button(languageResources.getString("DarkMode"));
+    darkMode.setOnAction(e -> changeColorMode(darkMode));
+
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
     loadNew.setOnAction(e -> chooseFile());
 
-    root.getChildren().add(loadNew);
+    root.getChildren().addAll(darkMode, new Separator(), loadNew);
 
     return root;
+  }
+
+  private void changeColorMode(Button button) {
+    dark = !dark;
+    if (dark) {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(CSS_STYLE_DARK).toExternalForm());
+      button.setText(languageResources.getString("LightMode"));
+    } else {
+      scene.getStylesheets().clear();
+      scene.getStylesheets()
+              .add(SplashScreen.class.getResource(CSS_STYLE_LIGHT).toExternalForm());
+      button.setText(languageResources.getString("DarkMode"));
+    }
   }
 
   private void setGameHandler(TextField points) {
