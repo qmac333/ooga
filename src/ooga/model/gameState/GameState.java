@@ -12,14 +12,13 @@ import ooga.model.deck.DeckWrapper;
 import ooga.model.deck.UnoDeck;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.hand.Hand;
-import ooga.model.player.Player;
+import ooga.model.player.player.Player;
 
-import ooga.model.player.PlayerGroup;
-import ooga.model.player.PlayerGroupInterface;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.PlayerGameInterface;
+import ooga.model.player.playerGroup.PlayerGroup;
+import ooga.model.player.playerGroup.PlayerGroupGameInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 import ooga.model.rules.RuleInterface;
-
-import javax.swing.text.View;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
@@ -37,7 +36,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private DrawRuleInterface myDrawRule;
   private boolean stackable;
   private final int pointsToWin;
-  private PlayerGroupInterface myPlayerGroup;
+  private PlayerGroupGameInterface myPlayerGroup;
 
   private boolean endGame;
   private final static int NUM_CARDS_PER_PLAYER = 7;
@@ -64,7 +63,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     } catch (Exception e) {
       e.printStackTrace();
     }
-    myPlayerGroup.dealCards(cardContainer, NUM_CARDS_PER_PLAYER);
+    dealCards();
     cardContainer.discard(cardContainer.draw());
     endGame = false;
   }
@@ -105,7 +104,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
 
   @Override
   public List<ViewPlayerInterface> getPlayers() {
-    return myPlayerGroup.getViewPlayers();
+    List<ViewPlayerInterface> players = new ArrayList<>();
+    for (PlayerGameInterface p : myPlayerGroup){
+      players.add((ViewPlayerInterface) p);
+    }
+    return players;
   }
 
   @Override
@@ -175,13 +178,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void playTurn() {
     myPlayerGroup.playTurn();
-    if (myPlayerGroup.getCurrentPlayerCards().size() == 0){
+    PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
+    if (player.getHandSize() == 0){
       myPlayerGroup.countAndAwardPoints();
-      endGame = myPlayerGroup.currentPlayerExceeds(pointsToWin);
-      myPlayerGroup.dumpCards();
+      endGame = player.getNumPoints() >= pointsToWin;
+      for(PlayerGameInterface p : myPlayerGroup){
+        p.dumpCards();
+      }
       cardContainer = new DeckWrapper(new UnoDeck(version), new CardPile());
       cardContainer.discard(cardContainer.getTopCard());
-      myPlayerGroup.dealCards(cardContainer, NUM_CARDS_PER_PLAYER);
+      dealCards();
     } else{
       myPlayerGroup.loadNextPlayer();
     }
@@ -208,7 +214,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public int getCurrentPlayer() {
-    return myPlayerGroup.getCurrentPlayer();
+    return myPlayerGroup.getCurrentPlayerIndex();
   }
 
   /**
@@ -216,7 +222,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public List<ViewCardInterface> getCurrentPlayerCards() {
-    return myPlayerGroup.getCurrentPlayerCards();
+    return myPlayerGroup.getCurrentPlayer().getViewCards();
   }
 
   /**
@@ -316,7 +322,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * @return game in progress parameter - list of each Players' Hands
    */
   public List<Hand> getMyHands() {
-    return myPlayerGroup.getHands();
+    List<Hand> hands = new ArrayList<>();
+    for (PlayerGameInterface player : myPlayerGroup){
+      hands.add(player.getMyHand());
+    }
+    return hands;
   }
 
   /**
@@ -372,45 +382,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return condition1 && condition2 && condition3 && condition4;
   }
 
-  public List<ViewCardInterface> getBlasterCards() {
-    List<ViewCardInterface> list = new ArrayList<>();
-    ViewCardInterface v1 = new ViewCardInterface() {
-      @Override
-      public String getType() {
-        return "Number";
-      }
-
-      @Override
-      public int getNum() {
-        return 0;
-      }
-
-      @Override
-      public String getMyColor() {
-        return "Red";
-      }
-    };
-
-    ViewCardInterface v2 = new ViewCardInterface() {
-      @Override
-      public String getType() {
-        return "Number";
-      }
-
-      @Override
-      public int getNum() {
-        return 5;
-      }
-
-      @Override
-      public String getMyColor() {
-        return "Blue";
-      }
-    };
-
-    list.add(v1);
-    list.add(v2);
-    return list;
+  public Collection<ViewCardInterface> getBlasterCards() {
+    return myDrawRule.getBlasterCards();
   }
 
   /**
@@ -438,7 +411,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void setSuppliers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
-    myPlayerGroup.setSuppliers(integerSupplier, stringSupplier);
+    for (PlayerGameInterface p : myPlayerGroup){
+      p.setSuppliers(integerSupplier, stringSupplier);
+    }
   }
 
   /**
@@ -454,7 +429,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public Collection<Integer> getValidIndexes() {
-    return myPlayerGroup.getCurrentPlayerValidIndexes();
+    return myPlayerGroup.getCurrentPlayer().getValidIndexes();
   }
 
   /**
@@ -500,7 +475,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private boolean comparePlayerHands(GameState other){
-    List<Hand> hands = myPlayerGroup.getHands();
+    List<Hand> hands = getMyHands();
     for(int i = 0; i < hands.size(); i++){
       Hand thisHand = this.getMyHands().get(i);
       List<CardInterface> thisHandCards = thisHand.getMyCards();
@@ -513,5 +488,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return true;
   }
 
-
+  private void dealCards(){
+    for (int i = 0; i < NUM_CARDS_PER_PLAYER; i++) {
+      for (PlayerGameInterface player : myPlayerGroup) {
+        CardInterface newCard = cardContainer.draw();
+        player.addCards(List.of(newCard));
+      }
+    }
+  }
 }

@@ -11,7 +11,7 @@ import ooga.model.cards.NumberCard;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPileViewInterface;
 import ooga.model.gameState.GameStateViewInterface;
-import ooga.model.player.ViewPlayerInterface;
+import ooga.model.player.player.ViewPlayerInterface;
 
 public class MockGameViewInterface implements GameStateViewInterface {
 
@@ -101,14 +101,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
-<<<<<<< HEAD
-=======
   public List<ViewCardInterface> getBlasterCards() {
     return null;
   }
 
   @Override
->>>>>>> quentin
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }

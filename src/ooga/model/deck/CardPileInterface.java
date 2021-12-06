@@ -1,7 +1,6 @@
 package ooga.model.deck;
 
 
-import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 
 import java.util.Collection;

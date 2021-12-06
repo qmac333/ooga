@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 
 public class NormalDrawRule implements DrawRuleInterface {
@@ -48,6 +49,14 @@ public class NormalDrawRule implements DrawRuleInterface {
       cardsDrawn.add(drawn);
     } while (!drawn.getMyColor().equals(color));
     return cardsDrawn;
+  }
+
+  /**
+   * @return Null because there is no blaster
+   */
+  @Override
+  public Collection<ViewCardInterface> getBlasterCards() {
+    return null;
   }
 
   /**

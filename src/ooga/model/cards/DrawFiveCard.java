@@ -1,7 +1,8 @@
 package ooga.model.cards;
 
+import ooga.model.cards.OneSidedCard;
 import ooga.model.gameState.GameStatePlayerInterface;
-import ooga.model.player.PlayerInterface;
+import ooga.model.player.player.PlayerCardInterface;
 
 /**
  * Card that makes the next player draw 5 cards
@@ -29,7 +30,7 @@ public class DrawFiveCard extends OneSidedCard {
    * {@inheritDoc}
    */
   @Override
-  public void executeAction(PlayerInterface player){
+  public void executeAction(PlayerCardInterface player){
     player.enforceDraw(DRAW_AMOUNT);
   }
 }

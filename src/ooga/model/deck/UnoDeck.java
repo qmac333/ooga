@@ -1,7 +1,6 @@
 package ooga.model.deck;
 
 import java.util.*;
-import java.util.function.Supplier;
 import ooga.model.CardFactory;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.OneSidedCard;
