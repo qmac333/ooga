@@ -33,9 +33,12 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private GameState model;
 
   private String currentVersion;
-  private String currentMod;
+  private Map<String, String> currentPlayerMap;
+  private int currentPoints;
+  private boolean currentStackable;
+
   private String language = "English";
-  private String colorTheme = "/ooga/resources/mainDisplay.css";
+  private String colorThemeFilepath = "/ooga/resources/mainDisplay.css";
 
   /**
    * initializes data structures for the UnoController
@@ -54,6 +57,37 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   public void start() {
     languageScreen = new LanguageScreen(this);
     showScreen(languageScreen);
+  }
+
+  /**
+   * Sets the language for the game
+   * @param language new language for the game
+   */
+  @Override
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
+  /**
+   * Creates a new splash screen in the given language
+   * @param language desired language
+   */
+  @Override
+  public void createSplashScreen(String language) {
+    if (splashScreen == null) {
+      splashScreen = new SplashScreen(this, language);
+    }
+    showScreen(splashScreen);
+    languageScreen = null;
+  }
+
+  /**
+   * Sets the color theme for the game
+   * @param cssFile the CSS filepath that UnoDisplay will use
+   */
+  @Override
+  public void setColorThemeFilepath(String cssFile) {
+    colorThemeFilepath = cssFile;
   }
 
   /**
@@ -110,10 +144,12 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       String json = getFileContent(filepath);
       model = jsonAdapter.fromJson(json);
       currentVersion = model.getVersion();
+      currentPlayerMap = model.getPlayerMap();
+      currentPoints = model.getPointsToWin();
+      currentStackable = model.getStackable();
       return true;
     }
     catch (IOException | JsonDataException e){
-      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
@@ -129,6 +165,31 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
     Path path = Paths.get(filepath);
     String jsonContent = Files.readString(path);
     return jsonContent;
+  }
+
+  /**
+   * Creates a new game display and shows it to the user
+   * @return boolean indicating successful creation of a new game
+   */
+  @Override
+  public boolean playNewGame() {
+    if(model != null){
+      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
+      showScreen(unoDisplay);
+      splashScreen = null;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Returns the user from the main Uno Game Screen to the initial Language Screen
+   */
+  @Override
+  public void returnToSplashScreen() {
+    unoDisplay = null;
+    model = null;
+    start();
   }
 
   /**
@@ -150,34 +211,9 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       }
     }
     catch (IOException e){
-      // TODO: this
       System.out.println(e.getMessage());
     }
     return false;
-  }
-
-  /**
-   * Creates a new splash screen in the given language
-   * @param language desired language
-   */
-  @Override
-  public void createSplashScreen(String language) {
-    if (splashScreen == null) {
-      splashScreen = new SplashScreen(this, language);
-    }
-    showScreen(splashScreen);
-    languageScreen = null;
-  }
-
-  /**
-   * Returns the user from the main Uno Game Screen to the initial Language Screen
-   */
-  // TODO: Rename function to a verb - standard convention
-  @Override
-  public void toSplashScreen() {
-    unoDisplay = null;
-    model = null;
-    start();
   }
 
   /**
@@ -190,19 +226,37 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
-   * Gets the version of the UNO game that is currently being played.
+   * Gets the version of the UNO game that is currently being played
    * @return String representing the version
    */
   @Override
   public String getGameVersion() { return currentVersion; }
 
   /**
-   * Gets the Mod of the UNO game that is currently being played.
-   * @return String representing the mod
+   * Gets the map of player names to player type
+   * @return Map representing the players
    */
   @Override
-  public String getMod(){
-    return currentMod;
+  public Map<String, String> getPlayerMap(){
+    return currentPlayerMap;
+  }
+
+  /**
+   * Gets points required to win the game
+   * @return int representing the points
+   */
+  @Override
+  public int getPoints(){
+    return currentPoints;
+  }
+
+  /**
+   * Gets the parameter indicating whether +4 and +2 cards can be stacked
+   * @return boolean representing stackability
+   */
+  @Override
+  public boolean getStackable(){
+    return currentStackable;
   }
 
   /**
@@ -231,25 +285,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
    */
   public BasicUnoDisplay getUnoDisplay(){
     return unoDisplay;
-  }
-
-
-  /**
-   * Sets the language for the game
-   * @param language new language for the game
-   */
-  @Override
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  @Override
-  /**
-   * Sets the color theme for the game
-   * @param cssFile the css file the game will use
-   */
-  public void setColorTheme(String cssFile) {
-    colorTheme = cssFile;
   }
 
   /**

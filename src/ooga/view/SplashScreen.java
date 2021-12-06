@@ -1,8 +1,5 @@
 package ooga.view;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,7 +10,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import ooga.controller.SplashScreenController;
 import ooga.util.Config;
-import ooga.view.table.Table;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,6 +45,10 @@ public class SplashScreen implements GameScreen {
   private VBox tableDisplay;
   private Text readyIndicator;
 
+  private TextField nameTextField;
+  private TextField pointsTextField;
+  private ChoiceBox<String> gameChoiceBox;
+  private Button stackCardsButton;
   private TableView<Player> playerTable;
 
   private boolean stackable;
@@ -71,8 +71,8 @@ public class SplashScreen implements GameScreen {
 
   public Scene setScene() {
     BorderPane borderPane = new BorderPane();
-    borderPane.setTop(addTopNode());
-    borderPane.setLeft(addLeftNode());
+    borderPane.setTop(createTopNode());
+    borderPane.setLeft(createLeftNode());
     borderPane.setBottom(addBottomNode());
     borderPane.setRight(createRightNode());
     try {
@@ -89,22 +89,22 @@ public class SplashScreen implements GameScreen {
     scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
     scene.getStylesheets()
         .add(SplashScreen.class.getResource(String.format(CSS_STYLE, LIGHT_MODE_FNAME)).toExternalForm());
-    controller.setColorTheme(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
+    controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
     return scene;
   }
 
-  private HBox addTopNode() {
-    HBox hbox = new HBox();
-    hbox.getStyleClass().add("hbox");
+  private HBox createTopNode() {
+    HBox root = new HBox();
+    root.getStyleClass().add("hbox");
 
     Text checkForUpdates = new Text(languageResources.getString("Title"));
     checkForUpdates.getStyleClass().add("text-title");
-    hbox.getChildren().add(checkForUpdates);
+    root.getChildren().add(checkForUpdates);
 
-    return hbox;
+    return root;
   }
 
-  private VBox addLeftNode() {
+  private VBox createLeftNode() {
     VBox root = new VBox();
     root.getStyleClass().add("vbox");
 
@@ -115,7 +115,7 @@ public class SplashScreen implements GameScreen {
     schoolColors.setOnAction(e -> changeSchool(schoolColors));
 
     Button seasonColors = new Button(languageResources.getString("SpringColors"));
-    seasonColors.setOnAction(e -> changeFontSize(seasonColors));
+    seasonColors.setOnAction(e -> changeSeason(seasonColors));
 
     Button loadNew = new Button(languageResources.getString("LoadNew"));
     loadNew.setId(LOAD_NEW_GAME_CSS);
@@ -126,20 +126,20 @@ public class SplashScreen implements GameScreen {
     return root;
   }
 
-  private void changeFontSize(Button button) {
+  private void changeSeason(Button button) {
     springColors = !springColors;
     if (springColors) {
       scene.getStylesheets().clear();
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, SPRING_FNAME)).toExternalForm());
       button.setText(languageResources.getString("FallColors"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_SPRING));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_SPRING));
     } else {
       scene.getStylesheets().clear();
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, FALL_FNAME)).toExternalForm());
       button.setText(languageResources.getString("SpringColors"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_FALL));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_FALL));
     }
   }
 
@@ -150,14 +150,14 @@ public class SplashScreen implements GameScreen {
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, UNC_FNAME)).toExternalForm());
       button.setText(languageResources.getString("Duke"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_UNC));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_UNC));
 
     } else {
       scene.getStylesheets().clear();
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, DUKE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("UNC"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_DUKE));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_DUKE));
 
     }
   }
@@ -169,13 +169,13 @@ public class SplashScreen implements GameScreen {
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, DARK_MODE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("LightMode"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_DARK_MODE));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_DARK_MODE));
     } else {
       scene.getStylesheets().clear();
       scene.getStylesheets()
               .add(SplashScreen.class.getResource(String.format(CSS_STYLE, LIGHT_MODE_FNAME)).toExternalForm());
       button.setText(languageResources.getString("DarkMode"));
-      controller.setColorTheme(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
+      controller.setColorThemeFilepath(String.format(CSS_STYLE, MAIN_LIGHT_MODE));
     }
   }
 
@@ -213,9 +213,27 @@ public class SplashScreen implements GameScreen {
       boolean successfulLoad = controller.loadFile(selectedFile.getAbsolutePath());
       if (successfulLoad) {
         readyIndicator.setText(languageResources.getString("SetParametersFile"));
+        updateParameters();
       } else {
         showError(languageResources.getString("BadFileFormat"));
       }
+    }
+  }
+
+  private void updateParameters(){
+    gameType = controller.getGameVersion();
+    playerMap = controller.getPlayerMap();
+    int newPoints = controller.getPoints();
+    boolean newStackable = controller.getStackable();
+
+    gameChoiceBox.setValue(languageResources.getString(gameType));
+    playerTable.getItems().clear();
+    for(String key : playerMap.keySet()){
+      playerTable.getItems().add(new Player(key, playerMap.get(key)));
+    }
+    pointsTextField.setText(newPoints + "");
+    if(stackable != newStackable){
+      stack(stackCardsButton);
     }
   }
 
@@ -236,22 +254,19 @@ public class SplashScreen implements GameScreen {
   }
 
   private void playNewGame() {
-    // TODO: create Mod dropdown (with default value of "Traditional") and retrieve value from that dropdown right here before passing it controller.playNewGame()
-    String mod = "Traditional";
-    boolean successfulPlay = controller.playNewGame(mod);
+    boolean successfulPlay = controller.playNewGame();
     if (!successfulPlay) {
       showError(languageResources.getString("PlayButtonEarly"));
     }
   }
 
-  private void addNewPlayer(TextField nameInput, ChoiceBox<String> playerTypeInput) {
+  private void addNewPlayer(String name, String playerType) {
     // TODO: Error checking, restrict name to be 15 characters long maximum
-    String name = nameInput.getText();
-    String playerType = playerTypeInput.getValue();
+    System.out.println(playerType);
     if (playerType == "Human" || playerType == "CPU") {
       if (!playerMap.containsKey(name)) {
         if (playerMap.size() < 11) {
-          nameInput.clear();
+          nameTextField.clear();
           playerTable.getItems().add(new Player(name, playerType));
           playerMap.put(name, playerType);
         } else {
@@ -266,27 +281,27 @@ public class SplashScreen implements GameScreen {
   }
 
   private VBox createRightNode() {
-    VBox table = new VBox();
-    table.getStyleClass().add("vbox");
+    VBox root = new VBox();
+    root.getStyleClass().add("vbox");
 
-    TextField points = new TextField();
-    points.setPromptText(languageResources.getString("PointsInput"));
+    pointsTextField = new TextField();
+    pointsTextField.setPromptText(languageResources.getString("PointsInput"));
 
-    ChoiceBox<String> game = new ChoiceBox<>();
-    game.setValue(languageResources.getString("GameHeader"));
-    game.getItems().add(languageResources.getString("Basic"));
-    game.getItems().add(languageResources.getString("Flip"));
-    game.getItems().add(languageResources.getString("Blast"));
-    game.setOnAction(e -> gameType = translateToEnglish(game.getValue()));
+    gameChoiceBox = new ChoiceBox<>();
+    gameChoiceBox.setValue(languageResources.getString("GameHeader"));
+    gameChoiceBox.getItems().add(languageResources.getString("Basic"));
+    gameChoiceBox.getItems().add(languageResources.getString("Flip"));
+    gameChoiceBox.getItems().add(languageResources.getString("Blast"));
+    gameChoiceBox.setOnAction(e -> gameType = translateToEnglish(gameChoiceBox.getValue()));
 
-    Button stackCards = new Button(languageResources.getString("NoStack"));
-    stackCards.setOnAction(e -> stack(stackCards));
+    stackCardsButton = new Button(languageResources.getString("NoStack"));
+    stackCardsButton.setOnAction(e -> stack(stackCardsButton));
 
     Button setGame = new Button(languageResources.getString("GameParameters"));
-    setGame.setOnAction(e -> setGameHandler(points));
+    setGame.setOnAction(e -> setGameHandler(pointsTextField));
 
-    TextField nameInput = new TextField();
-    nameInput.setPromptText(languageResources.getString("NameInput"));
+    nameTextField = new TextField();
+    nameTextField.setPromptText(languageResources.getString("NameInput"));
 
     ChoiceBox<String> playerTypeInput = new ChoiceBox<>();
     playerTypeInput.setValue(languageResources.getString("TypeInput"));
@@ -294,12 +309,12 @@ public class SplashScreen implements GameScreen {
     playerTypeInput.getItems().add("CPU");
 
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
-    addPlayer.setOnAction(e -> addNewPlayer(nameInput, playerTypeInput));
+    addPlayer.setOnAction(e -> addNewPlayer(nameTextField.getText(), playerTypeInput.getValue()));
 
-    table.getChildren().addAll(points, game, stackCards, new Separator(),
-        nameInput, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
+    root.getChildren().addAll(pointsTextField, gameChoiceBox, stackCardsButton, new Separator(),
+            nameTextField, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
 
-    return table;
+    return root;
   }
 
   private void initializeTable() {
@@ -339,7 +354,10 @@ public class SplashScreen implements GameScreen {
     return null;
   }
 
-  // displays alert/error message to the user
+  /**
+   * Creates a popup error message to be seen by the user
+   * @param alertMessage String of the message to be displayed
+   */
   private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
