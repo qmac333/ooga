@@ -9,16 +9,21 @@ import javafx.scene.text.Text;
 import ooga.controller.interfaces.LanguageScreenController;
 import ooga.util.Config;
 
+import java.util.ResourceBundle;
+
 public class LanguageScreen implements GameScreen {
 
   public static final String LANGUAGE_PICKER_CSS = "LanguagePicker";
   private static final String CSS_STYLE = "/ooga/resources/languageScreen.css";
   private static final String TITLE = "Please Choose A Language";
 
+  private ResourceBundle languageResources;
+
   private LanguageScreenController controller;
 
   public LanguageScreen(LanguageScreenController controller) {
     this.controller = controller;
+    languageResources = ResourceBundle.getBundle("ooga.resources.Languages");
   }
 
   public Scene setScene() {
@@ -42,8 +47,9 @@ public class LanguageScreen implements GameScreen {
     ChoiceBox<String> language = new ChoiceBox<>();
     language.setId(LANGUAGE_PICKER_CSS);
     language.setValue("Language");
-    language.getItems().add("English");
-    language.getItems().add("Spanish");
+    for (String type : languageResources.keySet()) {
+      language.getItems().add(languageResources.getString(type));
+    }
     language.setOnAction(e -> {
       controller.setLanguage(language.getValue());
       controller.createSplashScreen(language.getValue());
