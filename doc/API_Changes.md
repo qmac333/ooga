@@ -13,3 +13,5 @@ does
 DiscardColorCard
 * Deprecated the can play that takes two CardInterfaces in favor of one that 
 additionally takes an int that says the impending draw for stacking rule
+* Deprecated initializeCards() method- now takes a ResourceBundle parameter for loading in images related to a certain type of Mod
+* 

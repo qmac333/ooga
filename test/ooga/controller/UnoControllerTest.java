@@ -51,7 +51,7 @@ public class UnoControllerTest extends DukeApplicationTest {
     }
 
     private boolean playNewGame(){
-        runAsJFXAction(() -> controller.playNewGame());
+        runAsJFXAction(() -> controller.playNewGame("Traditional"));
         return controller.getUnoDisplay() != null;
     }
 
@@ -151,7 +151,7 @@ public class UnoControllerTest extends DukeApplicationTest {
 
     @Test
     void playingNewGameBeforeLoadingFileOrManuallySettingParameters(){
-        assertFalse(controller.playNewGame());
+        assertFalse(controller.playNewGame("Traditional"));
     }
 
     @Test

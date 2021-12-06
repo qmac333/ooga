@@ -2,6 +2,7 @@ package ooga.view;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +42,7 @@ public class SplashScreen implements GameScreen {
   private static double CELL_WIDTH = 100;
 
   private ResourceBundle languageResources;
+  private ResourceBundle modLanguageResources;
 
   private VBox tableDisplay;
   private Text parametersIndicator;
@@ -52,6 +54,8 @@ public class SplashScreen implements GameScreen {
   private Button stackCardsButton;
   private TableView<Player> playerTable;
 
+
+  private String modType;
   private boolean stackable;
   private String gameType;
   private Map<String, String> playerMap;
@@ -66,6 +70,7 @@ public class SplashScreen implements GameScreen {
   public SplashScreen(SplashScreenController controller, String language) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    modLanguageResources = ResourceBundle.getBundle(String.format("ooga.resources.mods.%s", language));
     initializeTable();
     playerMap = new HashMap<>();
   }
@@ -264,7 +269,7 @@ public class SplashScreen implements GameScreen {
   }
 
   private void playNewGame() {
-    boolean successfulPlay = controller.playNewGame();
+    boolean successfulPlay = controller.playNewGame(modType);
     if (!successfulPlay) {
       showError(languageResources.getString("PlayButtonEarly"));
     }
@@ -302,7 +307,17 @@ public class SplashScreen implements GameScreen {
     gameChoiceBox.getItems().add(languageResources.getString("Basic"));
     gameChoiceBox.getItems().add(languageResources.getString("Flip"));
     gameChoiceBox.getItems().add(languageResources.getString("Blast"));
-    gameChoiceBox.setOnAction(e -> gameType = translateToEnglish(gameChoiceBox.getValue()));
+    gameChoiceBox.setOnAction(e -> gameType = translateToEnglish(gameChoiceBox.getValue(), languageResources));
+
+    ChoiceBox<String> modSelect = new ChoiceBox<>();
+    modType = "Traditional";
+    modSelect.setValue(modLanguageResources.getString("Traditional"));
+    for (String mod : modLanguageResources.keySet()) {
+      modSelect.getItems().add(modLanguageResources.getString(mod));
+    }
+    modSelect.setOnAction(e -> {
+      modType = translateToEnglish(modSelect.getValue(), modLanguageResources);
+    });
 
     stackCardsButton = new Button(languageResources.getString("NoStack"));
     stackCardsButton.setOnAction(e -> stack(stackCardsButton));
@@ -321,7 +336,7 @@ public class SplashScreen implements GameScreen {
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
     addPlayer.setOnAction(e -> addNewPlayer(nameTextField.getText(), playerTypeInput.getValue()));
 
-    root.getChildren().addAll(pointsTextField, gameChoiceBox, stackCardsButton, new Separator(),
+    root.getChildren().addAll(pointsTextField, gameChoiceBox, modSelect, stackCardsButton, new Separator(),
             nameTextField, playerTypeInput, addPlayer, new Separator(), tableDisplay, setGame);
 
     return root;
@@ -355,9 +370,9 @@ public class SplashScreen implements GameScreen {
     tableDisplay.getChildren().addAll(playerTable, deleteButton);
   }
 
-  private String translateToEnglish(String value) {
-    for (String key : languageResources.keySet()) {
-      if (Objects.equals(languageResources.getString(key), value)) {
+  private String translateToEnglish(String value, ResourceBundle resources) {
+    for (String key : resources.keySet()) {
+      if (Objects.equals(resources.getString(key), value)) {
         return key;
       }
     }
