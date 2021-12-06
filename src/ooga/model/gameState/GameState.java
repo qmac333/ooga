@@ -26,15 +26,14 @@ import ooga.model.rules.RuleSet;
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
 
-  private static final String BUNDLE_PATH = "ooga.model.gameState.GameStateResources";
+  private static final String BUNDLE_PATH = "ooga.model.gameState.resources.GameStateResources";
   private static final String RULES_PATH = "RulesBase";
   private static final String CARDS_PER_PLAYER = "CardsPerPlayer";
   private static final String POINTS_TO_WIN = "DefaultPointsToWin";
   private static final String GAME_TYPE = "DefaultGameType";
+  private static final String DRAW_RULE_BASE = "DrawRuleFormat";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
-
-  private ResourceBundle ruleResources;
 
   private DeckWrapper cardContainer;
   private int impendingDraw;
@@ -65,9 +64,6 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       e.printStackTrace();
     }
 
-    ruleResources = ResourceBundle.getBundle(
-        String.format(gameStateResources.getString(RULES_PATH), version));
-
     try {
       myRules = new RuleSet(version, stackable);
       myDrawRule = createDrawRule();
@@ -85,7 +81,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public GameState() {
     impendingDraw = 0;
     this.pointsToWin = Integer.parseInt(gameStateResources.getString(POINTS_TO_WIN));
-    cardContainer = new DeckWrapper(new UnoDeck(gameStateResources.getString(GAME_TYPE)), new CardPile());
+    cardContainer = new DeckWrapper(new UnoDeck(gameStateResources.getString(GAME_TYPE)),
+        new CardPile());
     cardPerPlayer = Integer.parseInt(gameStateResources.getString(CARDS_PER_PLAYER));
     try {
       myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
@@ -476,7 +473,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private DrawRuleInterface createDrawRule() throws ReflectionErrorException {
-    return ReflectionHandlerInterface.getDrawRule(ruleResources.getString("DrawRule"));
+    return ReflectionHandlerInterface.getDrawRule(gameStateResources.getString(
+        String.format(gameStateResources.getString(DRAW_RULE_BASE), version)));
   }
 
   private boolean comparePlayerHands(GameState other) {

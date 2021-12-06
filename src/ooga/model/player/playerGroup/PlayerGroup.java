@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameInterface {
 
-  private static final String BUNDLE_PATH = "ooga.model.player.playerGroup.PlayerGroupResources";
+  private static final String BUNDLE_PATH = "ooga.model.player.playerGroup.resources.PlayerGroupResources";
   private static final String STARTING_ORDER = "StartingOrder";
   private static final String FLIP_ORDER = "FlipOrder";
   private static final String UNO = "UnoHandSize";

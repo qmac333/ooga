@@ -12,7 +12,7 @@ import ooga.model.gameState.GameStateDrawInterface;
 
 public class BlasterDrawRule implements DrawRuleInterface {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.drawRule.DrawRuleResources";
+  private static final String BUNDLE_PACKAGE = "ooga.model.drawRule.resources.DrawRuleResources";
   private static final String DEFAULT_BLASTER_PROBABILITY = "DefaultBlastProbability";
 
   private static final ResourceBundle blastResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);

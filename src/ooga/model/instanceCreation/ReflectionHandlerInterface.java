@@ -14,7 +14,7 @@ import ooga.model.rules.RuleInterface;
  */
 public interface ReflectionHandlerInterface {
 
-  static final String BUNDLE_PATH = "ooga.model.instanceCreation.ReflectionResources";
+  static final String BUNDLE_PATH = "ooga.model.instanceCreation.resources.ReflectionResources";
   static final String PLAYER_BASE = "PlayerClassBase";
   static final String DRAW_RULE_BASE = "DrawRuleBase";
   static final String PLAY_RULE_BASE = "PlayRulesBase";
