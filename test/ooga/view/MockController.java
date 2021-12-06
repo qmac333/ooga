@@ -1,6 +1,6 @@
 package ooga.view;
 
-import ooga.controller.UnoDisplayController;
+import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 
 public class MockController implements UnoDisplayController {

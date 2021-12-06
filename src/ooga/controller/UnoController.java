@@ -2,7 +2,6 @@ package ooga.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,19 +9,22 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import com.squareup.moshi.JsonDataException;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
+import ooga.controller.interfaces.LanguageScreenController;
+import ooga.controller.interfaces.SplashScreenController;
+import ooga.controller.interfaces.UnoDisplayController;
+import ooga.controller.moshi.CardInterfaceAdapter;
+import ooga.controller.moshi.GameStateJsonAdapter;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.view.CardDisplay;
 import ooga.view.GameScreen;
 import ooga.view.LanguageScreen;
 import ooga.view.SplashScreen;
-import ooga.view.maindisplay.UnoDisplay;
+import ooga.view.maindisplay.BasicUnoDisplay;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -31,11 +33,12 @@ import java.nio.file.Files;
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
   private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files").toAbsolutePath().normalize().toString();
   private static final String REQUIRED_MOD_FILEPATH = Paths.get(".", "\\data\\mods\\RequiredImages.txt").toAbsolutePath().normalize().toString();
+  private static final String DISPLAY = "ooga.view.maindisplay.%sUnoDisplay";
 
   private Stage stage;
   private LanguageScreen languageScreen;
   private SplashScreen splashScreen;
-  private UnoDisplay unoDisplay;
+  private BasicUnoDisplay unoDisplay;
 
   private Moshi moshi;
   private JsonAdapter<GameState> jsonAdapter;
@@ -46,7 +49,6 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   private Map<String, String> currentPlayerMap;
   private int currentPoints;
   private boolean currentStackable;
-
   private String language = "English";
   private String colorThemeFilepath = "/ooga/resources/mainDisplay.css";
 
@@ -126,13 +128,21 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   @Override
   public boolean playNewGame(String mod) {
     if(model != null){
+
       currentMod = mod;
 
       if (!validateMod()) {
         return false;
       };
 
-      unoDisplay = new UnoDisplay(this, language, colorThemeFilepath);
+      String version = String.format(DISPLAY, currentVersion);
+      try {
+        unoDisplay = (BasicUnoDisplay) Class.forName(version).getConstructor(UnoDisplayController.class, String.class, String.class).
+                newInstance(this, language, colorThemeFilepath);
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+
       showScreen(unoDisplay);
       splashScreen = null;
       return true;
@@ -252,6 +262,14 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   }
 
   /**
+   * @return boolean indicating whether a game in progress was loaded through a configuration file
+   */
+  @Override
+  public boolean getLoadedGameInProgress(){
+    return model.loadedGameInProgress;
+  }
+
+  /**
    * @return the SplashScreen object - FOR TESTING PURPOSES ONLY
    */
   public LanguageScreen getLanguageScreen(){
@@ -275,7 +293,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
   /**
    * @return the UnoDisplay object - FOR TESTING PURPOSES ONLY
    */
-  public UnoDisplay getUnoDisplay(){
+  public BasicUnoDisplay getUnoDisplay(){
     return unoDisplay;
   }
 

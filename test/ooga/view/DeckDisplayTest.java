@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.cards.NumberCard;
 import ooga.view.deckdisplay.DeckDisplay;
-import ooga.view.maindisplay.UnoDisplay;
+import ooga.view.maindisplay.BasicUnoDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DeckDisplayTest extends DukeApplicationTest {
 
   private UnoController controller;
-  private UnoDisplay display;
+  private BasicUnoDisplay display;
 
   @Override
   public void start(Stage stage) {

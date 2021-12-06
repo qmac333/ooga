@@ -1,4 +1,4 @@
-package ooga.controller;
+package ooga.controller.interfaces;
 
 import java.util.Map;
 
@@ -22,5 +22,7 @@ public interface SplashScreenController {
   int getPoints();
 
   boolean getStackable();
+
+  boolean getLoadedGameInProgress();
 
 }
