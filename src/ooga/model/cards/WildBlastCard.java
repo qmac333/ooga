@@ -11,10 +11,10 @@ import ooga.model.player.player.PlayerCardInterface;
  */
 public class WildBlastCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "WildBlastType";
-  private static final String NUMBER = "WildBlastNumber";
-  private static final String DRAW_AMOUNT = "WildBlastDrawAmount";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildBlastResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

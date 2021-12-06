@@ -6,10 +6,10 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public class WildDrawFourCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "WildDrawFourType";
-  private static final String NUMBER = "WildDrawFourNumber";
-  private static final String DRAW_AMOUNT = "WildDrawFourAmount";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildDrawFourResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

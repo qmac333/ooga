@@ -11,10 +11,10 @@ import ooga.model.player.player.PlayerCardInterface;
  */
 public class DrawFiveCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "DrawFiveType";
-  private static final String NUMBER = "DrawFiveNumber";
-  private static final String DRAW_AMOUNT = "DrawFiveDrawAmount";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.DrawFiveResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

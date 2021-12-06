@@ -12,10 +12,10 @@ import ooga.model.player.player.PlayerCardInterface;
  */
 public class WildDrawColorCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "WildDrawColorType";
-  private static final String NUMBER = "WildDrawColorNumber";
-  private static final String DRAW_AMOUNT = "WildDrawColorDrawAmount";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildDrawColorResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
+  private static final String DRAW_AMOUNT = "DrawAmount";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

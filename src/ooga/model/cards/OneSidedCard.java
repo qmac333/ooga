@@ -5,9 +5,9 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
 
-  private int myNum;
+  private final int myNum;
   private String myColor;
-  private String myType;
+  private final String myType;
 
 
   public OneSidedCard(String color, String type, int num) {

@@ -6,9 +6,9 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public class ReverseCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "ReverseType";
-  private static final String NUMBER = "ReverseNumber";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.ReverseResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

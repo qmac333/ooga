@@ -6,8 +6,8 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public class NumberCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "NumberType";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.NumberResources";
+  private static final String TYPE = "Type";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

@@ -11,9 +11,9 @@ import ooga.model.player.player.PlayerCardInterface;
  */
 public class FlipCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "FlipType";
-  private static final String NUMBER = "FlipNumber";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.FlipResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

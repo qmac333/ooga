@@ -6,9 +6,9 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public class SkipCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "SkipType";
-  private static final String NUMBER = "SkipNumber";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.SkipResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 

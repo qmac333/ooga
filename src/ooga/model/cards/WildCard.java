@@ -6,9 +6,9 @@ import ooga.model.player.player.PlayerCardInterface;
 
 public class WildCard extends OneSidedCard {
 
-  private static final String BUNDLE_PACKAGE = "ooga.model.cards.CardResources";
-  private static final String TYPE = "WildType";
-  private static final String NUMBER = "WildNumber";
+  private static final String BUNDLE_PACKAGE = "ooga.model.cards.resources.WildResources";
+  private static final String TYPE = "Type";
+  private static final String NUMBER = "Number";
 
   private static final ResourceBundle cardResources = ResourceBundle.getBundle(BUNDLE_PACKAGE);
 
