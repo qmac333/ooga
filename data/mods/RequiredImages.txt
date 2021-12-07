@@ -15,3 +15,11 @@ Skip
 Wild
 Top
 Logo
+WildBlast
+DiscardColor
+DrawFive
+DrawOne
+Flip
+SkipEveryone
+WildDrawColor
+WildDrawTwo
