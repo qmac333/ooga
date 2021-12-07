@@ -207,6 +207,11 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
     myHand = new Hand();
   }
 
+  @Override
+  public void setPoints(int amount){
+    myPoints = amount;
+  }
+
   // Returns the players Game
   protected PlayerGroupPlayerInterface getMyGroup() {
     return myGroup;

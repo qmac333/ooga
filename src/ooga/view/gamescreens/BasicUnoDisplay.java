@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -34,6 +35,7 @@ public class BasicUnoDisplay implements GameScreen {
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
   private ResourceBundle cssIdResources;
+  private ResourceBundle cheatKeysResources;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -63,6 +65,7 @@ public class BasicUnoDisplay implements GameScreen {
     themeImageResources = ResourceBundle.getBundle(
         String.format("ooga.resources.ThemeFiles"));
     cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
+    cheatKeysResources = ResourceBundle.getBundle("ooga.resources.CheatKeys");
 
     controller.getGameState().setSuppliers(() -> playCard(), () -> sendColor());
 
@@ -116,14 +119,16 @@ public class BasicUnoDisplay implements GameScreen {
     try {
       ImageView themeImage = new ImageView(new Image(new FileInputStream(themeImagePath)));
       themeImage.setId(cssIdResources.getString("ThemeImage"));
-      // TODO: Throw and log exception here
       themeImage.setFitHeight(Integer.parseInt(themeImageResources.getString("ThemeImageHeight")));
       themeImage.setFitWidth(Integer.parseInt(themeImageResources.getString("ThemeImageWidth")));
       left.getChildren().add(themeImage);
     } catch (FileNotFoundException e) {
-      //TODO: Use Logging to say image is not found
-      System.out.println("Theme image not found.");
-      System.exit(-1);
+
+      try {
+        logError("Theme image not found");
+      } catch (Exception ignored) {
+
+      }
     }
 
     Button button = new Button(languageResources.getString("Back"));
@@ -144,6 +149,9 @@ public class BasicUnoDisplay implements GameScreen {
     right.getStyleClass().add("main_display_right_panel");
     right.getChildren().add(turnDisplay.getDisplayableItem());
     unoDisplay.setRight(right);
+
+    // set cheat keys
+    myScene.setOnKeyPressed(e -> handleCheatKey(e.getCode().getChar().toLowerCase()));
   }
 
   private void playComputerTurn() {
@@ -252,6 +260,13 @@ public class BasicUnoDisplay implements GameScreen {
 
   protected BorderPane getUnoDisplay() {
     return unoDisplay;
+  }
+
+  protected void handleCheatKey(String character) {
+    if (cheatKeysResources.getString("Alphabet").contains(character)) {
+      controller.getGameState().cheatKey(character.charAt(0));
+      render();
+    }
   }
 
 }

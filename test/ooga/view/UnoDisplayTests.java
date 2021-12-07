@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UnoDisplayTests extends DukeApplicationTest {
 
   private ResourceBundle cssResources;
+  private ResourceBundle cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
 
   @Override
   public void start(Stage stage) {
@@ -29,7 +30,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
     controller.setLanguage("English");
     controller.createSplashScreen("English");
     controller.loadFile("data/configuration_files/Test Files/validNewFile1.json");
-    Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+    Button playButton = lookup("#" + cssIdResources.getString("PlayButton")).query();
     clickOn(playButton);
   }
 

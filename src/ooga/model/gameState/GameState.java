@@ -31,7 +31,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private static final String POINTS_TO_WIN = "DefaultPointsToWin";
   private static final String GAME_TYPE = "DefaultGameType";
   private static final String DRAW_RULE_BASE = "DrawRuleFormat";
-  private static final String DRAW_BASE = "DrawFormat";
+  private static final String CHEAT_KEYS = "CheatKeys";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -189,7 +189,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     try {
       myPlayerGroup.playTurn();
-    } catch (ReflectionErrorException e){
+    } catch (ReflectionErrorException e) {
       e.printStackTrace();
     }
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
@@ -280,9 +280,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     if (oldDraw == 0) {
       return myDrawRule.noPlayDraw(this);
-    } else if (oldDraw == -1){
+    } else if (oldDraw == -1) {
       return myDrawRule.drawUntilBlast(this);
-    } else if (oldDraw == -2){
+    } else if (oldDraw == -2) {
       return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
     }
     return myDrawRule.forcedDraw(this, oldDraw);
@@ -411,6 +411,20 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public boolean blasterWentOff() {
     return myDrawRule.blasted();
+  }
+
+  @Override
+  public void cheatKey(char key) {
+    try {
+      if (gameStateResources.getString(CHEAT_KEYS).indexOf(key) >= 0) {
+        List<String> methodAndArgs = List.of(
+            gameStateResources.getString(String.valueOf(key)).split(","));
+        ReflectionHandlerInterface.performCheatMethod(methodAndArgs.get(0), methodAndArgs.get(1),
+            methodAndArgs.get(2), myPlayerGroup);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**

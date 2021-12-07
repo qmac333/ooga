@@ -7,7 +7,11 @@ import ooga.view.gamescreens.SplashScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
+import java.util.ResourceBundle;
+
 public class SplashScreenTest extends DukeApplicationTest {
+
+    private ResourceBundle cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
 
     @Override
     public void start(Stage stage) {
@@ -17,13 +21,13 @@ public class SplashScreenTest extends DukeApplicationTest {
 
     @Test
     public void playBeforeLoad() {
-        Button button = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+        Button button = lookup("#" + cssIdResources.getString("PlayButton")).query();
         clickOn(button);
     }
 
     @Test
     public void loadFile() {
-        Button button = lookup("#" + SplashScreen.LOAD_NEW_GAME_CSS).query();
+        Button button = lookup("#" + cssIdResources.getString("LoadNewGame")).query();
         clickOn(button);
     }
 }

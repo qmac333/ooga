@@ -73,6 +73,11 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
     return condition1 && condition2 && condition3;
   }
 
+  @Override
+  public void setColor(String color) {
+    myColor = color;
+  }
+
   // Sets the color of the card to whatever is specified
   protected void setCardColor(String color) {
     myColor = color;

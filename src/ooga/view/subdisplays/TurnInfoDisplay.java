@@ -22,14 +22,13 @@ import ooga.util.Log;
 
 public class TurnInfoDisplay implements DisplayableItem {
 
-  public static String ARROW_CSS = "GameplayDirection";
-  public static String PLAYER_TABLE_CSS = "PlayerTable";
   private static final String LOG_FILE = ".\\data\\logMessages.txt";
   private static double ARROW_HEIGHT = 50;
   private static double ARROW_WIDTH = 50;
 
   private GameStateViewInterface gameState;
   private ResourceBundle languageResources;
+  private ResourceBundle cssIdResources;
 
   private TableView<ViewPlayerInterface> playerTable;
   private ImageView directionArrow;
@@ -49,6 +48,7 @@ public class TurnInfoDisplay implements DisplayableItem {
   public TurnInfoDisplay(UnoDisplayController controller, String language) {
     gameState = controller.getGameState();
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
 
     displayableItem = new HBox();
     displayableItem.getStyleClass().add("turn_info_main_display");
@@ -67,7 +67,7 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   private void initializeTable() {
     playerTable = new TableView<>();
-    playerTable.setId(PLAYER_TABLE_CSS);
+    playerTable.setId(cssIdResources.getString("PlayerTable"));
     playerTable.setSelectionModel(null);
     playerTable.setMaxSize(200, 300);
 
@@ -109,7 +109,7 @@ public class TurnInfoDisplay implements DisplayableItem {
     try {
       directionArrow = new ImageView(new Image(new FileInputStream("data/images/Arrow.png")));
       directionArrow.getStyleClass().add("turn_info_gameplay_direction_arrow");
-      directionArrow.setId(ARROW_CSS);
+      directionArrow.setId(cssIdResources.getString("GameplayDirection"));
     } catch (FileNotFoundException e) {
 
       try {

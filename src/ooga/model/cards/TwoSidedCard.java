@@ -81,7 +81,36 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
    */
   @Override
   public boolean equals(Object other) {
-    // TODO
-    return false;
+    if (other == this){
+      return true;
+    }
+    if (!(other instanceof TwoSidedCard)){
+      return false;
+    }
+    TwoSidedCard o = (TwoSidedCard) other;
+    return isSame(o);
+  }
+
+  private boolean isSame(TwoSidedCard card){
+    if (!sidesSame(card)){
+      return false;
+    }
+    this.flip();
+    card.flip();
+    if (!sidesSame(card)){
+      return false;
+    }
+    this.flip();
+    card.flip();
+    return true;
+  }
+
+  private boolean sidesSame(TwoSidedCard card){
+    return card.getMyColor().equals(this.getMyColor()) && card.getNum() == this.getNum() && card.getType().equals(this.getType());
+  }
+
+  @Override
+  public void setColor(String color) {
+    myCards.get(activeSide).setColor(color);
   }
 }
