@@ -16,6 +16,7 @@ import ooga.view.subdisplays.CardDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UnoDisplayTests extends DukeApplicationTest {
@@ -41,8 +42,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
     try {
       Node languagePicker = lookup("#" + cssIdResources.getString("LanguagePicker")).query();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       Assertions.fail();
     }
   }
@@ -59,7 +59,6 @@ public class UnoDisplayTests extends DukeApplicationTest {
     }
 
   }
-
 
 
 }

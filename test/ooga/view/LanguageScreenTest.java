@@ -29,11 +29,10 @@ public class LanguageScreenTest extends DukeApplicationTest {
     clickOn(picker);
     select(picker, "English");
     Text titleText = lookup("#" + cssIdResources.getString("SplashScreenTitleText")).query();
-    assertEquals(textResources.getString("Title") ,titleText.getText());
+    assertEquals(textResources.getString("Title"), titleText.getText());
 
 
   }
-
 
 
 }

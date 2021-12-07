@@ -88,15 +88,16 @@ public class HandListDisplay implements DisplayableItem {
     handList.getChildren().clear();
     currentCards = gameState.getCurrentPlayerCards();
     Collection<Integer> validCards = gameState.getValidIndexes();
-    for (int i=0; i< currentCards.size(); i++) {
+    for (int i = 0; i < currentCards.size(); i++) {
       CardDisplay cardMock;
       if (validCards.contains(i) && gameState.userPicksCard()) {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), gameState.userPicksCard(), true);
-      }
-      else {
+            currentCards.get(i).getType(), currentCards.get(i).getMyColor(),
+            gameState.userPicksCard(), true);
+      } else {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), gameState.userPicksCard(), false);
+            currentCards.get(i).getType(), currentCards.get(i).getMyColor(),
+            gameState.userPicksCard(), false);
       }
       VBox cardBox = new VBox();
       cardBox.getStyleClass().add("hand_list_card_box");
@@ -114,9 +115,9 @@ public class HandListDisplay implements DisplayableItem {
             }
             playTurn(cardIndex);
           });
-        }
-        else {
-          cardBox.setOnMousePressed(e -> showError(languageResources.getString("InvalidCardClicked")));
+        } else {
+          cardBox.setOnMousePressed(
+              e -> showError(languageResources.getString("InvalidCardClicked")));
         }
       }
 
@@ -132,8 +133,7 @@ public class HandListDisplay implements DisplayableItem {
       drawButton.getStyleClass().clear();
       if (gameState.getValidIndexes().size() == 0) {
         drawButton.getStyleClass().add("hand_list_button_draw_required");
-      }
-      else {
+      } else {
         drawButton.getStyleClass().add("hand_list_button");
       }
     }

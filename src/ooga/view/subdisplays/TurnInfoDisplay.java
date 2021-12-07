@@ -94,8 +94,7 @@ public class TurnInfoDisplay implements DisplayableItem {
             super.updateItem(player, empty);
             if ((!empty) && currentPlayer.equals(player.getName())) {
               setStyle("-fx-background-color: yellow");
-            }
-            else {
+            } else {
               setStyle("");
             }
           }
@@ -114,11 +113,10 @@ public class TurnInfoDisplay implements DisplayableItem {
 
       try {
         logError("You are missing the arrow image");
-      } catch(Exception ignored) {
+      } catch (Exception ignored) {
 
       }
     }
-
 
     directionArrow.setFitHeight(ARROW_HEIGHT);
     directionArrow.setFitWidth(ARROW_WIDTH);
@@ -138,7 +136,6 @@ public class TurnInfoDisplay implements DisplayableItem {
     int currentPlayerIndex = gameState.getCurrentPlayer();
     currentPlayer = gameState.getPlayers().get(currentPlayerIndex).getName();
 
-
     playerTable.getItems().clear();
     List<ViewPlayerInterface> players = gameState.getPlayers();
     playerTable.getItems().addAll(players);
@@ -149,8 +146,7 @@ public class TurnInfoDisplay implements DisplayableItem {
     int direction = gameState.getGameplayDirection();
     if (direction == 1) {
       directionArrow.setRotate(90); // rotate arrow to face downward
-    }
-    else {
+    } else {
       directionArrow.setRotate(-90); // rotate arrow to face upward
     }
   }
