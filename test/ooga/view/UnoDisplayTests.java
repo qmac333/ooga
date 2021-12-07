@@ -21,7 +21,6 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    CardDisplay.initializeCards();
     UnoController controller = new UnoController(stage);
     controller.setLanguage("English");
     controller.createSplashScreen("English");

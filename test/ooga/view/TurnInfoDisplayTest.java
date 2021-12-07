@@ -22,7 +22,6 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
 
-    CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.setLanguage("English");
     controller.createSplashScreen("English");

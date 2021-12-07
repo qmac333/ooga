@@ -15,7 +15,6 @@ public class HandListDisplayTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) {
-        CardDisplay.initializeCards();
         controller = new MockController();
         display = new HandListDisplay(controller, null, "English");
         Group root = new Group();
