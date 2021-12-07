@@ -262,8 +262,8 @@ public class BasicUnoDisplay implements GameScreen {
 
   protected void handleCheatKey(String character) {
     if (cheatKeysResources.getString("Alphabet").contains(character)) {
-      // call cheat key handler
-      System.out.println(character);
+      controller.getGameState().cheatKey(character.charAt(0));
+      render();
     }
   }
 

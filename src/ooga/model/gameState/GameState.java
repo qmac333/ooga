@@ -419,28 +419,40 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
       switch (key) {
         case 'r':
           myPlayerGroup.toColor("Red", "Black");
+          break;
         case 'g':
           myPlayerGroup.toColor("Green", "Black");
+          break;
         case 'b':
           myPlayerGroup.toColor("Blue", "Black");
+          break;
         case 'y':
           myPlayerGroup.toColor("Yellow", "Black");
+          break;
         case 'n':
           myPlayerGroup.seven("Yellow", "1");
+          break;
         case 'w':
           myPlayerGroup.addCard("Wild", "Black");
+          break;
         case 'd':
           myPlayerGroup.addCard("WildDrawFour", "Black");
+          break;
         case 'x':
           myPlayerGroup.toWin("Blue", "1");
+          break;
         case 'u':
           myPlayerGroup.toUno("Blue", "1");
+          break;
         case 'l':
           myPlayerGroup.addCard("WildBlast", "Black");
+          break;
         case 'f':
           myPlayerGroup.addCard("Flip", "Red");
+          break;
         case 's':
           myPlayerGroup.addCard("Skip", "Red");
+          break;
       }
     } catch (Exception e){
       e.printStackTrace();
