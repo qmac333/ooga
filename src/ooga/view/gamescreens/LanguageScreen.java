@@ -13,11 +13,11 @@ import java.util.ResourceBundle;
 
 public class LanguageScreen implements GameScreen {
 
-  public static final String LANGUAGE_PICKER_CSS = "LanguagePicker";
   private static final String TITLE = "Please Choose A Language";
 
   private ResourceBundle languageResources;
   private ResourceBundle cssStylingResources;
+  private ResourceBundle cssIdResources;
 
   private LanguageScreenController controller;
 
@@ -25,6 +25,7 @@ public class LanguageScreen implements GameScreen {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle("ooga.resources.Languages");
     cssStylingResources = ResourceBundle.getBundle("ooga.resources.CSSStyling");
+    cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
   }
 
   public Scene setScene() {
@@ -46,7 +47,7 @@ public class LanguageScreen implements GameScreen {
     checkForUpdates.getStyleClass().add("text-title");
 
     ChoiceBox<String> language = new ChoiceBox<>();
-    language.setId(LANGUAGE_PICKER_CSS);
+    language.setId(cssIdResources.getString("LanguagePicker"));
     language.setValue("Language");
     for (String type : languageResources.keySet()) {
       language.getItems().add(languageResources.getString(type));

@@ -95,6 +95,7 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("hbox");
 
     Text checkForUpdates = new Text(languageResources.getString("Title"));
+    checkForUpdates.setId(cssIdResources.getString("SplashScreenTitleText"));
     checkForUpdates.getStyleClass().add("text-title");
     root.getChildren().add(checkForUpdates);
 
@@ -106,12 +107,15 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("vbox");
 
     Button darkMode = new Button(languageResources.getString("DarkMode"));
+    darkMode.setId(cssIdResources.getString("DarkMode"));
     darkMode.setOnAction(e -> changeColorMode(darkMode));
 
     Button schoolColors = new Button(languageResources.getString("UNC"));
+    schoolColors.setId(cssIdResources.getString("UncColor"));
     schoolColors.setOnAction(e -> changeSchool(schoolColors));
 
     Button seasonColors = new Button(languageResources.getString("SpringColors"));
+    seasonColors.setId(cssIdResources.getString("SeasonColor"));
     seasonColors.setOnAction(e -> changeSeason(seasonColors));
 
     Button loadNew = new Button(languageResources.getString("LoadNew"));
@@ -251,6 +255,7 @@ public class SplashScreen implements GameScreen {
     playButton.setOnAction(e -> playNewGame());
 
     newGameIndicator = new Text("");
+    newGameIndicator.setId(cssIdResources.getString("NewGameText"));
     newGameIndicator.getStyleClass().add("ready-indicator");
     parametersIndicator = new Text("");
     parametersIndicator.getStyleClass().add("ready-indicator");
@@ -267,8 +272,7 @@ public class SplashScreen implements GameScreen {
   }
 
   private void addNewPlayer(String name, String playerType) {
-    // TODO: Error checking, restrict name to be 15 characters long maximum
-    if (playerType == "Human" || playerType == "CPU") {
+    if (playerType == languageResources.getString("Human") || playerType == languageResources.getString("CPU")) {
       if (!playerMap.containsKey(name)) {
         if (playerMap.size() < 11) {
           nameTextField.clear();
@@ -290,9 +294,11 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("vbox");
 
     pointsTextField = new TextField();
+    pointsTextField.setId(cssIdResources.getString("PointsText"));
     pointsTextField.setPromptText(languageResources.getString("PointsInput"));
 
     gameChoiceBox = new ChoiceBox<>();
+    gameChoiceBox.setId(cssIdResources.getString("GameTypeChoice"));
     gameChoiceBox.setValue(languageResources.getString("GameHeader"));
     gameChoiceBox.getItems().add(languageResources.getString("Basic"));
     gameChoiceBox.getItems().add(languageResources.getString("Flip"));
@@ -300,6 +306,7 @@ public class SplashScreen implements GameScreen {
     gameChoiceBox.setOnAction(e -> gameType = translateToEnglish(gameChoiceBox.getValue(), languageResources));
 
     ChoiceBox<String> modSelect = new ChoiceBox<>();
+    modSelect.setId(cssIdResources.getString("ModSelect"));
     modType = "Traditional";
     modSelect.setValue(modLanguageResources.getString("Traditional"));
     for (String mod : modLanguageResources.keySet()) {
@@ -313,17 +320,21 @@ public class SplashScreen implements GameScreen {
     stackCardsButton.setOnAction(e -> stack(stackCardsButton));
 
     Button setGame = new Button(languageResources.getString("GameParameters"));
+    setGame.setId(cssIdResources.getString("SetGame"));
     setGame.setOnAction(e -> setGameHandler(pointsTextField));
 
     nameTextField = new TextField();
+    nameTextField.setId(cssIdResources.getString("NameText"));
     nameTextField.setPromptText(languageResources.getString("NameInput"));
 
     ChoiceBox<String> playerTypeInput = new ChoiceBox<>();
+    playerTypeInput.setId(cssIdResources.getString("PlayerTypeInput"));
     playerTypeInput.setValue(languageResources.getString("TypeInput"));
-    playerTypeInput.getItems().add("Human");
-    playerTypeInput.getItems().add("CPU");
+    playerTypeInput.getItems().add(languageResources.getString("Human"));
+    playerTypeInput.getItems().add(languageResources.getString("CPU"));
 
     Button addPlayer = new Button(languageResources.getString("AddPlayer"));
+    addPlayer.setId(cssIdResources.getString("AddPlayerToGame"));
     addPlayer.setOnAction(e -> addNewPlayer(nameTextField.getText(), playerTypeInput.getValue()));
 
     root.getChildren().addAll(pointsTextField, gameChoiceBox, modSelect, stackCardsButton, new Separator(),
@@ -336,6 +347,7 @@ public class SplashScreen implements GameScreen {
     tableDisplay = new VBox();
     tableDisplay.getStyleClass().add("vbox");
     playerTable = new TableView<>();
+    playerTable.setPlaceholder(new Label(languageResources.getString("NothingYet")));
 
     TableColumn<Player, String> playerNameCol = new TableColumn<>(
         languageResources.getString("TableHeaderLeft"));
