@@ -14,15 +14,15 @@ import ooga.model.rules.RuleInterface;
  */
 public interface ReflectionHandlerInterface {
 
-  static final String BUNDLE_PATH = "ooga.model.instanceCreation.resources.ReflectionResources";
-  static final String PLAYER_BASE = "PlayerClassBase";
-  static final String DRAW_RULE_BASE = "DrawRuleBase";
-  static final String PLAY_RULE_BASE = "PlayRulesBase";
-  static final String PLAYER_ERROR = "PlayerCreationError";
-  static final String RULE_ERROR = "RuleCreationError";
-  static final String DRAW_RULE_ERROR = "DrawRuleCreationError";
+  String BUNDLE_PATH = "ooga.model.instanceCreation.resources.ReflectionResources";
+  String PLAYER_BASE = "PlayerClassBase";
+  String DRAW_RULE_BASE = "DrawRuleBase";
+  String PLAY_RULE_BASE = "PlayRulesBase";
+  String PLAYER_ERROR = "PlayerCreationError";
+  String RULE_ERROR = "RuleCreationError";
+  String DRAW_RULE_ERROR = "DrawRuleCreationError";
 
-  static final ResourceBundle reflectionResources = ResourceBundle.getBundle(BUNDLE_PATH);
+  ResourceBundle reflectionResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
   /**
    * Creates a new instance of a player using reflection

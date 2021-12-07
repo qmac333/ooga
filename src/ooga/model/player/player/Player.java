@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.hand.Hand;
+import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
 public abstract class Player implements PlayerCardInterface, ViewPlayerInterface,
@@ -30,7 +31,7 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
    * {@inheritDoc}
    */
   @Override
-  public abstract void playCard();
+  public abstract void playCard() throws ReflectionErrorException;
 
   /**
    * {@inheritDoc}

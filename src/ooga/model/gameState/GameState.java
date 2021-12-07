@@ -31,6 +31,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private static final String POINTS_TO_WIN = "DefaultPointsToWin";
   private static final String GAME_TYPE = "DefaultGameType";
   private static final String DRAW_RULE_BASE = "DrawRuleFormat";
+  private static final String DRAW_BASE = "DrawFormat";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -186,7 +187,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public void playTurn() {
-    myPlayerGroup.playTurn();
+    try {
+      myPlayerGroup.playTurn();
+    } catch (ReflectionErrorException e){
+      e.printStackTrace();
+    }
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
     if (player.getHandSize() == 0) {
       myPlayerGroup.countAndAwardPoints();
@@ -270,18 +275,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * {@inheritDoc}
    */
   @Override
-  public Collection<CardInterface> noPlayDraw() {
-    if (impendingDraw == 0) {
-      return myDrawRule.noPlayDraw(this);
-    }
-    if (impendingDraw < 0) {
-      if (impendingDraw == -1) {
-        return myDrawRule.drawUntilBlast(this);
-      }
-      return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
-    }
+  public Collection<CardInterface> noPlayDraw() throws ReflectionErrorException {
     int oldDraw = impendingDraw;
     impendingDraw = 0;
+    if (oldDraw == 0) {
+      return myDrawRule.noPlayDraw(this);
+    } else if (oldDraw == -1){
+      return myDrawRule.drawUntilBlast(this);
+    } else if (oldDraw == -2){
+      return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
+    }
     return myDrawRule.forcedDraw(this, oldDraw);
   }
 

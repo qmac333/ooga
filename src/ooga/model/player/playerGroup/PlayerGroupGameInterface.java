@@ -3,6 +3,7 @@ package ooga.model.player.playerGroup;
 import java.util.List;
 import java.util.Map;
 import ooga.model.hand.Hand;
+import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.player.PlayerGameInterface;
 
 public interface PlayerGroupGameInterface extends Iterable<PlayerGameInterface> {
@@ -15,7 +16,7 @@ public interface PlayerGroupGameInterface extends Iterable<PlayerGameInterface> 
   /**
    * Causes current player to play a turn
    */
-  void playTurn();
+  void playTurn() throws ReflectionErrorException;
 
   /**
    * Adds player to the game
