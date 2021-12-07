@@ -1,8 +1,10 @@
-package ooga.view.maindisplay;
+package ooga.view.gamescreens;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,27 +20,20 @@ import javafx.scene.text.Text;
 import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.player.player.ViewPlayerInterface;
 import ooga.util.Config;
-import ooga.view.GameScreen;
-import ooga.view.HandListDisplay;
-import ooga.view.TurnInfoDisplay;
-import ooga.view.deckdisplay.DeckDisplay;
+import ooga.util.Log;
+import ooga.view.subdisplays.HandListDisplay;
+import ooga.view.subdisplays.TurnInfoDisplay;
+import ooga.view.subdisplays.DeckDisplay;
 
 public class BasicUnoDisplay implements GameScreen {
 
-  private static final String THEME_IMAGES_FILEPATH = "./data/images/logos/";
-
-  private static final double THEME_IMAGE_WIDTH = 150;
-  private static final double THEME_IMAGE_HEIGHT = 150;
-
   private static final int INTERACTIVE_NODES_INDEX = 1;
 
-  private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
-  public static final String BACK_BUTTON_CSS = "BackButton";
-  public static final String THEME_IMAGE_CSS = "ThemeImage";
-  public static final String PLAY_TURN_BUTTON_CSS = "PlayTurn";
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
 
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
+  private ResourceBundle cssIdResources;
 
   private UnoDisplayController controller;
   private TurnInfoDisplay turnDisplay;
@@ -55,6 +50,8 @@ public class BasicUnoDisplay implements GameScreen {
   private Button playTurnButton; // for playing computer's turn
   private Text cardSelectText;
 
+  private Log log;
+
   /**
    * initializes data structures and saves the given controller
    *
@@ -64,7 +61,8 @@ public class BasicUnoDisplay implements GameScreen {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     themeImageResources = ResourceBundle.getBundle(
-        String.format("ooga.view.maindisplay.ThemeFiles"));
+        String.format("ooga.resources.ThemeFiles"));
+    cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
 
     controller.getGameState().setSuppliers(() -> playCard(), () -> sendColor());
 
@@ -96,7 +94,7 @@ public class BasicUnoDisplay implements GameScreen {
 
     playTurnButton = new Button(languageResources.getString("PlayTurn"));
     playTurnButton.getStyleClass().add("main_display_button");
-    playTurnButton.setId(PLAY_TURN_BUTTON_CSS);
+    playTurnButton.setId(cssIdResources.getString("PlayTurn"));
     playTurnButton.setOnAction(e -> playComputerTurn());
 
     // center panel
@@ -114,12 +112,13 @@ public class BasicUnoDisplay implements GameScreen {
     left.getStyleClass().add("main_display_left_panel");
 
     String themeImagePath =
-        THEME_IMAGES_FILEPATH + themeImageResources.getString(controller.getGameVersion());
+        themeImageResources.getString("ThemeImagesFilepath") + themeImageResources.getString(controller.getGameVersion());
     try {
       ImageView themeImage = new ImageView(new Image(new FileInputStream(themeImagePath)));
-      themeImage.setId(THEME_IMAGE_CSS);
-      themeImage.setFitHeight(THEME_IMAGE_HEIGHT);
-      themeImage.setFitWidth(THEME_IMAGE_WIDTH);
+      themeImage.setId(cssIdResources.getString("ThemeImage"));
+      // TODO: Throw and log exception here
+      themeImage.setFitHeight(Integer.parseInt(themeImageResources.getString("ThemeImageHeight")));
+      themeImage.setFitWidth(Integer.parseInt(themeImageResources.getString("ThemeImageWidth")));
       left.getChildren().add(themeImage);
     } catch (FileNotFoundException e) {
       //TODO: Use Logging to say image is not found
@@ -129,7 +128,7 @@ public class BasicUnoDisplay implements GameScreen {
 
     Button button = new Button(languageResources.getString("Back"));
     button.getStyleClass().add("main_display_button");
-    button.setId(BACK_BUTTON_CSS);
+    button.setId(cssIdResources.getString("BackButton"));
     button.setOnAction(e -> controller.returnToSplashScreen());
     left.getChildren().add(button);
 
@@ -243,6 +242,12 @@ public class BasicUnoDisplay implements GameScreen {
     Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
     alert.showAndWait();
+  }
+
+  private void logError(String logMsg) throws IOException {
+    log = new Log(LOG_FILE, this.getClass().toString());
+    log.getLogger().setLevel(Level.WARNING);
+    log.getLogger().warning(logMsg);
   }
 
   protected BorderPane getUnoDisplay() {

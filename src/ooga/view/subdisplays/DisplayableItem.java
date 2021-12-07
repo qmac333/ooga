@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.subdisplays;
 
 import javafx.scene.Node;
 

@@ -20,11 +20,11 @@ import ooga.controller.moshiParsing.CardInterfaceAdapter;
 import ooga.controller.moshiParsing.GameStateJsonAdapter;
 import ooga.model.gameState.GameState;
 import ooga.model.gameState.GameStateViewInterface;
-import ooga.view.CardDisplay;
-import ooga.view.GameScreen;
-import ooga.view.LanguageScreen;
-import ooga.view.SplashScreen;
-import ooga.view.maindisplay.BasicUnoDisplay;
+import ooga.view.subdisplays.CardDisplay;
+import ooga.view.gamescreens.GameScreen;
+import ooga.view.gamescreens.LanguageScreen;
+import ooga.view.gamescreens.SplashScreen;
+import ooga.view.gamescreens.BasicUnoDisplay;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -33,7 +33,7 @@ import java.nio.file.Files;
 public class UnoController implements LanguageScreenController, SplashScreenController, UnoDisplayController {
   private static final String SAVE_FILE_PATH = Paths.get(".", "\\data\\configuration_files\\Save Files").toAbsolutePath().normalize().toString();
   private static final String REQUIRED_MOD_FILEPATH = Paths.get(".", "\\data\\mods\\RequiredImages.txt").toAbsolutePath().normalize().toString();
-  private static final String DISPLAY = "ooga.view.maindisplay.%sUnoDisplay";
+  private static final String DISPLAY = "ooga.view.gamescreens.%sUnoDisplay";
 
   private Stage stage;
   private LanguageScreen languageScreen;

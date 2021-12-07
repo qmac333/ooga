@@ -2,8 +2,9 @@ package ooga.view;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ooga.view.subdisplays.CardDisplay;
+import ooga.view.subdisplays.HandListDisplay;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -14,7 +15,6 @@ public class HandListDisplayTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) {
-        CardDisplay.initializeCards();
         controller = new MockController();
         display = new HandListDisplay(controller, null, "English");
         Group root = new Group();

@@ -1,7 +1,8 @@
-package ooga.view.maindisplay;
+package ooga.view.gamescreens;
 
 import ooga.controller.interfaces.UnoDisplayController;
-import ooga.view.BlasterDisplay;
+import ooga.view.gamescreens.BasicUnoDisplay;
+import ooga.view.subdisplays.BlasterDisplay;
 
 public class BlastUnoDisplay extends BasicUnoDisplay {
 

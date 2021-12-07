@@ -1,8 +1,7 @@
-package ooga.view;
+package ooga.view.gamescreens;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,10 +10,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import ooga.controller.interfaces.SplashScreenController;
 import ooga.util.Config;
+import ooga.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class SplashScreen implements GameScreen {
 
@@ -37,10 +39,7 @@ public class SplashScreen implements GameScreen {
 
   public static final String PLAY_CSS_ID = "PlayButton";
   public static final String LOAD_NEW_GAME_CSS = "LoadNewGame";
-
-  private static double CELL_HEIGHT = 30;
-  private static double CELL_WIDTH = 100;
-
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
   private ResourceBundle languageResources;
   private ResourceBundle modLanguageResources;
 
@@ -65,6 +64,8 @@ public class SplashScreen implements GameScreen {
   private boolean unc;
   private boolean springColors;
 
+  private Log log;
+
   SplashScreenController controller;
 
   public SplashScreen(SplashScreenController controller, String language) {
@@ -88,8 +89,12 @@ public class SplashScreen implements GameScreen {
       imageView.setFitWidth(300);
       borderPane.setCenter(imageView);
     } catch(Exception e) {
-      // TODO: Logging for errors when file for image is not found
-      System.out.println("Uno Logo Image not found");
+
+      try {
+        logError("Uno Logo Image not found");
+      } catch(Exception ignored) {
+
+      }
     }
 
     scene = new Scene(borderPane, Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
@@ -386,6 +391,12 @@ public class SplashScreen implements GameScreen {
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(alertMessage);
     alert.show();
+  }
+
+  private void logError(String logMsg) throws IOException {
+    log = new Log(LOG_FILE, this.getClass().toString());
+    log.getLogger().setLevel(Level.WARNING);
+    log.getLogger().warning(logMsg);
   }
 
   public class Player {

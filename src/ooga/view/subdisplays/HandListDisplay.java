@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.subdisplays;
 
 import java.util.Collection;
 import java.util.List;

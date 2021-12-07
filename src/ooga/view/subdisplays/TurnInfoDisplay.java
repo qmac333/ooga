@@ -1,9 +1,12 @@
-package ooga.view;
+package ooga.view.subdisplays;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -15,11 +18,13 @@ import javafx.scene.layout.HBox;
 import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.gameState.GameStateViewInterface;
 import ooga.model.player.player.ViewPlayerInterface;
+import ooga.util.Log;
 
 public class TurnInfoDisplay implements DisplayableItem {
 
   public static String ARROW_CSS = "GameplayDirection";
   public static String PLAYER_TABLE_CSS = "PlayerTable";
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
   private static double ARROW_HEIGHT = 50;
   private static double ARROW_WIDTH = 50;
 
@@ -32,6 +37,7 @@ public class TurnInfoDisplay implements DisplayableItem {
 
   private String currentPlayer;
 
+  private Log log;
 
   /**
    * Initialize a class that creates the display for the info on the current players and whose turn
@@ -105,7 +111,12 @@ public class TurnInfoDisplay implements DisplayableItem {
       directionArrow.getStyleClass().add("turn_info_gameplay_direction_arrow");
       directionArrow.setId(ARROW_CSS);
     } catch (FileNotFoundException e) {
-      System.exit(-1); // TODO: use logging
+
+      try {
+        logError("You are missing the arrow image");
+      } catch(Exception ignored) {
+
+      }
     }
 
 
@@ -142,5 +153,11 @@ public class TurnInfoDisplay implements DisplayableItem {
     else {
       directionArrow.setRotate(-90); // rotate arrow to face upward
     }
+  }
+
+  private void logError(String logMsg) throws IOException {
+    log = new Log(LOG_FILE, this.getClass().toString());
+    log.getLogger().setLevel(Level.WARNING);
+    log.getLogger().warning(logMsg);
   }
 }
