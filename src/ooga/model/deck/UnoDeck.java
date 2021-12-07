@@ -100,8 +100,19 @@ public class UnoDeck extends CardPile{
                 OneSidedCard newBack;
                 for(String color : colorList){
 
-                    newFront = getOneSidedCard(color, type1);
-                    newBack = getOneSidedCard(color, type2);
+                    if(type1.startsWith("Wild")) {
+                        newFront = getOneSidedCard("Black", type1);
+                    }
+                    else{
+                        newFront = getOneSidedCard(color, type1);
+                    }
+                    if(type2.startsWith("Wild")) {
+                        newBack = getOneSidedCard("Black", type2);
+                    }
+                    else{
+                        newBack = getOneSidedCard(color, type2);
+                    }
+
                     TwoSidedCard newCard = new TwoSidedCard(newFront, newBack);
                     deckList.add(newCard);
                 }
