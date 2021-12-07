@@ -35,7 +35,7 @@ public class ComputerPlayer extends Player {
         } catch (Exception e){
           Log log = new Log(LOG_FILE, MethodHandles.lookup().lookupClass().toString());
           log.getLogger().setLevel(Level.WARNING);
-//          log.getLogger().warning(logMsg);
+          log.getLogger().warning(e.getMessage());
         }
         return;
       }

@@ -7,7 +7,6 @@ import ooga.model.drawRule.DrawRule;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 import ooga.model.player.player.Player;
-import ooga.model.player.player.PlayerGameInterface;
 import ooga.model.player.playerGroup.PlayerGroup;
 import ooga.model.player.playerGroup.PlayerGroupGameInterface;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
@@ -30,6 +29,8 @@ public interface ReflectionHandlerInterface {
   String DRAW_RULE_ERROR = "DrawRuleCreationError";
   String CARD_BASE = "CardBase";
   String CARD_ERROR = "CardCreationError";
+  String CHEAT_ERROR = "CheatMethodError";
+  String SPECIAL_DRAW_ERROR = "SpecialDrawError";
 
   ResourceBundle reflectionResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -91,6 +92,14 @@ public interface ReflectionHandlerInterface {
     }
   }
 
+  /**
+   * Create the specified action card
+   *
+   * @param type Type of card
+   * @param color Card's color
+   * @return Instance of card
+   * @throws ReflectionErrorException If type isn't valid
+   */
   static CardInterface getActionCard(String type, String color) throws ReflectionErrorException {
     try {
       Class<?> clazz = Class.forName(
@@ -102,23 +111,42 @@ public interface ReflectionHandlerInterface {
     }
   }
 
+  /**
+   * Executes the required cheat method
+   *
+   * @param method Method to execute
+   * @param arg1 Argument One for the cheat
+   * @param arg2 Argument Two for the cheat
+   * @param group PlayerGroup to call on
+   * @throws ReflectionErrorException If reflection doesn't work
+   */
   static void performCheatMethod(String method, String arg1, String arg2, PlayerGroupGameInterface group)
       throws ReflectionErrorException {
     try {
       PlayerGroup.class.getDeclaredMethod(method, String.class, String.class)
           .invoke(group, arg1, arg2);
     } catch (Exception e){
-      throw new ReflectionErrorException("Cheat code not working");
+      throw new ReflectionErrorException(String.format(reflectionResources.getString(CHEAT_ERROR), method));
     }
   }
 
+  /**
+   * Performs the specified special draw method
+   *
+   * @param method Method to call
+   * @param game Associated Game
+   * @param color Color to look for
+   * @param draw Draw rule to use
+   * @return Cards returned by this method
+   * @throws ReflectionErrorException If reflection doesn't work
+   */
   static Collection<CardInterface> performSpecialDraw(String method, GameStateDrawInterface game, String color, DrawRuleInterface draw)
       throws ReflectionErrorException {
     try {
       return (Collection<CardInterface>) DrawRule.class.getDeclaredMethod(method,
           GameStateDrawInterface.class, String.class).invoke(draw, game, color);
     } catch (Exception e){
-      throw new ReflectionErrorException("Special Draw Error");
+      throw new ReflectionErrorException(String.format(reflectionResources.getString(SPECIAL_DRAW_ERROR), method));
     }
   }
 }

@@ -15,8 +15,8 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
     PlayerGameInterface {
 
   private Hand myHand;
-  private String myName;
-  private PlayerGroupPlayerInterface myGroup;
+  private final String myName;
+  private final PlayerGroupPlayerInterface myGroup;
   private Supplier<Integer> myIntegerSupplier;
   private Supplier<String> myStringSupplier;
   private int myPoints;
@@ -182,6 +182,9 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
     myPoints += amount;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<Integer> getValidIndexes() {
     List<Integer> indexes = new ArrayList<>();
@@ -203,11 +206,17 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
     return myHand;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void dumpCards(){
     myHand = new Hand();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setPoints(int amount){
     myPoints = amount;

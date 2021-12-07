@@ -81,6 +81,9 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
     return condition1 && condition2 && condition3;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setColor(String color) {
     myColor = color;

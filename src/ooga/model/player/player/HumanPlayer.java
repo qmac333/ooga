@@ -29,6 +29,7 @@ public class HumanPlayer extends Player {
     } catch (Exception e){
       Log log = new Log(LOG_FILE, MethodHandles.lookup().lookupClass().toString());
       log.getLogger().setLevel(Level.WARNING);
+      log.getLogger().warning(e.getMessage());
     }
   }
 
