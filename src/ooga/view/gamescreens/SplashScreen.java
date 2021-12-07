@@ -273,7 +273,6 @@ public class SplashScreen implements GameScreen {
 
   private void addNewPlayer(String name, String playerType) {
     // TODO: Error checking, restrict name to be 15 characters long maximum
-    System.out.println(playerType);
     if (playerType == "Human" || playerType == "CPU") {
       if (!playerMap.containsKey(name)) {
         if (playerMap.size() < 11) {
