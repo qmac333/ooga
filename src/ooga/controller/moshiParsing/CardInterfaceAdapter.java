@@ -53,6 +53,7 @@ public class CardInterfaceAdapter {
             String cardBackColor = myCardInterface.getMyColor();
             int cardBackNumber = myCardInterface.getNum();
             String cardBackJson = cardBackType + "_" + cardBackColor + "_" + cardBackNumber;
+            myCardInterface.flip();
             return cardFrontJson + "_" + cardBackJson;
         }
         return cardFrontJson;
