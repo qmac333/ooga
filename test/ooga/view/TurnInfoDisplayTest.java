@@ -7,6 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.player.player.ViewPlayerInterface;
+import ooga.view.gamescreens.SplashScreen;
+import ooga.view.subdisplays.CardDisplay;
+import ooga.view.subdisplays.TurnInfoDisplay;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 

@@ -1,8 +1,7 @@
-package ooga.view;
+package ooga.view.gamescreens;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,9 +36,6 @@ public class SplashScreen implements GameScreen {
 
   public static final String PLAY_CSS_ID = "PlayButton";
   public static final String LOAD_NEW_GAME_CSS = "LoadNewGame";
-
-  private static double CELL_HEIGHT = 30;
-  private static double CELL_WIDTH = 100;
 
   private ResourceBundle languageResources;
   private ResourceBundle modLanguageResources;

@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.subdisplays;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

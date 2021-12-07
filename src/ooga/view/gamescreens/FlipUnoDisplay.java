@@ -1,6 +1,7 @@
-package ooga.view.maindisplay;
+package ooga.view.gamescreens;
 
 import ooga.controller.interfaces.UnoDisplayController;
+import ooga.view.gamescreens.BasicUnoDisplay;
 
 public class FlipUnoDisplay extends BasicUnoDisplay {
 

@@ -1,4 +1,4 @@
-package ooga.view.maindisplay;
+package ooga.view.gamescreens;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,10 +18,9 @@ import javafx.scene.text.Text;
 import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.player.player.ViewPlayerInterface;
 import ooga.util.Config;
-import ooga.view.GameScreen;
-import ooga.view.HandListDisplay;
-import ooga.view.TurnInfoDisplay;
-import ooga.view.deckdisplay.DeckDisplay;
+import ooga.view.subdisplays.HandListDisplay;
+import ooga.view.subdisplays.TurnInfoDisplay;
+import ooga.view.subdisplays.DeckDisplay;
 
 public class BasicUnoDisplay implements GameScreen {
 
@@ -64,7 +63,7 @@ public class BasicUnoDisplay implements GameScreen {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
     themeImageResources = ResourceBundle.getBundle(
-        String.format("ooga.view.maindisplay.ThemeFiles"));
+        String.format("ooga.resources.ThemeFiles"));
 
     controller.getGameState().setSuppliers(() -> playCard(), () -> sendColor());
 

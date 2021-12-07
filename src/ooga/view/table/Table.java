@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import ooga.view.DisplayableItem;
+import ooga.view.subdisplays.DisplayableItem;
 
 /**
  * A table class for organizing nodes.

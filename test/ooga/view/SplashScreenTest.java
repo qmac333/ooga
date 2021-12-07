@@ -3,6 +3,7 @@ package ooga.view;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
+import ooga.view.gamescreens.SplashScreen;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 

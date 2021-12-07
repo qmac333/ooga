@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.gamescreens;
 
 import javafx.scene.Scene;
 
