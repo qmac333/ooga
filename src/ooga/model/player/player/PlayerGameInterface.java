@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.hand.Hand;
+import ooga.model.instanceCreation.ReflectionErrorException;
 
 public interface PlayerGameInterface {
 
@@ -80,7 +81,7 @@ public interface PlayerGameInterface {
    * player plays a card in its hand and calls the card's action implementation will depend on
    * whether the player is automated or not
    */
-  void playCard();
+  void playCard() throws ReflectionErrorException;
 
   /**
    * Sets the player classes suppliers

@@ -1,5 +1,6 @@
 package ooga.model.deck;
 
+import ooga.model.cards.CardInterface;
 import ooga.model.cards.OneSidedCard;
 
 /**
@@ -17,5 +18,5 @@ public interface CardPileViewInterface {
    * allows caller to see the card at the top of a
    * pile of cards
    */
-  OneSidedCard lastCardPushed();
+  CardInterface lastCardPushed();
 }

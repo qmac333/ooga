@@ -1,6 +1,7 @@
 package ooga.model.player.player;
 
 import ooga.model.cards.CardInterface;
+import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 
 /**
@@ -18,7 +19,7 @@ public class ComputerPlayer extends Player {
    * {@inheritDoc}
    */
   @Override
-  public void playCard() {
+  public void playCard() throws ReflectionErrorException {
     int position = 0;
     PlayerGroupPlayerInterface group = super.getMyGroup();
     for (CardInterface card : super.getMyHand()) {

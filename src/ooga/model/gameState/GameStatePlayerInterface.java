@@ -2,6 +2,7 @@ package ooga.model.gameState;
 
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
+import ooga.model.instanceCreation.ReflectionErrorException;
 
 public interface GameStatePlayerInterface {
 
@@ -10,7 +11,7 @@ public interface GameStatePlayerInterface {
    *
    * @return card(s) from this draw
    */
-  Collection<CardInterface> noPlayDraw();
+  Collection<CardInterface> noPlayDraw() throws ReflectionErrorException;
 
   /**
    * Returns Whether a card can be played

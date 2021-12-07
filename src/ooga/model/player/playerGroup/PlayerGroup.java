@@ -85,7 +85,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   }
 
   @Override
-  public void playTurn() {
+  public void playTurn() throws ReflectionErrorException {
     myPlayers.get(myCurrentPlayer).playCard();
     checkUno();
   }
@@ -139,7 +139,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   }
 
   @Override
-  public Collection<CardInterface> noPlayDraw() {
+  public Collection<CardInterface> noPlayDraw() throws ReflectionErrorException {
     return myGame.noPlayDraw();
   }
 
