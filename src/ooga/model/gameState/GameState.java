@@ -220,7 +220,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public int getOrder() {
-    return 0; // Deprecated
+    return myPlayerGroup.getMyOrder();
   }
 
   /**
