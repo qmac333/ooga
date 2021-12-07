@@ -15,13 +15,11 @@ import java.util.ResourceBundle;
  */
 public class DeckDisplay implements DisplayableItem {
 
-  public static final String DECK_NUM_CARDS_TEXT_CSS = "NumCardsDeck";
-  public static final String DECK_CARD_CSS = "DeckCard";
-  public static final String DISCARD_PILE_CSS = "DiscardCard";
   private UnoDisplayController controller;
   private HBox displayedItem;
 
   private ResourceBundle languageResources;
+  private ResourceBundle cssIdResources;
 
   private VBox deckDisplay;
   private VBox discardPileDisplay;
@@ -35,6 +33,7 @@ public class DeckDisplay implements DisplayableItem {
   public DeckDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
     displayedItem = new HBox();
     displayedItem.getStyleClass().add("deck_main_display");
 
@@ -56,12 +55,12 @@ public class DeckDisplay implements DisplayableItem {
     numCardsDeckText = new Text();
     numCardsDeckText.getStyleClass().add("text");
 
-    numCardsDeckText.setId(DECK_NUM_CARDS_TEXT_CSS);
+    numCardsDeckText.setId(cssIdResources.getString("NumCardsDeck"));
     updateNumCardsDeck();
 
     // add a blank card to the display
     Parent cardDisplay = new CardDisplay().getCard();
-    cardDisplay.setId(DECK_CARD_CSS);
+    cardDisplay.setId(cssIdResources.getString("DeckCard"));
     deckDisplay.getChildren().addAll(cardDisplay, numCardsDeckText);
   }
 
@@ -88,7 +87,7 @@ public class DeckDisplay implements DisplayableItem {
     // return a displayable instance of that card, add to the display
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
         topDiscard.getMyColor());
-    card.getCard().setId(DISCARD_PILE_CSS);
+    card.getCard().setId(cssIdResources.getString("DiscardCard"));
     colorText.setText(String.format("%s %s", languageResources.getString("CardColor"),
             topDiscard.getMyColor().toUpperCase()));
     discardPileDisplay.getChildren().addAll(card.getCard(), colorText);

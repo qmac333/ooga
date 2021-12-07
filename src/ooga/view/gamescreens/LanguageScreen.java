@@ -14,16 +14,17 @@ import java.util.ResourceBundle;
 public class LanguageScreen implements GameScreen {
 
   public static final String LANGUAGE_PICKER_CSS = "LanguagePicker";
-  private static final String CSS_STYLE = "/ooga/resources/languageScreen.css";
   private static final String TITLE = "Please Choose A Language";
 
   private ResourceBundle languageResources;
+  private ResourceBundle cssStylingResources;
 
   private LanguageScreenController controller;
 
   public LanguageScreen(LanguageScreenController controller) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle("ooga.resources.Languages");
+    cssStylingResources = ResourceBundle.getBundle("ooga.resources.CSSStyling");
   }
 
   public Scene setScene() {
@@ -33,7 +34,7 @@ public class LanguageScreen implements GameScreen {
     Scene scene = new Scene(borderPane, Config.LANGUAGE_SCREEN_WIDTH,
         Config.LANGUAGE_SCREEN_HEIGHT);
     scene.getStylesheets()
-        .add(LanguageScreen.class.getResource(CSS_STYLE).toExternalForm());
+        .add(LanguageScreen.class.getResource(cssStylingResources.getString("LanguageScreenStyling")).toExternalForm());
     return scene;
   }
 
