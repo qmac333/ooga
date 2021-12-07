@@ -89,7 +89,7 @@ public class DeckDisplay implements DisplayableItem {
         topDiscard.getMyColor());
     card.getCard().setId(cssIdResources.getString("DiscardCard"));
     colorText.setText(String.format("%s %s", languageResources.getString("CardColor"),
-            topDiscard.getMyColor().toUpperCase()));
+            languageResources.getString(topDiscard.getMyColor().toUpperCase())));
     discardPileDisplay.getChildren().addAll(card.getCard(), colorText);
   }
 
