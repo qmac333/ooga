@@ -499,13 +499,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private boolean comparePlayerHands(GameState other) {
-    List<Hand> hands = getMyHands();
+    List<Hand> hands = this.getMyHands();
+    List<Hand> otherHands = other.getMyHands();
     for (int i = 0; i < hands.size(); i++) {
-      Hand thisHand = this.getMyHands().get(i);
-      List<CardInterface> thisHandCards = thisHand.getMyCards();
-      Hand otherHand = other.getMyHands().get(i);
-      List<CardInterface> otherHandCards = otherHand.getMyCards();
-      if (!thisHandCards.equals(otherHandCards)) {
+      Hand currentHand = hands.get(i);
+      List<CardInterface> currentHandCards = currentHand.getMyCards();
+      Hand currentOtherHand = otherHands.get(i);
+      List<CardInterface> otherHandCards = currentOtherHand.getMyCards();
+      if (!currentHandCards.equals(otherHandCards)) {
         return false;
       }
     }

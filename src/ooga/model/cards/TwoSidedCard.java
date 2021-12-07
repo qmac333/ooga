@@ -80,6 +80,14 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
    * {@inheritDoc}
    */
   @Override
+  public boolean isTwoSided(){
+    return true;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public boolean equals(Object other) {
     if (other == this){
       return true;
