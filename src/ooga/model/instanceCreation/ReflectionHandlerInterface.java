@@ -1,6 +1,7 @@
 package ooga.model.instanceCreation;
 
 import java.util.ResourceBundle;
+import ooga.model.cards.CardInterface;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.player.Player;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
@@ -21,6 +22,8 @@ public interface ReflectionHandlerInterface {
   String PLAYER_ERROR = "PlayerCreationError";
   String RULE_ERROR = "RuleCreationError";
   String DRAW_RULE_ERROR = "DrawRuleCreationError";
+  String CARD_BASE = "CardBase";
+  String CARD_ERROR = "CardCreationError";
 
   ResourceBundle reflectionResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -77,9 +80,19 @@ public interface ReflectionHandlerInterface {
           String.format(reflectionResources.getString(PLAY_RULE_BASE), type));
       return (RuleInterface) clazz.getDeclaredConstructor().newInstance();
     } catch (Exception e) {
-      e.printStackTrace();
       throw new ReflectionErrorException(
           String.format(reflectionResources.getString(RULE_ERROR), type));
+    }
+  }
+
+  static CardInterface getActionCard(String type, String color) throws ReflectionErrorException {
+    try {
+      Class<?> clazz = Class.forName(
+          String.format(reflectionResources.getString(CARD_BASE), type));
+      return (CardInterface) clazz.getDeclaredConstructor(String.class).newInstance(color);
+    } catch (Exception e) {
+      throw new ReflectionErrorException(
+          String.format(reflectionResources.getString(CARD_ERROR), type));
     }
   }
 }

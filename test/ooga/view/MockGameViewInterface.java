@@ -111,6 +111,11 @@ public class MockGameViewInterface implements GameStateViewInterface {
   }
 
   @Override
+  public void cheatKey(char key) {
+
+  }
+
+  @Override
   public void createDeck(Map<String, Supplier<String>> map) {
 
   }

@@ -97,4 +97,11 @@ public interface PlayerGameInterface {
    * @param cards cards to add
    */
   void addCards(Collection<CardInterface> cards);
+
+  /**
+   * Sets the player's points to a certain number for cheat keys
+   *
+   * @param amount Amount to set to
+   */
+  void setPoints(int amount);
 }
