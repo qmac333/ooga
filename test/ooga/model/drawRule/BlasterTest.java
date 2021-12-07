@@ -56,4 +56,31 @@ public class BlasterTest {
     assertEquals(4, myBlaster.insert(List.of(new SkipCard("red"))).size());
     assertEquals(1, myBlaster.insert(List.of(new SkipCard("red"))).size());
   }
+
+  @Test
+  public void blastedChangesCorrectly(){
+    myBlaster = new Blaster(0);
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertFalse(myBlaster.blasted());
+    myBlaster.setProbabilityOfBlast(1);
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertTrue(myBlaster.blasted());
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertTrue(myBlaster.blasted());
+    myBlaster.setProbabilityOfBlast(0);
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertFalse(myBlaster.blasted());
+  }
+
+  @Test
+  public void checkingCardsInBlaster(){
+    myBlaster = new Blaster(0);
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertEquals(1, myBlaster.getCards().size());
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertEquals(2, myBlaster.getCards().size());
+    myBlaster.setProbabilityOfBlast(1);
+    myBlaster.insert(List.of(new SkipCard("red")));
+    assertEquals(0, myBlaster.getCards().size());
+  }
 }

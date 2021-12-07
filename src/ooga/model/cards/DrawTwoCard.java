@@ -23,7 +23,7 @@ public class DrawTwoCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.addDraw(Integer.parseInt(cardResources.getString(DRAW_AMOUNT)));
+    // Deprecated
   }
 
   /**

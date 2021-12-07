@@ -27,7 +27,7 @@ public class FlipCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.flipCards();
+    // Deprecated
   }
 
   /**

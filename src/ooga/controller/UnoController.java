@@ -118,6 +118,7 @@ public class UnoController implements LanguageScreenController, SplashScreenCont
       currentPoints = pointsToWin;
       currentStackable = stackable;
       model = new GameState(version, playerMap, pointsToWin, stackable);
+
       return true;
     }
     return false;

@@ -22,7 +22,7 @@ public class ReverseCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.reverseGamePlay();
+    // Deprecated
   }
 
   /**

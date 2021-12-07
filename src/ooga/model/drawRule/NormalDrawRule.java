@@ -7,7 +7,7 @@ import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 
-public class NormalDrawRule implements DrawRuleInterface {
+public class NormalDrawRule extends DrawRule {
 
   /**
    * {@inheritDoc}
@@ -33,7 +33,7 @@ public class NormalDrawRule implements DrawRuleInterface {
    * {@inheritDoc}
    */
   @Override
-  public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game) {
+  public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game, String color) {
     return List.of(game.getNextCard());
   }
 

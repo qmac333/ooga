@@ -71,10 +71,14 @@ public class ActionCardTests extends DukeApplicationTest {
   }
 
   @Test
-  public void wildCardTest() {
-    OneSidedCard wc = new WildCard("wild");
-    // FIXME: Change this line once front-end support is in
-    wc.setCardColor("red");
-    assertEquals("red", wc.getMyColor());
+  public void setColorWorks(){
+    OneSidedCard osc = new SkipCard("Red");
+    assertEquals("Red", osc.getMyColor());
+    osc.setColor("Yellow");
+    assertEquals("Yellow", osc.getMyColor());
+    osc.setColor("Blue");
+    assertEquals("Blue", osc.getMyColor());
+    osc.setColor("Green");
+    assertEquals("Green", osc.getMyColor());
   }
 }

@@ -1,5 +1,7 @@
 package ooga.model.cards;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import ooga.model.player.player.HumanPlayer;
@@ -68,4 +70,43 @@ public class TwoSidedCardTest {
     verify(player, times(1)).skipNextPlayer();
   }
 
+  @Test
+  void setColorDoesCorrectSide(){
+    assertEquals("Red", tsc.getMyColor());
+    tsc.flip();
+    assertEquals("Green", tsc.getMyColor());
+    tsc.setColor("Yellow");
+    assertEquals("Yellow", tsc.getMyColor());
+    tsc.flip();
+    assertEquals("Red", tsc.getMyColor());
+  }
+
+  @Test
+  void equalsWithItself(){
+    assertTrue(tsc.equals(tsc));
+  }
+
+  @Test
+  void equalsWithOneSidedCard(){
+    OneSidedCard oc = new SkipCard("Red");
+    assertFalse(tsc.equals(oc));
+  }
+
+  @Test
+  void equalsWithIdenticalCard(){
+    TwoSidedCard tsc2 = new TwoSidedCard(new SkipCard("Red"), new NumberCard("Green", 5));
+    assertTrue(tsc.equals(tsc2));
+  }
+
+  @Test
+  void equalsWithHalfIdenticalCard(){
+    TwoSidedCard tsc2 = new TwoSidedCard(new SkipCard("Red"), new NumberCard("Blue", 5));
+    assertFalse(tsc.equals(tsc2));
+  }
+
+  @Test
+  void equalsWithOtherHalfIdenticalCard(){
+    TwoSidedCard tsc2 = new TwoSidedCard(new SkipCard("Blue"), new NumberCard("Green", 5));
+    assertFalse(tsc.equals(tsc2));
+  }
 }

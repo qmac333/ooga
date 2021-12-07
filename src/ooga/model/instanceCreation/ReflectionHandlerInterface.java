@@ -1,8 +1,11 @@
 package ooga.model.instanceCreation;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
+import ooga.model.drawRule.DrawRule;
 import ooga.model.drawRule.DrawRuleInterface;
+import ooga.model.gameState.GameStateDrawInterface;
 import ooga.model.player.player.Player;
 import ooga.model.player.player.PlayerGameInterface;
 import ooga.model.player.playerGroup.PlayerGroup;
@@ -99,12 +102,23 @@ public interface ReflectionHandlerInterface {
     }
   }
 
-  static void performCheatMethod(String method, String arg1, String arg2, PlayerGroupGameInterface group){
+  static void performCheatMethod(String method, String arg1, String arg2, PlayerGroupGameInterface group)
+      throws ReflectionErrorException {
     try {
       PlayerGroup.class.getDeclaredMethod(method, String.class, String.class)
           .invoke(group, arg1, arg2);
     } catch (Exception e){
-      e.printStackTrace();
+      throw new ReflectionErrorException("Cheat code not working");
+    }
+  }
+
+  static Collection<CardInterface> performSpecialDraw(String method, GameStateDrawInterface game, String color, DrawRuleInterface draw)
+      throws ReflectionErrorException {
+    try {
+      return (Collection<CardInterface>) DrawRule.class.getDeclaredMethod(method,
+          GameStateDrawInterface.class, String.class).invoke(draw, game, color);
+    } catch (Exception e){
+      throw new ReflectionErrorException("Special Draw Error");
     }
   }
 }

@@ -51,4 +51,9 @@ public interface HandInterface {
    * @param color to discard
    */
   Collection<CardInterface> removeColor(String color);
+
+  /**
+   * @return The color the hand has the most of
+   */
+  String getMaxColor();
 }

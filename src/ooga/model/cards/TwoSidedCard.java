@@ -32,7 +32,7 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    myCards.get(activeSide).executeAction(game);
+    // Deprecated
   }
 
   /**

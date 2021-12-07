@@ -1,8 +1,12 @@
 package ooga.model.player.player;
 
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Level;
 import ooga.model.cards.CardInterface;
 import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
+import ooga.util.Log;
 
 /**
  * @author Paul Truitt
@@ -10,6 +14,8 @@ import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
  * Subclass of player that is automated
  */
 public class ComputerPlayer extends Player {
+
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
 
   public ComputerPlayer(String name, PlayerGroupPlayerInterface group) {
     super(name, group);
@@ -19,7 +25,7 @@ public class ComputerPlayer extends Player {
    * {@inheritDoc}
    */
   @Override
-  public void playCard() throws ReflectionErrorException {
+  public void playCard() throws ReflectionErrorException, IOException {
     int position = 0;
     PlayerGroupPlayerInterface group = super.getMyGroup();
     for (CardInterface card : super.getMyHand()) {
@@ -27,7 +33,9 @@ public class ComputerPlayer extends Player {
         try {
           super.getMyHand().play(position, group, this);
         } catch (Exception e){
-          e.printStackTrace();
+          Log log = new Log(LOG_FILE, MethodHandles.lookup().lookupClass().toString());
+          log.getLogger().setLevel(Level.WARNING);
+//          log.getLogger().warning(logMsg);
         }
         return;
       }
@@ -41,7 +49,6 @@ public class ComputerPlayer extends Player {
    */
   @Override
   public String getColor(){
-    // FIXME: Figure out how to make better choice
-    return "Red";
+    return getMyHand().getMaxColor();
   }
 }

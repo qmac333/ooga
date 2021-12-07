@@ -1,5 +1,6 @@
 package ooga.model.player.playerGroup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -91,7 +92,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   }
 
   @Override
-  public void playTurn() throws ReflectionErrorException {
+  public void playTurn() throws ReflectionErrorException, IOException {
     myPlayers.get(myCurrentPlayer).playCard();
     checkUno();
   }
@@ -229,7 +230,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
 
   private void checkUno() {
     if (myPlayers.get(myCurrentPlayer).getHandSize() == Integer.parseInt(
-        playerResources.getString(UNO))) {
+        playerResources.getString(UNO)) && userPicksCard()) {
       if (!unoCalled) {
         myPlayers.get(myCurrentPlayer).addCards(myGame.getUnoPunishment());
       }
