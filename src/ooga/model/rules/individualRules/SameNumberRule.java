@@ -17,9 +17,6 @@ public class SameNumberRule implements RuleInterface {
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
-    if (cardToMatch.getType().equals(ruleResources.getString(NUMBER)) && cardToPlay.getType().equals(ruleResources.getString(NUMBER))) {
-      return cardToMatch.getNum() == cardToPlay.getNum();
-    }
     return false;
   }
 
