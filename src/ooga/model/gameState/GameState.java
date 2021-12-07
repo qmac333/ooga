@@ -1,9 +1,15 @@
 package ooga.model.gameState;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.lang.invoke.MethodHandles;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.deck.CardPile;
@@ -22,6 +28,7 @@ import ooga.model.player.playerGroup.PlayerGroupGameInterface;
 import ooga.model.player.player.ViewPlayerInterface;
 import ooga.model.rules.RuleInterface;
 import ooga.model.rules.RuleSet;
+import ooga.util.Log;
 
 public class GameState implements GameStateInterface, GameStateViewInterface,
     GameStatePlayerInterface, GameStateDrawInterface {
@@ -32,8 +39,12 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private static final String GAME_TYPE = "DefaultGameType";
   private static final String DRAW_RULE_BASE = "DrawRuleFormat";
   private static final String CHEAT_KEYS = "CheatKeys";
+  private static final String DRAW_BASE = "DrawFormat";
+  private static final String DIVIDER = "Divider";
+  private static final String UNO_PUNISHMENT = "Punishment";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
 
   private DeckWrapper cardContainer;
   private int impendingDraw;
@@ -60,15 +71,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
     try {
       myPlayerGroup = new PlayerGroup(playerMap, this);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    try {
       myRules = new RuleSet(version, stackable);
       myDrawRule = createDrawRule();
     } catch (Exception e) {
-      e.printStackTrace();
+      logError(e.getMessage());
     }
     dealCards();
     cardContainer.discard(cardContainer.draw());
@@ -87,7 +93,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     try {
       myPlayerGroup = new PlayerGroup(new HashMap<>(), this);
     } catch (Exception e) {
-      e.printStackTrace();
+      logError(e.getMessage());
     }
   }
 
@@ -112,6 +118,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     myPlayerGroup.loadHands(myHands);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<ViewPlayerInterface> getPlayers() {
     List<ViewPlayerInterface> players = new ArrayList<>();
@@ -121,6 +130,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return players;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getGameplayDirection() {
     return myPlayerGroup.getMyOrder();
@@ -189,8 +201,8 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     try {
       myPlayerGroup.playTurn();
-    } catch (ReflectionErrorException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      logError(e.getMessage());
     }
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
     if (player.getHandSize() == 0) {
@@ -251,16 +263,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    * {@inheritDoc}
    */
   @Override
-  public void flipCards() {
-    // Do Nothing (Deprecated)
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public Collection<CardInterface> getUnoPunishment() {
-    return myDrawRule.forcedDraw(this, 2);
+    return myDrawRule.forcedDraw(this,
+        Integer.parseInt(gameStateResources.getString(UNO_PUNISHMENT)));
   }
 
   /**
@@ -280,10 +285,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     if (oldDraw == 0) {
       return myDrawRule.noPlayDraw(this);
-    } else if (oldDraw == -1) {
-      return myDrawRule.drawUntilBlast(this);
-    } else if (oldDraw == -2) {
-      return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
+    } else if (oldDraw < 0) {
+      return ReflectionHandlerInterface.performSpecialDraw(
+          gameStateResources.getString(String.format(gameStateResources.getString(DRAW_BASE),
+              oldDraw)), this,
+          cardContainer.getLastCard().getMyColor(), myDrawRule);
     }
     return myDrawRule.forcedDraw(this, oldDraw);
   }
@@ -401,7 +407,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition4 = other.getMyDiscardPile().getStack()
         .equals(this.getMyDiscardPile().getStack());
     boolean condition5 = true;
-    if(myDrawRule.getBlasterList() != null){
+    if (myDrawRule.getBlasterList() != null) {
       condition5 = this.getBlasterList().equals(other.getBlasterList());
     }
 
@@ -418,14 +424,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   /**
    * @return actual version of all cards in the blaster - used by the Save File feature
    */
-  public List<CardInterface> getBlasterList(){
+  public List<CardInterface> getBlasterList() {
     return myDrawRule.getBlasterList();
   }
 
   /**
-   * @return sets the cards in the blaster - used by the Load File feature
+   * sets the cards in the blaster - used by the Load File feature
    */
-  public void loadBlaster(List<CardInterface> cards){
+  public void loadBlaster(List<CardInterface> cards) {
     myDrawRule.loadBlaster(cards);
   }
 
@@ -439,12 +445,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     try {
       if (gameStateResources.getString(CHEAT_KEYS).indexOf(key) >= 0) {
         List<String> methodAndArgs = List.of(
-            gameStateResources.getString(String.valueOf(key)).split(","));
+            gameStateResources.getString(String.valueOf(key))
+                .split(gameStateResources.getString(DIVIDER)));
         ReflectionHandlerInterface.performCheatMethod(methodAndArgs.get(0), methodAndArgs.get(1),
             methodAndArgs.get(2), myPlayerGroup);
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logError(e.getMessage());
     }
   }
 
@@ -453,8 +460,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   @Deprecated
-  public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier)
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+  public void createPlayers(Supplier<Integer> integerSupplier, Supplier<String> stringSupplier) {
     // Do Nothing, Deprecate
   }
 
@@ -463,8 +469,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   @Deprecated
-  public void createPlayers(Supplier<Integer> integerSupplier)
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+  public void createPlayers(Supplier<Integer> integerSupplier) {
     // Do Nothing, Deprecated
   }
 
@@ -510,6 +515,10 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return endGame;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void setCalledUno(boolean uno) {
     myPlayerGroup.setUnoCalled(uno);
   }
@@ -540,6 +549,16 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
         CardInterface newCard = cardContainer.draw();
         player.addCards(List.of(newCard));
       }
+    }
+  }
+
+  private void logError(String message) {
+    try {
+      Log log = new Log(LOG_FILE, MethodHandles.lookup().lookupClass().toString());
+      log.getLogger().setLevel(Level.WARNING);
+      log.getLogger().warning(message);
+    } catch (Exception ignored) {
+
     }
   }
 }

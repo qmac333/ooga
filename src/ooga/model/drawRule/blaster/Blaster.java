@@ -30,7 +30,7 @@ public class Blaster implements BlasterInterface {
     } else{
       blasted = new ArrayList<>();
     }
-    if (blasted.isEmpty()){
+    if (!blasted.isEmpty()){
       wentOff = true;
     }
     return blasted;

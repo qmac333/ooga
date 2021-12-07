@@ -32,7 +32,7 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    myCards.get(activeSide).executeAction(game);
+    // Deprecated
   }
 
   /**
@@ -92,11 +92,18 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
     if (other == this){
       return true;
     }
-    if (!(other instanceof TwoSidedCard)){
+    if (!(other instanceof TwoSidedCard o)){
       return false;
     }
-    TwoSidedCard o = (TwoSidedCard) other;
     return isSame(o);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setColor(String color) {
+    myCards.get(activeSide).setColor(color);
   }
 
   private boolean isSame(TwoSidedCard card){
@@ -117,8 +124,5 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
     return card.getMyColor().equals(this.getMyColor()) && card.getNum() == this.getNum() && card.getType().equals(this.getType());
   }
 
-  @Override
-  public void setColor(String color) {
-    myCards.get(activeSide).setColor(color);
-  }
+
 }

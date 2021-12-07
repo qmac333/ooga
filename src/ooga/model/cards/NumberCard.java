@@ -21,7 +21,7 @@ public class NumberCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.discardCard(this);
+    // Deprecated
   }
 
   /**

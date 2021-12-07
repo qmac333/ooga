@@ -30,9 +30,10 @@ public interface DrawRuleInterface {
    * Forces the player to draw until the blaster goes off
    *
    * @param game Game we draw from
+   * @param color Added for reflection
    * @return cards that are eventually ejected
    */
-  Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game);
+  Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game, String color);
 
   /**
    * Draws until we get a card that matches the color of the top card on the discard pile

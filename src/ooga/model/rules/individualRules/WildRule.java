@@ -19,8 +19,7 @@ public class WildRule implements RuleInterface {
   @Override
   @Deprecated
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
-    return Arrays.stream(ruleResources.getString(WILD).split(ruleResources.getString(SPLIT)))
-        .anyMatch(c -> c.equals(cardToPlay.getType()));
+    return false;
   }
 
   /**

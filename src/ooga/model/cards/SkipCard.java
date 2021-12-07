@@ -22,7 +22,7 @@ public class SkipCard extends OneSidedCard {
   @Override
   @Deprecated
   public void executeAction(GameStatePlayerInterface game) {
-    game.skipNextPlayer();
+    // Deprecated
   }
 
   /**

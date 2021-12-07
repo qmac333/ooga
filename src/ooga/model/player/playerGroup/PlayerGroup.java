@@ -1,5 +1,6 @@
 package ooga.model.player.playerGroup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,12 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
-import ooga.model.cards.FlipCard;
 import ooga.model.cards.NumberCard;
-import ooga.model.cards.SkipCard;
-import ooga.model.cards.WildBlastCard;
-import ooga.model.cards.WildCard;
-import ooga.model.cards.WildDrawFourCard;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
 import ooga.model.instanceCreation.ReflectionErrorException;
@@ -27,6 +23,8 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
   private static final String FLIP_ORDER = "FlipOrder";
   private static final String UNO = "UnoHandSize";
   private static final String SKIP = "SkipNextAdder";
+  private static final String SEVEN = "SevensNumber";
+  private static final String USER = "UserChooser";
 
   private static final ResourceBundle playerResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -53,26 +51,41 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     createPlayers();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public PlayerGameInterface getCurrentPlayer() {
     return myPlayers.get(myCurrentPlayer);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void skipEveryone() {
     skipEveryone = true;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void skipNextPlayer() {
     skipNext = true;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void reverseOrder() {
     myOrder *= Integer.parseInt(playerResources.getString(FLIP_ORDER));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void flipGame() {
     for (PlayerGameInterface player : myPlayers) {
@@ -80,58 +93,91 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void enforceDraw(int drawAmount) {
     myGame.addDraw(drawAmount);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void discardCard(CardInterface card) {
     myGame.discardCard(card);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public void playTurn() throws ReflectionErrorException {
+  public void playTurn() throws ReflectionErrorException, IOException {
     myPlayers.get(myCurrentPlayer).playCard();
     checkUno();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlayCard(CardInterface card) {
     return myGame.canPlayCard(card);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void addPlayer(PlayerGameInterface player) {
     myPlayers.add(player);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getCurrentPlayerIndex() {
     return myCurrentPlayer;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Map<String, String> getPlayerMap() {
     return myPlayerMap;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean userPicksCard() {
     String currentPlayerName = myPlayers.get(myCurrentPlayer).getName();
-    return myPlayerMap.get(currentPlayerName).equals("Human");
+    return myPlayerMap.get(currentPlayerName).equals(playerResources.getString(USER));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setOrder(int order) {
     myOrder = order;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setCurrent(int player) {
     myCurrentPlayer = player;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void loadHands(List<Hand> handsToLoad) {
     for (int i = 0; i < handsToLoad.size(); i++) {
@@ -139,21 +185,33 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getMyOrder() {
     return myOrder;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<CardInterface> noPlayDraw() throws ReflectionErrorException {
     return myGame.noPlayDraw();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setUnoCalled(boolean called) {
     unoCalled = called;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void loadNextPlayer() {
     int boostedCurrentPlayer = myCurrentPlayer + myPlayers.size();
@@ -169,6 +227,9 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void countAndAwardPoints() {
     int totalPoints = 0;
@@ -178,15 +239,21 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void seven(String color, String number) {
     PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
     player.dumpCards();
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < Integer.parseInt(playerResources.getString(SEVEN)); i++) {
       player.addCards(List.of(new NumberCard(color, Integer.parseInt(number))));
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void toColor(String color, String colorToIgnore) {
     for (CardInterface card : myPlayers.get(myCurrentPlayer).getMyHand()) {
@@ -196,6 +263,9 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void toWin(String color, String number) {
     PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
@@ -205,6 +275,9 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     myGame.discardCard(new NumberCard(color, Integer.parseInt(number)));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void toUno(String color, String number) {
     PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
@@ -215,6 +288,9 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     myGame.discardCard(new NumberCard(color, Integer.parseInt(number)));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void addCard(String type, String color) throws ReflectionErrorException {
     myPlayers.get(myCurrentPlayer).addCards(List.of(ReflectionHandlerInterface.getActionCard(type, color)));
@@ -229,7 +305,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
 
   private void checkUno() {
     if (myPlayers.get(myCurrentPlayer).getHandSize() == Integer.parseInt(
-        playerResources.getString(UNO))) {
+        playerResources.getString(UNO)) && userPicksCard()) {
       if (!unoCalled) {
         myPlayers.get(myCurrentPlayer).addCards(myGame.getUnoPunishment());
       }
@@ -237,6 +313,9 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
     unoCalled = false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @NotNull
   @Override
   public Iterator<PlayerGameInterface> iterator() {
