@@ -40,7 +40,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
     clickOn(backButton);
 
     try {
-      Node languagePicker = lookup("#" + LanguageScreen.LANGUAGE_PICKER_CSS).query();
+      Node languagePicker = lookup("#" + cssIdResources.getString("LanguagePicker")).query();
     }
     catch (Exception e) {
       Assertions.fail();
