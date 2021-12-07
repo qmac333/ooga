@@ -3,8 +3,6 @@ package ooga;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
-import ooga.util.Config;
-import ooga.view.CardDisplay;
 
 public class Main extends Application {
 

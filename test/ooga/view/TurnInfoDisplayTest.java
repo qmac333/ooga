@@ -7,6 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.player.player.ViewPlayerInterface;
+import ooga.view.gamescreens.SplashScreen;
+import ooga.view.subdisplays.CardDisplay;
+import ooga.view.subdisplays.TurnInfoDisplay;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -19,7 +22,6 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
   @Override
   public void start(Stage stage) {
 
-    CardDisplay.initializeCards();
     controller = new UnoController(stage);
     controller.setLanguage("English");
     controller.createSplashScreen("English");

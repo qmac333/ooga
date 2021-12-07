@@ -3,7 +3,7 @@ package ooga.controller;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javafx.stage.Stage;
-import ooga.view.CardDisplay;
+import ooga.view.subdisplays.CardDisplay;
 import ooga.model.gameState.GameState;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;

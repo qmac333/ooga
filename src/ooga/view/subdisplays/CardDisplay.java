@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.subdisplays;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -20,8 +20,8 @@ import java.util.logging.Level;
 
 public class CardDisplay {
 
-  private static final ResourceBundle imageResources = ResourceBundle.getBundle(
-      "ooga.view.ImageFiles");
+  // variable only used in deprecated method
+  private static final ResourceBundle imageResources = ResourceBundle.getBundle("ooga.resources.mods.Traditional");
 
   public static Map<String, Image> IMAGES;
 

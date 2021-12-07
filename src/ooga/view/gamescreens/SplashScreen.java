@@ -1,4 +1,4 @@
-package ooga.view;
+package ooga.view.gamescreens;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -40,7 +40,6 @@ public class SplashScreen implements GameScreen {
   public static final String PLAY_CSS_ID = "PlayButton";
   public static final String LOAD_NEW_GAME_CSS = "LoadNewGame";
   private static final String LOG_FILE = ".\\data\\logMessages.txt";
-
   private ResourceBundle languageResources;
   private ResourceBundle modLanguageResources;
 

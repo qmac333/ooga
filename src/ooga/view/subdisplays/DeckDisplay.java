@@ -1,4 +1,4 @@
-package ooga.view.deckdisplay;
+package ooga.view.subdisplays;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -7,8 +7,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.cards.ViewCardInterface;
-import ooga.view.CardDisplay;
-import ooga.view.DisplayableItem;
 
 import java.util.ResourceBundle;
 
