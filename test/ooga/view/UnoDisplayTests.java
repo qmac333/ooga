@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.view.gamescreens.LanguageScreen;
@@ -23,6 +25,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
 
   private ResourceBundle cssResources;
   private ResourceBundle cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
+  private ResourceBundle textResources = ResourceBundle.getBundle("ooga.resources.English");
 
   @Override
   public void start(Stage stage) {
@@ -48,6 +51,16 @@ public class UnoDisplayTests extends DukeApplicationTest {
   }
 
   @Test
+  public void testSave() {
+    Button saveButton = lookup("#" + cssResources.getString("SaveButton")).query();
+    clickOn(saveButton);
+
+    DialogPane saveDialog = lookup("#" + cssIdResources.getString("EndGamePopUp")).query();
+    assertEquals(textResources.getString("FileName"), saveDialog.getContentText());
+
+  }
+
+  @Test
   public void testThemeImage() {
     ImageView themeImage = lookup("#" + cssResources.getString("ThemeImage")).query();
     try {
@@ -58,6 +71,20 @@ public class UnoDisplayTests extends DukeApplicationTest {
       Assertions.fail();
     }
 
+  }
+
+  @Test
+  public void winGameTest() throws InterruptedException {
+    press(KeyCode.X); // almost win the game, only need to play one card
+    Node card = lookup("#" + cssIdResources.getString("UnoCard") + "0").query();
+    clickOn(card);
+    sleep(1000);
+
+    try {
+      Node back = lookup("#" + cssIdResources.getString("BackButton")).query();
+    } catch (Exception e) {
+      Assertions.fail();
+    }
   }
 
 
