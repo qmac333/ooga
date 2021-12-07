@@ -54,4 +54,11 @@ public interface CardInterface {
    */
   @Override
   boolean equals(Object other);
+
+  /**
+   * Sets a card's color to that specified. Used for cheat keys.
+   *
+   * @param color Color to switch to
+   */
+  void setColor(String color);
 }

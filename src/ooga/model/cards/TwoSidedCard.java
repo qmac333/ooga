@@ -84,4 +84,9 @@ public class TwoSidedCard implements CardInterface, ViewCardInterface {
     // TODO
     return false;
   }
+
+  @Override
+  public void setColor(String color) {
+    myCards.get(activeSide).setColor(color);
+  }
 }

@@ -82,5 +82,52 @@ public interface PlayerGroupGameInterface extends Iterable<PlayerGameInterface> 
    */
   void loadNextPlayer();
 
+  /**
+   * Count points left in the game and award to the player with no cards
+   */
   void countAndAwardPoints();
+
+
+  // CHEAT KEYS
+
+  /**
+   * Changes the player's to 7 number cards
+   *
+   * @param color Color of the cards
+   * @param number Number of the cards
+   */
+  void seven(String color, String number);
+
+  /**
+   * Changes all but the ignored cards to a certain color
+   *
+   * @param color Color to change to
+   * @param colorToIgnore Color that we are ignoring
+   */
+  void toColor(String color, String colorToIgnore);
+
+  /**
+   * Changes the game to the state where you can win
+   *
+   * @param color Color of the card you'll have
+   * @param number Number of the card you'll have
+   */
+  void toWin(String color, String number);
+
+  /**
+   * Changes the game to the state where you can get uno
+   *
+   * @param color Color of the card you'll have
+   * @param number Number of the card you'll have
+   */
+  void toUno(String color, String number);
+
+  /**
+   * Adds an action card to the current player's hand
+   *
+   * @param type Type of action card
+   * @param color Color of card
+   * @throws ReflectionErrorException When reflection doesn't work properly
+   */
+  void addCard(String type, String color) throws ReflectionErrorException;
 }

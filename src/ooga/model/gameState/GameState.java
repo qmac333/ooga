@@ -413,6 +413,40 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     return myDrawRule.blasted();
   }
 
+  @Override
+  public void cheatKey(char key) {
+    try {
+      switch (key) {
+        case 'r':
+          myPlayerGroup.toColor("Red", "Black");
+        case 'g':
+          myPlayerGroup.toColor("Green", "Black");
+        case 'b':
+          myPlayerGroup.toColor("Blue", "Black");
+        case 'y':
+          myPlayerGroup.toColor("Yellow", "Black");
+        case 'n':
+          myPlayerGroup.seven("Yellow", "1");
+        case 'w':
+          myPlayerGroup.addCard("Wild", "Black");
+        case 'd':
+          myPlayerGroup.addCard("WildDrawFour", "Black");
+        case 'x':
+          myPlayerGroup.toWin("Blue", "1");
+        case 'u':
+          myPlayerGroup.toUno("Blue", "1");
+        case 'l':
+          myPlayerGroup.addCard("WildBlast", "Black");
+        case 'f':
+          myPlayerGroup.addCard("Flip", "Red");
+        case 's':
+          myPlayerGroup.addCard("Skip", "Red");
+      }
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
   /**
    * {@inheritDoc}
    */
