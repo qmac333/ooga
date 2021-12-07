@@ -84,6 +84,22 @@ public class BlasterDrawRule extends DrawRule {
    * {@inheritDoc}
    */
   @Override
+  public List<CardInterface> getBlasterList() {
+    return myBlaster.getCardList();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void loadBlaster(List<CardInterface> cards) {
+    myBlaster.setBlaster(cards);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void setBlastProbability(double probability) {
     myBlaster.setProbabilityOfBlast(probability);
   }

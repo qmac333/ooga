@@ -65,6 +65,14 @@ public abstract class OneSidedCard implements CardInterface, ViewCardInterface {
    * {@inheritDoc}
    */
   @Override
+  public boolean isTwoSided(){
+    return false;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public boolean equals(Object other){
     CardInterface otherCard = (CardInterface) other;
     boolean condition1 = this.getMyColor().equals(otherCard.getMyColor());

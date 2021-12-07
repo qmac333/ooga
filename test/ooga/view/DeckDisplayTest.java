@@ -91,11 +91,4 @@ public class DeckDisplayTest extends DukeApplicationTest {
     assertEquals(cardColor.getFill(), Color.RED);
   }
 
-  private void pause(double millis) {
-    long init = System.currentTimeMillis();
-    while (System.currentTimeMillis() < init + millis) {
-      // spin
-    }
-  }
-
 }

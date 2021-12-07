@@ -36,7 +36,8 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
   @Test
   public void checkInitTable() {
-    TableView<ViewPlayerInterface> playerTable = lookup("#" + cssIdResources.getString("PlayerTable")).query();
+    TableView<ViewPlayerInterface> playerTable = lookup(
+        "#" + cssIdResources.getString("PlayerTable")).query();
     List<ViewPlayerInterface> players = playerTable.getItems();
     assertEquals("Andrew", players.get(0).getName());
     assertEquals(7, players.get(0).getHandSize());

@@ -83,13 +83,14 @@ public class DeckDisplay implements DisplayableItem {
 
   private void updateDiscardPileDisplay() {
     discardPileDisplay.getChildren().clear();
-    ViewCardInterface topDiscard = (ViewCardInterface) controller.getGameState().getDiscardPile().lastCardPushed();
+    ViewCardInterface topDiscard = (ViewCardInterface) controller.getGameState().getDiscardPile()
+        .lastCardPushed();
     // return a displayable instance of that card, add to the display
     CardDisplay card = new CardDisplay(String.valueOf(topDiscard.getNum()), topDiscard.getType(),
         topDiscard.getMyColor());
     card.getCard().setId(cssIdResources.getString("DiscardCard"));
     colorText.setText(String.format("%s %s", languageResources.getString("CardColor"),
-            topDiscard.getMyColor().toUpperCase()));
+            languageResources.getString(topDiscard.getMyColor().toUpperCase())));
     discardPileDisplay.getChildren().addAll(card.getCard(), colorText);
   }
 

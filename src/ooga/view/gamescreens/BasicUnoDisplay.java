@@ -115,7 +115,8 @@ public class BasicUnoDisplay implements GameScreen {
     left.getStyleClass().add("main_display_left_panel");
 
     String themeImagePath =
-        themeImageResources.getString("ThemeImagesFilepath") + themeImageResources.getString(controller.getGameVersion());
+        themeImageResources.getString("ThemeImagesFilepath") + themeImageResources.getString(
+            controller.getGameVersion());
     try {
       ImageView themeImage = new ImageView(new Image(new FileInputStream(themeImagePath)));
       themeImage.setId(cssIdResources.getString("ThemeImage"));
@@ -169,12 +170,14 @@ public class BasicUnoDisplay implements GameScreen {
   // checks if the current player has won, and if so to restart the game
   private void checkWinner() {
     int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
-    ViewPlayerInterface currentPlayer = controller.getGameState().getPlayers().get(currentPlayerIndex);
+    ViewPlayerInterface currentPlayer = controller.getGameState().getPlayers()
+        .get(currentPlayerIndex);
     String playerName = currentPlayer.getName();
     int numPoints = currentPlayer.getPoints();
 
     if (controller.getGameState().getEndGame()) {
-      String alertString = String.format(languageResources.getString("WinnerMessage"), playerName, numPoints);
+      String alertString = String.format(languageResources.getString("WinnerMessage"), playerName,
+          numPoints);
       showMessage(alertString, AlertType.INFORMATION);
       controller.returnToSplashScreen();
     }
@@ -189,15 +192,15 @@ public class BasicUnoDisplay implements GameScreen {
 
   private void changeInteractiveInput() {
     // remove any interactive input already on the screen
-    if (centerPanel.getChildren().size() > centerPanelBaseNodes ) {
-      centerPanel.getChildren().remove(INTERACTIVE_NODES_INDEX, centerPanel.getChildren().size() - centerPanelBaseNodes + 1);
+    if (centerPanel.getChildren().size() > centerPanelBaseNodes) {
+      centerPanel.getChildren().remove(INTERACTIVE_NODES_INDEX,
+          centerPanel.getChildren().size() - centerPanelBaseNodes + 1);
     }
 
     if (controller.getGameState().userPicksCard()) { // player needs to select card
       setPromptText();
       centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, cardSelectText);
-    }
-    else {
+    } else {
       centerPanel.getChildren().add(INTERACTIVE_NODES_INDEX, playTurnButton);
     }
   }
@@ -207,8 +210,7 @@ public class BasicUnoDisplay implements GameScreen {
     // can't play a card: prompt the user to click the draw button
     if (controller.getGameState().getValidIndexes().size() == 0) {
       lookup = "MustDraw";
-    }
-    else {
+    } else {
       lookup = "ChooseCard";
     }
     cardSelectText.setText(languageResources.getString(lookup));

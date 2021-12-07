@@ -24,6 +24,7 @@ public class HandListDisplay implements DisplayableItem {
   private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
 
   private ResourceBundle languageResources;
+  private ResourceBundle cssIdResources;
 
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
@@ -48,6 +49,7 @@ public class HandListDisplay implements DisplayableItem {
     this.controller = controller;
     this.endTurn = endTurn;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    cssIdResources = ResourceBundle.getBundle(String.format("ooga.resources.CSSId"));
     gameState = controller.getGameState();
     createHandPanel();
     createButtonPanel();
@@ -86,20 +88,22 @@ public class HandListDisplay implements DisplayableItem {
     handList.getChildren().clear();
     currentCards = gameState.getCurrentPlayerCards();
     Collection<Integer> validCards = gameState.getValidIndexes();
-    for (int i=0; i< currentCards.size(); i++) {
+    for (int i = 0; i < currentCards.size(); i++) {
       CardDisplay cardMock;
       if (validCards.contains(i) && gameState.userPicksCard()) {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), gameState.userPicksCard(), true);
-      }
-      else {
+            currentCards.get(i).getType(), currentCards.get(i).getMyColor(),
+            gameState.userPicksCard(), true);
+      } else {
         cardMock = new CardDisplay(String.valueOf(currentCards.get(i).getNum()),
-                currentCards.get(i).getType(), currentCards.get(i).getMyColor(), gameState.userPicksCard(), false);
+            currentCards.get(i).getType(), currentCards.get(i).getMyColor(),
+            gameState.userPicksCard(), false);
       }
       VBox cardBox = new VBox();
       cardBox.getStyleClass().add("hand_list_card_box");
 
       Node card = cardMock.getCard();
+      cardBox.setId(cssIdResources.getString("UnoCard") + i);
       cardBox.getChildren().add(card);
       int cardIndex = i;
 
@@ -111,9 +115,9 @@ public class HandListDisplay implements DisplayableItem {
             }
             playTurn(cardIndex);
           });
-        }
-        else {
-          cardBox.setOnMousePressed(e -> showError(languageResources.getString("InvalidCardClicked")));
+        } else {
+          cardBox.setOnMousePressed(
+              e -> showError(languageResources.getString("InvalidCardClicked")));
         }
       }
 
@@ -129,8 +133,7 @@ public class HandListDisplay implements DisplayableItem {
       drawButton.getStyleClass().clear();
       if (gameState.getValidIndexes().size() == 0) {
         drawButton.getStyleClass().add("hand_list_button_draw_required");
-      }
-      else {
+      } else {
         drawButton.getStyleClass().add("hand_list_button");
       }
     }
@@ -144,6 +147,7 @@ public class HandListDisplay implements DisplayableItem {
 
   public String wildPopUp() {
     ChoiceDialog<String> dialog = new ChoiceDialog<>(WILDCOLORS[0], WILDCOLORS);
+    dialog.getDialogPane().setId(cssIdResources.getString("WildPopUp"));
     dialog.setTitle(languageResources.getString("WildCardColor"));
     dialog.setHeaderText(null);
     dialog.setContentText(languageResources.getString("ChooseColor"));
@@ -168,6 +172,7 @@ public class HandListDisplay implements DisplayableItem {
   // displays alert/error message to the user
   private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.getDialogPane().setId(cssIdResources.getString("AlertPopUp"));
     alert.setContentText(alertMessage);
     alert.showAndWait();
   }

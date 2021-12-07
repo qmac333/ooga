@@ -60,6 +60,22 @@ public class NormalDrawRule extends DrawRule {
   }
 
   /**
+   * @return Null because there is no blaster
+   */
+  @Override
+  public List<CardInterface> getBlasterList() {
+    return null;
+  }
+
+  /**
+   * do nothing because there is no blaster
+   */
+  @Override
+  public void loadBlaster(List<CardInterface> cards) {
+
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override

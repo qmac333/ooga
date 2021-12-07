@@ -217,7 +217,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
    */
   @Override
   public int getOrder() {
-    return 0; // Deprecated
+    return myPlayerGroup.getMyOrder();
   }
 
   /**
@@ -398,12 +398,33 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition3 = other.getMyDeck().getStack().equals(this.getMyDeck().getStack());
     boolean condition4 = other.getMyDiscardPile().getStack()
         .equals(this.getMyDiscardPile().getStack());
+    boolean condition5 = true;
+    if(myDrawRule.getBlasterList() != null){
+      condition5 = this.getBlasterList().equals(other.getBlasterList());
+    }
 
-    return condition1 && condition2 && condition3 && condition4;
+    return condition1 && condition2 && condition3 && condition4 && condition5;
   }
 
+  /**
+   * @return View Approved version of all cards in the blaster
+   */
   public Collection<ViewCardInterface> getBlasterCards() {
     return myDrawRule.getBlasterCards();
+  }
+
+  /**
+   * @return actual version of all cards in the blaster - used by the Save File feature
+   */
+  public List<CardInterface> getBlasterList(){
+    return myDrawRule.getBlasterList();
+  }
+
+  /**
+   * @return sets the cards in the blaster - used by the Load File feature
+   */
+  public void loadBlaster(List<CardInterface> cards){
+    myDrawRule.loadBlaster(cards);
   }
 
   @Override
@@ -497,13 +518,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private boolean comparePlayerHands(GameState other) {
-    List<Hand> hands = getMyHands();
+    List<Hand> hands = this.getMyHands();
+    List<Hand> otherHands = other.getMyHands();
     for (int i = 0; i < hands.size(); i++) {
-      Hand thisHand = this.getMyHands().get(i);
-      List<CardInterface> thisHandCards = thisHand.getMyCards();
-      Hand otherHand = other.getMyHands().get(i);
-      List<CardInterface> otherHandCards = otherHand.getMyCards();
-      if (!thisHandCards.equals(otherHandCards)) {
+      Hand currentHand = hands.get(i);
+      List<CardInterface> currentHandCards = currentHand.getMyCards();
+      Hand currentOtherHand = otherHands.get(i);
+      List<CardInterface> otherHandCards = currentOtherHand.getMyCards();
+      if (!currentHandCards.equals(otherHandCards)) {
         return false;
       }
     }
