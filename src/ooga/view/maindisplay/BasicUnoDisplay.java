@@ -2,7 +2,9 @@ package ooga.view.maindisplay;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +20,7 @@ import javafx.scene.text.Text;
 import ooga.controller.interfaces.UnoDisplayController;
 import ooga.model.player.player.ViewPlayerInterface;
 import ooga.util.Config;
+import ooga.util.Log;
 import ooga.view.GameScreen;
 import ooga.view.HandListDisplay;
 import ooga.view.TurnInfoDisplay;
@@ -32,10 +35,10 @@ public class BasicUnoDisplay implements GameScreen {
 
   private static final int INTERACTIVE_NODES_INDEX = 1;
 
-  private static final String CSS_STYLE = "/ooga/resources/mainDisplay.css";
   public static final String BACK_BUTTON_CSS = "BackButton";
   public static final String THEME_IMAGE_CSS = "ThemeImage";
   public static final String PLAY_TURN_BUTTON_CSS = "PlayTurn";
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
 
   private ResourceBundle languageResources;
   private ResourceBundle themeImageResources;
@@ -54,6 +57,8 @@ public class BasicUnoDisplay implements GameScreen {
 
   private Button playTurnButton; // for playing computer's turn
   private Text cardSelectText;
+
+  private Log log;
 
   /**
    * initializes data structures and saves the given controller
@@ -243,6 +248,12 @@ public class BasicUnoDisplay implements GameScreen {
     Alert alert = new Alert(type);
     alert.setContentText(alertMessage);
     alert.showAndWait();
+  }
+
+  private void logError(String logMsg) throws IOException {
+    log = new Log(LOG_FILE, this.getClass().toString());
+    log.getLogger().setLevel(Level.WARNING);
+    log.getLogger().warning(logMsg);
   }
 
   protected BorderPane getUnoDisplay() {
