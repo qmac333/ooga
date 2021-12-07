@@ -1,8 +1,11 @@
 package ooga.model.deck;
 
-import ooga.model.cards.OneSidedCard;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EmptyStackException;
+import java.util.List;
+import java.util.Stack;
 import ooga.model.cards.CardInterface;
 
 public class CardPile implements CardPileInterface, CardPileViewInterface {

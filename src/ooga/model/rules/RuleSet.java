@@ -29,11 +29,17 @@ public class RuleSet implements RuleInterface {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay) {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean canPlay(CardInterface cardToMatch, CardInterface cardToPlay, int draw) {
     return rules.stream().anyMatch((RuleInterface r) -> r.canPlay(cardToMatch, cardToPlay, draw));
