@@ -4,6 +4,7 @@ import java.util.List;
 import ooga.model.cards.OneSidedCard;
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.SkipCard;
+import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.player.ComputerPlayer;
 import ooga.model.player.playerGroup.PlayerGroup;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
@@ -32,7 +33,7 @@ public class ComputerPlayerTest {
   }
 
   @Test
-  public void noCardResultsInDraw(){
+  public void noCardResultsInDraw() throws ReflectionErrorException {
     // GIVEN a player is asked to play with an empty hand
     myPlayer.playCard();
     // THEN they draw
@@ -40,7 +41,7 @@ public class ComputerPlayerTest {
   }
 
   @Test
-  public void whenCardCantBePlayedDraw(){
+  public void whenCardCantBePlayedDraw() throws ReflectionErrorException {
     // GIVEN the player is asked to play when they don't have a rule abiding card
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));
@@ -51,7 +52,7 @@ public class ComputerPlayerTest {
   }
 
   @Test
-  public void gameStateIsEffectedWhenCardCanBePlayed(){
+  public void gameStateIsEffectedWhenCardCanBePlayed() throws ReflectionErrorException {
     // GIVEN the player has a card they can play
     cardToPlay = new SkipCard("Yellow");
     myPlayer.addCards(List.of(cardToPlay));

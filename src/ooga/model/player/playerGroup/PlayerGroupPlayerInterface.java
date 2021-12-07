@@ -2,6 +2,7 @@ package ooga.model.player.playerGroup;
 
 import java.util.Collection;
 import ooga.model.cards.CardInterface;
+import ooga.model.instanceCreation.ReflectionErrorException;
 
 public interface PlayerGroupPlayerInterface {
 
@@ -52,5 +53,5 @@ public interface PlayerGroupPlayerInterface {
    *
    * @return The cards returned by the draw
    */
-  Collection<CardInterface> noPlayDraw();
+  Collection<CardInterface> noPlayDraw() throws ReflectionErrorException;
 }

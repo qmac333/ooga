@@ -41,8 +41,8 @@ public class CardPile implements CardPileInterface, CardPileViewInterface {
      * {@inheritDoc}
      */
     @Override
-    public OneSidedCard lastCardPushed() {
-        return (OneSidedCard) pile.peek();
+    public CardInterface lastCardPushed() {
+        return (CardInterface) pile.peek();
     }
 
     /**

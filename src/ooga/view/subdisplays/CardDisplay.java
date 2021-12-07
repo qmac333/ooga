@@ -7,12 +7,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import ooga.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 public class CardDisplay {
 
@@ -30,10 +34,13 @@ public class CardDisplay {
       "Yellow", Color.YELLOW
   );
 
+  private static final String LOG_FILE = ".\\data\\logMessages.txt";
+
   private static Color DEFAULT_COLOR = Color.BLACK;
   private static double CARD_WIDTH = 60;
   private static double CARD_HEIGHT = 100;
   private static double CARD_OFFSET = 10;
+  private static Log log;
 
   private StackPane cardDisplay;
 
@@ -118,7 +125,7 @@ public class CardDisplay {
         IMAGES.put(key, new Image(new FileInputStream(imageResources.getString(key))));
       }
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      
     }
   }
 
@@ -129,8 +136,18 @@ public class CardDisplay {
         IMAGES.put(key, new Image(new FileInputStream(resources.getString(key))));
       }
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      try {
+        logError("You are missing an image file for a card");
+      } catch(Exception ignored) {
+
+      }
     }
+  }
+
+  private static void logError(String logMsg) throws IOException {
+    log = new Log(LOG_FILE, MethodHandles.lookup().lookupClass().toString());
+    log.getLogger().setLevel(Level.WARNING);
+    log.getLogger().warning(logMsg);
   }
 
 }
