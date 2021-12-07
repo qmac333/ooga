@@ -12,7 +12,7 @@ import ooga.util.Config;
 import java.util.ResourceBundle;
 
 public class LanguageScreen implements GameScreen {
-  
+
   private static final String TITLE = "Please Choose A Language";
 
   private ResourceBundle languageResources;

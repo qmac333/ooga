@@ -95,6 +95,7 @@ public class SplashScreen implements GameScreen {
     root.getStyleClass().add("hbox");
 
     Text checkForUpdates = new Text(languageResources.getString("Title"));
+    checkForUpdates.setId(cssIdResources.getString("SplashScreenTitleText"));
     checkForUpdates.getStyleClass().add("text-title");
     root.getChildren().add(checkForUpdates);
 

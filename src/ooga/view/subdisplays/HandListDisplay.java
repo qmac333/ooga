@@ -24,6 +24,7 @@ public class HandListDisplay implements DisplayableItem {
   private static final String[] WILDCOLORS = {"Red", "Blue", "Green", "Yellow"};
 
   private ResourceBundle languageResources;
+  private ResourceBundle cssIdResources;
 
   private GameStateViewInterface gameState;
   private UnoDisplayController controller;
@@ -48,6 +49,7 @@ public class HandListDisplay implements DisplayableItem {
     this.controller = controller;
     this.endTurn = endTurn;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    cssIdResources = ResourceBundle.getBundle(String.format("ooga.resources.CSSId"));
     gameState = controller.getGameState();
     createHandPanel();
     createButtonPanel();
@@ -100,6 +102,7 @@ public class HandListDisplay implements DisplayableItem {
       cardBox.getStyleClass().add("hand_list_card_box");
 
       Node card = cardMock.getCard();
+      card.setId(cssIdResources.getString("UnoCard") + i);
       cardBox.getChildren().add(card);
       int cardIndex = i;
 
@@ -144,6 +147,7 @@ public class HandListDisplay implements DisplayableItem {
 
   public String wildPopUp() {
     ChoiceDialog<String> dialog = new ChoiceDialog<>(WILDCOLORS[0], WILDCOLORS);
+    dialog.getDialogPane().setId(cssIdResources.getString("WildPopUp"));
     dialog.setTitle(languageResources.getString("WildCardColor"));
     dialog.setHeaderText(null);
     dialog.setContentText(languageResources.getString("ChooseColor"));
@@ -168,6 +172,7 @@ public class HandListDisplay implements DisplayableItem {
   // displays alert/error message to the user
   private void showError(String alertMessage) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.getDialogPane().setId(cssIdResources.getString("AlertPopUp"));
     alert.setContentText(alertMessage);
     alert.showAndWait();
   }
