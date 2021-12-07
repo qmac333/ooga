@@ -48,6 +48,11 @@ public interface CardInterface {
   void flip();
 
   /**
+   * @return boolean indicating whether this is a TwoSidedCard
+   */
+  boolean isTwoSided();
+
+  /**
    * Checks to see if two CardInterfaces are equal - TESTING PURPOSES ONLY
    * @param other the CardInterface to compare this to
    * @return boolean indicating equality

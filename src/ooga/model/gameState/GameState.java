@@ -31,7 +31,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private static final String POINTS_TO_WIN = "DefaultPointsToWin";
   private static final String GAME_TYPE = "DefaultGameType";
   private static final String DRAW_RULE_BASE = "DrawRuleFormat";
-  private static final String DRAW_BASE = "DrawFormat";
+  private static final String CHEAT_KEYS = "CheatKeys";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -189,7 +189,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     try {
       myPlayerGroup.playTurn();
-    } catch (ReflectionErrorException e){
+    } catch (ReflectionErrorException e) {
       e.printStackTrace();
     }
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
@@ -280,9 +280,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     if (oldDraw == 0) {
       return myDrawRule.noPlayDraw(this);
-    } else if (oldDraw == -1){
+    } else if (oldDraw == -1) {
       return myDrawRule.drawUntilBlast(this);
-    } else if (oldDraw == -2){
+    } else if (oldDraw == -2) {
       return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
     }
     return myDrawRule.forcedDraw(this, oldDraw);
@@ -416,45 +416,13 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   @Override
   public void cheatKey(char key) {
     try {
-      switch (key) {
-        case 'r':
-          myPlayerGroup.toColor("Red", "Black");
-          break;
-        case 'g':
-          myPlayerGroup.toColor("Green", "Black");
-          break;
-        case 'b':
-          myPlayerGroup.toColor("Blue", "Black");
-          break;
-        case 'y':
-          myPlayerGroup.toColor("Yellow", "Black");
-          break;
-        case 'n':
-          myPlayerGroup.seven("Yellow", "1");
-          break;
-        case 'w':
-          myPlayerGroup.addCard("Wild", "Black");
-          break;
-        case 'd':
-          myPlayerGroup.addCard("WildDrawFour", "Black");
-          break;
-        case 'x':
-          myPlayerGroup.toWin("Blue", "1");
-          break;
-        case 'u':
-          myPlayerGroup.toUno("Blue", "1");
-          break;
-        case 'l':
-          myPlayerGroup.addCard("WildBlast", "Black");
-          break;
-        case 'f':
-          myPlayerGroup.addCard("Flip", "Red");
-          break;
-        case 's':
-          myPlayerGroup.addCard("Skip", "Red");
-          break;
+      if (gameStateResources.getString(CHEAT_KEYS).indexOf(key) >= 0) {
+        List<String> methodAndArgs = List.of(
+            gameStateResources.getString(String.valueOf(key)).split(","));
+        ReflectionHandlerInterface.performCheatMethod(methodAndArgs.get(0), methodAndArgs.get(1),
+            methodAndArgs.get(2), myPlayerGroup);
       }
-    } catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -531,13 +499,14 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   }
 
   private boolean comparePlayerHands(GameState other) {
-    List<Hand> hands = getMyHands();
+    List<Hand> hands = this.getMyHands();
+    List<Hand> otherHands = other.getMyHands();
     for (int i = 0; i < hands.size(); i++) {
-      Hand thisHand = this.getMyHands().get(i);
-      List<CardInterface> thisHandCards = thisHand.getMyCards();
-      Hand otherHand = other.getMyHands().get(i);
-      List<CardInterface> otherHandCards = otherHand.getMyCards();
-      if (!thisHandCards.equals(otherHandCards)) {
+      Hand currentHand = hands.get(i);
+      List<CardInterface> currentHandCards = currentHand.getMyCards();
+      Hand currentOtherHand = otherHands.get(i);
+      List<CardInterface> otherHandCards = currentOtherHand.getMyCards();
+      if (!currentHandCards.equals(otherHandCards)) {
         return false;
       }
     }
