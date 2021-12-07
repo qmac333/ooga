@@ -102,7 +102,7 @@ public class HandListDisplay implements DisplayableItem {
       cardBox.getStyleClass().add("hand_list_card_box");
 
       Node card = cardMock.getCard();
-      card.setId(cssIdResources.getString("UnoCard") + i);
+      cardBox.setId(cssIdResources.getString("UnoCard") + i);
       cardBox.getChildren().add(card);
       int cardIndex = i;
 

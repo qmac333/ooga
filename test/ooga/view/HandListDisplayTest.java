@@ -1,14 +1,18 @@
 package ooga.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.cards.NumberCard;
+import ooga.model.cards.SkipCard;
+import ooga.model.player.player.ViewPlayerInterface;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -67,11 +71,24 @@ public class HandListDisplayTest extends DukeApplicationTest {
         // click on the wild card
         Node card = lookup("#" + cssIdResources.getString("UnoCard") + "7").query();
         clickOn(card);
+        DialogPane dialog = lookup("#" + cssIdResources.getString("WildPopUp")).query();
+        assertEquals(textResources.getString("ChooseColor"), dialog.getContentText());
     }
 
     @Test
-    public void clickOnReverseCard() {
-        
+    public void clickOnSkipCard() {
+        press(KeyCode.S); // add a skip card
+        controller.getModel().discardCard(new NumberCard("Red", 1));
+        runAsJFXAction(() -> controller.getUnoDisplay().render());
+
+        Node card = lookup("#" + cssIdResources.getString("UnoCard") + "7").query();
+        clickOn(card);
+
+        // Should skip turn
+        int currentPlayerIndex = controller.getGameState().getCurrentPlayer();
+        String currentPlayerName = controller.getGameState().getPlayers().get(currentPlayerIndex).getName();
+        assertEquals("Quentin", currentPlayerName);
+
     }
 
 
