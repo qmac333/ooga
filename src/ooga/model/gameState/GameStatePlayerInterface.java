@@ -55,4 +55,11 @@ public interface GameStatePlayerInterface {
    * @return Cards that result from performing the uno punishment
    */
   Collection<CardInterface> getUnoPunishment();
+
+  /**
+   * For cheat codes
+   *
+   * @return Points required to win the game
+   */
+  int getPointsToWin();
 }
