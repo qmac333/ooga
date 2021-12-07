@@ -1,5 +1,6 @@
 package ooga.model.player.player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +32,7 @@ public abstract class Player implements PlayerCardInterface, ViewPlayerInterface
    * {@inheritDoc}
    */
   @Override
-  public abstract void playCard() throws ReflectionErrorException;
+  public abstract void playCard() throws ReflectionErrorException, IOException;
 
   /**
    * {@inheritDoc}

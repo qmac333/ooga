@@ -10,7 +10,7 @@ import ooga.model.drawRule.blaster.Blaster;
 import ooga.model.drawRule.blaster.BlasterInterface;
 import ooga.model.gameState.GameStateDrawInterface;
 
-public class BlasterDrawRule implements DrawRuleInterface {
+public class BlasterDrawRule extends DrawRule {
 
   private static final String BUNDLE_PACKAGE = "ooga.model.drawRule.resources.DrawRuleResources";
   private static final String DEFAULT_BLASTER_PROBABILITY = "DefaultBlastProbability";
@@ -48,7 +48,7 @@ public class BlasterDrawRule implements DrawRuleInterface {
    * {@inheritDoc}
    */
   @Override
-  public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game) {
+  public Collection<CardInterface> drawUntilBlast(GameStateDrawInterface game, String color) {
     Collection<CardInterface> ejected;
     do {
       ejected = myBlaster.insert(List.of(game.getNextCard()));

@@ -2,8 +2,10 @@ package ooga.model.hand;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
 import ooga.model.gameState.GameStatePlayerInterface;
@@ -97,6 +99,26 @@ public class Hand implements Iterable<CardInterface>, HandInterface {
     }
     myCards.removeAll(removed);
     return removed;
+  }
+
+  @Override
+  public String getMaxColor() {
+    Map<String, Integer> map = new HashMap<>();
+    for (CardInterface card : myCards){
+      if (!card.getMyColor().equals("Black")) {
+        map.putIfAbsent(card.getMyColor(), 0);
+        map.put(card.getMyColor(), map.get(card.getMyColor()) + 1);
+      }
+    }
+    int max = -1;
+    String maxColor = "Red";
+    for (String color : map.keySet()){
+      if (map.get(color) > max){
+        maxColor = color;
+        max = map.get(color);
+      }
+    }
+    return maxColor;
   }
 
   /**

@@ -1,5 +1,6 @@
 package ooga.model.player.player;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
@@ -81,7 +82,7 @@ public interface PlayerGameInterface {
    * player plays a card in its hand and calls the card's action implementation will depend on
    * whether the player is automated or not
    */
-  void playCard() throws ReflectionErrorException;
+  void playCard() throws ReflectionErrorException, IOException;
 
   /**
    * Sets the player classes suppliers

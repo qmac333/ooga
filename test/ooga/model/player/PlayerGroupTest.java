@@ -2,18 +2,37 @@ package ooga.model.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import ooga.model.cards.NumberCard;
+import ooga.model.cards.SkipCard;
+import ooga.model.cards.ViewCardInterface;
+import ooga.model.cards.WildCard;
 import ooga.model.gameState.GameState;
+import ooga.model.hand.Hand;
 import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.player.ComputerPlayer;
+import ooga.model.player.player.HumanPlayer;
+import ooga.model.player.player.Player;
 import ooga.model.player.playerGroup.PlayerGroup;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PlayerGroupTest {
@@ -22,6 +41,9 @@ public class PlayerGroupTest {
 
   @Mock
   GameState gameState;
+
+  @Mock
+  Player mockPlayer;
 
   @BeforeEach
   void start()
@@ -116,5 +138,109 @@ public class PlayerGroupTest {
     group.loadNextPlayer();
     // THEN the next player is still 0
     assertEquals(0, group.getCurrentPlayerIndex());
+  }
+
+  @Test
+  public void correctMapReturned() throws ReflectionErrorException {
+    Map<String, String> playerMap = new HashMap<>();
+    PlayerGroup ng = new PlayerGroup(playerMap, gameState);
+    assertEquals(playerMap, ng.getPlayerMap());
+  }
+
+  @Test
+  public void groupReturnsWhatGameStateDoesForCanPlay(){
+    when(gameState.canPlayCard(any())).thenReturn(false);
+    assertFalse(group.canPlayCard(new WildCard("Black")));
+    when(gameState.canPlayCard(any())).thenReturn(true);
+    assertTrue(group.canPlayCard(new WildCard("Black")));
+  }
+
+  @Test
+  public void addingCardGoesToCurrentPlayer() throws ReflectionErrorException {
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    group.addCard("Skip", "Red");
+    Assertions.assertEquals(1, p.getHandSize());
+    Assertions.assertEquals(20, p.getNumPoints());
+  }
+
+  @Test
+  public void toUnoMakesHandCorrect() {
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    group.toUno("Blue", "3");
+    Assertions.assertEquals(2, p.getHandSize());
+  }
+
+  @Test
+  public void toWinMakesHandCorrect() {
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    group.toWin("Blue", "3");
+    Assertions.assertEquals(1, p.getHandSize());
+    Assertions.assertEquals(3, p.getNumPoints());
+  }
+
+  @Test
+  public void toColorWorks(){
+    Player p = new HumanPlayer("Name", group);
+    p.addCards(List.of(new NumberCard("Blue", 5), new WildCard("Black"), new SkipCard("Green")));
+    group.addPlayer(p);
+    group.toColor("Red", "Black");
+    Collection<ViewCardInterface> vcis = p.getViewCards();
+    assertEquals(2,
+        (int) vcis.stream().filter((ViewCardInterface c) -> c.getMyColor().equals("Red")).count());
+  }
+
+  @Test
+  public void sevenWorks(){
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    group.seven("Red", "5");
+    Collection<ViewCardInterface> vcis = p.getViewCards();
+    assertEquals(7,
+        (int) vcis.stream().filter((ViewCardInterface c) -> c.getMyColor().equals("Red") && c.getNum() == 5).count());
+  }
+
+  @Test
+  public void countAndAwardPointsGivesAllPointsToCurrentPlayer(){
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    Player p1 = new HumanPlayer("Name", group);
+    group.addPlayer(p1);
+    p1.addCards(List.of(new NumberCard("Red", 5)));
+    p.addCards(List.of(new SkipCard("Red")));
+    group.countAndAwardPoints();
+    assertEquals(p.getPoints(), 25);
+  }
+
+  @Test
+  public void loadHandsWorks(){
+    Hand hand = new Hand();
+    Hand hand1 = new Hand();
+    Player p = new HumanPlayer("Name", group);
+    group.addPlayer(p);
+    Player p1 = new HumanPlayer("Name", group);
+    group.addPlayer(p1);
+    group.loadHands(List.of(hand, hand1));
+    assertEquals(hand, p.getMyHand());
+    assertEquals(hand1, p1.getMyHand());
+  }
+
+  @Test
+  public void userPicksTurnWorks() throws ReflectionErrorException {
+    Map<String, String> map = new HashMap<>();
+    map.put("Paul", "Human");
+    group = new PlayerGroup(map, gameState);
+    assertTrue(group.userPicksCard());
+    map = new HashMap<>();
+    map.put("Paul", "CPU");
+    group = new PlayerGroup(map, gameState);
+    assertFalse(group.userPicksCard());
+  }
+
+  @Test
+  public void cannotPlayEmptyGame() {
+    Assertions.assertThrows(Exception.class, () ->group.playTurn());
   }
 }

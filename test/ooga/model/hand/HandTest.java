@@ -9,7 +9,9 @@ import ooga.model.cards.DrawOneCard;
 import ooga.model.cards.NumberCard;
 import ooga.model.cards.ReverseCard;
 import ooga.model.cards.SkipCard;
+import ooga.model.cards.WildBlastCard;
 import ooga.model.cards.WildCard;
+import ooga.model.cards.WildDrawFourCard;
 import ooga.model.gameState.GameState;
 import ooga.model.instanceCreation.ReflectionErrorException;
 import ooga.model.player.player.ComputerPlayer;
@@ -98,5 +100,38 @@ public class HandTest {
     myHand.flip();
     verify(card1, times(1)).flip();
     verify(card2, times(1)).flip();
+  }
+
+  @Test
+  public void getMaxColorReturnsMostCommonWhenRed(){
+    myHand.add(List.of(new SkipCard("Red"), new NumberCard("Red", 5), new SkipCard("Blue")));
+    assertEquals("Red", myHand.getMaxColor());
+  }
+
+  @Test
+  public void getMaxColorReturnsMostCommonWhenBlue(){
+    myHand.add(List.of(new SkipCard("Red"), new NumberCard("Red", 5), new SkipCard("Blue"), new SkipCard("Blue"), new SkipCard("Blue")));
+    assertEquals("Blue", myHand.getMaxColor());
+  }
+
+  @Test
+  public void getMaxColorIgnoresBlack(){
+    myHand.add(List.of(new SkipCard("Yellow"), new WildCard("Black"), new WildDrawFourCard("Black")));
+    assertEquals("Yellow", myHand.getMaxColor());
+  }
+
+  @Test
+  public void whenNoColorsDefaultToRed(){
+    myHand.add(List.of(new WildBlastCard("Black"), new WildCard("Black"), new WildDrawFourCard("Black")));
+    assertEquals("Red", myHand.getMaxColor());
+  }
+
+  @Test
+  public void getMyCardsWorks(){
+    myHand.add(List.of(new SkipCard("Yellow"), new WildCard("Black"), new WildDrawFourCard("Black")));
+    assertEquals(3, myHand.getMyCards().size());
+    assertEquals("Yellow", myHand.getMyCards().get(0).getMyColor());
+    assertEquals("Wild", myHand.getMyCards().get(1).getType());
+    assertEquals("WildDrawFour", myHand.getMyCards().get(2).getType());
   }
 }

@@ -1,5 +1,6 @@
 package ooga.model.gameState;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -32,6 +33,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   private static final String GAME_TYPE = "DefaultGameType";
   private static final String DRAW_RULE_BASE = "DrawRuleFormat";
   private static final String CHEAT_KEYS = "CheatKeys";
+  private static final String DRAW_BASE = "DrawFormat";
 
   private static final ResourceBundle gameStateResources = ResourceBundle.getBundle(BUNDLE_PATH);
 
@@ -60,14 +62,9 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     this.stackable = stackable;
     try {
       myPlayerGroup = new PlayerGroup(playerMap, this);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    try {
       myRules = new RuleSet(version, stackable);
       myDrawRule = createDrawRule();
-    } catch (Exception e) {
+    } catch (Exception e){
       e.printStackTrace();
     }
     dealCards();
@@ -189,7 +186,7 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
   public void playTurn() {
     try {
       myPlayerGroup.playTurn();
-    } catch (ReflectionErrorException e) {
+    } catch (ReflectionErrorException | IOException e) {
       e.printStackTrace();
     }
     PlayerGameInterface player = myPlayerGroup.getCurrentPlayer();
@@ -280,10 +277,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     impendingDraw = 0;
     if (oldDraw == 0) {
       return myDrawRule.noPlayDraw(this);
-    } else if (oldDraw == -1) {
-      return myDrawRule.drawUntilBlast(this);
-    } else if (oldDraw == -2) {
-      return myDrawRule.drawUntilColor(this, cardContainer.getLastCard().getMyColor());
+    } else if (oldDraw < 0) {
+      return ReflectionHandlerInterface.performSpecialDraw(
+          gameStateResources.getString(String.format(gameStateResources.getString(DRAW_BASE),
+              oldDraw)), this,
+          cardContainer.getLastCard().getMyColor(), myDrawRule);
     }
     return myDrawRule.forcedDraw(this, oldDraw);
   }
