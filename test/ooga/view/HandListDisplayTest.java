@@ -78,7 +78,7 @@ public class HandListDisplayTest extends DukeApplicationTest {
   @Test
   public void clickOnSkipCard() {
     press(KeyCode.S); // add a skip card
-    controller.getModel().discardCard(new NumberCard("Red", 1));
+    controller.getModel().discardCard(new NumberCard("Blue", 1));
     runAsJFXAction(() -> controller.getUnoDisplay().render());
 
     Node card = lookup("#" + cssIdResources.getString("UnoCard") + "7").query();
