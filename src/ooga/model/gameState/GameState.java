@@ -400,12 +400,33 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     boolean condition3 = other.getMyDeck().getStack().equals(this.getMyDeck().getStack());
     boolean condition4 = other.getMyDiscardPile().getStack()
         .equals(this.getMyDiscardPile().getStack());
+    boolean condition5 = true;
+    if(myDrawRule.getBlasterList() != null){
+      condition5 = this.getBlasterList().equals(other.getBlasterList());
+    }
 
-    return condition1 && condition2 && condition3 && condition4;
+    return condition1 && condition2 && condition3 && condition4 && condition5;
   }
 
+  /**
+   * @return View Approved version of all cards in the blaster
+   */
   public Collection<ViewCardInterface> getBlasterCards() {
     return myDrawRule.getBlasterCards();
+  }
+
+  /**
+   * @return actual version of all cards in the blaster - used by the Save File feature
+   */
+  public List<CardInterface> getBlasterList(){
+    return myDrawRule.getBlasterList();
+  }
+
+  /**
+   * @return sets the cards in the blaster - used by the Load File feature
+   */
+  public void loadBlaster(List<CardInterface> cards){
+    myDrawRule.loadBlaster(cards);
   }
 
   @Override

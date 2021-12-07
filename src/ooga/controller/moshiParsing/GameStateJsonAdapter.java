@@ -35,6 +35,10 @@ public class GameStateJsonAdapter {
             int order = myGameStateJson.getOrder();
             myGameState.loadExistingGame(currentPlayer, myHands, myDiscardPile, myDeck, impendingDraw,
                     order);
+
+            if(version.equals("Blast")){
+                myGameState.loadBlaster(myGameStateJson.getMyBlasterList());
+            }
         }
         return myGameState;
     }
@@ -57,8 +61,10 @@ public class GameStateJsonAdapter {
         int impendingDraw = myGameState.getImpendingDraw();
         int order = myGameState.getOrder();
 
+        List<CardInterface> myBlasterList = myGameState.getBlasterList();
+
         GameStateJson myGameStateJson = new GameStateJson(version, playerMap, points, stackable, currentPlayer, myHands,
-                myDiscardList, myDeckList, impendingDraw, order);
+                myDiscardList, myDeckList, impendingDraw, order, myBlasterList);
         return myGameStateJson;
     }
 

@@ -25,13 +25,15 @@ public class GameStateJson {
     private int impendingDraw = -1;
     private int order = -1;
 
+    private List<CardInterface> myBlasterList = null;
+
     @SuppressWarnings("unused")
     private GameStateJson(){
     }
 
     public GameStateJson(String version, Map<String, String> playerMap, int points, boolean stackable, int currentPlayer,
                          List<Hand> myHands, List<CardInterface> myDiscardPile, List<CardInterface> myDeck, int impendingDraw,
-                         int order){
+                         int order, List<CardInterface> myBlaster){
         this.version = version;
         this.playerMap = playerMap;
         this.points = points;
@@ -43,6 +45,8 @@ public class GameStateJson {
         this.myDeckList = myDeck;
         this.impendingDraw = impendingDraw;
         this.order = order;
+
+        this.myBlasterList = myBlaster;
     }
 
     public String getVersion() {
@@ -83,5 +87,9 @@ public class GameStateJson {
 
     public int getOrder() {
         return order;
+    }
+
+    public List<CardInterface> getMyBlasterList(){
+        return myBlasterList;
     }
 }

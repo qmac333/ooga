@@ -1,6 +1,8 @@
 package ooga.model.drawRule.blaster;
 
 import java.util.Collection;
+import java.util.List;
+
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 
@@ -30,7 +32,17 @@ public interface BlasterInterface {
   Collection<ViewCardInterface> getCards();
 
   /**
+   * @return actual version of all cards in the blaster - used by the Save File feature
+   */
+  List<CardInterface> getCardList();
+
+  /**
    * @return If the blaster just went off
    */
   boolean blasted();
+
+  /**
+   * Insert the given cards into the Blaster - used by the Load File feature
+   */
+  void setBlaster(List<CardInterface> cards);
 }

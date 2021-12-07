@@ -44,15 +44,37 @@ public class Blaster implements BlasterInterface {
     myProbability = probability;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Collection<ViewCardInterface> getCards() {
     return myCards.stream().map((CardInterface c)-> (ViewCardInterface) c).collect(Collectors.toList());
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<CardInterface> getCardList(){
+    return myCards;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean blasted() {
     boolean ret = wentOff;
     wentOff = false;
     return ret;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setBlaster(List<CardInterface> cards){
+    myCards = cards;
   }
 }

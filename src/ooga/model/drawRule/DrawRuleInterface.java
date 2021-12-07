@@ -1,6 +1,8 @@
 package ooga.model.drawRule;
 
 import java.util.Collection;
+import java.util.List;
+
 import ooga.model.cards.CardInterface;
 import ooga.model.cards.ViewCardInterface;
 import ooga.model.gameState.GameStateDrawInterface;
@@ -45,6 +47,16 @@ public interface DrawRuleInterface {
    * @return View Approved version of all cards in the blaster
    */
   Collection<ViewCardInterface> getBlasterCards();
+
+  /**
+   * @return actual version of all cards in the blaster - used by the Save File feature
+   */
+  List<CardInterface> getBlasterList();
+
+  /**
+   * @return sets the cards in the blaster - used by the Load File feature
+   */
+  void loadBlaster(List<CardInterface> cards);
 
   /**
    * Sets the probability of the blaster if any
