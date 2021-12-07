@@ -21,7 +21,8 @@ import java.util.logging.Level;
 public class CardDisplay {
 
   // variable only used in deprecated method
-  private static final ResourceBundle imageResources = ResourceBundle.getBundle("ooga.resources.mods.Traditional");
+  private static final ResourceBundle imageResources = ResourceBundle.getBundle(
+      "ooga.resources.mods.Traditional");
 
   public static Map<String, Image> IMAGES;
 
@@ -59,11 +60,11 @@ public class CardDisplay {
     Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
     if (humanPlayer) {
       card.setFill(COLORS.get(color));
-    }
-    else  {
+    } else {
       card.setFill(DEFAULT_COLOR);
     }
-    Rectangle highlight = new Rectangle(CARD_WIDTH + 3*CARD_OFFSET, CARD_HEIGHT + 3*CARD_OFFSET);
+    Rectangle highlight = new Rectangle(CARD_WIDTH + 3 * CARD_OFFSET,
+        CARD_HEIGHT + 3 * CARD_OFFSET);
     highlight.setFill(Color.YELLOW);
     highlight.opacityProperty().set(0.5);
 
@@ -93,7 +94,8 @@ public class CardDisplay {
     base.setFill(DEFAULT_COLOR);
     Rectangle card = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
     card.setFill(COLORS.get(color));
-    Rectangle highlight = new Rectangle(CARD_WIDTH + 3*CARD_OFFSET, CARD_HEIGHT + 3*CARD_OFFSET);
+    Rectangle highlight = new Rectangle(CARD_WIDTH + 3 * CARD_OFFSET,
+        CARD_HEIGHT + 3 * CARD_OFFSET);
     highlight.setFill(Color.YELLOW);
     highlight.opacityProperty().set(0.5);
 
@@ -125,7 +127,7 @@ public class CardDisplay {
         IMAGES.put(key, new Image(new FileInputStream(imageResources.getString(key))));
       }
     } catch (Exception e) {
-      
+
     }
   }
 
@@ -138,7 +140,7 @@ public class CardDisplay {
     } catch (Exception e) {
       try {
         logError("You are missing an image file for a card");
-      } catch(Exception ignored) {
+      } catch (Exception ignored) {
 
       }
     }
