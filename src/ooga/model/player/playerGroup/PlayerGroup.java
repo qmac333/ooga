@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
+import ooga.model.cards.FlipCard;
+import ooga.model.cards.NumberCard;
+import ooga.model.cards.SkipCard;
+import ooga.model.cards.WildBlastCard;
+import ooga.model.cards.WildCard;
+import ooga.model.cards.WildDrawFourCard;
 import ooga.model.gameState.GameStatePlayerInterface;
 import ooga.model.hand.Hand;
 import ooga.model.instanceCreation.ReflectionErrorException;
@@ -170,6 +176,48 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
       totalPoints += p.getNumPoints();
     }
     myPlayers.get(myCurrentPlayer).awardPoints(totalPoints);
+  }
+
+  @Override
+  public void seven(String color, String number) {
+    PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
+    player.dumpCards();
+    for (int i = 0; i < 7; i++) {
+      player.addCards(List.of(new NumberCard(color, Integer.parseInt(number))));
+    }
+  }
+
+  @Override
+  public void toColor(String color, String colorToIgnore) {
+    for (CardInterface card : myPlayers.get(myCurrentPlayer).getMyHand()) {
+      if (!card.getMyColor().equals(colorToIgnore)) {
+        card.setColor(color);
+      }
+    }
+  }
+
+  @Override
+  public void toWin(String color, String number) {
+    PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
+    player.dumpCards();
+    player.setPoints(myGame.getPointsToWin() - 1);
+    player.addCards(List.of(new NumberCard(color, Integer.parseInt(number))));
+    myGame.discardCard(new NumberCard(color, Integer.parseInt(number)));
+  }
+
+  @Override
+  public void toUno(String color, String number) {
+    PlayerGameInterface player = myPlayers.get(myCurrentPlayer);
+    player.dumpCards();
+    player.setPoints(myGame.getPointsToWin() - 1);
+    player.addCards(List.of(new NumberCard(color, Integer.parseInt(number)),
+        new NumberCard(color, Integer.parseInt(number))));
+    myGame.discardCard(new NumberCard(color, Integer.parseInt(number)));
+  }
+
+  @Override
+  public void addCard(String type, String color) throws ReflectionErrorException {
+    myPlayers.get(myCurrentPlayer).addCards(List.of(ReflectionHandlerInterface.getActionCard(type, color)));
   }
 
   private void createPlayers() throws ReflectionErrorException {

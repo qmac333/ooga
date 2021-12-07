@@ -128,4 +128,11 @@ public interface GameStateViewInterface {
    * @return Whether the blaster went off
    */
   boolean blasterWentOff();
+
+  /**
+   * Performs the necessary cheat key
+   *
+   * @param key Key used
+   */
+  void cheatKey(char key);
 }
