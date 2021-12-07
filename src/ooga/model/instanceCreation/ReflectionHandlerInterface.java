@@ -4,6 +4,9 @@ import java.util.ResourceBundle;
 import ooga.model.cards.CardInterface;
 import ooga.model.drawRule.DrawRuleInterface;
 import ooga.model.player.player.Player;
+import ooga.model.player.player.PlayerGameInterface;
+import ooga.model.player.playerGroup.PlayerGroup;
+import ooga.model.player.playerGroup.PlayerGroupGameInterface;
 import ooga.model.player.playerGroup.PlayerGroupPlayerInterface;
 import ooga.model.rules.RuleInterface;
 
@@ -93,6 +96,15 @@ public interface ReflectionHandlerInterface {
     } catch (Exception e) {
       throw new ReflectionErrorException(
           String.format(reflectionResources.getString(CARD_ERROR), type));
+    }
+  }
+
+  static void performCheatMethod(String method, String arg1, String arg2, PlayerGroupGameInterface group){
+    try {
+      PlayerGroup.class.getDeclaredMethod(method, String.class, String.class)
+          .invoke(group, arg1, arg2);
+    } catch (Exception e){
+      e.printStackTrace();
     }
   }
 }
