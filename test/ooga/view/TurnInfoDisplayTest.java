@@ -1,6 +1,8 @@
 package ooga.view;
 
 import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TurnInfoDisplayTest extends DukeApplicationTest {
 
   private UnoController controller;
+  private ResourceBundle cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
 
   @Override
   public void start(Stage stage) {
@@ -26,14 +29,14 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
     controller.setLanguage("English");
     controller.createSplashScreen("English");
     controller.loadFile("data/configuration_files/Test Files/validNewFile1.json");
-    Button playButton = lookup("#" + SplashScreen.PLAY_CSS_ID).query();
+    Button playButton = lookup("#" + cssIdResources.getString("PlayButton")).query();
     clickOn(playButton);
 
   }
 
   @Test
   public void checkInitTable() {
-    TableView<ViewPlayerInterface> playerTable = lookup("#" + TurnInfoDisplay.PLAYER_TABLE_CSS).query();
+    TableView<ViewPlayerInterface> playerTable = lookup("#" + cssIdResources.getString("PlayerTable")).query();
     List<ViewPlayerInterface> players = playerTable.getItems();
     assertEquals("Andrew", players.get(0).getName());
     assertEquals(7, players.get(0).getHandSize());
@@ -45,7 +48,7 @@ public class TurnInfoDisplayTest extends DukeApplicationTest {
 
   @Test
   public void checkInitDirection() {
-    ImageView arrow = lookup("#" + TurnInfoDisplay.ARROW_CSS).query();
+    ImageView arrow = lookup("#" + cssIdResources.getString("GameplayDirection")).query();
     assertEquals(90, arrow.getRotate()); // arrow is pointing down
   }
 }

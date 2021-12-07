@@ -119,14 +119,16 @@ public class BasicUnoDisplay implements GameScreen {
     try {
       ImageView themeImage = new ImageView(new Image(new FileInputStream(themeImagePath)));
       themeImage.setId(cssIdResources.getString("ThemeImage"));
-      // TODO: Throw and log exception here
       themeImage.setFitHeight(Integer.parseInt(themeImageResources.getString("ThemeImageHeight")));
       themeImage.setFitWidth(Integer.parseInt(themeImageResources.getString("ThemeImageWidth")));
       left.getChildren().add(themeImage);
     } catch (FileNotFoundException e) {
-      //TODO: Use Logging to say image is not found
-      System.out.println("Theme image not found.");
-      System.exit(-1);
+
+      try {
+        logError("Theme image not found");
+      } catch (Exception ignored) {
+
+      }
     }
 
     Button button = new Button(languageResources.getString("Back"));
