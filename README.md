@@ -30,6 +30,11 @@ Drew Peterson: Parsing of Data files. Saving and loading of games using json. Er
 
 ### Resources Used
 
+Images:
+
+[Ultra Board Games](https://www.ultraboardgames.com/uno/variants.php) for images relating to Basic Uno, Uno Flip, and Uno Blast
+
+[Wizarding World](https://www.wizardingworld.com) website for Harry Potter related mod images
 
 ### Running the Program
 
@@ -37,14 +42,16 @@ Main class: Main.java
 
 Data files needed: None needed. Optional data files in data/configuration_files/Example Files
 
-Many Configuration files needed internally throughout the src/ folder.
 
 Features implemented: Uno game that can be played from either data files or from home
 screen. There are UnoFlip and UnoBlast variations. We also have a Harry Potter mod version of
 the game. There are both Human and computer players, and you can play with as many as you'd like.
 Lastly, users can save the game in progress and reload it to the exact same position.
 
+For adding more mods, modify the following configuration files in the resources.mods package:
 
+* (Language Input).properties for specifying each of the different types of mods, where (Language Input) is a language to display a list of mod types with on the Splash Screen
+* (Name Of Mod).properties for specifying the image paths of a particular type of mod, where (Name Of Mod) is a key in the (Language Input).properties files that is a type of mod
 
 ### Notes/Assumptions
 
