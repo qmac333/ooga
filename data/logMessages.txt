@@ -1,0 +1,2 @@
+Dec 07, 2021 2:59:26 AM ooga.model.player.player.HumanPlayer playCard
+WARNING: Input index: 2 is too large
