@@ -243,4 +243,43 @@ public class PlayerGroupTest {
   public void cannotPlayEmptyGame() {
     Assertions.assertThrows(Exception.class, () ->group.playTurn());
   }
+
+  @Test
+  public void playerWithMultipleCardsWontMissUno(){
+    Player p1 = new ComputerPlayer("Paul", group);
+    group.addPlayer(p1);
+    p1.addCards(List.of(new NumberCard("Green", 2), new NumberCard("Green", 5)));
+    assertFalse(group.missedUno());
+  }
+
+  @Test
+  public void playerWithOneCardMissesUno(){
+    Player p1 = new ComputerPlayer("Paul", group);
+    group.addPlayer(p1);
+    p1.addCards(List.of(new NumberCard("Green", 2)));
+    assertTrue(group.missedUno());
+  }
+
+  @Test
+  public void callingUnoNegatesThis(){
+    Player p1 = new ComputerPlayer("Paul", group);
+    group.addPlayer(p1);
+    p1.addCards(List.of(new NumberCard("Green", 2)));
+    group.setUnoCalled(true);
+    assertFalse(group.missedUno());
+  }
+
+  @Test
+  public void onePlayerCallingItDoesntMessUpTheNext(){
+    Player p1 = new ComputerPlayer("Paul", group);
+    group.addPlayer(p1);
+    Player p2 = new ComputerPlayer("Monty", group);
+    group.addPlayer(p2);
+    p2.addCards(List.of(new NumberCard("Green", 2)));
+    p1.addCards(List.of(new NumberCard("Green", 2)));
+    group.setUnoCalled(true);
+    assertFalse(group.missedUno());
+    group.loadNextPlayer();
+    assertTrue(group.missedUno());
+  }
 }
