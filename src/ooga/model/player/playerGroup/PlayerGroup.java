@@ -214,9 +214,7 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
    */
   @Override
   public boolean missedUno() {
-    boolean temp = unoCalled;
-    unoCalled = false;
-    return !temp && myPlayers.get(myCurrentPlayer).getHandSize()==1;
+    return !unoCalled && myPlayers.get(myCurrentPlayer).getHandSize()==2;
   }
 
   /**
