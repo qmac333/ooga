@@ -110,7 +110,8 @@ public class HandListDisplay implements DisplayableItem {
       if (gameState.userPicksCard()) {
         if (validCards.contains(cardIndex)) {
           cardBox.setOnMousePressed(e -> {
-            if (gameState.getCurrentPlayerCards().size() == 2) { // player tried to play a card without calling Uno
+            //if (gameState.currentPlayerMissedUno()) { // player tried to play a card without calling Uno
+            if (false) {
               showError(languageResources.getString("MissedUno"));
             }
             playTurn(cardIndex);

@@ -89,6 +89,20 @@ public class HandListDisplayTest extends DukeApplicationTest {
     String currentPlayerName = controller.getGameState().getPlayers().get(currentPlayerIndex)
         .getName();
     assertEquals("Quentin", currentPlayerName);
+  }
+
+  @Test
+  public void callUnoIncorrectly() {
+    press(KeyCode.U); // places two blue one's in the current player's hand, and a one on top of the discard pile
+    runAsJFXAction(() -> controller.getUnoDisplay().render());
+
+    // click on the first card in the player's hand (a blue one)
+    Node card = lookup("#" + cssIdResources.getString("UnoCard") + "0").query();
+    clickOn(card);
+
+    // check that the user sees a pop up, indicating that they forgot to press the UNO button
+    DialogPane popUp = lookup("#" + cssIdResources.getString("AlertPopUp")).query();
+    assertEquals(textResources.getString("MissedUno"), popUp.getContent());
 
   }
 
