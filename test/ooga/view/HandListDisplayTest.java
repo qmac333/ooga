@@ -102,7 +102,7 @@ public class HandListDisplayTest extends DukeApplicationTest {
 
     // check that the user sees a pop up, indicating that they forgot to press the UNO button
     DialogPane popUp = lookup("#" + cssIdResources.getString("AlertPopUp")).query();
-    assertEquals(textResources.getString("MissedUno"), popUp.getContent());
+    assertEquals(textResources.getString("MissedUno"), popUp.getContentText());
 
   }
 
