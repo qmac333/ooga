@@ -194,6 +194,11 @@ public class GameState implements GameStateInterface, GameStateViewInterface,
     // Do Nothing, Deprecated
   }
 
+  @Override
+  public boolean currentPlayerMissedUno(){
+    return myPlayerGroup.missedUno();
+  }
+
   /**
    * {@inheritDoc}
    */

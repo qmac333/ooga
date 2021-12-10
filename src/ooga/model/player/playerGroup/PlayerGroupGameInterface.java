@@ -79,6 +79,13 @@ public interface PlayerGroupGameInterface extends Iterable<PlayerGameInterface> 
   void setUnoCalled(boolean called);
 
   /**
+   * Returns whether the current player missed uno
+   *
+   * @return Whether player missed uno
+   */
+  boolean missedUno();
+
+  /**
    * Changes current player to the next one we need
    */
   void loadNextPlayer();
