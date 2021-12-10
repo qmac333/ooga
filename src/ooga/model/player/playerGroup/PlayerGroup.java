@@ -213,6 +213,16 @@ public class PlayerGroup implements PlayerGroupPlayerInterface, PlayerGroupGameI
    * {@inheritDoc}
    */
   @Override
+  public boolean missedUno() {
+    boolean temp = unoCalled;
+    unoCalled = false;
+    return !temp && myPlayers.get(myCurrentPlayer).getHandSize()==1;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void loadNextPlayer() {
     int boostedCurrentPlayer = myCurrentPlayer + myPlayers.size();
     if (skipNext) {
