@@ -36,6 +36,8 @@ Images:
 
 [Wizarding World](https://www.wizardingworld.com) website for Harry Potter related mod images
 
+[Harry Potter Fandom](https://harrypotter.fandom.com/wiki/Main_Page) for more Harry Potter related mod images
+
 ### Running the Program
 
 Main class: Main.java
