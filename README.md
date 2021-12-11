@@ -38,6 +38,8 @@ Images:
 
 [Harry Potter Fandom](https://harrypotter.fandom.com/wiki/Main_Page) for more Harry Potter related mod images
 
+[Duke Basketball Players Images](https://goduke.com/sports/mens-basketball/roster) for the Duke Basketball mod
+
 ### Running the Program
 
 Main class: Main.java
