@@ -70,7 +70,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
     Text cardSelectText = lookup("#" + cssIdResources.getString("CardSelectText")).query();
 
     // change the top card on the discard pile to be a blue one
-    controller.getModel().discardCard(new NumberCard("Blue", 1));
+    controller.getModel().discardCard(new NumberCard("Blue", 2));
     runAsJFXAction(() -> controller.getUnoDisplay().render());
 
     // Put all ones in a player's hand
