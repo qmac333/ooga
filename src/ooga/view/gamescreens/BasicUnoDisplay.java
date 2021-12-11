@@ -86,7 +86,6 @@ public class BasicUnoDisplay implements GameScreen {
   public Scene setScene() {
     createScene();
     render();
-    changeInteractiveInput();
     return myScene;
   }
 
@@ -163,7 +162,6 @@ public class BasicUnoDisplay implements GameScreen {
 
   private void finishTurn() {
     render();
-    changeInteractiveInput();
     checkWinner();
 
   }
@@ -188,7 +186,7 @@ public class BasicUnoDisplay implements GameScreen {
     deckDisplay.update();
     handListDisplay.update();
     turnDisplay.update();
-
+    changeInteractiveInput();
   }
 
   private void changeInteractiveInput() {
