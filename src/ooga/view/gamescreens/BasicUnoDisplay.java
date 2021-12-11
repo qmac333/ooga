@@ -94,6 +94,7 @@ public class BasicUnoDisplay implements GameScreen {
 
     cardSelectText = new Text();
     cardSelectText.getStyleClass().add("text");
+    cardSelectText.setId(cssIdResources.getString("CardSelectText"));
 
     playTurnButton = new Button(languageResources.getString("PlayTurn"));
     playTurnButton.getStyleClass().add("main_display_button");
