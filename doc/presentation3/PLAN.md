@@ -1,0 +1,56 @@
+run the program from the master branch through a planned series of steps/interactions that shows at least the following features:
+choosing a game to play, playing a game, winning or losing a game, choosing a different game to play and starting that one
+
+* Start BasicUno
+* Play through till one player runs out of cards, showing the different features of the game
+* Then press the 'x' cheat key that allows you to win
+* Then do the same for Blast and Flip, playing the blast and flip cards as appropriate
+
+playing two different games at the same time
+
+* Drew shows saving a game, then creating a new one, saving that one, and then loading the old one
+
+any Extension features implemented 
+
+* Paul explains AI
+* Quentin explains the Splash Screen GUI
+
+show an example of each kind of data file used by the program and describe which are essential (e.g., internal resources) and which can be user created (e.g., external or example data)
+show three examples of making a change in a data file and then seeing that change reflected when the program is run
+
+* View: show the data files related to mods
+* Take away a key from the mods data file, show the effect on the drop down menu
+
+Design. Revisit the design from the original plan and compare it to your current version (as usual, focus on the behavior and communication between modules, not implementation details):
+revisit the design's goals: is it as flexible/open as you expected it to be and how have you closed the core parts of the code in a data driven way?
+describe two APIs in detail:
+show the public methods for the API
+
+* Update()
+
+Called in each of the classes in the subdisplays module
+Updates the particular display to reflect the current properties of the game (ex. for HandListDisplay, the current player's hand, plus some buttons for drawing cards and calling UNO)
+MainDisplay class calls update() as part of the game loop (i.e. after someone takes their turn)
+
+* Allows view programmers to work in separate classes for different sections of the display, modularize code
+* update() is extremely generic- any JavaFX object can be used to display data, and the update call doesn't have to change
+* Classes changed from implementing Consumer interface - as more features are added on, easier for the view to call model APIs rather than for the Consumer to keep taking in more arguments as more features need to be displayed
+
+
+how does it provide a service that is open for extension to support easily adding new features?
+how does it support users (your team mates) to write readable, well design code, and encourage extensions?
+how has it changed during the Sprints (if at all)?
+show two Use Cases implemented in Java code in detail that show off how to use each of the APIs described above
+describe two designs
+one that has remained stable during the project
+one that has changed significantly based on your deeper understanding of the project: how were those changes discussed and what trade-offs ultimately led to the changes
+Team. Present what your team and, you personally, learned from managing this project:
+
+contrast the completed project with where you planned it to be in your initial Wireframe and the initial planned priorities and Sprints with the reality of when things were implemented
+Individually, share one thing each person learned from using the Agile/Scrum process to manage the project.
+show a timeline of at least four significant events (not including the Sprint deadlines) and how communication was handled for each (i.e., how each person was involved or learned about it later)
+Individually, share one thing each person learned from trying to manage a large project yourselves.
+describe specific things the team actively worked to improve on during the project and one thing that could still be improved
+Individually, share one thing each person learned about creating a positive team culture.
+revisit your Team Contract to assess what parts of the contract are still useful and what parts need to be updated (or if something new needs to be added)
+Individually, share one thing each person learned about how to communicate and solve problems collectively, especially ways to handle negative team situations.
