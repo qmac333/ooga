@@ -26,7 +26,8 @@
 
 .main_display_left_panel {
     -fx-alignment: center;
-    -fx-spacing: 30px
+    -fx-spacing: 30px;
+    -fx-padding: 20px;
 }
 
 .main_display_right_panel {
@@ -43,9 +44,9 @@
 /** Turn Info Display */
 
 .turn_info_main_display {
-    -fx-spacing: 50px;
+    -fx-spacing: 25px;
+    -fx-padding: 20px;
 }
-
 .turn_info_gameplay_direction_arrow {
 }
 
