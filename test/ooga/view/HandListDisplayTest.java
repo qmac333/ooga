@@ -1,18 +1,13 @@
 package ooga.view;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.cards.NumberCard;
-import ooga.model.cards.SkipCard;
-import ooga.model.player.player.ViewPlayerInterface;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 

@@ -74,6 +74,7 @@ public class HandListDisplay implements DisplayableItem {
     buttonPanel.getStyleClass().add("hand_list_button_panel");
 
     drawButton = new Button(languageResources.getString("Draw"));
+    drawButton.setId(cssIdResources.getString("DrawButton"));
     drawButton.setOnMouseClicked(e -> playTurn(-1));
     drawButton.getStyleClass().add("hand_list_button");
 

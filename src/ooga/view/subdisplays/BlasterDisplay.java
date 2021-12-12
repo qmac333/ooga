@@ -22,7 +22,7 @@ public class BlasterDisplay implements DisplayableItem {
   private Collection<ViewCardInterface> blasterCards;
 
   private ResourceBundle languageResources;
-
+  private ResourceBundle cssIdResources;
 
   /**
    * Initialize a class that creates the blaster.
@@ -33,6 +33,7 @@ public class BlasterDisplay implements DisplayableItem {
   public BlasterDisplay(UnoDisplayController controller, String language) {
     this.controller = controller;
     languageResources = ResourceBundle.getBundle(String.format("ooga.resources.%s", language));
+    cssIdResources = ResourceBundle.getBundle(String.format("ooga.resources.CSSId"));
     createBlasterCardsDisplay();
     initializeDisplayable();
     gameState = controller.getGameState();
@@ -61,6 +62,7 @@ public class BlasterDisplay implements DisplayableItem {
 
   private void createBlasterCardsDisplay() {
     blasterCardsDisplay = new FlowPane();
+    blasterCardsDisplay.setId(cssIdResources.getString("BlasterDisplay"));
     blasterCardsDisplay.getStyleClass().add("blaster_card_flowpane");
   }
 
@@ -71,13 +73,5 @@ public class BlasterDisplay implements DisplayableItem {
     displayableItem.getChildren().add(blasterText);
     displayableItem.getChildren().add(blasterCardsDisplay);
     displayableItem.getStyleClass().add("hand_list_main_display");
-  }
-
-  // displays alert/error message to the user
-  private void blasted(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setHeaderText(languageResources.getString("OhNo"));
-    alert.setContentText(alertMessage);
-    alert.showAndWait();
   }
 }

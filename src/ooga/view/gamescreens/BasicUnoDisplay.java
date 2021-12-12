@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -140,6 +141,7 @@ public class BasicUnoDisplay implements GameScreen {
 
     Button saveButton = new Button(languageResources.getString("Save"));
     saveButton.getStyleClass().add("main_display_button");
+    saveButton.setId(cssIdResources.getString("SaveButton"));
     saveButton.setOnAction(e -> saveFile());
     left.getChildren().add(saveButton);
 
@@ -217,6 +219,8 @@ public class BasicUnoDisplay implements GameScreen {
 
   private void saveFile() {
     TextInputDialog inputPopup = new TextInputDialog();
+    DialogPane dp = inputPopup.getDialogPane();
+    dp.setId(cssIdResources.getString("EndGamePopUp"));
     inputPopup.setTitle("Save File");
     inputPopup.setHeaderText("File Destination: /data/configuration_files/Save Files");
     inputPopup.setContentText(languageResources.getString("FileName"));
