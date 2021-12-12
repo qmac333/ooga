@@ -135,4 +135,9 @@ public interface GameStateViewInterface {
    * @param key Key used
    */
   void cheatKey(char key);
+
+  /**
+   * @return Whether the current player missed uno
+   */
+  boolean currentPlayerMissedUno();
 }

@@ -1,0 +1,8 @@
+Dec 07, 2021 9:06:47 AM ooga.model.player.player.HumanPlayer playCard
+WARNING: Input index: 2 is too large
+Dec 10, 2021 2:21:01 PM ooga.model.player.player.HumanPlayer playCard
+WARNING: Index 5 out of bounds for length 5
+Dec 10, 2021 2:21:07 PM ooga.model.player.player.HumanPlayer playCard
+WARNING: Index 7 out of bounds for length 6
+Dec 10, 2021 2:27:18 PM ooga.model.player.player.HumanPlayer playCard
+WARNING: Index 0 out of bounds for length 0
