@@ -9,10 +9,7 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-<<<<<<< HEAD
-=======
 import javafx.scene.text.Text;
->>>>>>> 71d1b10762301069e55f629c917a37ee6dde25f2
 import javafx.stage.Stage;
 import ooga.controller.UnoController;
 import ooga.model.cards.NumberCard;
@@ -31,10 +28,7 @@ public class UnoDisplayTests extends DukeApplicationTest {
   private ResourceBundle cssResources;
   private ResourceBundle cssIdResources = ResourceBundle.getBundle("ooga.resources.CSSId");
   private ResourceBundle textResources = ResourceBundle.getBundle("ooga.resources.English");
-<<<<<<< HEAD
-=======
   private UnoController controller;
->>>>>>> 71d1b10762301069e55f629c917a37ee6dde25f2
 
   @Override
   public void start(Stage stage) {
