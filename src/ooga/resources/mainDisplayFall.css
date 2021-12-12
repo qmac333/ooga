@@ -43,9 +43,9 @@
 /** Turn Info Display */
 
 .turn_info_main_display {
-    -fx-spacing: 50px;
+    -fx-spacing: 25px;
+    -fx-padding: 20px;
 }
-
 .turn_info_gameplay_direction_arrow {
 }
 
