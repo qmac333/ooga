@@ -26,7 +26,8 @@
 
 .main_display_left_panel {
     -fx-alignment: center;
-    -fx-spacing: 30px
+    -fx-spacing: 30px;
+    -fx-padding: 20px;
 }
 
 .main_display_right_panel {
