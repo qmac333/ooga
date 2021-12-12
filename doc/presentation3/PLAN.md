@@ -41,16 +41,35 @@ how does it provide a service that is open for extension to support easily addin
 how does it support users (your team mates) to write readable, well design code, and encourage extensions?
 how has it changed during the Sprints (if at all)?
 show two Use Cases implemented in Java code in detail that show off how to use each of the APIs described above
+
 describe two designs
 one that has remained stable during the project
+
+
+Suppliers:
+* When the game requires a user's input (i.e. to select the index of the card being played), the model class that requires that information will call the view through a Supplier interface, which will return the required information depending on the type of supplier.
+* Example: Supplier in the HumanPlayer class that returns the index of the card that the user selected
+* Allows for generic APIs for playing turns (playTurn() doesn't have to take any arguments), and the model will only call the view for information when it needs to
+* (i.e. the view doesn't need to select an index to play for a computer player, or ask for a color when a non-wild card is played)
+
+
 one that has changed significantly based on your deeper understanding of the project: how were those changes discussed and what trade-offs ultimately led to the changes
+
 Team. Present what your team and, you personally, learned from managing this project:
 
 contrast the completed project with where you planned it to be in your initial Wireframe and the initial planned priorities and Sprints with the reality of when things were implemented
 Individually, share one thing each person learned from using the Agile/Scrum process to manage the project.
 show a timeline of at least four significant events (not including the Sprint deadlines) and how communication was handled for each (i.e., how each person was involved or learned about it later)
+
+* Figuring out how to display cards (colors, images)
+* Figuring out how to implement clicking on cards in order to play them
+
+
 Individually, share one thing each person learned from trying to manage a large project yourselves.
 describe specific things the team actively worked to improve on during the project and one thing that could still be improved
+* Creating "safe", immutable APIs in which game data can be accessed by the view, but not updated
+* Example: information about player card counts, names, etc.
+
 Individually, share one thing each person learned about creating a positive team culture.
 revisit your Team Contract to assess what parts of the contract are still useful and what parts need to be updated (or if something new needs to be added)
 Individually, share one thing each person learned about how to communicate and solve problems collectively, especially ways to handle negative team situations.
