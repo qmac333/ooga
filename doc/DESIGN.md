@@ -9,7 +9,8 @@ Will Long, Quentin MacFarlane, Drew Peterson, Andrew Sander, Paul Truitt
 
  * Team Member #2
 
- * Team Member #3
+ * Paul Truitt- Model: Design and implementation of cards, game rules, player ordering,
+Drawing behavior, players.
 
 
 Will Long - Back End
@@ -64,16 +65,33 @@ For a human player, playTurn() is called when a valid card is clicked. The index
 it can simply just return the index of the card that was previously clicked as the card to play that turn. Since the color selection is done by picking an option from a pop-up, for which the user can select options while the JavaFX thread is waiting, the color does not have to be predeterminated before clicking on a wild card;
 from the view's perspective, it doesn't have to care if it is a wild card or not, the model will use the supplier to get a color input if needed through the pop-up.
 
+Model:
+
+In the model we have one class (GameState) which acts as the hub for model-view communication, and 
+the linking of other components. This GameState holds a set of rules the card plays have
+to follow, a CardWrapper (Deck and Discard), a DrawRule that chooses how cards will be distributed
+to the player when drawn, and a Group of Players. Each group of player then has a hand of
+cards.
+
+When a player plays a card, it tells the player to take some type of action on the game. 
+These actions can finish on the level of the PlayerGroup (things effecting turn ordering),
+or they can go up to the GameState (Draw Cards).
+
+The set of cards created for a deck is controlled by properties files in the game state
+folder. For each game, the Rules and DrawRules associated with it are also stored in Resources files
+making it easy to edit how the games work.
+
 #### Core Classes
 
 
 Model
-* GameState
-* PlayerGroup
-* Player
-* DeckWrapper
-* RuleSet
-* DrawRuleSet
+* GameState: Holds thr components of the game together
+* PlayerGroup: Stores all the players, handles the decisions of whose turn is next
+* Player: The class taking action on the game. It plays cards, picks colors.
+* DeckWrapper: Holds both discard pile and deck of cards we are drawing from
+* RuleSet: Holds all the rules that belongs to the game. Model asks it if we can play
+certain cards
+* DrawRuleSet: Abstract class where each implementation draws cards based on their own rules.
 
 =======
 View:
@@ -95,6 +113,16 @@ must return the index of the card that will be played without waiting on any UI 
 of the playTurn() API allowed the supplier to block, but this ended up freezing the UI and preventing the user from providing the input that the supplier was waiting on. In order not to block, the supplier method must know which index to return when it is called by setting the variable selectedIndex appropriately.
 So from the model's perspective, it can be assumed that this supplier method does not block.
 
+Model:
+
+* We assume that the controller is checking that the data being sent to us is appropriate
+for starting a new game
+* We assume that the view doesn't allow the user to select cards that we did not
+tell them were valid. This means we don't have to check that the chosen card can be
+played
+* We assume that the index being passed down for the card selection is a valid index
+in the hand.
+
 
 #### Features Affected by Assumptions
 
@@ -106,6 +134,10 @@ had the index of the card that was clicked being saved off into a variable, such
 Notably, at first, the assumption was that the supplier method had to wait for user input for getting the index of the card played, which led to any front end implementations requiring a showAndWait() method to be able to get the user input
 while waiting. Unfortunately, methods of getting the index input this way were very unintuitive, such as through selecting the index from a list in the DialogChooser, and not desirable, especially for players just learning the game.
 
+Model:
+
+This stuff generally means that the Model doesn't need to worry about error checking 
+due to this delegation to the front end.
 
 ## Significant differences from Original Plan
 
@@ -113,7 +145,12 @@ while waiting. Unfortunately, methods of getting the index input this way were v
 In the model, we ended up redistributing a lot of responsibility away from the GameState class.
 For example, Paul made a new PlayerGroup class that held all the players in a game and managed their
 interactions.  Originally, all the players were held in the GameState.
+
+Also, the segregation of Rules and Draw Rules from the GameState was not initially planned on,
+but we thought it'd be a good idea early on in the project to slim down GameState.
+
 =======
+
 On the main display wireframe (UI-Image_1), one change was adding in a button that allowed human players to draw cards on their turn.
 In addition, it is also notable that a "Play Turn" button would appear on a computer player's turn, in which the user would click the button to play the computer's turn, as opposed to clicking on cards.
 We justified this choice by thinking that it wouldn't make sense to show the computer player's cards on their turn, since that would be considered "cheating", nor would a human player want to play a card for a computer player, so there had to be some other easy way to play their turn.
@@ -123,6 +160,8 @@ We justified this choice by thinking that it wouldn't make sense to show the com
 
 For the view: modify the update() function of the appropriate display (i.e. HandDisplay which displays the cards in the curent player's hand, TurnInfoDisplay which displays information about each of the players, etc.) that you would like to change.
 
+For the Model: Depending on the features, you may need to add new card classes, and depending on those features, add new methods to the gameState or Player Group
+
 
 #### Easy to Add Features
 
@@ -131,6 +170,8 @@ creating a resource files, with keys for each of the card types required to play
 
 * New information to display about each player in the TurnDisplayTable, such as the number of times they have called Uno. This can be done by adding the information to display as a getter in the ViewPlayerInterface,
 and adding a column in the table that contains the information from the getter when a new player is added to the table.
+
+* In the backend, it is easy to add and modify cheat keys. You would be able to enter method names to call and arguments in a resources file.
 
 #### Other Features not yet Done
 
