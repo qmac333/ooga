@@ -1,0 +1,6 @@
+{
+  "version" : "Blast",
+  "playerMap" : {"Drew" : "Human", "Will Long" : "CPU", "Quentin_2023" :  "CPU", "Andrew S." :  "CPU"},
+  "points" : 100,
+  "stackable" : false
+}
