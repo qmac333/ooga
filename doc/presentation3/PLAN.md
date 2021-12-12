@@ -63,6 +63,19 @@ show two Use Cases implemented in Java code in detail that show off how to use e
 describe two designs
 one that has remained stable during the project
 
+* One design that remained stable over the project is the separation of Rules into its own class.
+  * Seperated into its own classes
+  * Talk about Rule Group and how it and all rules implement the Rule interface
+  * Talk about extendability
+  * Customizable
+* Changing Design:
+  * The decks
+  * Initial stacks
+  * encapsulation into Deck and Discard Piles
+  * Issue with that
+  * Creation of deckWrapper to solve this.
+
+
 
 Suppliers:
 * When the game requires a user's input (i.e. to select the index of the card being played), the model class that requires that information will call the view through a Supplier interface, which will return the required information depending on the type of supplier.
