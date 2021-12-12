@@ -28,6 +28,24 @@ show the public methods for the API
 
 * Update()
 
+* Controller API
+  * Show the UnoController diagram
+  * As a service, the Controller's API provides the view's classes with user input handling (setting initial parameters, 
+  loading/saving files), game flow control ("Back" and "Play" buttons), access to the GameState's view-specific interface,
+  and information about the game's current parameters (specifically after loading a file on the splash screen to update
+  the manual parameter editor)
+  * The API is defined in class-specific interfaces that prevent the view from accessing irrelevant or restricted state
+  and methods
+  * To extend the API, all one has to do is add a method signature to the interface, which immediately gives the view access
+    (means you can add a previously private method to the API with only a single added line of code)
+  * The API supports the view team in their effort to write readable, well-designed code because each method in the API
+  generally corresponds to a unique UI command (there is one method to handle loading, saving, clicking play, setting
+  manual game parameters, etc.). In this way, it is hard to misuse the API. It also supports extension because if the view
+  team wants to add a user option/capability to the view that needs to ultimately be handled by the controller, they can
+  do so by adding a single method to the relevant controller interface
+  * Luckily, the controller interface has remained relatively constant throughout, with the only big change coming from 
+  model step control being moved full-time to the view (no timeline to call a .step() method in the controller)
+
 Called in each of the classes in the subdisplays module
 Updates the particular display to reflect the current properties of the game (ex. for HandListDisplay, the current player's hand, plus some buttons for drawing cards and calling UNO)
 MainDisplay class calls update() as part of the game loop (i.e. after someone takes their turn)
