@@ -28,6 +28,14 @@ show the public methods for the API
 
 * Update()
 
+Called in each of the classes in the subdisplays module
+Updates the particular display to reflect the current properties of the game (ex. for HandListDisplay, the current player's hand, plus some buttons for drawing cards and calling UNO)
+MainDisplay class calls update() as part of the game loop (i.e. after someone takes their turn)
+
+* Allows view programmers to work in separate classes for different sections of the display, modularize code
+* update() is extremely generic- any JavaFX object can be used to display data, and the update call doesn't have to change
+* Classes changed from implementing Consumer interface - as more features are added on, easier for the view to call model APIs rather than for the Consumer to keep taking in more arguments as more features need to be displayed
+
 * Controller API
   * Show the UnoController diagram
   * As a service, the Controller's API provides the view's classes with user input handling (setting initial parameters, 
@@ -45,15 +53,6 @@ show the public methods for the API
   do so by adding a single method to the relevant controller interface
   * Luckily, the controller interface has remained relatively constant throughout, with the only big change coming from 
   model step control being moved full-time to the view (no timeline to call a .step() method in the controller)
-
-Called in each of the classes in the subdisplays module
-Updates the particular display to reflect the current properties of the game (ex. for HandListDisplay, the current player's hand, plus some buttons for drawing cards and calling UNO)
-MainDisplay class calls update() as part of the game loop (i.e. after someone takes their turn)
-
-* Allows view programmers to work in separate classes for different sections of the display, modularize code
-* update() is extremely generic- any JavaFX object can be used to display data, and the update call doesn't have to change
-* Classes changed from implementing Consumer interface - as more features are added on, easier for the view to call model APIs rather than for the Consumer to keep taking in more arguments as more features need to be displayed
-
 
 how does it provide a service that is open for extension to support easily adding new features?
 how does it support users (your team mates) to write readable, well design code, and encourage extensions?
